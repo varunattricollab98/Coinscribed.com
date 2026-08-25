@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
-import { isSanityConfigured } from '@/lib/sanity'
 import { getLatestArticles } from '@/lib/sanity-queries'
 
 const calculatorHighlights = [
@@ -43,7 +42,7 @@ const calculatorHighlights = [
 ]
 
 export default async function HomePage() {
-  const articles = isSanityConfigured ? await getLatestArticles(3) : []
+  const articles = await getLatestArticles(3)
 
   return (
     <>

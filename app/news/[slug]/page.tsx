@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { siteConfig } from '@/config/site'
-import { isSanityConfigured } from '@/lib/sanity'
 import { getArticleBySlug, getRelatedArticles } from '@/lib/sanity-queries'
 import { generateArticleSchema } from '@/lib/schema-markup'
 import { PortableTextRenderer } from '@/components/news/PortableTextRenderer'
@@ -16,13 +15,6 @@ interface ArticlePageProps {
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
-  if (!isSanityConfigured) {
-    return {
-      title: 'Article',
-      description: 'News article from Coinscribed',
-    }
-  }
-
   const { slug } = await params
   const article = await getArticleBySlug(slug)
 
@@ -55,10 +47,6 @@ export async function generateMetadata({
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  if (!isSanityConfigured) {
-    return <ArticlePlaceholder />
-  }
-
   const { slug } = await params
   const article = await getArticleBySlug(slug)
 
@@ -184,42 +172,5 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         )}
       </article>
     </>
-  )
-}
-
-function ArticlePlaceholder() {
-  return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-12 text-center dark:border-zinc-700 dark:bg-zinc-800/50">
-        <div className="mx-auto max-w-md">
-          <svg
-            className="mx-auto mb-4 h-12 w-12 text-zinc-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-            />
-          </svg>
-          <h1 className="mb-2 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-            Article Content Managed via CMS
-          </h1>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            News content is managed via Sanity CMS. Configure your Sanity project
-            to see articles here. See the README for setup instructions.
-          </p>
-          <Link
-            href="/news"
-            className="mt-4 inline-block text-sm font-medium text-zinc-700 underline underline-offset-2 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
-          >
-            Back to News
-          </Link>
-        </div>
-      </div>
-    </div>
   )
 }

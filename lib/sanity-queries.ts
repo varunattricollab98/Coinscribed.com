@@ -1,4 +1,12 @@
 import { sanityClient, isSanityConfigured } from './sanity'
+import {
+  getSampleArticles,
+  getLatestSampleArticles,
+  getSampleArticlesByCategory,
+  getSampleArticleBySlug,
+  getRelatedSampleArticles,
+  sampleCategories,
+} from '@/data/sample-news'
 
 // ============================================================
 // TypeScript Interfaces
@@ -104,7 +112,7 @@ const articleFullFields = `
  * Get all articles, ordered by publish date (newest first)
  */
 export async function getAllArticles(): Promise<ArticleCard[]> {
-  if (!isSanityConfigured) return []
+  if (!isSanityConfigured) return getSampleArticles()
 
   const query = `*[_type == "article"] | order(publishedAt desc) {
     ${articleCardFields}
@@ -117,7 +125,7 @@ export async function getAllArticles(): Promise<ArticleCard[]> {
  * Get a single article by its slug
  */
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  if (!isSanityConfigured) return null
+  if (!isSanityConfigured) return getSampleArticleBySlug(slug)
 
   const query = `*[_type == "article" && slug.current == $slug][0] {
     ${articleFullFields}
@@ -132,7 +140,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 export async function getArticlesByCategory(
   categorySlug: string
 ): Promise<ArticleCard[]> {
-  if (!isSanityConfigured) return []
+  if (!isSanityConfigured) return getSampleArticlesByCategory(categorySlug)
 
   const query = `*[_type == "article" && category->slug.current == $categorySlug] | order(publishedAt desc) {
     ${articleCardFields}
@@ -145,7 +153,7 @@ export async function getArticlesByCategory(
  * Get all categories
  */
 export async function getCategories(): Promise<Category[]> {
-  if (!isSanityConfigured) return []
+  if (!isSanityConfigured) return sampleCategories
 
   const query = `*[_type == "category"] | order(title asc) {
     _id,
@@ -161,7 +169,7 @@ export async function getCategories(): Promise<Category[]> {
  * Get the latest N articles
  */
 export async function getLatestArticles(limit: number = 5): Promise<ArticleCard[]> {
-  if (!isSanityConfigured) return []
+  if (!isSanityConfigured) return getLatestSampleArticles(limit)
 
   const query = `*[_type == "article"] | order(publishedAt desc)[0...$limit] {
     ${articleCardFields}
@@ -178,7 +186,7 @@ export async function getRelatedArticles(
   currentArticleId: string,
   limit: number = 3
 ): Promise<ArticleCard[]> {
-  if (!isSanityConfigured) return []
+  if (!isSanityConfigured) return getRelatedSampleArticles(categorySlug, currentArticleId, limit)
 
   const query = `*[_type == "article" && category->slug.current == $categorySlug && _id != $currentArticleId] | order(publishedAt desc)[0...$limit] {
     ${articleCardFields}

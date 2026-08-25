@@ -10,7 +10,7 @@ export function Header() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-brand-border-gray bg-white dark:border-zinc-700 dark:bg-brand-near-black">
+    <header className="sticky top-0 z-50 border-b border-brand-border-gray bg-white/95 backdrop-blur-sm dark:border-zinc-700 dark:bg-brand-near-black/95">
       <div className="container-page">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -26,7 +26,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-brand-dark-gray transition-colors hover:text-brand-near-black dark:text-zinc-300 dark:hover:text-white"
+                className="text-sm font-medium text-brand-dark-gray transition-colors hover:text-teal-primary dark:text-zinc-300 dark:hover:text-teal-medium"
               >
                 {item.label}
               </Link>
@@ -38,7 +38,7 @@ export function Header() {
             {/* Dark mode toggle */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="rounded-md p-2 text-brand-medium-gray transition-colors hover:bg-brand-light-gray hover:text-brand-near-black dark:hover:bg-zinc-800 dark:hover:text-white"
+              className="rounded-md p-2 text-brand-medium-gray transition-colors hover:bg-brand-light-gray hover:text-teal-primary dark:hover:bg-zinc-800 dark:hover:text-teal-medium"
               aria-label="Toggle dark mode"
             >
               {/* Sun icon (shown in dark mode) */}
@@ -120,7 +120,7 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-brand-dark-gray transition-colors hover:bg-brand-light-gray hover:text-brand-near-black dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-brand-dark-gray transition-colors hover:bg-teal-pale hover:text-teal-primary dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-teal-medium"
                 >
                   {item.label}
                 </Link>

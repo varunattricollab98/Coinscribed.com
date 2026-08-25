@@ -29,6 +29,10 @@
   .dark h6 {
     @apply text-zinc-100;
   }
+
+  a {
+    @apply transition-colors duration-200;
+  }
 }
 
 @layer components {
@@ -38,5 +42,25 @@
 
   .section-padding {
     @apply py-12 sm:py-16 lg:py-20;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-teal-primary px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-teal-medium hover:shadow-md;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border border-brand-border-gray bg-white px-6 py-3 text-sm font-semibold text-brand-near-black shadow-sm transition-all duration-200 hover:bg-brand-light-gray hover:shadow-md;
+  }
+
+  .card {
+    @apply rounded-xl border border-brand-border-gray bg-white p-6 shadow-card transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-1 hover:shadow-card-hover;
+  }
+
+  .card-teal-border {
+    @apply border-l-4 border-l-teal-primary;
   }
 }

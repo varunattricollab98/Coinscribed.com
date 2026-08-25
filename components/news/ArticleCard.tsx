@@ -16,7 +16,7 @@ function formatDate(dateString: string): string {
 
 export function ArticleCard({ article }: ArticleCardProps) {
   return (
-    <article className="group rounded-lg border border-zinc-200 bg-white p-6 transition-shadow hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900">
+    <article className="group card card-hover card-teal-border">
       {article.mainImage && (
         <div className="mb-4 overflow-hidden rounded-md bg-zinc-100 dark:bg-zinc-800">
           <div className="aspect-video w-full bg-zinc-200 dark:bg-zinc-700" />
@@ -31,7 +31,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           />
         )}
 
-        <h2 className="font-serif text-xl font-bold leading-tight text-zinc-900 transition-colors group-hover:text-zinc-600 dark:text-zinc-100 dark:group-hover:text-zinc-300">
+        <h2 className="font-serif text-xl font-bold leading-tight text-zinc-900 transition-colors group-hover:text-teal-primary dark:text-zinc-100 dark:group-hover:text-teal-medium">
           <Link href={`/news/${article.slug.current}`}>
             {article.title}
           </Link>

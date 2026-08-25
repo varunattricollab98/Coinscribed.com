@@ -8,36 +8,42 @@ const calculatorHighlights = [
     description:
       'Calculate your monthly mortgage payments, total interest, and amortization schedule.',
     href: '/calculators/mortgage-calculator',
+    icon: '🏠',
   },
   {
     title: '401(k) Calculator',
     description:
       'Project your retirement savings with employer matching contributions and compound growth.',
     href: '/calculators/401k-calculator',
+    icon: '📈',
   },
   {
     title: 'EMI Calculator',
     description:
       'Determine your equated monthly installment for any loan amount, rate, and tenure.',
     href: '/calculators/emi-calculator',
+    icon: '💳',
   },
   {
     title: 'SIP Calculator',
     description:
       'Estimate your systematic investment plan returns over time with the power of compounding.',
     href: '/calculators/sip-calculator',
+    icon: '📊',
   },
   {
     title: 'Compound Interest',
     description:
       'See how your money grows with compound interest across different compounding frequencies.',
     href: '/calculators/compound-interest-calculator',
+    icon: '💰',
   },
   {
     title: 'Retirement Calculator',
     description:
       'Plan your retirement by calculating how much you need to save each month.',
     href: '/calculators/retirement-calculator',
+    icon: '🎯',
   },
 ]
 
@@ -47,26 +53,26 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="border-b border-brand-border-gray bg-brand-off-white dark:border-zinc-700 dark:bg-zinc-900">
+      <section className="relative border-b border-brand-border-gray bg-gradient-to-br from-teal-pale/40 via-white to-teal-pale/20 dark:border-zinc-700 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-800">
         <div className="container-page section-padding">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
               Financial Tools You Can{' '}
-              <span className="text-brand-zinc">Trust</span>
+              <span className="text-teal-primary">Trust</span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-brand-medium-gray dark:text-zinc-400">
               {siteConfig.description}
             </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 href="/calculators"
-                className="rounded-md bg-brand-near-black px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-zinc dark:bg-zinc-100 dark:text-brand-near-black dark:hover:bg-zinc-200"
+                className="btn-primary"
               >
                 Explore Calculators
               </Link>
               <Link
                 href="/bank-routing-numbers"
-                className="rounded-md border border-brand-border-gray bg-white px-6 py-3 text-sm font-semibold text-brand-near-black shadow-sm transition-colors hover:bg-brand-light-gray dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
+                className="btn-secondary dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
               >
                 Find Routing Numbers
               </Link>
@@ -78,11 +84,11 @@ export default async function HomePage() {
       {/* Featured News Section */}
       <section className="border-b border-brand-border-gray dark:border-zinc-700">
         <div className="container-page section-padding">
-          <div className="mb-8 flex items-center justify-between">
+          <div className="mb-10 flex items-center justify-between">
             <h2 className="text-2xl font-bold sm:text-3xl">Latest News</h2>
             <Link
               href="/news"
-              className="text-sm font-medium text-brand-zinc transition-colors hover:text-brand-near-black dark:text-zinc-400 dark:hover:text-white"
+              className="text-sm font-medium text-teal-primary transition-colors hover:text-teal-medium dark:text-teal-medium dark:hover:text-teal-pale"
             >
               View All &rarr;
             </Link>
@@ -92,20 +98,23 @@ export default async function HomePage() {
               {articles.map((article) => (
                 <article
                   key={article._id}
-                  className="rounded-lg border border-brand-border-gray bg-white p-6 transition-shadow hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800"
+                  className="card card-hover card-teal-border"
                 >
-                  <span className="text-xs font-medium uppercase tracking-wider text-brand-medium-gray dark:text-zinc-500">
+                  <span className="text-xs font-medium uppercase tracking-wider text-teal-primary dark:text-teal-medium">
                     {article.category?.title || 'News'}
                   </span>
-                  <h3 className="mt-2 text-lg font-semibold leading-tight">
-                    <Link href={`/news/${article.slug.current}`}>
+                  <h3 className="mt-3 text-lg font-semibold leading-tight">
+                    <Link
+                      href={`/news/${article.slug.current}`}
+                      className="hover:text-teal-primary"
+                    >
                       {article.title}
                     </Link>
                   </h3>
                   <p className="mt-2 text-sm text-brand-medium-gray dark:text-zinc-400">
                     {article.excerpt}
                   </p>
-                  <time className="mt-3 block text-xs text-brand-light-gray-text dark:text-zinc-500">
+                  <time className="mt-4 block text-xs text-brand-light-gray-text dark:text-zinc-500">
                     {new Date(article.publishedAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -116,7 +125,7 @@ export default async function HomePage() {
               ))}
             </div>
           ) : (
-            <div className="rounded-lg border border-brand-border-gray bg-white p-12 text-center dark:border-zinc-700 dark:bg-zinc-800">
+            <div className="card text-center">
               <p className="text-brand-medium-gray dark:text-zinc-400">
                 Stay tuned for the latest finance and crypto news.
               </p>
@@ -126,9 +135,9 @@ export default async function HomePage() {
       </section>
 
       {/* Calculator Highlights */}
-      <section className="border-b border-brand-border-gray bg-brand-off-white dark:border-zinc-700 dark:bg-zinc-900">
+      <section className="border-b border-brand-border-gray bg-amber-light/30 dark:border-zinc-700 dark:bg-zinc-900">
         <div className="container-page section-padding">
-          <div className="mb-8 text-center">
+          <div className="mb-10 text-center">
             <h2 className="text-2xl font-bold sm:text-3xl">
               Financial Calculators
             </h2>
@@ -141,15 +150,16 @@ export default async function HomePage() {
               <Link
                 key={calc.href}
                 href={calc.href}
-                className="group rounded-lg border border-brand-border-gray bg-white p-6 transition-all hover:border-brand-zinc hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-zinc-500"
+                className="group card card-hover"
               >
-                <h3 className="text-lg font-semibold group-hover:text-brand-zinc dark:group-hover:text-zinc-200">
+                <div className="mb-3 text-2xl">{calc.icon}</div>
+                <h3 className="text-lg font-semibold transition-colors group-hover:text-teal-primary dark:group-hover:text-teal-medium">
                   {calc.title}
                 </h3>
                 <p className="mt-2 text-sm text-brand-medium-gray dark:text-zinc-400">
                   {calc.description}
                 </p>
-                <span className="mt-4 inline-block text-sm font-medium text-brand-zinc dark:text-zinc-400">
+                <span className="mt-4 inline-block text-sm font-medium text-teal-primary dark:text-teal-medium">
                   Calculate &rarr;
                 </span>
               </Link>
@@ -173,18 +183,18 @@ export default async function HomePage() {
               <div className="flex items-center justify-center">
                 <Link
                   href="/bank-routing-numbers"
-                  className="rounded-md bg-brand-near-black px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-zinc dark:bg-zinc-100 dark:text-brand-near-black dark:hover:bg-zinc-200"
+                  className="btn-primary"
                 >
                   Browse All Banks
                 </Link>
               </div>
             </div>
             {/* Popular banks */}
-            <div className="mt-8">
+            <div className="mt-10">
               <p className="text-xs font-medium uppercase tracking-wider text-brand-light-gray-text dark:text-zinc-500">
                 Popular Banks
               </p>
-              <div className="mt-3 flex flex-wrap justify-center gap-2">
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
                 {[
                   { name: 'Chase', slug: 'chase' },
                   { name: 'Bank of America', slug: 'bank-of-america' },
@@ -198,7 +208,7 @@ export default async function HomePage() {
                   <Link
                     key={bank.slug}
                     href={`/bank-routing-numbers/${bank.slug}`}
-                    className="rounded-full border border-brand-border-gray px-3 py-1 text-xs text-brand-medium-gray transition-colors hover:border-brand-zinc hover:text-brand-near-black dark:border-zinc-600 dark:text-zinc-400 dark:hover:border-zinc-400 dark:hover:text-white"
+                    className="rounded-full border border-brand-border-gray px-4 py-1.5 text-xs font-medium text-brand-medium-gray transition-all hover:border-teal-primary hover:text-teal-primary dark:border-zinc-600 dark:text-zinc-400 dark:hover:border-teal-medium dark:hover:text-teal-medium"
                   >
                     {bank.name}
                   </Link>

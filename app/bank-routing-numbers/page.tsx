@@ -58,7 +58,7 @@ export default function BankRoutingNumbersPage() {
             <li>
               <Link
                 href="/"
-                className="transition-colors hover:text-brand-near-black dark:hover:text-white"
+                className="transition-colors hover:text-teal-primary dark:hover:text-teal-medium"
               >
                 Home
               </Link>
@@ -72,7 +72,7 @@ export default function BankRoutingNumbersPage() {
       </nav>
 
       {/* Header */}
-      <section className="border-b border-brand-border-gray dark:border-zinc-700">
+      <section className="border-b border-brand-border-gray bg-gradient-to-r from-teal-pale/20 to-white dark:border-zinc-700 dark:from-zinc-900 dark:to-zinc-900">
         <div className="container-page section-padding">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -113,21 +113,21 @@ export default function BankRoutingNumbersPage() {
             </h3>
             <ul className="mt-3 space-y-2 text-brand-dark-gray dark:text-zinc-300">
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand-zinc" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-teal-primary" />
                 <span>
                   <strong>Paper (ACH):</strong> Used for check processing and
                   paper transactions
                 </span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand-zinc" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-teal-primary" />
                 <span>
                   <strong>Electronic (ACH):</strong> Used for electronic
                   transfers like direct deposits and online bill pay
                 </span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand-zinc" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-teal-primary" />
                 <span>
                   <strong>Wire:</strong> Used specifically for domestic and
                   international wire transfers

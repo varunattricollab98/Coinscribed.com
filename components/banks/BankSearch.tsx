@@ -18,14 +18,14 @@ export function BankSearch({ banks }: BankSearchProps) {
   return (
     <div>
       {/* Search Input */}
-      <div className="mx-auto mb-8 max-w-xl">
+      <div className="mx-auto mb-10 max-w-xl">
         <div className="relative">
           <input
             type="text"
             placeholder="Search banks by name..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-lg border border-brand-border-gray bg-white px-4 py-3 pl-10 text-sm text-brand-dark-gray placeholder-brand-light-gray-text focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500"
+            className="w-full rounded-xl border border-brand-border-gray bg-white px-4 py-3.5 pl-10 text-sm text-brand-dark-gray shadow-card placeholder-brand-light-gray-text focus:border-teal-primary focus:outline-none focus:ring-2 focus:ring-teal-primary/20 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 dark:focus:border-teal-medium dark:focus:ring-teal-medium/20"
             aria-label="Search banks"
           />
           <svg
@@ -56,9 +56,9 @@ export function BankSearch({ banks }: BankSearchProps) {
             <Link
               key={bank.slug}
               href={`/bank-routing-numbers/${bank.slug}`}
-              className="group rounded-lg border border-brand-border-gray bg-white p-6 transition-all hover:border-brand-zinc hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-zinc-500"
+              className="group card card-hover"
             >
-              <h2 className="text-lg font-semibold text-brand-near-black group-hover:text-brand-zinc dark:text-zinc-100 dark:group-hover:text-zinc-200">
+              <h2 className="text-lg font-semibold text-brand-near-black transition-colors group-hover:text-teal-primary dark:text-zinc-100 dark:group-hover:text-teal-medium">
                 {bank.name}
               </h2>
               <p className="mt-2 line-clamp-2 text-sm text-brand-medium-gray dark:text-zinc-400">
@@ -68,7 +68,7 @@ export function BankSearch({ banks }: BankSearchProps) {
                 <span className="text-xs font-medium text-brand-light-gray-text dark:text-zinc-500">
                   {bank.routingNumbers.length} routing number{bank.routingNumbers.length !== 1 ? 's' : ''}
                 </span>
-                <span className="text-sm font-medium text-brand-zinc dark:text-zinc-400">
+                <span className="text-sm font-medium text-teal-primary dark:text-teal-medium">
                   View Details &rarr;
                 </span>
               </div>

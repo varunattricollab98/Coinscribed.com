@@ -1,7 +1,20 @@
 {
   "task_id": "task-fully-operated-site",
   "task_description": "Make Coinscribed feel like a fully-operational real news website by adding deterministic dummy images throughout (homepage, news listing, category pages, article detail, author avatars) and new editorial sections (homepage Trending/Most-Read, Explore by Topic, Editor's Picks; news listing lead story; article detail hero + byline + Related Articles; a new About page; enriched Footer). All work must respect the existing Ink & Oxblood design language and keep build + lint green.",
-  "status": "in_progress",
+  "status": "completed",
   "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
-  "blocked_reason": null
+  "blocked_reason": null,
+  "semantic_review": {
+    "verdict": "APPROVED",
+    "iterations": 1,
+    "review_file": ".agents/tasks/task-fully-operated-site/2026-08-31-080015-review.md",
+    "polish_followup": "A single polish pass addressed the confirmed non-blocking items (varied reading times, no dropped article, guarded meta separator, uniform focusable active tab, decorative avatar alt)."
+  },
+  "verification": {
+    "build": "pass",
+    "tests": "n/a",
+    "test_quality": "n/a",
+    "docker_build": "skipped",
+    "summary": "npm run lint reports no warnings/errors and npm run build exits 0 with all routes compiling, including the new /about (static). No unit test framework is configured in this project, so tests/test_quality are not applicable. No Dockerfile exists, so docker_build is skipped. Working tree is clean; three feature commits (eac23f6, d453508, 83e7783) sit on local main, not pushed."
+  }
 }

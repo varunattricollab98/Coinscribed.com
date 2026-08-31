@@ -1,6 +1,11 @@
 import Link from 'next/link'
-import { siteConfig } from '@/config/site'
 import { getLatestArticles } from '@/lib/sanity-queries'
+import { CryptoTicker } from '@/components/home/CryptoTicker'
+import { FeaturedArticle } from '@/components/home/FeaturedArticle'
+import { MarketDataWidget } from '@/components/home/MarketDataWidget'
+import { TrustSignals } from '@/components/home/TrustSignals'
+import { NewsletterSignup } from '@/components/home/NewsletterSignup'
+import { ArticleCard } from '@/components/news/ArticleCard'
 
 const calculatorHighlights = [
   {
@@ -48,82 +53,33 @@ const calculatorHighlights = [
 ]
 
 export default async function HomePage() {
-  const articles = await getLatestArticles(3)
+  const articles = await getLatestArticles(8)
+
+  const featured = articles[0]
+  const sidebarArticles = articles.slice(1, 5)
+  const gridArticles = articles.slice(5)
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative border-b border-brand-border-gray bg-gradient-to-br from-teal-pale/40 via-white to-teal-pale/20 dark:border-zinc-700 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-800">
+      {/* Live crypto price ticker */}
+      <CryptoTicker />
+
+      {/* Slim hero band + Featured article */}
+      <section className="border-b border-brand-border-gray bg-gradient-to-br from-teal-pale/40 via-white to-teal-pale/20 dark:border-zinc-700 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-800">
         <div className="container-page section-padding">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <h1 className="font-serif text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               Financial Tools You Can{' '}
               <span className="text-teal-primary">Trust</span>
             </h1>
-            <p className="mt-6 text-lg leading-8 text-brand-medium-gray dark:text-zinc-400">
-              {siteConfig.description}
+            <p className="mt-4 text-base leading-8 text-brand-medium-gray dark:text-zinc-400">
+              Live crypto prices, market data, breaking finance news, and free
+              calculators to help you make smarter money decisions.
             </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/calculators"
-                className="btn-primary"
-              >
-                Explore Calculators
-              </Link>
-              <Link
-                href="/bank-routing-numbers"
-                className="btn-secondary dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700"
-              >
-                Find Routing Numbers
-              </Link>
-            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Featured News Section */}
-      <section className="border-b border-brand-border-gray dark:border-zinc-700">
-        <div className="container-page section-padding">
-          <div className="mb-10 flex items-center justify-between">
-            <h2 className="text-2xl font-bold sm:text-3xl">Latest News</h2>
-            <Link
-              href="/news"
-              className="text-sm font-medium text-teal-primary transition-colors hover:text-teal-medium dark:text-teal-medium dark:hover:text-teal-pale"
-            >
-              View All &rarr;
-            </Link>
-          </div>
-          {articles.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {articles.map((article) => (
-                <article
-                  key={article._id}
-                  className="card card-hover card-teal-border"
-                >
-                  <span className="text-xs font-medium uppercase tracking-wider text-teal-primary dark:text-teal-medium">
-                    {article.category?.title || 'News'}
-                  </span>
-                  <h3 className="mt-3 text-lg font-semibold leading-tight">
-                    <Link
-                      href={`/news/${article.slug.current}`}
-                      className="hover:text-teal-primary"
-                    >
-                      {article.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-2 text-sm text-brand-medium-gray dark:text-zinc-400">
-                    {article.excerpt}
-                  </p>
-                  <time className="mt-4 block text-xs text-brand-light-gray-text dark:text-zinc-500">
-                    {new Date(article.publishedAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </time>
-                </article>
-              ))}
-            </div>
+          {featured ? (
+            <FeaturedArticle featured={featured} sidebar={sidebarArticles} />
           ) : (
             <div className="card text-center">
               <p className="text-brand-medium-gray dark:text-zinc-400">
@@ -134,11 +90,49 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Market Data Widget */}
+      <section className="border-b border-brand-border-gray dark:border-zinc-700">
+        <div className="container-page section-padding">
+          <MarketDataWidget />
+        </div>
+      </section>
+
+      {/* Latest News grid */}
+      {gridArticles.length > 0 && (
+        <section className="border-b border-brand-border-gray dark:border-zinc-700">
+          <div className="container-page section-padding">
+            <div className="mb-10 flex items-center justify-between">
+              <h2 className="font-serif text-2xl font-bold sm:text-3xl">
+                Latest News
+              </h2>
+              <Link
+                href="/news"
+                className="text-sm font-medium text-teal-primary transition-colors hover:text-teal-medium dark:text-teal-medium dark:hover:text-teal-pale"
+              >
+                View All &rarr;
+              </Link>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {gridArticles.map((article) => (
+                <ArticleCard key={article._id} article={article} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Trust Signals */}
+      <section className="border-b border-brand-border-gray dark:border-zinc-700">
+        <div className="container-page section-padding">
+          <TrustSignals />
+        </div>
+      </section>
+
       {/* Calculator Highlights */}
       <section className="border-b border-brand-border-gray bg-amber-light/30 dark:border-zinc-700 dark:bg-zinc-900">
         <div className="container-page section-padding">
           <div className="mb-10 text-center">
-            <h2 className="text-2xl font-bold sm:text-3xl">
+            <h2 className="font-serif text-2xl font-bold sm:text-3xl">
               Financial Calculators
             </h2>
             <p className="mt-3 text-brand-medium-gray dark:text-zinc-400">
@@ -169,10 +163,10 @@ export default async function HomePage() {
       </section>
 
       {/* Bank Routing Number Search Preview */}
-      <section>
+      <section className="border-b border-brand-border-gray dark:border-zinc-700">
         <div className="container-page section-padding">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold sm:text-3xl">
+            <h2 className="font-serif text-2xl font-bold sm:text-3xl">
               US Bank Routing Numbers
             </h2>
             <p className="mt-3 text-brand-medium-gray dark:text-zinc-400">
@@ -216,6 +210,13 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Newsletter Signup */}
+      <section>
+        <div className="container-page section-padding">
+          <NewsletterSignup />
         </div>
       </section>
     </>

@@ -1,0 +1,30 @@
+{
+  "id": "FEAT-001",
+  "type": "feat",
+  "description": "Establish the image foundation: whitelist the remote placeholder image host, extend the article data model with image URLs + reading time + author avatars, populate all sample data, and make the shared article components (ArticleCard, FeaturedArticle) render real next/image thumbnails instead of the neutral duotone plate. This is the base layer every later feature depends on. First feature = environment baseline confirmation is folded into the verification step here.",
+  "status": "completed",
+  "steps": [
+    "Confirm baseline is green before editing: source nvm (export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\") then run `npm run lint` and `npm run build`; both must pass.",
+    "In next.config.js, add an `images.remotePatterns` entry alongside the existing `formats` array allowing `https://picsum.photos/**` (protocol 'https', hostname 'picsum.photos'). Keep reactStrictMode and formats intact.",
+    "In lib/sanity-queries.ts, extend the sample-data-facing types so components can consume real image + metadata without breaking Sanity typing: add optional `imageUrl?: string` and `readingTime?: number` to BOTH the `Article` and `ArticleCard` interfaces, and add optional `imageUrl?: string` to the `Author` interface and to the inline `author` object on `ArticleCard`. Leave the existing `mainImage?: SanityImage` field untouched. Do not change GROQ query strings.",
+    "In data/sample-news.ts, add a deterministic `imageUrl` to every one of the 12 entries in `sampleArticles` using the pattern `https://picsum.photos/seed/<slug>/800/450` (use each article's slug.current as the seed) and a realistic integer `readingTime` (in minutes, e.g. 3-7 based on body length). KEEP all existing headlines, excerpts, slugs, authors, dates and categories exactly as-is.",
+    "In data/sample-news.ts, do the same for all 12 full articles in `sampleFullArticles`: add matching `imageUrl` (same seed = same slug, but a larger size e.g. `https://picsum.photos/seed/<slug>/1200/675` for the hero) and the same `readingTime`. Also add an author avatar `imageUrl` to each article's `author` object using a deterministic seed derived from the author slug, e.g. `https://picsum.photos/seed/<author-slug>/128/128`. KEEP all existing body text, bios, authors, dates and categories exactly as-is.",
+    "Update components/news/ArticleCard.tsx: replace the `.thumb-duotone` placeholder Link with a next/image thumbnail. Wrap a `next/image` <Image> in the existing Link (keep the aspect-video framing via a relative container with `fill` OR a fixed width/height). Set meaningful alt text = article.title. Keep sharp corners (no rounded-lg), keep the category eyebrow/badge, keep the .rule-cell-hover cell behaviour, keep the byline. If imageUrl is absent, fall back to the existing .thumb-duotone plate so nothing breaks. Optionally surface readingTime in the byline row (e.g. `4 min read`) using tabular-nums, matching the existing caption styling.",
+    "Update components/home/FeaturedArticle.tsx: replace the featured `.thumb-duotone` Link with a next/image <Image> (larger, aspect-video), alt = featured.title, sharp corners, keeping the sidebar headlines untouched. Fall back to .thumb-duotone if imageUrl is absent.",
+    "Import next/image correctly (`import Image from 'next/image'`). Use appropriate `sizes` props for responsive loading and mark the homepage featured image `priority` to avoid LCP warnings."
+  ],
+  "acceptance_criteria": [
+    "next.config.js contains images.remotePatterns allowing picsum.photos and still exports formats + reactStrictMode.",
+    "ArticleCard and Article TypeScript interfaces in lib/sanity-queries.ts include optional imageUrl and readingTime; Author/author includes optional imageUrl. Project still type-checks.",
+    "All 12 sampleArticles and all 12 sampleFullArticles have an imageUrl and readingTime; every author has an avatar imageUrl. Existing headlines and body text are unchanged.",
+    "ArticleCard and FeaturedArticle render a real next/image with alt text equal to the article title, with a graceful .thumb-duotone fallback when imageUrl is missing.",
+    "`npm run lint` reports no warnings or errors and `npm run build` exits 0."
+  ],
+  "verification": [
+    "Source nvm then run `npm run lint` — expect 'No ESLint warnings or errors'.",
+    "Run `npm run build` — expect exit 0 with the route table printed and next-sitemap completing.",
+    "Grep to confirm picsum.photos appears in next.config.js and imageUrl appears 24 times across data/sample-news.ts."
+  ],
+  "blocked_reason": null,
+  "findings": "Baseline lint passed before edits. Added images.remotePatterns for picsum.photos to next.config.js (kept reactStrictMode + formats). Extended lib/sanity-queries.ts: added optional imageUrl?+readingTime? to Article and ArticleCard, imageUrl? to Author and to ArticleCard.author; left mainImage and GROQ strings untouched. Populated data/sample-news.ts deterministically: 12 card imageUrls (picsum seed=slug /800/450) + readingTime, 12 full-article hero imageUrls (seed=slug /1200/675) + readingTime, and author avatar imageUrls (seed=author-slug /128/128). All 12 authors got avatars via replace_all on unique bios. Verified counts: imageUrl appears 36x (12 card + 12 hero + 12 avatar), /800/450 x12, /1200/675 x12, /128/128 x12, readingTime 24x. ArticleCard.tsx and FeaturedArticle.tsx now render next/image (fill, object-cover, aspect-video, sharp corners) with alt=title and graceful .thumb-duotone fallback when imageUrl is absent; ArticleCard byline shows 'N min read' with tabular-nums; FeaturedArticle hero marked priority with responsive sizes. Final: `npm run lint` = 'No ESLint warnings or errors', `npm run build` exit 0. next-sitemap ran; public/sitemap.xml unchanged (article routes not enumerated there). Note: node requires sourcing nvm (export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\") before npm. Did NOT touch homepage sections, news/category/detail pages, About, or footer per scope."
+}

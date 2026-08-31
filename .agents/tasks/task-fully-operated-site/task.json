@@ -1,0 +1,7 @@
+{
+  "task_id": "task-fully-operated-site",
+  "task_description": "Make Coinscribed feel like a fully-operational real news website by adding deterministic dummy images throughout (homepage, news listing, category pages, article detail, author avatars) and new editorial sections (homepage Trending/Most-Read, Explore by Topic, Editor's Picks; news listing lead story; article detail hero + byline + Related Articles; a new About page; enriched Footer). All work must respect the existing Ink & Oxblood design language and keep build + lint green.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}

@@ -45,6 +45,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Michael Torres' },
     publishedAt: '2025-01-15T09:00:00Z',
     category: { title: 'Crypto', slug: { current: 'crypto' } },
+    imageUrl: 'https://picsum.photos/seed/bitcoin-surges-past-100k-institutional-demand/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-2',
@@ -55,6 +57,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Sarah Chen' },
     publishedAt: '2025-01-14T14:30:00Z',
     category: { title: 'Economy', slug: { current: 'economy' } },
+    imageUrl: 'https://picsum.photos/seed/federal-reserve-holds-rates-signals-cut-q2-2025/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-3',
@@ -65,6 +69,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'David Park' },
     publishedAt: '2025-01-13T11:00:00Z',
     category: { title: 'Markets', slug: { current: 'markets' } },
+    imageUrl: 'https://picsum.photos/seed/sp500-new-all-time-high-strong-earnings/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-4',
@@ -75,6 +81,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Emily Rodriguez' },
     publishedAt: '2025-01-12T08:45:00Z',
     category: { title: 'Banking', slug: { current: 'banking' } },
+    imageUrl: 'https://picsum.photos/seed/jpmorgan-launches-ai-financial-planning-platform/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-5',
@@ -85,6 +93,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Alex Nakamura' },
     publishedAt: '2025-01-11T16:20:00Z',
     category: { title: 'Crypto', slug: { current: 'crypto' } },
+    imageUrl: 'https://picsum.photos/seed/ethereum-layer-2-10-million-daily-transactions/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-6',
@@ -95,6 +105,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Jennifer Walsh' },
     publishedAt: '2025-01-10T10:15:00Z',
     category: { title: 'Economy', slug: { current: 'economy' } },
+    imageUrl: 'https://picsum.photos/seed/us-housing-market-recovery-mortgage-rates-decline/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-7',
@@ -105,6 +117,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'David Park' },
     publishedAt: '2025-01-09T13:00:00Z',
     category: { title: 'Markets', slug: { current: 'markets' } },
+    imageUrl: 'https://picsum.photos/seed/tesla-rallies-15-percent-record-q4-deliveries/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-8',
@@ -115,6 +129,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Sarah Chen' },
     publishedAt: '2025-01-08T09:30:00Z',
     category: { title: 'Banking', slug: { current: 'banking' } },
+    imageUrl: 'https://picsum.photos/seed/fdic-rules-strengthen-digital-banking-protection/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-9',
@@ -125,6 +141,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Michael Torres' },
     publishedAt: '2025-01-07T15:45:00Z',
     category: { title: 'Crypto', slug: { current: 'crypto' } },
+    imageUrl: 'https://picsum.photos/seed/sec-approves-first-solana-spot-etf/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-10',
@@ -135,6 +153,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Jennifer Walsh' },
     publishedAt: '2025-01-06T08:00:00Z',
     category: { title: 'Economy', slug: { current: 'economy' } },
+    imageUrl: 'https://picsum.photos/seed/us-job-market-280000-positions-december/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-11',
@@ -145,6 +165,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Alex Nakamura' },
     publishedAt: '2025-01-05T12:30:00Z',
     category: { title: 'Markets', slug: { current: 'markets' } },
+    imageUrl: 'https://picsum.photos/seed/goldman-sachs-gold-2800-prediction-mid-2025/800/450',
+    readingTime: 5,
   },
   {
     _id: 'article-12',
@@ -155,6 +177,8 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Emily Rodriguez' },
     publishedAt: '2025-01-04T11:00:00Z',
     category: { title: 'Banking', slug: { current: 'banking' } },
+    imageUrl: 'https://picsum.photos/seed/bank-of-america-zero-fee-checking-nationwide/800/450',
+    readingTime: 5,
   },
 ]
 
@@ -186,6 +210,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'bitcoin-surges-past-100k-institutional-demand' },
     excerpt:
       'Bitcoin has crossed the $100,000 milestone for the first time, driven by unprecedented institutional inflows from major US financial firms and growing ETF adoption.',
+    imageUrl: 'https://picsum.photos/seed/bitcoin-surges-past-100k-institutional-demand/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'Bitcoin crossed the $100,000 threshold early Wednesday morning, marking a historic milestone for the cryptocurrency that was created just sixteen years ago. The move was fueled by a combination of record institutional inflows, growing adoption of spot Bitcoin ETFs, and a broader shift in how traditional financial institutions view digital assets.',
       'Data from major exchanges shows that institutional buying volume has increased by over 340% compared to the same period last year. BlackRock\'s iShares Bitcoin Trust (IBIT) alone has accumulated more than $45 billion in assets under management since its January 2024 launch, making it one of the most successful ETF launches in history.',
@@ -199,6 +225,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Michael Torres',
       slug: { current: 'michael-torres' },
       bio: 'Michael Torres is a senior cryptocurrency analyst with over 8 years of experience covering digital assets and blockchain technology for major financial publications.',
+      imageUrl: 'https://picsum.photos/seed/michael-torres/128/128',
     },
     publishedAt: '2025-01-15T09:00:00Z',
     category: {
@@ -213,6 +240,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'federal-reserve-holds-rates-signals-cut-q2-2025' },
     excerpt:
       'The Federal Reserve maintained its benchmark interest rate at the January meeting while hinting at a possible rate reduction in the second quarter as inflation continues to cool.',
+    imageUrl: 'https://picsum.photos/seed/federal-reserve-holds-rates-signals-cut-q2-2025/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'The Federal Open Market Committee (FOMC) voted unanimously to keep the federal funds rate unchanged at 4.25% to 4.50% at its January 2025 meeting, as widely expected by markets. However, the accompanying statement and press conference provided clear signals that rate cuts could begin as early as the second quarter.',
       'Fed Chair Jerome Powell noted during the post-meeting press conference that "the committee is increasingly confident that inflation is moving sustainably toward our 2% objective." The latest Consumer Price Index data showed year-over-year inflation at 2.4%, down from a peak of 9.1% in June 2022.',
@@ -226,6 +255,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Sarah Chen',
       slug: { current: 'sarah-chen' },
       bio: 'Sarah Chen covers macroeconomics and Federal Reserve policy. She previously worked as an economist at the Federal Reserve Bank of New York.',
+      imageUrl: 'https://picsum.photos/seed/sarah-chen/128/128',
     },
     publishedAt: '2025-01-14T14:30:00Z',
     category: {
@@ -240,6 +270,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'sp500-new-all-time-high-strong-earnings' },
     excerpt:
       'The S&P 500 reached a new record high as fourth-quarter earnings reports from major tech companies exceeded analyst expectations across the board.',
+    imageUrl: 'https://picsum.photos/seed/sp500-new-all-time-high-strong-earnings/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'The S&P 500 closed at a fresh all-time high of 5,420 on Thursday, gaining 1.2% in a broad-based rally driven by better-than-expected corporate earnings. The move extends the index\'s year-to-date gain to 4.8% and marks the 12th record close in the past two months.',
       'Technology stocks led the advance, with the Nasdaq Composite rising 1.8%. Apple, Microsoft, and Nvidia all reported fourth-quarter results that beat consensus estimates on both revenue and earnings per share. The so-called "Magnificent Seven" stocks have collectively risen 18% since the start of earnings season.',
@@ -253,6 +285,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'David Park',
       slug: { current: 'david-park' },
       bio: 'David Park is a markets reporter covering US equities, fixed income, and investment strategy for institutional and retail audiences.',
+      imageUrl: 'https://picsum.photos/seed/david-park/128/128',
     },
     publishedAt: '2025-01-13T11:00:00Z',
     category: {
@@ -267,6 +300,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'jpmorgan-launches-ai-financial-planning-platform' },
     excerpt:
       'JPMorgan Chase unveiled a new artificial intelligence-driven financial planning tool for retail customers, aiming to democratize wealth management services.',
+    imageUrl: 'https://picsum.photos/seed/jpmorgan-launches-ai-financial-planning-platform/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'JPMorgan Chase today launched "Chase Advisor AI," an artificial intelligence-powered financial planning platform available to all Chase checking and savings account holders at no additional cost. The tool marks one of the largest deployments of generative AI in consumer banking to date.',
       'The platform uses proprietary large language models trained on decades of financial planning best practices to provide personalized recommendations on budgeting, saving, investing, and retirement planning. Users can interact with the AI through natural language conversations within the Chase mobile app.',
@@ -280,6 +315,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Emily Rodriguez',
       slug: { current: 'emily-rodriguez' },
       bio: 'Emily Rodriguez covers the banking industry with a focus on digital transformation, fintech partnerships, and regulatory developments affecting US financial institutions.',
+      imageUrl: 'https://picsum.photos/seed/emily-rodriguez/128/128',
     },
     publishedAt: '2025-01-12T08:45:00Z',
     category: {
@@ -294,6 +330,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'ethereum-layer-2-10-million-daily-transactions' },
     excerpt:
       'Ethereum scaling solutions have collectively surpassed 10 million daily transactions, marking a major milestone for the network as gas fees remain at historic lows.',
+    imageUrl: 'https://picsum.photos/seed/ethereum-layer-2-10-million-daily-transactions/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'Ethereum Layer 2 networks collectively processed more than 10 million transactions in a single day for the first time on Tuesday, according to data from L2Beat. The milestone represents a tenfold increase from the same period one year ago and validates the rollup-centric scaling roadmap that Ethereum has pursued.',
       'Arbitrum led the pack with approximately 3.8 million daily transactions, followed by Base (Coinbase\'s L2) at 2.9 million and Optimism at 2.1 million. Other significant contributors included zkSync Era, Linea, and Starknet, all of which have seen substantial growth in recent months.',
@@ -307,6 +345,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Alex Nakamura',
       slug: { current: 'alex-nakamura' },
       bio: 'Alex Nakamura is a blockchain technology reporter specializing in Ethereum ecosystem developments, DeFi protocols, and Layer 2 scaling solutions.',
+      imageUrl: 'https://picsum.photos/seed/alex-nakamura/128/128',
     },
     publishedAt: '2025-01-11T16:20:00Z',
     category: {
@@ -321,6 +360,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'us-housing-market-recovery-mortgage-rates-decline' },
     excerpt:
       'The US housing market is showing renewed activity as 30-year fixed mortgage rates dropped below 6% for the first time since early 2023, boosting buyer confidence.',
+    imageUrl: 'https://picsum.photos/seed/us-housing-market-recovery-mortgage-rates-decline/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'The US housing market is experiencing its first meaningful uptick in activity since the Federal Reserve began raising interest rates in 2022. The average 30-year fixed mortgage rate fell to 5.87% this week, according to Freddie Mac, crossing below the psychologically important 6% threshold for the first time in nearly two years.',
       'Mortgage application volume surged 22% week-over-week following the rate decline, with purchase applications rising 18% and refinancing activity jumping 31%. The Mortgage Bankers Association noted this represents the strongest weekly gain in applications since spring 2023.',
@@ -334,6 +375,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Jennifer Walsh',
       slug: { current: 'jennifer-walsh' },
       bio: 'Jennifer Walsh covers residential real estate, mortgage markets, and housing policy for Coinscribed. She holds a degree in urban economics from MIT.',
+      imageUrl: 'https://picsum.photos/seed/jennifer-walsh/128/128',
     },
     publishedAt: '2025-01-10T10:15:00Z',
     category: {
@@ -348,6 +390,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'tesla-rallies-15-percent-record-q4-deliveries' },
     excerpt:
       'Tesla shares jumped 15% in a single session after the company reported record fourth-quarter vehicle deliveries, beating Wall Street estimates by a wide margin.',
+    imageUrl: 'https://picsum.photos/seed/tesla-rallies-15-percent-record-q4-deliveries/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'Tesla shares surged 15.3% on Wednesday, their best single-day performance since November 2023, after the company reported record fourth-quarter vehicle deliveries of 530,000 units. The figure exceeded the consensus Wall Street estimate of 483,000 units by nearly 10%.',
       'The strong delivery numbers put Tesla\'s full-year 2024 production at 1.98 million vehicles, narrowly missing the 2 million mark but representing a 14% increase over 2023. CEO Elon Musk posted on social media that the company expects to cross 2.5 million deliveries in 2025.',
@@ -361,6 +405,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'David Park',
       slug: { current: 'david-park' },
       bio: 'David Park is a markets reporter covering US equities, fixed income, and investment strategy for institutional and retail audiences.',
+      imageUrl: 'https://picsum.photos/seed/david-park/128/128',
     },
     publishedAt: '2025-01-09T13:00:00Z',
     category: {
@@ -375,6 +420,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'fdic-rules-strengthen-digital-banking-protection' },
     excerpt:
       'The FDIC announced updated regulations that extend traditional deposit insurance protections to cover funds held through digital banking platforms and fintech apps.',
+    imageUrl: 'https://picsum.photos/seed/fdic-rules-strengthen-digital-banking-protection/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'The Federal Deposit Insurance Corporation (FDIC) issued final rules today that clarify and strengthen deposit insurance coverage for consumers who hold funds through digital banking platforms, fintech applications, and banking-as-a-service providers. The rules take effect April 1, 2025.',
       'Under the new framework, fintech companies that partner with FDIC-insured banks must clearly disclose to customers which specific bank holds their deposits, provide real-time account statements, and maintain detailed records that allow the FDIC to quickly identify each depositor in the event of a bank failure.',
@@ -388,6 +435,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Sarah Chen',
       slug: { current: 'sarah-chen' },
       bio: 'Sarah Chen covers macroeconomics and Federal Reserve policy. She previously worked as an economist at the Federal Reserve Bank of New York.',
+      imageUrl: 'https://picsum.photos/seed/sarah-chen/128/128',
     },
     publishedAt: '2025-01-08T09:30:00Z',
     category: {
@@ -402,6 +450,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'sec-approves-first-solana-spot-etf' },
     excerpt:
       'The Securities and Exchange Commission approved the first Solana spot ETF, giving retail and institutional investors a new regulated way to gain exposure to the cryptocurrency.',
+    imageUrl: 'https://picsum.photos/seed/sec-approves-first-solana-spot-etf/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'The US Securities and Exchange Commission approved applications for the first spot Solana exchange-traded fund on Friday, opening the door for the third cryptocurrency to receive ETF approval following Bitcoin and Ethereum. Trading is expected to begin within two weeks on major US exchanges.',
       'VanEck and Franklin Templeton received the initial approvals, with several other asset managers expected to receive clearance in the coming weeks. The approved funds will hold actual SOL tokens in custody, similar to the structure used by spot Bitcoin ETFs that launched in January 2024.',
@@ -415,6 +465,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Michael Torres',
       slug: { current: 'michael-torres' },
       bio: 'Michael Torres is a senior cryptocurrency analyst with over 8 years of experience covering digital assets and blockchain technology for major financial publications.',
+      imageUrl: 'https://picsum.photos/seed/michael-torres/128/128',
     },
     publishedAt: '2025-01-07T15:45:00Z',
     category: {
@@ -429,6 +480,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'us-job-market-280000-positions-december' },
     excerpt:
       'The Bureau of Labor Statistics reported that the US economy added 280,000 nonfarm payroll jobs in December, well above the consensus estimate of 200,000.',
+    imageUrl: 'https://picsum.photos/seed/us-job-market-280000-positions-december/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'The US economy added 280,000 nonfarm payroll jobs in December 2024, according to the Bureau of Labor Statistics, significantly beating the Dow Jones consensus estimate of 200,000. The unemployment rate ticked down to 3.9% from 4.0% in November, signaling continued labor market strength.',
       'Job gains were broad-based across sectors. Healthcare led with 65,000 new positions, followed by professional and business services at 48,000, leisure and hospitality at 42,000, and construction at 35,000. Government employment also grew by 38,000, primarily in state and local education.',
@@ -442,6 +495,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Jennifer Walsh',
       slug: { current: 'jennifer-walsh' },
       bio: 'Jennifer Walsh covers residential real estate, mortgage markets, and housing policy for Coinscribed. She holds a degree in urban economics from MIT.',
+      imageUrl: 'https://picsum.photos/seed/jennifer-walsh/128/128',
     },
     publishedAt: '2025-01-06T08:00:00Z',
     category: {
@@ -456,6 +510,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'goldman-sachs-gold-2800-prediction-mid-2025' },
     excerpt:
       'Goldman Sachs raised its gold price target to $2,800 per ounce by mid-2025, citing ongoing geopolitical uncertainty and central bank purchasing as key drivers.',
+    imageUrl: 'https://picsum.photos/seed/goldman-sachs-gold-2800-prediction-mid-2025/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'Goldman Sachs commodity strategists raised their gold price forecast to $2,800 per ounce by mid-2025, up from a previous target of $2,500. The bullish call comes as gold has already gained 15% over the past six months, driven by central bank purchases, geopolitical hedging, and anticipation of lower interest rates.',
       'Central bank gold buying has been a dominant theme, with institutions in China, India, Poland, and several Middle Eastern nations adding substantial quantities to their reserves. The World Gold Council reports that central banks purchased over 1,100 tonnes of gold in 2024, the third consecutive year of purchases exceeding 1,000 tonnes.',
@@ -469,6 +525,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Alex Nakamura',
       slug: { current: 'alex-nakamura' },
       bio: 'Alex Nakamura is a blockchain technology reporter specializing in Ethereum ecosystem developments, DeFi protocols, and Layer 2 scaling solutions.',
+      imageUrl: 'https://picsum.photos/seed/alex-nakamura/128/128',
     },
     publishedAt: '2025-01-05T12:30:00Z',
     category: {
@@ -483,6 +540,8 @@ export const sampleFullArticles: Record<string, Article> = {
     slug: { current: 'bank-of-america-zero-fee-checking-nationwide' },
     excerpt:
       'Bank of America announced the elimination of monthly maintenance fees on all consumer checking accounts, joining a growing trend of fee-free banking among major US banks.',
+    imageUrl: 'https://picsum.photos/seed/bank-of-america-zero-fee-checking-nationwide/1200/675',
+    readingTime: 5,
     body: createArticleBody([
       'Bank of America announced today that it will eliminate monthly maintenance fees on all consumer checking accounts, effective March 1, 2025. The move affects approximately 35 million accounts and follows similar decisions by competitors Capital One and Ally Bank in recent years.',
       'The bank previously charged a $4.95 monthly maintenance fee on its SafePass checking account and a $12 fee on its Advantage Plus checking, unless customers met minimum balance or direct deposit requirements. Under the new policy, all checking accounts will be fee-free regardless of balance or activity.',
@@ -496,6 +555,7 @@ export const sampleFullArticles: Record<string, Article> = {
       name: 'Emily Rodriguez',
       slug: { current: 'emily-rodriguez' },
       bio: 'Emily Rodriguez covers the banking industry with a focus on digital transformation, fintech partnerships, and regulatory developments affecting US financial institutions.',
+      imageUrl: 'https://picsum.photos/seed/emily-rodriguez/128/128',
     },
     publishedAt: '2025-01-04T11:00:00Z',
     category: {

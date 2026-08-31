@@ -1,0 +1,29 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Redesign all news pages with real images and Ink & Oxblood design utilities; add the three new homepage sections (Trending/Most-Read, Explore by Topic, Editor's Picks). This feature touches the homepage, the news listing page, category pages, and article detail page, bringing them all to the new design language with images everywhere.",
+  "status": "pending",
+  "steps": [
+    "Homepage (app/page.tsx): Insert three new sections in a sensible editorial order: (A) 'Trending / Most-Read' numbered list just after the Markets section -- display 5 articles numbered 01-05 from the latest 12, with image thumbnails, ranked-number pill, title, author, date. Use hairline-b separator, section-header, eyebrow, rule-grid patterns. (B) 'Explore by Topic' section after Trending -- 4 category tiles (Crypto, Economy, Markets, Banking) each linking to /news/category/<slug>, using getCategoryTone() for coloring, each with a brief description pulled from sampleCategories. Use the existing LineIcon set for icons (add new icon names to LineIcon.tsx if needed, e.g. 'chart', 'bank', 'globe'). Grid layout, rule-grid if appropriate. (C) 'Editor's Picks' band after Explore by Topic -- a secondary set of 3 articles (offset from the already-shown ones) with image cards. Use the existing ArticleCard in a rule-grid. Insert these three sections BETWEEN the existing 'Latest News' grid section and the 'Trust Signals' section. Do NOT move or remove the CryptoTicker, Top Story, Markets, Latest News, Calculators, Banks, or Newsletter sections. Keep the existing news-before-calculators ordering.",
+    "Fetch more articles on the homepage: change getLatestArticles(8) to getLatestArticles(12) so there is enough data for the featured hero (1), sidebar (4), grid (3), trending list (5 can reuse from first 12), and editor's picks (3 different offset). Alternatively deduplicate by clever slicing. Ensure no section is starved of articles.",
+    "News listing (app/news/page.tsx): Redesign to use Ink & Oxblood utilities. Replace the old `mx-auto max-w-7xl px-4 py-12` with `container-page section-padding hairline-b`. Replace `rounded-full border` category pills with inline text-links or an eyebrow-styled tab bar. Add a lead featured story with a large image at top (first article from the list). Remaining articles in a dense rule-grid with images (reusing ArticleCard). Use `section-header`, `page-title`, `eyebrow`, `rule-grid` etc. Ensure dark mode works.",
+    "Category page (app/news/category/[category]/page.tsx): Same treatment as the news listing page. Replace the old pills + rounded-lg with Ink & Oxblood utilities. Add a lead featured article with image and rule-grid for the rest. Active category tab should be distinguished using oxblood accent or bold ink instead of a bg-zinc pill.",
+    "Article detail (app/news/[slug]/page.tsx): Major enrichment. (a) Add a hero image at top using next/image with article.imageUrl, meaningful alt text, sharp corners. (b) Replace the grey placeholder author avatar `div` with a real next/image avatar from article.author.imageUrl (rounded-full only for the avatar, per design rules), or fall back to the grey circle. (c) Add reading time in the meta line ('5 min read'). (d) Restyle header and body sections using container-page/container-prose section-padding. Replace rounded-lg border on author bio aside with panel or panel-muted. (e) Restyle Related Articles at bottom to use rule-grid layout with the image-enabled ArticleCard, proper section-header + section-title. (f) Ensure breadcrumb, category badge, body text and everything works in dark mode.",
+    "Verify all pages work: homepage new sections render, news listing has lead+grid with images, category pages show correctly, article detail shows hero+avatar+readingTime+related."
+  ],
+  "acceptance_criteria": [
+    "Homepage shows three new sections (Trending numbered list, Explore by Topic tiles, Editor's Picks cards) in correct order between Latest News and Trust Signals, fully styled with Ink & Oxblood utilities.",
+    "News listing (/news) has a lead featured story with large image and a dense rule-grid with image-enabled ArticleCards, using container-page/section-padding layout.",
+    "Category page (/news/category/crypto etc.) matches news listing style with active-tab distinction, lead story, and rule-grid.",
+    "Article detail shows hero image, author avatar (rounded-full), reading time, restyled prose and author bio, and Related Articles in a rule-grid.",
+    "Dark mode works on all modified pages. No emoji, no rounded-lg, no shadows, no hover lift.",
+    "`npm run lint` reports no warnings or errors and `npm run build` exits 0."
+  ],
+  "verification": [
+    "Source nvm then run `npm run lint` — expect no errors.",
+    "Run `npm run build` — expect exit 0.",
+    "Inspect the build route table to confirm all pages compile (/, /news, /news/[slug], /news/category/[category], etc.)."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

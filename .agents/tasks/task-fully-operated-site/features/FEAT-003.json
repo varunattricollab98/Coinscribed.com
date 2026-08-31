@@ -1,0 +1,28 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Add the new editorial About page with masthead + newsletter CTA, wire it into the footer navigation, and enrich the Footer so the site feels complete. Depends on FEAT-001 (data) and FEAT-002 (design patterns) being in place so the About page can reuse the established utilities and the NewsletterSignup block.",
+  "status": "pending",
+  "steps": [
+    "Create app/about/page.tsx as a server component with proper Metadata export (title 'About', description about Coinscribed, openGraph url `${siteConfig.url}/about`). Build an editorial masthead layout using Ink & Oxblood utilities: page-title, eyebrow/eyebrow-accent labels, container-prose for the descriptive copy, hairline separators, section-header. Content should describe Coinscribed as a trusted source for financial intelligence, crypto & market news, calculators, and bank routing references (draw language from siteConfig.description and tagline). Include an editorial 'What we cover' block referencing the four categories and a 'Our approach' / masthead-style statement. Do NOT use emoji. Keep the tone executive/print.",
+    "Embed the existing NewsletterSignup component (components/home/NewsletterSignup.tsx) near the bottom of the About page as the newsletter CTA, wrapped in `container-page section-padding` to match other pages. It stays UI-only.",
+    "In config/site.ts, add an 'About' entry to the footer navigation. Add a new footer column group (e.g. `company: [{ label: 'About', href: '/about' }]`) OR add About to the existing `resources` array — pick whichever keeps the footer balanced. Update the SiteConfig type usage naturally (it is inferred via `typeof siteConfig`).",
+    "Update components/Footer.tsx to render the About link. If a new footer column group was added to config, render it as a new column with an uppercase tracking-wider heading matching the existing columns. Enrich the footer if it looks bare: consider adding the tagline under the brand, a short 'Sections' list, and ensure the market-data / not-financial-advice disclaimer stays in the bottom bar. Keep the existing social icons and the oxblood accent rule. Respect dark/ink footer styling already in place (bg-ink text-ink-muted).",
+    "Optionally add an 'About' link to the main header nav in config/site.ts `nav` array only if it fits; the briefing specifically requires footer nav, so footer is mandatory and header is optional.",
+    "Verify the About page renders, appears in the footer, and both build and lint pass."
+  ],
+  "acceptance_criteria": [
+    "app/about/page.tsx exists, exports Metadata, and renders an editorial masthead + newsletter CTA using Ink & Oxblood utilities with no emoji.",
+    "config/site.ts references /about in the footer navigation and Footer.tsx renders a working link to it.",
+    "Footer is visibly richer (tagline/sections) while keeping social icons, disclaimer, and oxblood accent rule; dark styling preserved.",
+    "The not-financial-advice disclaimer remains present in the footer.",
+    "`npm run lint` reports no warnings or errors and `npm run build` exits 0, and /about appears in the build route table."
+  ],
+  "verification": [
+    "Source nvm then run `npm run lint` — expect no errors.",
+    "Run `npm run build` — expect exit 0 and an `/about` entry in the printed route table.",
+    "Confirm siteConfig footer contains an /about href and Footer.tsx renders it."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { CategoryBadge } from '@/components/news/CategoryBadge'
 import type { ArticleCard as ArticleCardType } from '@/lib/sanity-queries'
@@ -22,14 +23,32 @@ export function FeaturedArticle({ featured, sidebar }: FeaturedArticleProps) {
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-0">
       {/* Featured story */}
       <article className="group flex flex-col lg:col-span-2 lg:border-r lg:border-hairline lg:pr-8 dark:lg:border-hairline-dark">
-        <Link
-          href={`/news/${featured.slug.current}`}
-          className="thumb-duotone mb-5 aspect-video w-full"
-          tabIndex={-1}
-          aria-hidden="true"
-        >
-          <span className="eyebrow px-4 pb-3">{eyebrow}</span>
-        </Link>
+        {featured.imageUrl ? (
+          <Link
+            href={`/news/${featured.slug.current}`}
+            className="relative mb-5 aspect-video w-full overflow-hidden"
+            tabIndex={-1}
+            aria-hidden="true"
+          >
+            <Image
+              src={featured.imageUrl}
+              alt={featured.title}
+              fill
+              priority
+              sizes="(min-width: 1024px) 66vw, 100vw"
+              className="object-cover"
+            />
+          </Link>
+        ) : (
+          <Link
+            href={`/news/${featured.slug.current}`}
+            className="thumb-duotone mb-5 aspect-video w-full"
+            tabIndex={-1}
+            aria-hidden="true"
+          >
+            <span className="eyebrow px-4 pb-3">{eyebrow}</span>
+          </Link>
+        )}
 
         <div className="space-y-3">
           {featured.category && (

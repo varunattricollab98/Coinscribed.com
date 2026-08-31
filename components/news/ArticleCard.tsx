@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { CategoryBadge } from './CategoryBadge'
 import type { ArticleCard as ArticleCardType } from '@/lib/sanity-queries'
@@ -23,16 +24,33 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
   return (
     <article className="group rule-cell-hover flex h-full flex-col px-5 py-6 sm:px-6">
-      {/* Thumbnail: sample articles have no mainImage, so we render a neutral
-          paper/ink duotone plate carrying an eyebrow label overlay. */}
-      <Link
-        href={`/news/${article.slug.current}`}
-        className="thumb-duotone mb-4 aspect-video w-full"
-        tabIndex={-1}
-        aria-hidden="true"
-      >
-        <span className="eyebrow px-3 pb-2.5">{eyebrow}</span>
-      </Link>
+      {/* Thumbnail: render a real image when available, otherwise fall back to
+          a neutral paper/ink duotone plate carrying an eyebrow label overlay. */}
+      {article.imageUrl ? (
+        <Link
+          href={`/news/${article.slug.current}`}
+          className="relative mb-4 aspect-video w-full overflow-hidden"
+          tabIndex={-1}
+          aria-hidden="true"
+        >
+          <Image
+            src={article.imageUrl}
+            alt={article.title}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </Link>
+      ) : (
+        <Link
+          href={`/news/${article.slug.current}`}
+          className="thumb-duotone mb-4 aspect-video w-full"
+          tabIndex={-1}
+          aria-hidden="true"
+        >
+          <span className="eyebrow px-3 pb-2.5">{eyebrow}</span>
+        </Link>
+      )}
 
       {article.category && (
         <div className="mb-3">
@@ -63,6 +81,12 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <time dateTime={article.publishedAt}>
           {formatDate(article.publishedAt)}
         </time>
+        {article.readingTime && (
+          <>
+            <span aria-hidden="true">&middot;</span>
+            <span className="tabular-nums">{article.readingTime} min read</span>
+          </>
+        )}
       </div>
     </article>
   )

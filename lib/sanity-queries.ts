@@ -27,6 +27,7 @@ export interface Author {
   slug: { current: string }
   bio?: string
   image?: SanityImage
+  imageUrl?: string
 }
 
 export interface Category {
@@ -46,6 +47,8 @@ export interface Article {
   publishedAt: string
   category: Category
   mainImage?: SanityImage
+  imageUrl?: string
+  readingTime?: number
   seoTitle?: string
   seoDescription?: string
 }
@@ -55,10 +58,12 @@ export interface ArticleCard {
   title: string
   slug: { current: string }
   excerpt: string
-  author: { name: string }
+  author: { name: string; imageUrl?: string }
   publishedAt: string
   category: { title: string; slug: { current: string } }
   mainImage?: SanityImage
+  imageUrl?: string
+  readingTime?: number
 }
 
 // Portable Text block type

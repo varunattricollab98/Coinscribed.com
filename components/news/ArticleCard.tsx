@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { CategoryBadge } from './CategoryBadge'
+import { getCategoryGradient } from '@/lib/category-styles'
 import type { ArticleCard as ArticleCardType } from '@/lib/sanity-queries'
 
 interface ArticleCardProps {
@@ -15,13 +16,24 @@ function formatDate(dateString: string): string {
 }
 
 export function ArticleCard({ article }: ArticleCardProps) {
+  const gradient = getCategoryGradient(article.category?.slug.current)
+
   return (
     <article className="group card card-hover card-teal-border">
-      {article.mainImage && (
-        <div className="mb-4 overflow-hidden rounded-md bg-zinc-100 dark:bg-zinc-800">
-          <div className="aspect-video w-full bg-zinc-200 dark:bg-zinc-700" />
+      {/* Thumbnail: always rendered. Sample articles have no mainImage, so we
+          fall back to a category-colored gradient placeholder. */}
+      <Link
+        href={`/news/${article.slug.current}`}
+        className="mb-4 block overflow-hidden rounded-md"
+      >
+        <div
+          className={`flex aspect-video w-full items-center justify-center ${gradient}`}
+        >
+          <span className="font-serif text-lg font-bold text-white/90">
+            {article.category?.title ?? 'Coinscribed'}
+          </span>
         </div>
-      )}
+      </Link>
 
       <div className="space-y-3">
         {article.category && (

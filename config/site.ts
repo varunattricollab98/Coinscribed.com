@@ -21,6 +21,7 @@ export const siteConfig = {
     { label: 'Calculators', href: '/calculators' },
     { label: 'News', href: '/news' },
     { label: 'Bank Routing Numbers', href: '/bank-routing-numbers' },
+    { label: 'About', href: '/about' },
   ],
   footer: {
     calculators: [
@@ -35,6 +36,11 @@ export const siteConfig = {
     resources: [
       { label: 'News', href: '/news' },
       { label: 'Bank Routing Numbers', href: '/bank-routing-numbers' },
+    ],
+    company: [
+      { label: 'About', href: '/about' },
+      { label: 'Calculators', href: '/calculators' },
+      { label: 'News', href: '/news' },
     ],
     legal: [
       { label: 'Privacy Policy', href: '/privacy-policy' },

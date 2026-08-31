@@ -2,7 +2,7 @@
   "id": "FEAT-003",
   "type": "feat",
   "description": "Add the new editorial About page with masthead + newsletter CTA, wire it into the footer navigation, and enrich the Footer so the site feels complete. Depends on FEAT-001 (data) and FEAT-002 (design patterns) being in place so the About page can reuse the established utilities and the NewsletterSignup block.",
-  "status": "pending",
+  "status": "completed",
   "steps": [
     "Create app/about/page.tsx as a server component with proper Metadata export (title 'About', description about Coinscribed, openGraph url `${siteConfig.url}/about`). Build an editorial masthead layout using Ink & Oxblood utilities: page-title, eyebrow/eyebrow-accent labels, container-prose for the descriptive copy, hairline separators, section-header. Content should describe Coinscribed as a trusted source for financial intelligence, crypto & market news, calculators, and bank routing references (draw language from siteConfig.description and tagline). Include an editorial 'What we cover' block referencing the four categories and a 'Our approach' / masthead-style statement. Do NOT use emoji. Keep the tone executive/print.",
     "Embed the existing NewsletterSignup component (components/home/NewsletterSignup.tsx) near the bottom of the About page as the newsletter CTA, wrapped in `container-page section-padding` to match other pages. It stays UI-only.",
@@ -24,5 +24,5 @@
     "Confirm siteConfig footer contains an /about href and Footer.tsx renders it."
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Created app/about/page.tsx as a server component with Metadata (title 'About', description, openGraph url ${siteConfig.url}/about). Editorial masthead reuses page-title, eyebrow/eyebrow-accent, section-header, section-title, container-prose, hairline-b, rule-grid, rule-cell-hover, link-accent. Includes 'Our approach' masthead statement and a 'What we cover' block linking the four categories (Crypto/Economy/Markets/Banking). Embedded existing NewsletterSignup at the bottom wrapped in container-page section-padding; it stays UI-only. config/site.ts: added a new footer.company group ([About, Calculators, News]) and also added About to the header nav. Footer.tsx: switched grid to lg:grid-cols-5, added tagline under the brand, added the Company column (matching uppercase tracking-wider heading style), and kept the social icons, oxblood accent rule, and the 'Not financial advice' disclaimer in the bottom bar. NOTE: the bottom-bar accent uses rounded-full bg-oxblood — pre-existing from the redesign, left untouched to stay in scope. Verified: `npm run lint` = No ESLint warnings or errors; `npm run build` exits 0 with /about (○ static, 920 B) in the route table. next-sitemap regenerated cleanly and public/sitemap.xml already includes /about (no diff). No emoji used."
 }

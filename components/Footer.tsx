@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer className="border-t border-hairline bg-ink text-ink-muted">
       <div className="container-page section-padding">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block">
@@ -15,6 +15,9 @@ export function Footer() {
                 {siteConfig.name}
               </span>
             </Link>
+            <p className="mt-2 text-eyebrow font-semibold uppercase tracking-wider text-oxblood-lighter">
+              {siteConfig.tagline}
+            </p>
             <p className="mt-3 text-sm text-ink-muted">
               {siteConfig.description}
             </p>
@@ -82,6 +85,25 @@ export function Footer() {
             </h3>
             <ul className="mt-4 space-y-2">
               {siteConfig.footer.resources.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-ink-muted transition-colors hover:text-oxblood-lighter"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company column */}
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+              Company
+            </h3>
+            <ul className="mt-4 space-y-2">
+              {siteConfig.footer.company.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}

@@ -67,6 +67,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     url: `${siteConfig.url}/news/${article.slug.current}`,
     datePublished: article.publishedAt,
     author: article.author?.name,
+    image: article.imageUrl,
   })
 
   return (

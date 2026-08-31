@@ -1,21 +1,23 @@
+import { defineType, defineField } from 'sanity'
+
 /**
  * Category document type for Sanity CMS
  *
  * Pre-defined categories: Crypto, Economy, Markets, Banking
  * Additional categories can be added via the Sanity Studio.
  */
-const category = {
+const category = defineType({
   name: 'category',
   title: 'Category',
   type: 'document',
   fields: [
-    {
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule: { required: () => unknown }) => Rule.required(),
-    },
-    {
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -23,22 +25,22 @@ const category = {
         source: 'title',
         maxLength: 96,
       },
-      validation: (Rule: { required: () => unknown }) => Rule.required(),
-    },
-    {
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
       rows: 3,
       description: 'A brief description of this category',
-    },
+    }),
   ],
   preview: {
     select: {
       title: 'title',
     },
   },
-}
+})
 
 export default category
 

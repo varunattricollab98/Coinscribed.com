@@ -108,82 +108,85 @@ All site-wide settings are managed in `config/site.ts`:
 
 ## Content Management
 
-### News Articles (via Sanity CMS)
+### News Articles (via Sanity CMS — built-in admin at `/studio`)
 
-News content is managed through [Sanity CMS](https://www.sanity.io/), a headless content management system. This allows editors to create, edit, and publish articles without touching code.
+News content is managed through [Sanity CMS](https://www.sanity.io/). The editing
+tool (Sanity Studio) is **embedded directly in this site**, so writers and editors
+manage everything from your own domain at **`/studio`**
+(e.g. `https://coinscribed.com/studio` or, before the custom domain is connected,
+`https://coinscribed-iota.vercel.app/studio`).
 
-#### Setting Up Sanity (Step-by-Step)
+The Sanity project is already wired up:
 
-1. **Create a free Sanity account**
-   - Go to [sanity.io](https://www.sanity.io/) and sign up (free tier available)
-   - After signing up, you will see your Sanity dashboard
+- **Project ID:** `h0xv92n1`
+- **Dataset:** `production`
 
-2. **Create a new Sanity project**
-   - In the Sanity dashboard, click "Create new project"
-   - Give it a name (e.g., "Coinscribed News")
-   - Choose the "production" dataset (this is the default)
-   - Note your **Project ID** (a short alphanumeric string like `abc123de`)
+#### One-time setup (already done in code)
 
-3. **Set up Sanity Studio** (the editing interface)
-   - Initialize a separate Sanity Studio project:
-     ```bash
-     npm create sanity@latest -- --project YOUR_PROJECT_ID --dataset production
-     ```
-   - When prompted, choose a template (start with "Clean project")
-   - Copy the schema files from `sanity/schemas/` in this repo to your Studio project
-   - Import schemas in your Studio's `schemaTypes/index.ts`:
-     ```typescript
-     import article from './article'
-     import author from './author'
-     import category from './category'
+The following are already configured in this repo — no action needed unless you
+change projects:
 
-     export const schemaTypes = [article, author, category]
-     ```
-   - Deploy your Studio: `npx sanity deploy` (gives you a hosted URL like `your-studio.sanity.studio`)
+- `sanity.config.ts` — Studio config (schemas, structure tool, Vision GROQ tool)
+- `app/studio/[[...tool]]/page.tsx` — serves the embedded Studio at `/studio`
+- `.env.local` — contains `NEXT_PUBLIC_SANITY_PROJECT_ID` + `NEXT_PUBLIC_SANITY_DATASET`
+- Content schemas in `sanity/schemas/` (article, author, category)
 
-4. **Configure environment variables**
-   - Create a `.env.local` file in the root of this project:
+#### What YOU need to do once (in the Sanity dashboard)
+
+1. **Set environment variables on Vercel**
+   - Vercel → Project → Settings → Environment Variables, add:
      ```env
-     NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
+     NEXT_PUBLIC_SANITY_PROJECT_ID=h0xv92n1
      NEXT_PUBLIC_SANITY_DATASET=production
      ```
-   - On Vercel: add these same variables in Project Settings > Environment Variables
+   - Redeploy so `/studio` and live content work in production.
 
-5. **Set up CORS for your domain**
-   - In the Sanity dashboard, go to Settings > API > CORS Origins
-   - Add `http://localhost:3000` for local development
-   - Add your production domain (e.g., `https://coinscribed.com`)
+2. **Add CORS origins** (so the site can read/write content)
+   - Go to [manage.sanity.io](https://manage.sanity.io) → your project → **API → CORS Origins**
+   - Add each of these with **"Allow credentials" checked**:
+     - `http://localhost:3000` (local development)
+     - `https://coinscribed-iota.vercel.app` (current Vercel URL)
+     - `https://coinscribed.com` (once the custom domain is connected)
 
-6. **Create initial content**
-   - Open your deployed Sanity Studio
-   - First, create Categories: Crypto, Economy, Markets, Banking
-   - Then create at least one Author
-   - Finally, create Articles referencing the categories and authors
+3. **Invite your writers and editors**
+   - manage.sanity.io → your project → **Members → Invite members**
+   - Give writers the **Editor** role and yourself **Administrator**.
+   - They'll get an email invite and can then log in at `/studio`.
 
-#### Content Structure
+#### Daily editor workflow (log in at `/studio`)
+
+1. Go to **`yourdomain.com/studio`** and sign in with your Sanity account.
+2. **First time only:** create the four **Category** documents — Crypto, Economy,
+   Markets, Banking (slug auto-fills from the title).
+3. **First time only:** create at least one **Author** (name, bio, photo).
+4. Create an **Article**:
+   - **Title** — the slug (URL) auto-generates from it; you can edit it.
+   - **Excerpt** — short summary (used on cards and as the meta description).
+   - **Body** — rich text: headings, bold/italic, links, quotes, inline images.
+   - **Featured Image** — upload/crop; add alt text for SEO + accessibility.
+   - **Author** and **Category** — pick from the dropdowns.
+   - **Published At** — set the date/time.
+   - **SEO Title / SEO Description** — optional overrides for Google.
+5. Click **Publish**. Within seconds the article appears on `/news`, the homepage,
+   its category page, and its own `/news/<slug>` page, with SEO tags + Article
+   schema (JSON-LD) generated automatically.
+
+#### Content structure
 
 | Content Type | Fields | Purpose |
 |---|---|---|
-| **Article** | Title, slug, excerpt, body (rich text), author, category, image, SEO fields | News articles and blog posts |
+| **Article** | Title, slug, excerpt, body (rich text + inline images), author, category, featured image, Published At, SEO title, SEO description | News articles |
 | **Category** | Title, slug, description | Organize articles (Crypto, Economy, Markets, Banking) |
-| **Author** | Name, slug, bio, image | Article attribution |
+| **Author** | Name, slug, bio, image | Article attribution + byline avatar |
 
-#### Managing Articles
+#### How it works before any content is published
 
-Once Sanity Studio is set up, content editors can:
-
-- **Write articles** using the rich text editor (supports headings, links, images, quotes)
-- **Upload images** directly in the editor
-- **Schedule publishing** by setting the "Published At" date
-- **Categorize content** by selecting a category
-- **Optimize SEO** by filling in SEO title and description fields
-
-#### How It Works Without Sanity
-
-The site builds and deploys without Sanity credentials. When `NEXT_PUBLIC_SANITY_PROJECT_ID` is not set:
-- News pages show a placeholder message indicating content is managed via CMS
-- All other site features (calculators, bank routing numbers, legal pages) work normally
-- No errors occur during build or at runtime
+The site builds and runs even with an empty Sanity dataset. Until real articles
+are published, the news sections show built-in **sample articles** (from
+`data/sample-news.ts`) so the site never looks empty. As soon as you publish real
+articles in `/studio`, they automatically replace the samples — no code change,
+no redeploy needed. Calculators, bank routing numbers, and legal pages are
+unaffected either way.
 
 ### Site Configuration
 

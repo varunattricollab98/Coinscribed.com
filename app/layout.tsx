@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
-import { Header } from '@/components/Header'
-import { Footer } from '@/components/Footer'
 import { siteConfig } from '@/config/site'
 import './globals.css'
 
@@ -81,11 +79,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          {children}
         </ThemeProvider>
       </body>
     </html>

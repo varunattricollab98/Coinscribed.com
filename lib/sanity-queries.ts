@@ -88,14 +88,20 @@ export interface PortableTextBlock {
 // GROQ Queries
 // ============================================================
 
+// NOTE: We resolve image asset references to plain URL strings inside the GROQ
+// query itself (`asset->url`). The UI components render `imageUrl` /
+// `author.imageUrl` strings, so resolving here keeps featured images and author
+// avatars working with real Sanity content — and keeps the same shape the
+// sample-data fallback already returns.
 const articleCardFields = `
   _id,
   title,
   slug,
   excerpt,
   publishedAt,
-  mainImage,
-  "author": author->{ name },
+  "imageUrl": mainImage.asset->url,
+  "readingTime": round(length(pt::text(body)) / 5 / 200),
+  "author": author->{ name, "imageUrl": image.asset->url },
   "category": category->{ title, slug }
 `
 
@@ -106,10 +112,11 @@ const articleFullFields = `
   excerpt,
   body,
   publishedAt,
-  mainImage,
+  "imageUrl": mainImage.asset->url,
+  "readingTime": round(length(pt::text(body)) / 5 / 200),
   seoTitle,
   seoDescription,
-  "author": author->{ _id, name, slug, bio, image },
+  "author": author->{ _id, name, slug, bio, "imageUrl": image.asset->url },
   "category": category->{ _id, title, slug, description }
 `
 

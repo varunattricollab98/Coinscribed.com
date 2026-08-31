@@ -6,41 +6,41 @@ import type { PortableTextBlock } from '@/lib/sanity-queries'
 const components: PortableTextComponents = {
   block: {
     h2: ({ children }) => (
-      <h2 className="mb-4 mt-8 font-serif text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+      <h2 className="mb-4 mt-8 font-serif text-2xl font-bold text-ink dark:text-ink-inverse">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mb-3 mt-6 font-serif text-xl font-bold text-zinc-900 dark:text-zinc-100">
+      <h3 className="mb-3 mt-6 font-serif text-xl font-bold text-ink dark:text-ink-inverse">
         {children}
       </h3>
     ),
     h4: ({ children }) => (
-      <h4 className="mb-2 mt-4 font-serif text-lg font-bold text-zinc-900 dark:text-zinc-100">
+      <h4 className="mb-2 mt-4 font-serif text-lg font-bold text-ink dark:text-ink-inverse">
         {children}
       </h4>
     ),
     normal: ({ children }) => (
-      <p className="mb-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
+      <p className="mb-4 leading-relaxed text-ink-body dark:text-ink-inverse-body">
         {children}
       </p>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-4 border-zinc-300 pl-4 italic text-zinc-600 dark:border-zinc-600 dark:text-zinc-400">
+      <blockquote className="my-6 border-l-4 border-hairline pl-4 italic text-ink-body dark:border-hairline-dark dark:text-ink-inverse-muted">
         {children}
       </blockquote>
     ),
   },
   marks: {
     strong: ({ children }) => (
-      <strong className="font-semibold text-zinc-900 dark:text-zinc-100">
+      <strong className="font-semibold text-ink dark:text-ink-inverse">
         {children}
       </strong>
     ),
     em: ({ children }) => <em className="italic">{children}</em>,
     underline: ({ children }) => <u className="underline">{children}</u>,
     code: ({ children }) => (
-      <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-sm text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
+      <code className="rounded bg-wash px-1.5 py-0.5 font-mono text-sm text-ink dark:bg-elevated dark:text-ink-inverse">
         {children}
       </code>
     ),
@@ -50,7 +50,7 @@ const components: PortableTextComponents = {
       return (
         <a
           href={href}
-          className="text-zinc-700 underline decoration-zinc-400 underline-offset-2 transition-colors hover:text-zinc-900 hover:decoration-zinc-600 dark:text-zinc-300 dark:decoration-zinc-500 dark:hover:text-zinc-100"
+          className="text-ink-body underline decoration-hairline underline-offset-2 transition-colors hover:text-oxblood hover:decoration-oxblood dark:text-ink-inverse-body dark:decoration-hairline-dark dark:hover:text-ink-inverse"
           {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
         >
           {children}
@@ -60,12 +60,12 @@ const components: PortableTextComponents = {
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="mb-4 ml-6 list-disc space-y-1 text-zinc-700 dark:text-zinc-300">
+      <ul className="mb-4 ml-6 list-disc space-y-1 text-ink-body dark:text-ink-inverse-body">
         {children}
       </ul>
     ),
     number: ({ children }) => (
-      <ol className="mb-4 ml-6 list-decimal space-y-1 text-zinc-700 dark:text-zinc-300">
+      <ol className="mb-4 ml-6 list-decimal space-y-1 text-ink-body dark:text-ink-inverse-body">
         {children}
       </ol>
     ),

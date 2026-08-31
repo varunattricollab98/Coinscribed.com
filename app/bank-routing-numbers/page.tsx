@@ -50,21 +50,21 @@ export default function BankRoutingNumbersPage() {
 
       {/* Breadcrumb */}
       <nav
-        className="border-b border-brand-border-gray bg-brand-off-white dark:border-zinc-700 dark:bg-zinc-900"
+        className="border-b border-hairline bg-wash dark:border-hairline-dark dark:bg-graphite"
         aria-label="Breadcrumb"
       >
         <div className="container-page py-3">
-          <ol className="flex items-center space-x-2 text-sm text-brand-medium-gray dark:text-zinc-400">
+          <ol className="flex items-center space-x-2 text-sm text-ink-muted dark:text-ink-inverse-muted">
             <li>
               <Link
                 href="/"
-                className="transition-colors hover:text-teal-primary dark:hover:text-teal-medium"
+                className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
               >
                 Home
               </Link>
             </li>
             <li aria-hidden="true">/</li>
-            <li className="font-medium text-brand-near-black dark:text-white">
+            <li className="font-medium text-ink dark:text-white">
               Bank Routing Numbers
             </li>
           </ol>
@@ -72,13 +72,14 @@ export default function BankRoutingNumbersPage() {
       </nav>
 
       {/* Header */}
-      <section className="border-b border-brand-border-gray bg-gradient-to-r from-teal-pale/20 to-white dark:border-zinc-700 dark:from-zinc-900 dark:to-zinc-900">
+      <section className="hairline-b">
         <div className="container-page section-padding">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <span className="eyebrow">Reference</span>
+            <h1 className="page-title mt-1.5">
               US Bank Routing Numbers
             </h1>
-            <p className="mt-4 text-lg text-brand-medium-gray dark:text-zinc-400">
+            <p className="mt-4 text-lg text-ink-body dark:text-ink-inverse-body">
               Find and verify ABA routing numbers for major US banks. Use these
               numbers for wire transfers, ACH payments, direct deposits, and
               electronic transactions.
@@ -88,20 +89,20 @@ export default function BankRoutingNumbersPage() {
       </section>
 
       {/* Bank Grid with Search */}
-      <section className="bg-brand-off-white dark:bg-zinc-900">
+      <section className="bg-wash dark:bg-graphite">
         <div className="container-page section-padding">
           <BankSearch banks={banks} />
         </div>
       </section>
 
       {/* Info Section */}
-      <section className="border-t border-brand-border-gray dark:border-zinc-700">
+      <section className="border-t border-hairline dark:border-hairline-dark">
         <div className="container-page section-padding">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-2xl font-bold">
               What is a Routing Number?
             </h2>
-            <p className="mt-4 text-brand-dark-gray dark:text-zinc-300">
+            <p className="mt-4 text-ink-body dark:text-ink-inverse-body">
               A routing number (also known as an ABA routing number or routing
               transit number) is a nine-digit code used to identify the financial
               institution in a transaction. Routing numbers are used for direct
@@ -111,23 +112,23 @@ export default function BankRoutingNumbersPage() {
             <h3 className="mt-6 text-lg font-semibold">
               Types of Routing Numbers
             </h3>
-            <ul className="mt-3 space-y-2 text-brand-dark-gray dark:text-zinc-300">
+            <ul className="mt-3 space-y-2 text-ink-body dark:text-ink-inverse-body">
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-teal-primary" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-oxblood" />
                 <span>
                   <strong>Paper (ACH):</strong> Used for check processing and
                   paper transactions
                 </span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-teal-primary" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-oxblood" />
                 <span>
                   <strong>Electronic (ACH):</strong> Used for electronic
                   transfers like direct deposits and online bill pay
                 </span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-teal-primary" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-oxblood" />
                 <span>
                   <strong>Wire:</strong> Used specifically for domestic and
                   international wire transfers

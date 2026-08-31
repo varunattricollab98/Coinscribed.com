@@ -11,16 +11,16 @@ export default function PrivacyPolicyPage() {
     <div className="container-page section-padding">
       <div className="mx-auto max-w-3xl">
         <h1 className="text-3xl font-bold sm:text-4xl">Privacy Policy</h1>
-        <p className="mt-4 text-sm text-brand-light-gray-text dark:text-zinc-500">
+        <p className="mt-4 text-sm text-ink-muted dark:text-ink-inverse-muted">
           Effective Date: January 1, 2024
         </p>
 
-        <div className="mt-8 space-y-8 text-brand-dark-gray dark:text-zinc-300">
+        <div className="mt-8 space-y-8 text-ink-body dark:text-ink-inverse-body">
           <section>
             <h2 className="text-xl font-semibold">1. Introduction</h2>
             <p className="mt-3 leading-relaxed">
               {siteConfig.name} (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) operates the website{' '}
-              <a href={siteConfig.url} className="text-brand-zinc underline">
+              <a href={siteConfig.url} className="text-ink-body underline">
                 {siteConfig.url}
               </a>
               . This Privacy Policy explains how we collect, use, disclose, and safeguard your
@@ -116,7 +116,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-xl font-semibold">9. Contact Us</h2>
             <p className="mt-3 leading-relaxed">
               If you have any questions about this Privacy Policy, please contact us at{' '}
-              <a href="mailto:privacy@coinscribed.com" className="text-brand-zinc underline">
+              <a href="mailto:privacy@coinscribed.com" className="text-ink-body underline">
                 privacy@coinscribed.com
               </a>
               .

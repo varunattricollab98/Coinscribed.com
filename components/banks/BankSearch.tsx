@@ -25,11 +25,11 @@ export function BankSearch({ banks }: BankSearchProps) {
             placeholder="Search banks by name..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-brand-border-gray bg-white px-4 py-3.5 pl-10 text-sm text-brand-dark-gray shadow-card placeholder-brand-light-gray-text focus:border-teal-primary focus:outline-none focus:ring-2 focus:ring-teal-primary/20 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500 dark:focus:border-teal-medium dark:focus:ring-teal-medium/20"
+            className="w-full border border-hairline bg-white px-4 py-3.5 pl-10 text-sm text-ink-body placeholder-ink-muted focus:border-oxblood focus:outline-none focus:ring-1 focus:ring-oxblood dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse dark:placeholder-ink-inverse-muted dark:focus:border-oxblood-light dark:focus:ring-oxblood-light"
             aria-label="Search banks"
           />
           <svg
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-light-gray-text"
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={2}
@@ -47,28 +47,28 @@ export function BankSearch({ banks }: BankSearchProps) {
 
       {/* Results */}
       {filteredBanks.length === 0 ? (
-        <p className="text-center text-brand-medium-gray dark:text-zinc-400">
+        <p className="text-center text-ink-muted dark:text-ink-inverse-muted">
           No banks found matching &ldquo;{query}&rdquo;
         </p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
           {filteredBanks.map((bank) => (
             <Link
               key={bank.slug}
               href={`/bank-routing-numbers/${bank.slug}`}
-              className="group card card-hover"
+              className="group rule-cell-hover flex flex-col px-5 py-6 sm:px-6"
             >
-              <h2 className="text-lg font-semibold text-brand-near-black transition-colors group-hover:text-teal-primary dark:text-zinc-100 dark:group-hover:text-teal-medium">
-                {bank.name}
+              <h2 className="font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+                <span className="title-link">{bank.name}</span>
               </h2>
-              <p className="mt-2 line-clamp-2 text-sm text-brand-medium-gray dark:text-zinc-400">
+              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
                 {bank.description}
               </p>
-              <div className="mt-4 flex items-center justify-between">
-                <span className="text-xs font-medium text-brand-light-gray-text dark:text-zinc-500">
+              <div className="mt-4 flex items-center justify-between pt-2">
+                <span className="text-caption text-ink-muted dark:text-ink-inverse-muted">
                   {bank.routingNumbers.length} routing number{bank.routingNumbers.length !== 1 ? 's' : ''}
                 </span>
-                <span className="text-sm font-medium text-teal-primary dark:text-teal-medium">
+                <span className="eyebrow-accent">
                   View Details &rarr;
                 </span>
               </div>

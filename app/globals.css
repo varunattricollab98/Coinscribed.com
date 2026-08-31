@@ -4,12 +4,12 @@
 
 @layer base {
   body {
-    @apply bg-white text-brand-dark-gray antialiased;
+    @apply bg-paper text-ink-body antialiased;
   }
 
   .dark body,
   .dark {
-    @apply bg-brand-near-black text-zinc-300;
+    @apply bg-graphite text-ink-inverse-body;
   }
 
   h1,
@@ -18,7 +18,7 @@
   h4,
   h5,
   h6 {
-    @apply font-serif text-brand-near-black;
+    @apply font-serif text-ink;
   }
 
   .dark h1,
@@ -27,40 +27,186 @@
   .dark h4,
   .dark h5,
   .dark h6 {
-    @apply text-zinc-100;
+    @apply text-ink-inverse;
   }
 
   a {
-    @apply transition-colors duration-200;
+    @apply transition-colors duration-150;
+  }
+
+  /* Numeric data should never wobble between renders. */
+  table,
+  time {
+    @apply tabular-nums;
   }
 }
 
 @layer components {
+  /* ---------------------------------------------------------------- layout */
   .container-page {
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
-  .section-padding {
-    @apply py-12 sm:py-16 lg:py-20;
+  .container-prose {
+    @apply mx-auto max-w-3xl;
   }
 
+  .section-padding {
+    @apply py-10 sm:py-14;
+  }
+
+  /* ------------------------------------------------------------- hairlines */
+  .hairline-t {
+    @apply border-t border-hairline dark:border-hairline-dark;
+  }
+
+  .hairline-b {
+    @apply border-b border-hairline dark:border-hairline-dark;
+  }
+
+  .hairline-y {
+    @apply border-y border-hairline dark:border-hairline-dark;
+  }
+
+  /* ---------------------------------------------------------------- labels */
+  /* Tiny uppercase, letter-spaced eyebrow labels. */
+  .eyebrow {
+    @apply font-sans text-eyebrow font-semibold uppercase text-ink-muted dark:text-ink-inverse-muted;
+  }
+
+  .eyebrow-accent {
+    @apply font-sans text-eyebrow font-semibold uppercase text-oxblood dark:text-oxblood-lighter;
+  }
+
+  .eyebrow-strong {
+    @apply font-sans text-eyebrow font-semibold uppercase text-ink dark:text-ink-inverse;
+  }
+
+  /* Short accent rule that sits under an eyebrow label. */
+  .accent-rule {
+    @apply block h-0.5 w-7 bg-oxblood dark:bg-oxblood-light;
+  }
+
+  /* -------------------------------------------------- masthead / headings */
+  /* Compact masthead-style section header: eyebrow + serif title + rule. */
+  .section-header {
+    @apply flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-b-2 border-ink pb-3 dark:border-ink-inverse;
+  }
+
+  .section-title {
+    @apply font-serif text-display-3 font-bold text-ink dark:text-ink-inverse;
+  }
+
+  .page-title {
+    @apply font-serif text-display-1 font-bold text-ink sm:text-display-0 dark:text-ink-inverse;
+  }
+
+  /* ---------------------------------------------------------------- panels */
+  /* Hairline-ruled panel. No shadow, no lift, 2px corners. */
+  .panel {
+    @apply border border-hairline bg-surface p-6 dark:border-hairline-dark dark:bg-elevated;
+  }
+
+  .panel-flush {
+    @apply border border-hairline bg-surface dark:border-hairline-dark dark:bg-elevated;
+  }
+
+  .panel-muted {
+    @apply border border-hairline bg-wash p-6 dark:border-hairline-dark dark:bg-elevated;
+  }
+
+  /* Restrained hover: the hairline shifts to oxblood. No translate, no shadow. */
+  .panel-hover {
+    @apply transition-colors duration-150 hover:border-oxblood dark:hover:border-oxblood-light;
+  }
+
+  /* --------------------------------------------------- newspaper grid rules */
+  /* 1px gaps reveal the container background as column/row rules, so every
+     breakpoint gets clean interior hairlines and no overhanging edges. */
+  .rule-grid {
+    @apply grid gap-px bg-hairline dark:bg-hairline-dark;
+  }
+
+  .rule-grid > * {
+    @apply bg-paper dark:bg-graphite;
+  }
+
+  .rule-grid-surface > * {
+    @apply bg-surface dark:bg-elevated;
+  }
+
+  /* Subtle background tint on hover — replaces the old card lift. */
+  .rule-cell-hover {
+    @apply transition-colors duration-150 hover:bg-wash dark:hover:bg-wash-dark;
+  }
+
+  /* --------------------------------------------------------------- buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-lg bg-teal-primary px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-teal-medium hover:shadow-md;
+    @apply inline-flex items-center justify-center border border-oxblood bg-oxblood px-5 py-3 text-eyebrow font-semibold uppercase text-paper transition-colors duration-150 hover:border-ink hover:bg-ink dark:border-oxblood-light dark:bg-oxblood-light dark:text-graphite dark:hover:border-ink-inverse dark:hover:bg-ink-inverse;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-lg border border-brand-border-gray bg-white px-6 py-3 text-sm font-semibold text-brand-near-black shadow-sm transition-all duration-200 hover:bg-brand-light-gray hover:shadow-md;
+    @apply inline-flex items-center justify-center border border-hairline bg-surface px-5 py-3 text-eyebrow font-semibold uppercase text-ink transition-colors duration-150 hover:border-oxblood hover:text-oxblood dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse dark:hover:border-oxblood-light dark:hover:text-oxblood-lighter;
   }
 
-  .card {
-    @apply rounded-xl border border-brand-border-gray bg-white p-6 shadow-card transition-all duration-300;
+  /* ----------------------------------------------------------------- links */
+  .link-accent {
+    @apply text-oxblood underline decoration-oxblood/30 decoration-1 underline-offset-4 transition-colors hover:decoration-oxblood dark:text-oxblood-lighter dark:decoration-oxblood-lighter/40 dark:hover:decoration-oxblood-lighter;
   }
 
-  .card-hover {
-    @apply hover:-translate-y-1 hover:shadow-card-hover;
+  .link-quiet {
+    @apply text-ink-muted transition-colors hover:text-oxblood dark:text-ink-inverse-muted dark:hover:text-oxblood-lighter;
   }
 
-  .card-teal-border {
-    @apply border-l-4 border-l-teal-primary;
+  /* Underline-reveal for headlines inside a `group` container. */
+  .title-link {
+    @apply underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-150 group-hover:decoration-oxblood dark:group-hover:decoration-oxblood-light;
+  }
+
+  /* ----------------------------------------------------------------- forms */
+  .field-label {
+    @apply block text-eyebrow font-semibold uppercase text-ink-muted dark:text-ink-inverse-muted;
+  }
+
+  .field-input {
+    @apply mt-2 w-full border border-hairline bg-surface px-3 py-2.5 text-sm tabular-nums text-ink transition-colors placeholder:text-ink-muted/60 focus:border-oxblood focus:outline-none dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse dark:placeholder:text-ink-inverse-muted/60 dark:focus:border-oxblood-light;
+  }
+
+  .field-error {
+    @apply mt-1.5 text-caption text-down dark:text-down-light;
+  }
+
+  /* ------------------------------------------------------------------ data */
+  /* Tabular data with column rules. */
+  .data-table {
+    @apply w-full border-collapse text-sm tabular-nums;
+  }
+
+  .data-table th {
+    @apply border-b border-hairline px-4 py-3 text-left text-eyebrow font-semibold uppercase text-ink-muted dark:border-hairline-dark dark:text-ink-inverse-muted;
+  }
+
+  .data-table td {
+    @apply border-b border-hairline px-4 py-3 align-middle text-ink-body dark:border-hairline-dark dark:text-ink-inverse-body;
+  }
+
+  .data-table th + th,
+  .data-table td + td {
+    @apply border-l border-hairline dark:border-hairline-dark;
+  }
+
+  .data-table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  /* A figure that should read as a number, not as prose. */
+  .data-figure {
+    @apply font-serif font-bold tabular-nums text-ink dark:text-ink-inverse;
+  }
+
+  /* --------------------------------------------------------------- article */
+  /* Neutral, print-like article thumbnail: a paper/ink duotone panel. */
+  .thumb-duotone {
+    @apply relative flex items-end border border-hairline bg-gradient-to-br from-ink/[0.06] via-ink/[0.10] to-ink/[0.16] dark:border-hairline-dark dark:from-ink-inverse/[0.05] dark:via-ink-inverse/[0.08] dark:to-ink-inverse/[0.13];
   }
 }

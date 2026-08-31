@@ -117,31 +117,31 @@ export default function Calculator401kPage() {
       results={
         results ? (
           <div className="space-y-6">
-            <div className="rounded-lg bg-brand-off-white p-4 dark:bg-zinc-900">
-              <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Projected Retirement Savings</p>
-              <p className="text-3xl font-bold text-brand-near-black dark:text-zinc-100">
+            <div className="border-l-2 border-oxblood bg-wash px-4 py-4 dark:border-oxblood-light dark:bg-wash-dark">
+              <p className="eyebrow">Projected Retirement Savings</p>
+              <p className="mt-2 font-serif text-display-2 font-bold tabular-nums text-ink dark:text-ink-inverse">
                 {formatCurrency(results.projectedSavings)}
               </p>
-              <p className="mt-1 text-xs text-brand-medium-gray dark:text-zinc-400">
+              <p className="eyebrow mt-2 block">
                 In {results.yearsToRetirement} years
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Your Contributions</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.totalContributions)}</p>
+                <p className="eyebrow">Your Contributions</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalContributions)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Employer Match</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.totalEmployerMatch)}</p>
+                <p className="eyebrow">Employer Match</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalEmployerMatch)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Investment Growth</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.totalGrowth)}</p>
+                <p className="eyebrow">Investment Growth</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalGrowth)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Initial Savings</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(parseFloat(currentSavings) || 0)}</p>
+                <p className="eyebrow">Initial Savings</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(parseFloat(currentSavings) || 0)}</p>
               </div>
             </div>
           </div>
@@ -149,8 +149,8 @@ export default function Calculator401kPage() {
       }
       educationalContent={
         <div>
-          <h2 className="mb-4 text-xl font-semibold">Understanding Your 401(k)</h2>
-          <div className="space-y-4 text-sm text-brand-dark-gray dark:text-zinc-300">
+          <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding Your 401(k)</h2>
+          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
             <p>
               A 401(k) is an employer-sponsored retirement savings plan that allows you to
               contribute pre-tax dollars from your paycheck. Many employers offer matching
@@ -172,44 +172,44 @@ export default function Calculator401kPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="currentAge" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Current Age</label>
+          <label htmlFor="currentAge" className="field-label">Current Age</label>
           <input id="currentAge" type="number" min="18" max="80" value={currentAge} onChange={(e) => setCurrentAge(e.target.value)} placeholder="30"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.currentAge && <p className="mt-1 text-xs text-red-600">{errors.currentAge}</p>}
+            className="field-input" />
+          {errors.currentAge && <p className="field-error">{errors.currentAge}</p>}
         </div>
         <div>
-          <label htmlFor="retirementAge" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Retirement Age</label>
+          <label htmlFor="retirementAge" className="field-label">Retirement Age</label>
           <input id="retirementAge" type="number" min="18" max="100" value={retirementAge} onChange={(e) => setRetirementAge(e.target.value)} placeholder="65"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.retirementAge && <p className="mt-1 text-xs text-red-600">{errors.retirementAge}</p>}
+            className="field-input" />
+          {errors.retirementAge && <p className="field-error">{errors.retirementAge}</p>}
         </div>
         <div>
-          <label htmlFor="currentSavings" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Current 401(k) Balance ($)</label>
+          <label htmlFor="currentSavings" className="field-label">Current 401(k) Balance ($)</label>
           <input id="currentSavings" type="number" min="0" value={currentSavings} onChange={(e) => setCurrentSavings(e.target.value)} placeholder="50000"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.currentSavings && <p className="mt-1 text-xs text-red-600">{errors.currentSavings}</p>}
+            className="field-input" />
+          {errors.currentSavings && <p className="field-error">{errors.currentSavings}</p>}
         </div>
         <div>
-          <label htmlFor="monthlyContribution" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Monthly Contribution ($)</label>
+          <label htmlFor="monthlyContribution" className="field-label">Monthly Contribution ($)</label>
           <input id="monthlyContribution" type="number" min="0" value={monthlyContribution} onChange={(e) => setMonthlyContribution(e.target.value)} placeholder="500"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.monthlyContribution && <p className="mt-1 text-xs text-red-600">{errors.monthlyContribution}</p>}
+            className="field-input" />
+          {errors.monthlyContribution && <p className="field-error">{errors.monthlyContribution}</p>}
         </div>
         <div>
-          <label htmlFor="expectedReturn" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Expected Annual Return (%)</label>
+          <label htmlFor="expectedReturn" className="field-label">Expected Annual Return (%)</label>
           <input id="expectedReturn" type="number" min="0" max="30" step="0.1" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} placeholder="7"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.expectedReturn && <p className="mt-1 text-xs text-red-600">{errors.expectedReturn}</p>}
+            className="field-input" />
+          {errors.expectedReturn && <p className="field-error">{errors.expectedReturn}</p>}
         </div>
         <div>
-          <label htmlFor="employerMatch" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Employer Match (%)</label>
+          <label htmlFor="employerMatch" className="field-label">Employer Match (%)</label>
           <input id="employerMatch" type="number" min="0" max="100" step="1" value={employerMatch} onChange={(e) => setEmployerMatch(e.target.value)} placeholder="50"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          <p className="mt-1 text-xs text-brand-medium-gray dark:text-zinc-500">Percentage of your contribution that your employer matches</p>
-          {errors.employerMatch && <p className="mt-1 text-xs text-red-600">{errors.employerMatch}</p>}
+            className="field-input" />
+          <p className="mt-1.5 text-caption text-ink-muted dark:text-ink-inverse-muted">Percentage of your contribution that your employer matches</p>
+          {errors.employerMatch && <p className="field-error">{errors.employerMatch}</p>}
         </div>
         <button onClick={calculate}
-          className="w-full rounded-md bg-brand-near-black px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-zinc dark:bg-zinc-100 dark:text-brand-near-black dark:hover:bg-zinc-200">
+          className="btn-primary w-full">
           Calculate
         </button>
       </div>

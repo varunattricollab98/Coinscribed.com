@@ -117,12 +117,24 @@ export default function RetirementCalculatorPage() {
       results={
         results ? (
           <div className="space-y-6">
-            <div className={`rounded-lg p-4 ${results.isOnTrack ? 'bg-green-50 dark:bg-green-900/20' : 'bg-amber-50 dark:bg-amber-900/20'}`}>
-              <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Status</p>
-              <p className={`text-2xl font-bold ${results.isOnTrack ? 'text-green-700 dark:text-green-400' : 'text-amber-700 dark:text-amber-400'}`}>
+            <div
+              className={`border-l-2 bg-wash px-4 py-4 dark:bg-wash-dark ${
+                results.isOnTrack
+                  ? 'border-up dark:border-up-light'
+                  : 'border-down dark:border-down-light'
+              }`}
+            >
+              <p className="eyebrow">Status</p>
+              <p
+                className={`mt-2 font-serif text-display-3 font-bold ${
+                  results.isOnTrack
+                    ? 'text-up dark:text-up-light'
+                    : 'text-down dark:text-down-light'
+                }`}
+              >
                 {results.isOnTrack ? 'On Track' : 'Needs Attention'}
               </p>
-              <p className="mt-1 text-sm text-brand-medium-gray dark:text-zinc-400">
+              <p className="mt-2 text-caption tabular-nums text-ink-muted dark:text-ink-inverse-muted">
                 {results.isOnTrack
                   ? `You are projected to have a surplus of ${formatCurrency(results.shortfallOrSurplus)}`
                   : `You have a projected shortfall of ${formatCurrency(Math.abs(results.shortfallOrSurplus))}`}
@@ -130,27 +142,29 @@ export default function RetirementCalculatorPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Projected Savings</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.projectedSavings)}</p>
+                <p className="eyebrow">Projected Savings</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.projectedSavings)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Required Savings</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.requiredSavings)}</p>
+                <p className="eyebrow">Required Savings</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.requiredSavings)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Years to Retirement</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{results.yearsToRetirement}</p>
+                <p className="eyebrow">Years to Retirement</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{results.yearsToRetirement}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Years in Retirement</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{results.yearsInRetirement}</p>
+                <p className="eyebrow">Years in Retirement</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{results.yearsInRetirement}</p>
               </div>
             </div>
             {!results.isOnTrack && (
-              <div className="border-t border-brand-border-gray pt-4 dark:border-zinc-700">
-                <h3 className="mb-2 font-semibold dark:text-zinc-100">Recommended Action</h3>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">To reach your retirement goal, consider saving:</p>
-                <p className="mt-1 text-xl font-bold text-brand-near-black dark:text-zinc-100">
+              <div className="border-t border-hairline pt-4 dark:border-hairline-dark">
+                <h3 className="eyebrow-strong mb-3 block">Recommended Action</h3>
+                <p className="text-caption text-ink-muted dark:text-ink-inverse-muted">
+                  To reach your retirement goal, consider saving:
+                </p>
+                <p className="mt-2 font-serif text-display-3 font-bold tabular-nums text-ink dark:text-ink-inverse">
                   {formatCurrency(results.recommendedMonthlySavings)}/month
                 </p>
               </div>
@@ -160,8 +174,8 @@ export default function RetirementCalculatorPage() {
       }
       educationalContent={
         <div>
-          <h2 className="mb-4 text-xl font-semibold">Planning for Retirement</h2>
-          <div className="space-y-4 text-sm text-brand-dark-gray dark:text-zinc-300">
+          <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Planning for Retirement</h2>
+          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
             <p>Retirement planning involves estimating how much money you need to live comfortably after you stop working. The key factors are your desired retirement age, expected lifestyle costs, and how much you can save and invest before retiring.</p>
             <p><strong>The 4% Rule:</strong> A commonly used guideline suggests you can safely withdraw 4% of your retirement savings annually without running out of money over a 25-30 year retirement. This calculator uses this rule to estimate required savings.</p>
             <p><strong>Start Early:</strong> The earlier you begin saving for retirement, the more time compound interest has to grow your money. Even small amounts invested in your 20s can grow substantially by retirement age.</p>
@@ -172,44 +186,44 @@ export default function RetirementCalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="currentAge" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Current Age</label>
+          <label htmlFor="currentAge" className="field-label">Current Age</label>
           <input id="currentAge" type="number" min="18" max="80" value={currentAge} onChange={(e) => setCurrentAge(e.target.value)} placeholder="35"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.currentAge && <p className="mt-1 text-xs text-red-600">{errors.currentAge}</p>}
+            className="field-input" />
+          {errors.currentAge && <p className="field-error">{errors.currentAge}</p>}
         </div>
         <div>
-          <label htmlFor="retirementAge" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Desired Retirement Age</label>
+          <label htmlFor="retirementAge" className="field-label">Desired Retirement Age</label>
           <input id="retirementAge" type="number" min="18" max="100" value={retirementAge} onChange={(e) => setRetirementAge(e.target.value)} placeholder="65"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.retirementAge && <p className="mt-1 text-xs text-red-600">{errors.retirementAge}</p>}
+            className="field-input" />
+          {errors.retirementAge && <p className="field-error">{errors.retirementAge}</p>}
         </div>
         <div>
-          <label htmlFor="currentSavings" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Current Retirement Savings ($)</label>
+          <label htmlFor="currentSavings" className="field-label">Current Retirement Savings ($)</label>
           <input id="currentSavings" type="number" min="0" value={currentSavings} onChange={(e) => setCurrentSavings(e.target.value)} placeholder="100000"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.currentSavings && <p className="mt-1 text-xs text-red-600">{errors.currentSavings}</p>}
+            className="field-input" />
+          {errors.currentSavings && <p className="field-error">{errors.currentSavings}</p>}
         </div>
         <div>
-          <label htmlFor="monthlySavings" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Monthly Savings ($)</label>
+          <label htmlFor="monthlySavings" className="field-label">Monthly Savings ($)</label>
           <input id="monthlySavings" type="number" min="0" value={monthlySavings} onChange={(e) => setMonthlySavings(e.target.value)} placeholder="1000"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.monthlySavings && <p className="mt-1 text-xs text-red-600">{errors.monthlySavings}</p>}
+            className="field-input" />
+          {errors.monthlySavings && <p className="field-error">{errors.monthlySavings}</p>}
         </div>
         <div>
-          <label htmlFor="expectedReturn" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Expected Annual Return (%)</label>
+          <label htmlFor="expectedReturn" className="field-label">Expected Annual Return (%)</label>
           <input id="expectedReturn" type="number" min="0" max="30" step="0.1" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} placeholder="7"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.expectedReturn && <p className="mt-1 text-xs text-red-600">{errors.expectedReturn}</p>}
+            className="field-input" />
+          {errors.expectedReturn && <p className="field-error">{errors.expectedReturn}</p>}
         </div>
         <div>
-          <label htmlFor="desiredIncome" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Desired Annual Retirement Income ($)</label>
+          <label htmlFor="desiredIncome" className="field-label">Desired Annual Retirement Income ($)</label>
           <input id="desiredIncome" type="number" min="0" value={desiredIncome} onChange={(e) => setDesiredIncome(e.target.value)} placeholder="60000"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          <p className="mt-1 text-xs text-brand-medium-gray dark:text-zinc-500">How much annual income you want in retirement (in today&apos;s dollars)</p>
-          {errors.desiredIncome && <p className="mt-1 text-xs text-red-600">{errors.desiredIncome}</p>}
+            className="field-input" />
+          <p className="mt-1.5 text-caption text-ink-muted dark:text-ink-inverse-muted">How much annual income you want in retirement (in today&apos;s dollars)</p>
+          {errors.desiredIncome && <p className="field-error">{errors.desiredIncome}</p>}
         </div>
         <button onClick={calculate}
-          className="w-full rounded-md bg-brand-near-black px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-zinc dark:bg-zinc-100 dark:text-brand-near-black dark:hover:bg-zinc-200">
+          className="btn-primary w-full">
           Calculate Retirement Plan
         </button>
       </div>

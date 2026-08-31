@@ -78,43 +78,43 @@ export default function CompoundInterestCalculatorPage() {
       results={
         results ? (
           <div className="space-y-6">
-            <div className="rounded-lg bg-brand-off-white p-4 dark:bg-zinc-900">
-              <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Future Value</p>
-              <p className="text-3xl font-bold text-brand-near-black dark:text-zinc-100">{formatCurrency(results.futureValue)}</p>
+            <div className="border-l-2 border-oxblood bg-wash px-4 py-4 dark:border-oxblood-light dark:bg-wash-dark">
+              <p className="eyebrow">Future Value</p>
+              <p className="mt-2 font-serif text-display-2 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.futureValue)}</p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Principal</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.principal)}</p>
+                <p className="eyebrow">Principal</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.principal)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Total Interest Earned</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.totalInterest)}</p>
+                <p className="eyebrow">Total Interest Earned</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalInterest)}</p>
               </div>
             </div>
-            <div className="border-t border-brand-border-gray pt-4 dark:border-zinc-700">
-              <h3 className="mb-2 font-semibold dark:text-zinc-100">Growth Breakdown</h3>
+            <div className="border-t border-hairline pt-4 dark:border-hairline-dark">
+              <h3 className="eyebrow-strong mb-3 block">Growth Breakdown</h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <div className="h-3 flex-1 overflow-hidden rounded-full bg-brand-border-gray dark:bg-zinc-700">
-                    <div className="h-full rounded-full bg-brand-near-black dark:bg-zinc-300" style={{ width: `${(results.principal / results.futureValue) * 100}%` }} />
+                  <div className="h-1.5 flex-1 overflow-hidden bg-hairline dark:bg-hairline-dark">
+                    <div className="h-full bg-oxblood dark:bg-oxblood-light" style={{ width: `${(results.principal / results.futureValue) * 100}%` }} />
                   </div>
-                  <span className="text-xs text-brand-medium-gray dark:text-zinc-400">
+                  <span className="eyebrow">
                     Principal ({((results.principal / results.futureValue) * 100).toFixed(1)}%)
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="h-3 flex-1 overflow-hidden rounded-full bg-brand-border-gray dark:bg-zinc-700">
-                    <div className="h-full rounded-full bg-brand-zinc dark:bg-zinc-500" style={{ width: `${(results.totalInterest / results.futureValue) * 100}%` }} />
+                  <div className="h-1.5 flex-1 overflow-hidden bg-hairline dark:bg-hairline-dark">
+                    <div className="h-full bg-ink-muted dark:bg-ink-inverse-muted" style={{ width: `${(results.totalInterest / results.futureValue) * 100}%` }} />
                   </div>
-                  <span className="text-xs text-brand-medium-gray dark:text-zinc-400">
+                  <span className="eyebrow">
                     Interest ({((results.totalInterest / results.futureValue) * 100).toFixed(1)}%)
                   </span>
                 </div>
               </div>
             </div>
-            <div className="rounded-md bg-brand-light-gray p-3 dark:bg-zinc-900">
-              <p className="text-xs text-brand-medium-gray dark:text-zinc-400">
+            <div className="border-t border-hairline pt-4 dark:border-hairline-dark">
+              <p className="text-caption tabular-nums text-ink-muted dark:text-ink-inverse-muted">
                 Compounding: {compoundingOptions.find((o) => o.value === frequency)?.label} | Rate: {rate}% | Period: {time} years
               </p>
             </div>
@@ -123,8 +123,8 @@ export default function CompoundInterestCalculatorPage() {
       }
       educationalContent={
         <div>
-          <h2 className="mb-4 text-xl font-semibold">Understanding Compound Interest</h2>
-          <div className="space-y-4 text-sm text-brand-dark-gray dark:text-zinc-300">
+          <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding Compound Interest</h2>
+          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
             <p>Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. It is often called &quot;interest on interest&quot; and is the mechanism that makes your money grow exponentially over time.</p>
             <p><strong>The Formula:</strong> A = P(1 + r/n)^(nt), where A is the future value, P is the principal, r is the annual rate, n is the compounding frequency, and t is time in years.</p>
             <p><strong>Compounding Frequency:</strong> The more frequently interest is compounded, the more total interest you earn. Daily compounding yields slightly more than monthly, which yields more than annually.</p>
@@ -135,34 +135,34 @@ export default function CompoundInterestCalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="principal" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Principal Amount ($)</label>
+          <label htmlFor="principal" className="field-label">Principal Amount ($)</label>
           <input id="principal" type="number" min="0" value={principal} onChange={(e) => setPrincipal(e.target.value)} placeholder="10000"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.principal && <p className="mt-1 text-xs text-red-600">{errors.principal}</p>}
+            className="field-input" />
+          {errors.principal && <p className="field-error">{errors.principal}</p>}
         </div>
         <div>
-          <label htmlFor="rate" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Annual Interest Rate (%)</label>
+          <label htmlFor="rate" className="field-label">Annual Interest Rate (%)</label>
           <input id="rate" type="number" min="0" max="100" step="0.01" value={rate} onChange={(e) => setRate(e.target.value)} placeholder="7"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.rate && <p className="mt-1 text-xs text-red-600">{errors.rate}</p>}
+            className="field-input" />
+          {errors.rate && <p className="field-error">{errors.rate}</p>}
         </div>
         <div>
-          <label htmlFor="time" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Time Period (years)</label>
+          <label htmlFor="time" className="field-label">Time Period (years)</label>
           <input id="time" type="number" min="1" max="100" value={time} onChange={(e) => setTime(e.target.value)} placeholder="10"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.time && <p className="mt-1 text-xs text-red-600">{errors.time}</p>}
+            className="field-input" />
+          {errors.time && <p className="field-error">{errors.time}</p>}
         </div>
         <div>
-          <label htmlFor="frequency" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Compounding Frequency</label>
+          <label htmlFor="frequency" className="field-label">Compounding Frequency</label>
           <select id="frequency" value={frequency} onChange={(e) => setFrequency(e.target.value)}
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100">
+            className="field-input">
             {compoundingOptions.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
           </select>
         </div>
         <button onClick={calculate}
-          className="w-full rounded-md bg-brand-near-black px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-zinc dark:bg-zinc-100 dark:text-brand-near-black dark:hover:bg-zinc-200">
+          className="btn-primary w-full">
           Calculate
         </button>
       </div>

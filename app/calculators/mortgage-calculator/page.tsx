@@ -105,44 +105,44 @@ export default function MortgageCalculatorPage() {
       results={
         results ? (
           <div className="space-y-6">
-            <div className="rounded-lg bg-brand-off-white p-4 dark:bg-zinc-900">
-              <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Monthly Payment</p>
-              <p className="text-3xl font-bold text-brand-near-black dark:text-zinc-100">
+            <div className="border-l-2 border-oxblood bg-wash px-4 py-4 dark:border-oxblood-light dark:bg-wash-dark">
+              <p className="eyebrow">Monthly Payment</p>
+              <p className="mt-2 font-serif text-display-2 font-bold tabular-nums text-ink dark:text-ink-inverse">
                 {formatCurrencyDetailed(results.monthlyPayment)}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Loan Amount</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.loanAmount)}</p>
+                <p className="eyebrow">Loan Amount</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.loanAmount)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Total Interest</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.totalInterest)}</p>
+                <p className="eyebrow">Total Interest</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalInterest)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Total Payment</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.totalPayment)}</p>
+                <p className="eyebrow">Total Payment</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalPayment)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Loan Term</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{loanTerm} years</p>
+                <p className="eyebrow">Loan Term</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{loanTerm} years</p>
               </div>
             </div>
-            <div className="border-t border-brand-border-gray pt-4 dark:border-zinc-700">
-              <h3 className="mb-2 font-semibold dark:text-zinc-100">Amortization Summary</h3>
+            <div className="border-t border-hairline pt-4 dark:border-hairline-dark">
+              <h3 className="eyebrow-strong mb-3 block">Amortization Summary</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-brand-medium-gray dark:text-zinc-400">Principal</span>
-                  <span className="font-medium dark:text-zinc-200">{formatCurrency(results.loanAmount)}</span>
+                  <span className="text-caption text-ink-muted dark:text-ink-inverse-muted">Principal</span>
+                  <span className="font-medium tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.loanAmount)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-brand-medium-gray dark:text-zinc-400">Interest</span>
-                  <span className="font-medium dark:text-zinc-200">{formatCurrency(results.totalInterest)}</span>
+                  <span className="text-caption text-ink-muted dark:text-ink-inverse-muted">Interest</span>
+                  <span className="font-medium tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalInterest)}</span>
                 </div>
-                <div className="flex justify-between border-t border-brand-border-gray pt-2 dark:border-zinc-700">
-                  <span className="font-medium dark:text-zinc-200">Total Cost</span>
-                  <span className="font-bold dark:text-zinc-100">{formatCurrency(results.totalPayment)}</span>
+                <div className="flex justify-between border-t border-hairline pt-2 dark:border-hairline-dark">
+                  <span className="font-medium tabular-nums text-ink dark:text-ink-inverse">Total Cost</span>
+                  <span className="font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalPayment)}</span>
                 </div>
               </div>
             </div>
@@ -151,8 +151,8 @@ export default function MortgageCalculatorPage() {
       }
       educationalContent={
         <div>
-          <h2 className="mb-4 text-xl font-semibold">Understanding Mortgage Payments</h2>
-          <div className="space-y-4 text-sm text-brand-dark-gray dark:text-zinc-300">
+          <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding Mortgage Payments</h2>
+          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
             <p>
               A mortgage payment consists of principal and interest (P&amp;I). The principal is the
               amount you borrowed, while interest is the cost of borrowing that money.
@@ -173,7 +173,7 @@ export default function MortgageCalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="homePrice" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">
+          <label htmlFor="homePrice" className="field-label">
             Home Price ($)
           </label>
           <input
@@ -183,12 +183,12 @@ export default function MortgageCalculatorPage() {
             value={homePrice}
             onChange={(e) => setHomePrice(e.target.value)}
             placeholder="350000"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
+            className="field-input"
           />
-          {errors.homePrice && <p className="mt-1 text-xs text-red-600">{errors.homePrice}</p>}
+          {errors.homePrice && <p className="field-error">{errors.homePrice}</p>}
         </div>
         <div>
-          <label htmlFor="downPayment" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">
+          <label htmlFor="downPayment" className="field-label">
             Down Payment ($)
           </label>
           <input
@@ -198,26 +198,26 @@ export default function MortgageCalculatorPage() {
             value={downPayment}
             onChange={(e) => setDownPayment(e.target.value)}
             placeholder="70000"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
+            className="field-input"
           />
-          {errors.downPayment && <p className="mt-1 text-xs text-red-600">{errors.downPayment}</p>}
+          {errors.downPayment && <p className="field-error">{errors.downPayment}</p>}
         </div>
         <div>
-          <label htmlFor="loanTerm" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">
+          <label htmlFor="loanTerm" className="field-label">
             Loan Term
           </label>
           <select
             id="loanTerm"
             value={loanTerm}
             onChange={(e) => setLoanTerm(e.target.value)}
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
+            className="field-input"
           >
             <option value="15">15 Years</option>
             <option value="30">30 Years</option>
           </select>
         </div>
         <div>
-          <label htmlFor="interestRate" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">
+          <label htmlFor="interestRate" className="field-label">
             Annual Interest Rate (%)
           </label>
           <input
@@ -229,13 +229,13 @@ export default function MortgageCalculatorPage() {
             value={interestRate}
             onChange={(e) => setInterestRate(e.target.value)}
             placeholder="6.5"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
+            className="field-input"
           />
-          {errors.interestRate && <p className="mt-1 text-xs text-red-600">{errors.interestRate}</p>}
+          {errors.interestRate && <p className="field-error">{errors.interestRate}</p>}
         </div>
         <button
           onClick={calculate}
-          className="w-full rounded-md bg-brand-near-black px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-zinc dark:bg-zinc-100 dark:text-brand-near-black dark:hover:bg-zinc-200"
+          className="btn-primary w-full"
         >
           Calculate
         </button>

@@ -71,36 +71,36 @@ export default function SIPCalculatorPage() {
       results={
         results ? (
           <div className="space-y-6">
-            <div className="rounded-lg bg-brand-off-white p-4 dark:bg-zinc-900">
-              <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Total Value</p>
-              <p className="text-3xl font-bold text-brand-near-black dark:text-zinc-100">{formatCurrency(results.totalValue)}</p>
+            <div className="border-l-2 border-oxblood bg-wash px-4 py-4 dark:border-oxblood-light dark:bg-wash-dark">
+              <p className="eyebrow">Total Value</p>
+              <p className="mt-2 font-serif text-display-2 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalValue)}</p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Total Invested</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.totalInvested)}</p>
+                <p className="eyebrow">Total Invested</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalInvested)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Estimated Returns</p>
-                <p className="text-lg font-semibold dark:text-zinc-100">{formatCurrency(results.estimatedReturns)}</p>
+                <p className="eyebrow">Estimated Returns</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.estimatedReturns)}</p>
               </div>
             </div>
-            <div className="border-t border-brand-border-gray pt-4 dark:border-zinc-700">
-              <h3 className="mb-2 font-semibold dark:text-zinc-100">Investment Breakdown</h3>
+            <div className="border-t border-hairline pt-4 dark:border-hairline-dark">
+              <h3 className="eyebrow-strong mb-3 block">Investment Breakdown</h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
-                  <div className="h-3 flex-1 overflow-hidden rounded-full bg-brand-border-gray dark:bg-zinc-700">
-                    <div className="h-full rounded-full bg-brand-near-black dark:bg-zinc-300" style={{ width: `${(results.totalInvested / results.totalValue) * 100}%` }} />
+                  <div className="h-1.5 flex-1 overflow-hidden bg-hairline dark:bg-hairline-dark">
+                    <div className="h-full bg-oxblood dark:bg-oxblood-light" style={{ width: `${(results.totalInvested / results.totalValue) * 100}%` }} />
                   </div>
-                  <span className="text-xs text-brand-medium-gray dark:text-zinc-400">
+                  <span className="eyebrow">
                     Invested ({((results.totalInvested / results.totalValue) * 100).toFixed(1)}%)
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="h-3 flex-1 overflow-hidden rounded-full bg-brand-border-gray dark:bg-zinc-700">
-                    <div className="h-full rounded-full bg-brand-zinc dark:bg-zinc-500" style={{ width: `${(results.estimatedReturns / results.totalValue) * 100}%` }} />
+                  <div className="h-1.5 flex-1 overflow-hidden bg-hairline dark:bg-hairline-dark">
+                    <div className="h-full bg-ink-muted dark:bg-ink-inverse-muted" style={{ width: `${(results.estimatedReturns / results.totalValue) * 100}%` }} />
                   </div>
-                  <span className="text-xs text-brand-medium-gray dark:text-zinc-400">
+                  <span className="eyebrow">
                     Returns ({((results.estimatedReturns / results.totalValue) * 100).toFixed(1)}%)
                   </span>
                 </div>
@@ -111,8 +111,8 @@ export default function SIPCalculatorPage() {
       }
       educationalContent={
         <div>
-          <h2 className="mb-4 text-xl font-semibold">Understanding SIP Investments</h2>
-          <div className="space-y-4 text-sm text-brand-dark-gray dark:text-zinc-300">
+          <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding SIP Investments</h2>
+          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
             <p>A Systematic Investment Plan (SIP) allows you to invest a fixed amount regularly in mutual funds or other investments. It helps build wealth over time through the discipline of regular investing and the power of compounding.</p>
             <p><strong>Dollar Cost Averaging:</strong> By investing a fixed amount regularly, you buy more units when prices are low and fewer when prices are high, averaging out your cost over time.</p>
             <p><strong>Power of Compounding:</strong> Your returns earn their own returns over time, creating a snowball effect. The longer you stay invested, the more significant the compounding effect becomes.</p>
@@ -122,25 +122,25 @@ export default function SIPCalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="monthlyInvestment" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Monthly Investment ($)</label>
+          <label htmlFor="monthlyInvestment" className="field-label">Monthly Investment ($)</label>
           <input id="monthlyInvestment" type="number" min="0" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} placeholder="500"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.monthlyInvestment && <p className="mt-1 text-xs text-red-600">{errors.monthlyInvestment}</p>}
+            className="field-input" />
+          {errors.monthlyInvestment && <p className="field-error">{errors.monthlyInvestment}</p>}
         </div>
         <div>
-          <label htmlFor="expectedReturn" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Expected Annual Return (%)</label>
+          <label htmlFor="expectedReturn" className="field-label">Expected Annual Return (%)</label>
           <input id="expectedReturn" type="number" min="0" max="50" step="0.1" value={expectedReturn} onChange={(e) => setExpectedReturn(e.target.value)} placeholder="12"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.expectedReturn && <p className="mt-1 text-xs text-red-600">{errors.expectedReturn}</p>}
+            className="field-input" />
+          {errors.expectedReturn && <p className="field-error">{errors.expectedReturn}</p>}
         </div>
         <div>
-          <label htmlFor="timePeriod" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Time Period (years)</label>
+          <label htmlFor="timePeriod" className="field-label">Time Period (years)</label>
           <input id="timePeriod" type="number" min="1" max="50" value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)} placeholder="10"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.timePeriod && <p className="mt-1 text-xs text-red-600">{errors.timePeriod}</p>}
+            className="field-input" />
+          {errors.timePeriod && <p className="field-error">{errors.timePeriod}</p>}
         </div>
         <button onClick={calculate}
-          className="w-full rounded-md bg-brand-near-black px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-zinc dark:bg-zinc-100 dark:text-brand-near-black dark:hover:bg-zinc-200">
+          className="btn-primary w-full">
           Calculate SIP Returns
         </button>
       </div>

@@ -1,4 +1,4 @@
-// Market data strip for major indices.
+// Market data table for major indices.
 //
 // NOTE: Free real-time index data requires an API key, so these values are
 // static, realistic illustrations. To wire live data later, fetch from a
@@ -23,31 +23,44 @@ const indices: IndexRow[] = [
 
 export function MarketDataWidget() {
   return (
-    <div className="card">
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-        {indices.map((item) => (
-          <div
-            key={item.name}
-            className="flex flex-col gap-1 border-b border-brand-border-gray pb-3 last:border-b-0 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-4 sm:last:border-r-0 dark:border-zinc-800"
-          >
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              {item.name}
-            </span>
-            <span className="font-serif text-lg font-bold text-zinc-900 tabular-nums dark:text-zinc-100">
-              {item.value}
-            </span>
-            <span
-              className={`flex items-center gap-1 text-xs font-medium tabular-nums ${
-                item.up ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-              }`}
-            >
-              <span aria-hidden="true">{item.up ? '▲' : '▼'}</span>
-              {item.change} ({item.percent})
-            </span>
-          </div>
-        ))}
-      </div>
-      <p className="mt-4 text-xs text-zinc-400 dark:text-zinc-500">
+    <div className="panel-flush overflow-x-auto">
+      <table className="data-table">
+        <thead>
+          <tr>
+            <th>Index</th>
+            <th className="text-right">Last</th>
+            <th className="text-right">Change</th>
+            <th className="text-right">% Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          {indices.map((item) => (
+            <tr key={item.name}>
+              <td className="font-medium text-ink dark:text-ink-inverse">
+                {item.name}
+              </td>
+              <td className="text-right font-serif font-bold text-ink dark:text-ink-inverse">
+                {item.value}
+              </td>
+              <td
+                className={`text-right ${
+                  item.up ? 'text-up dark:text-up-light' : 'text-down dark:text-down-light'
+                }`}
+              >
+                {item.change}
+              </td>
+              <td
+                className={`text-right ${
+                  item.up ? 'text-up dark:text-up-light' : 'text-down dark:text-down-light'
+                }`}
+              >
+                {item.percent}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="border-t border-hairline px-4 py-3 text-caption text-ink-muted dark:border-hairline-dark dark:text-ink-inverse-muted">
         Illustrative values shown for demonstration. Not live market data.
       </p>
     </div>

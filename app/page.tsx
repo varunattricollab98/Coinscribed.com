@@ -6,50 +6,67 @@ import { MarketDataWidget } from '@/components/home/MarketDataWidget'
 import { TrustSignals } from '@/components/home/TrustSignals'
 import { NewsletterSignup } from '@/components/home/NewsletterSignup'
 import { ArticleCard } from '@/components/news/ArticleCard'
+import { LineIcon, type LineIconName } from '@/components/icons/LineIcon'
 
-const calculatorHighlights = [
+const calculatorHighlights: {
+  title: string
+  description: string
+  href: string
+  icon: LineIconName
+}[] = [
   {
     title: 'Mortgage Calculator',
     description:
       'Calculate your monthly mortgage payments, total interest, and amortization schedule.',
     href: '/calculators/mortgage-calculator',
-    icon: '🏠',
+    icon: 'house',
   },
   {
     title: '401(k) Calculator',
     description:
       'Project your retirement savings with employer matching contributions and compound growth.',
     href: '/calculators/401k-calculator',
-    icon: '📈',
+    icon: 'trend-up',
   },
   {
     title: 'EMI Calculator',
     description:
       'Determine your equated monthly installment for any loan amount, rate, and tenure.',
     href: '/calculators/emi-calculator',
-    icon: '💳',
+    icon: 'card',
   },
   {
     title: 'SIP Calculator',
     description:
       'Estimate your systematic investment plan returns over time with the power of compounding.',
     href: '/calculators/sip-calculator',
-    icon: '📊',
+    icon: 'bars',
   },
   {
     title: 'Compound Interest',
     description:
       'See how your money grows with compound interest across different compounding frequencies.',
     href: '/calculators/compound-interest-calculator',
-    icon: '💰',
+    icon: 'coins',
   },
   {
     title: 'Retirement Calculator',
     description:
       'Plan your retirement by calculating how much you need to save each month.',
     href: '/calculators/retirement-calculator',
-    icon: '🎯',
+    icon: 'target',
   },
+]
+
+const popularBanks = [
+  { name: 'Chase', slug: 'chase' },
+  { name: 'Bank of America', slug: 'bank-of-america' },
+  { name: 'Wells Fargo', slug: 'wells-fargo' },
+  { name: 'Citibank', slug: 'citibank' },
+  { name: 'Capital One', slug: 'capital-one' },
+  { name: 'TD Bank', slug: 'td-bank' },
+  { name: 'PNC', slug: 'pnc-bank' },
+  { name: 'US Bank', slug: 'us-bank' },
 ]
 
 export default async function HomePage() {
@@ -64,25 +81,24 @@ export default async function HomePage() {
       {/* Live crypto price ticker */}
       <CryptoTicker />
 
-      {/* Slim hero band + Featured article */}
-      <section className="border-b border-brand-border-gray bg-gradient-to-br from-teal-pale/40 via-white to-teal-pale/20 dark:border-zinc-700 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-800">
+      {/* Lead story — no marketing hero, straight into the news (WSJ/FT style) */}
+      <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="mx-auto mb-10 max-w-3xl text-center">
-            <h1 className="font-serif text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-              Financial Tools You Can{' '}
-              <span className="text-teal-primary">Trust</span>
-            </h1>
-            <p className="mt-4 text-base leading-8 text-brand-medium-gray dark:text-zinc-400">
-              Live crypto prices, market data, breaking finance news, and free
-              calculators to help you make smarter money decisions.
-            </p>
+          <div className="section-header mb-8">
+            <div>
+              <span className="eyebrow-accent">Top Story</span>
+              <h1 className="section-title mt-1.5">Today&rsquo;s Briefing</h1>
+            </div>
+            <Link href="/news" className="link-quiet text-eyebrow font-semibold uppercase">
+              All News &rarr;
+            </Link>
           </div>
 
           {featured ? (
             <FeaturedArticle featured={featured} sidebar={sidebarArticles} />
           ) : (
-            <div className="card text-center">
-              <p className="text-brand-medium-gray dark:text-zinc-400">
+            <div className="panel text-center">
+              <p className="text-ink-muted dark:text-ink-inverse-muted">
                 Stay tuned for the latest finance and crypto news.
               </p>
             </div>
@@ -90,29 +106,36 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Market Data Widget */}
-      <section className="border-b border-brand-border-gray dark:border-zinc-700">
+      {/* Market data */}
+      <section className="hairline-b">
         <div className="container-page section-padding">
+          <div className="section-header mb-6">
+            <div>
+              <span className="eyebrow">Markets</span>
+              <h2 className="section-title mt-1.5">Index Snapshot</h2>
+            </div>
+          </div>
           <MarketDataWidget />
         </div>
       </section>
 
-      {/* Latest News grid */}
+      {/* Latest news grid */}
       {gridArticles.length > 0 && (
-        <section className="border-b border-brand-border-gray dark:border-zinc-700">
+        <section className="hairline-b">
           <div className="container-page section-padding">
-            <div className="mb-10 flex items-center justify-between">
-              <h2 className="font-serif text-2xl font-bold sm:text-3xl">
-                Latest News
-              </h2>
+            <div className="section-header mb-8">
+              <div>
+                <span className="eyebrow">Analysis</span>
+                <h2 className="section-title mt-1.5">Latest News</h2>
+              </div>
               <Link
                 href="/news"
-                className="text-sm font-medium text-teal-primary transition-colors hover:text-teal-medium dark:text-teal-medium dark:hover:text-teal-pale"
+                className="link-quiet text-eyebrow font-semibold uppercase"
               >
                 View All &rarr;
               </Link>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
               {gridArticles.map((article) => (
                 <ArticleCard key={article._id} article={article} />
               ))}
@@ -121,39 +144,46 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Trust Signals */}
-      <section className="border-b border-brand-border-gray dark:border-zinc-700">
+      {/* Trust signals */}
+      <section className="hairline-b">
         <div className="container-page section-padding">
           <TrustSignals />
         </div>
       </section>
 
-      {/* Calculator Highlights */}
-      <section className="border-b border-brand-border-gray bg-amber-light/30 dark:border-zinc-700 dark:bg-zinc-900">
+      {/* Calculators */}
+      <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="mb-10 text-center">
-            <h2 className="font-serif text-2xl font-bold sm:text-3xl">
-              Financial Calculators
-            </h2>
-            <p className="mt-3 text-brand-medium-gray dark:text-zinc-400">
-              Free, accurate tools to help you plan your financial future.
-            </p>
+          <div className="section-header mb-8">
+            <div>
+              <span className="eyebrow">Tools</span>
+              <h2 className="section-title mt-1.5">Financial Calculators</h2>
+            </div>
+            <Link
+              href="/calculators"
+              className="link-quiet text-eyebrow font-semibold uppercase"
+            >
+              All Tools &rarr;
+            </Link>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
             {calculatorHighlights.map((calc) => (
               <Link
                 key={calc.href}
                 href={calc.href}
-                className="group card card-hover"
+                className="group rule-cell-hover flex flex-col px-5 py-6 sm:px-6"
               >
-                <div className="mb-3 text-2xl">{calc.icon}</div>
-                <h3 className="text-lg font-semibold transition-colors group-hover:text-teal-primary dark:group-hover:text-teal-medium">
-                  {calc.title}
+                <LineIcon
+                  name={calc.icon}
+                  className="h-6 w-6 text-oxblood dark:text-oxblood-lighter"
+                />
+                <h3 className="mt-4 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+                  <span className="title-link">{calc.title}</span>
                 </h3>
-                <p className="mt-2 text-sm text-brand-medium-gray dark:text-zinc-400">
+                <p className="mt-2 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
                   {calc.description}
                 </p>
-                <span className="mt-4 inline-block text-sm font-medium text-teal-primary dark:text-teal-medium">
+                <span className="eyebrow-accent mt-4 inline-block">
                   Calculate &rarr;
                 </span>
               </Link>
@@ -162,58 +192,50 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Bank Routing Number Search Preview */}
-      <section className="border-b border-brand-border-gray dark:border-zinc-700">
+      {/* Bank routing numbers preview */}
+      <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-serif text-2xl font-bold sm:text-3xl">
-              US Bank Routing Numbers
-            </h2>
-            <p className="mt-3 text-brand-medium-gray dark:text-zinc-400">
+          <div className="section-header mb-8">
+            <div>
+              <span className="eyebrow">Reference</span>
+              <h2 className="section-title mt-1.5">US Bank Routing Numbers</h2>
+            </div>
+            <Link
+              href="/bank-routing-numbers"
+              className="link-quiet text-eyebrow font-semibold uppercase"
+            >
+              Browse All &rarr;
+            </Link>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            <p className="max-w-2xl text-sm leading-relaxed text-ink-body lg:col-span-2 dark:text-ink-inverse-body">
               Find routing numbers for all major US banks. Verify ABA routing
               numbers for wire transfers, ACH payments, and direct deposits.
             </p>
-            <div className="mt-8">
-              <div className="flex items-center justify-center">
-                <Link
-                  href="/bank-routing-numbers"
-                  className="btn-primary"
-                >
-                  Browse All Banks
-                </Link>
-              </div>
-            </div>
-            {/* Popular banks */}
-            <div className="mt-10">
-              <p className="text-xs font-medium uppercase tracking-wider text-brand-light-gray-text dark:text-zinc-500">
-                Popular Banks
-              </p>
-              <div className="mt-4 flex flex-wrap justify-center gap-2">
-                {[
-                  { name: 'Chase', slug: 'chase' },
-                  { name: 'Bank of America', slug: 'bank-of-america' },
-                  { name: 'Wells Fargo', slug: 'wells-fargo' },
-                  { name: 'Citibank', slug: 'citibank' },
-                  { name: 'Capital One', slug: 'capital-one' },
-                  { name: 'TD Bank', slug: 'td-bank' },
-                  { name: 'PNC', slug: 'pnc-bank' },
-                  { name: 'US Bank', slug: 'us-bank' },
-                ].map((bank) => (
-                  <Link
-                    key={bank.slug}
-                    href={`/bank-routing-numbers/${bank.slug}`}
-                    className="rounded-full border border-brand-border-gray px-4 py-1.5 text-xs font-medium text-brand-medium-gray transition-all hover:border-teal-primary hover:text-teal-primary dark:border-zinc-600 dark:text-zinc-400 dark:hover:border-teal-medium dark:hover:text-teal-medium"
-                  >
-                    {bank.name}
-                  </Link>
+            <div>
+              <span className="eyebrow">Popular Banks</span>
+              <ul className="mt-3 divide-y divide-hairline dark:divide-hairline-dark">
+                {popularBanks.map((bank) => (
+                  <li key={bank.slug}>
+                    <Link
+                      href={`/bank-routing-numbers/${bank.slug}`}
+                      className="group flex items-center justify-between py-2.5 text-sm text-ink-body transition-colors hover:text-oxblood dark:text-ink-inverse-body dark:hover:text-oxblood-lighter"
+                    >
+                      <span>{bank.name}</span>
+                      <span aria-hidden="true" className="text-ink-muted transition-colors group-hover:text-oxblood dark:group-hover:text-oxblood-lighter">
+                        &rarr;
+                      </span>
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Newsletter Signup */}
+      {/* Newsletter */}
       <section>
         <div className="container-page section-padding">
           <NewsletterSignup />

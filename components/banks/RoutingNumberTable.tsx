@@ -31,11 +31,11 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
             placeholder="Search by number or state..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-md border border-brand-border-gray bg-white px-4 py-2 pl-9 text-sm text-brand-dark-gray placeholder-brand-light-gray-text focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:placeholder-zinc-500"
+            className="w-full rounded-md border border-hairline bg-white px-4 py-2 pl-9 text-sm text-ink-body placeholder-ink-muted focus:border-ink-body focus:outline-none focus:ring-1 focus:ring-ink-body dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse dark:placeholder-ink-inverse-muted"
             aria-label="Filter routing numbers"
           />
           <svg
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-light-gray-text"
+            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={2}
@@ -52,7 +52,7 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm text-brand-dark-gray focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+          className="rounded-md border border-hairline bg-white px-3 py-2 text-sm text-ink-body focus:border-ink-body focus:outline-none focus:ring-1 focus:ring-ink-body dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse"
           aria-label="Filter by type"
         >
           <option value="all">All Types</option>
@@ -65,27 +65,27 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border border-brand-border-gray dark:border-zinc-700">
+      <div className="overflow-x-auto rounded-lg border border-hairline dark:border-hairline-dark">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-brand-border-gray bg-brand-off-white dark:border-zinc-700 dark:bg-zinc-800">
+          <thead className="border-b border-hairline bg-wash dark:border-hairline-dark dark:bg-elevated">
             <tr>
-              <th className="px-4 py-3 font-semibold text-brand-near-black dark:text-zinc-200">
+              <th className="px-4 py-3 font-semibold text-ink dark:text-ink-inverse">
                 Routing Number
               </th>
-              <th className="px-4 py-3 font-semibold text-brand-near-black dark:text-zinc-200">
+              <th className="px-4 py-3 font-semibold text-ink dark:text-ink-inverse">
                 State / Region
               </th>
-              <th className="px-4 py-3 font-semibold text-brand-near-black dark:text-zinc-200">
+              <th className="px-4 py-3 font-semibold text-ink dark:text-ink-inverse">
                 Type
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-brand-border-gray dark:divide-zinc-700">
+          <tbody className="divide-y divide-hairline dark:divide-hairline-dark">
             {filteredNumbers.length === 0 ? (
               <tr>
                 <td
                   colSpan={3}
-                  className="px-4 py-6 text-center text-brand-medium-gray dark:text-zinc-400"
+                  className="px-4 py-6 text-center text-ink-muted dark:text-ink-inverse-muted"
                 >
                   No routing numbers found matching your search.
                 </td>
@@ -94,23 +94,17 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
               filteredNumbers.map((rn, index) => (
                 <tr
                   key={`${rn.number}-${rn.state}-${rn.type}-${index}`}
-                  className="bg-white transition-colors hover:bg-brand-off-white dark:bg-zinc-900 dark:hover:bg-zinc-800"
+                  className="bg-white transition-colors hover:bg-wash dark:bg-graphite dark:hover:bg-wash-dark"
                 >
-                  <td className="px-4 py-3 font-mono text-brand-near-black dark:text-zinc-200">
+                  <td className="px-4 py-3 font-mono text-ink dark:text-ink-inverse">
                     {rn.number}
                   </td>
-                  <td className="px-4 py-3 text-brand-dark-gray dark:text-zinc-300">
+                  <td className="px-4 py-3 text-ink-body dark:text-ink-inverse-body">
                     {rn.state}
                   </td>
                   <td className="px-4 py-3">
                     <span
-                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                        rn.type === 'wire'
-                          ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400'
-                          : rn.type === 'electronic'
-                            ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400'
-                            : 'bg-zinc-100 text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300'
-                      }`}
+                      className="text-eyebrow font-semibold uppercase text-ink-muted dark:text-ink-inverse-muted"
                     >
                       {rn.type.charAt(0).toUpperCase() + rn.type.slice(1)}
                     </span>
@@ -123,7 +117,7 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
       </div>
 
       {/* Result count */}
-      <p className="mt-3 text-xs text-brand-light-gray-text dark:text-zinc-500">
+      <p className="mt-3 text-xs text-ink-muted dark:text-ink-inverse-muted">
         Showing {filteredNumbers.length} of {routingNumbers.length} routing
         number{routingNumbers.length !== 1 ? 's' : ''}
       </p>

@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { CategoryBadge } from '@/components/news/CategoryBadge'
-import { getCategoryGradient } from '@/lib/category-styles'
 import type { ArticleCard as ArticleCardType } from '@/lib/sanity-queries'
 
 interface FeaturedArticleProps {
@@ -17,26 +16,22 @@ function formatDate(dateString: string): string {
 }
 
 export function FeaturedArticle({ featured, sidebar }: FeaturedArticleProps) {
-  const gradient = getCategoryGradient(featured.category?.slug.current)
+  const eyebrow = featured.category?.title ?? 'Featured'
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-0">
       {/* Featured story */}
-      <article className="group card card-hover lg:col-span-2">
+      <article className="group flex flex-col lg:col-span-2 lg:border-r lg:border-hairline lg:pr-8 dark:lg:border-hairline-dark">
         <Link
           href={`/news/${featured.slug.current}`}
-          className="block overflow-hidden rounded-lg"
+          className="thumb-duotone mb-5 aspect-video w-full"
+          tabIndex={-1}
+          aria-hidden="true"
         >
-          <div
-            className={`flex aspect-video w-full items-center justify-center ${gradient}`}
-          >
-            <span className="font-serif text-2xl font-bold text-white/90">
-              {featured.category?.title ?? 'Featured'}
-            </span>
-          </div>
+          <span className="eyebrow px-4 pb-3">{eyebrow}</span>
         </Link>
 
-        <div className="mt-5 space-y-3">
+        <div className="space-y-3">
           {featured.category && (
             <CategoryBadge
               title={featured.category.title}
@@ -44,17 +39,17 @@ export function FeaturedArticle({ featured, sidebar }: FeaturedArticleProps) {
             />
           )}
 
-          <h2 className="font-serif text-2xl font-bold leading-tight text-zinc-900 transition-colors group-hover:text-teal-primary dark:text-zinc-100 dark:group-hover:text-teal-medium sm:text-3xl">
-            <Link href={`/news/${featured.slug.current}`}>
+          <h2 className="font-serif text-display-2 font-bold leading-tight text-ink dark:text-ink-inverse">
+            <Link href={`/news/${featured.slug.current}`} className="title-link">
               {featured.title}
             </Link>
           </h2>
 
-          <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="text-base leading-relaxed text-ink-body dark:text-ink-inverse-body">
             {featured.excerpt}
           </p>
 
-          <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-500">
+          <div className="flex items-center gap-2 text-caption text-ink-muted dark:text-ink-inverse-muted">
             {featured.author?.name && (
               <>
                 <span className="font-medium">{featured.author.name}</span>
@@ -69,11 +64,9 @@ export function FeaturedArticle({ featured, sidebar }: FeaturedArticleProps) {
       </article>
 
       {/* Sidebar headlines */}
-      <aside className="card">
-        <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-zinc-100">
-          More Headlines
-        </h3>
-        <ul className="mt-4 divide-y divide-brand-border-gray dark:divide-zinc-800">
+      <aside className="lg:pl-8">
+        <span className="eyebrow">More Headlines</span>
+        <ul className="mt-3 divide-y divide-hairline dark:divide-hairline-dark">
           {sidebar.map((article) => (
             <li key={article._id} className="py-3 first:pt-0 last:pb-0">
               <Link
@@ -81,16 +74,16 @@ export function FeaturedArticle({ featured, sidebar }: FeaturedArticleProps) {
                 className="group block"
               >
                 {article.category && (
-                  <span className="text-xs font-semibold uppercase tracking-wide text-teal-primary dark:text-teal-medium">
+                  <span className="text-eyebrow font-semibold uppercase text-oxblood dark:text-oxblood-lighter">
                     {article.category.title}
                   </span>
                 )}
-                <p className="mt-1 font-serif text-sm font-bold leading-snug text-zinc-900 transition-colors group-hover:text-teal-primary dark:text-zinc-100 dark:group-hover:text-teal-medium">
-                  {article.title}
+                <p className="mt-1 font-serif text-display-4 font-bold leading-snug text-ink dark:text-ink-inverse">
+                  <span className="title-link">{article.title}</span>
                 </p>
                 <time
                   dateTime={article.publishedAt}
-                  className="mt-1 block text-xs text-zinc-500 dark:text-zinc-500"
+                  className="mt-1 block text-caption text-ink-muted dark:text-ink-inverse-muted"
                 >
                   {formatDate(article.publishedAt)}
                 </time>

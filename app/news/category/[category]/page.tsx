@@ -85,18 +85,18 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       {/* Page Header */}
       <header className="mb-10">
-        <nav className="mb-4 text-sm text-zinc-500 dark:text-zinc-400">
-          <Link href="/news" className="hover:text-zinc-700 dark:hover:text-zinc-200">
+        <nav className="mb-4 text-sm text-ink-muted dark:text-ink-inverse-muted">
+          <Link href="/news" className="hover:text-oxblood dark:hover:text-ink-inverse">
             News
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-zinc-900 dark:text-zinc-100">{pageTitle}</span>
+          <span className="text-ink dark:text-ink-inverse">{pageTitle}</span>
         </nav>
-        <h1 className="font-serif text-4xl font-bold text-zinc-900 dark:text-zinc-100">
+        <h1 className="font-serif text-4xl font-bold text-ink dark:text-ink-inverse">
           {pageTitle}
         </h1>
         {meta?.description && (
-          <p className="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-lg text-ink-body dark:text-ink-inverse-muted">
             {meta.description}
           </p>
         )}
@@ -110,8 +110,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             href={cat.slug === 'all' ? '/news' : `/news/category/${cat.slug}`}
             className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
               cat.slug === category
-                ? 'border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
-                : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:text-zinc-100'
+                ? 'border-hairline bg-zinc-900 text-white dark:border-hairline-dark dark:bg-wash dark:text-ink'
+                : 'border-hairline bg-white text-ink-body hover:border-oxblood hover:text-oxblood dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse-body dark:hover:border-oxblood-light dark:hover:text-ink-inverse'
             }`}
           >
             {cat.title}
@@ -127,8 +127,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           ))}
         </div>
       ) : (
-        <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-12 text-center dark:border-zinc-700 dark:bg-zinc-800/50">
-          <p className="text-zinc-600 dark:text-zinc-400">
+        <div className="rounded-lg border border-hairline bg-wash p-12 text-center dark:border-hairline-dark dark:bg-elevated">
+          <p className="text-ink-body dark:text-ink-inverse-muted">
             No articles in this category yet. Check back soon.
           </p>
         </div>

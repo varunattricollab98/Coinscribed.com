@@ -79,14 +79,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         {/* Article Header */}
         <header className="mb-8">
           {/* Breadcrumb */}
-          <nav className="mb-6 text-sm text-zinc-500 dark:text-zinc-400">
-            <Link href="/news" className="hover:text-zinc-700 dark:hover:text-zinc-200">
+          <nav className="mb-6 text-sm text-ink-muted dark:text-ink-inverse-muted">
+            <Link href="/news" className="hover:text-oxblood dark:hover:text-ink-inverse">
               News
             </Link>
             <span className="mx-2">/</span>
             <Link
               href={`/news/category/${article.category.slug.current}`}
-              className="hover:text-zinc-700 dark:hover:text-zinc-200"
+              className="hover:text-oxblood dark:hover:text-ink-inverse"
             >
               {article.category.title}
             </Link>
@@ -99,21 +99,21 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           />
 
           {/* Title */}
-          <h1 className="mt-4 font-serif text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl dark:text-zinc-100">
+          <h1 className="mt-4 font-serif text-3xl font-bold leading-tight text-ink sm:text-4xl dark:text-ink-inverse">
             {article.title}
           </h1>
 
           {/* Excerpt */}
-          <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
+          <p className="mt-4 text-lg text-ink-body dark:text-ink-inverse-muted">
             {article.excerpt}
           </p>
 
           {/* Meta */}
-          <div className="mt-6 flex items-center gap-4 border-b border-zinc-200 pb-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
+          <div className="mt-6 flex items-center gap-4 border-b border-hairline pb-6 text-sm text-ink-muted dark:border-hairline-dark dark:text-ink-inverse-muted">
             {article.author && (
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-zinc-200 dark:bg-zinc-700" />
-                <span className="font-medium text-zinc-700 dark:text-zinc-300">
+                <div className="h-8 w-8 rounded-full bg-hairline dark:bg-elevated" />
+                <span className="font-medium text-ink-body dark:text-ink-inverse-body">
                   {article.author.name}
                 </span>
               </div>
@@ -130,8 +130,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
         {/* Main Image Placeholder */}
         {article.mainImage && (
-          <div className="mb-8 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
-            <div className="aspect-video w-full bg-zinc-200 dark:bg-zinc-700" />
+          <div className="mb-8 overflow-hidden rounded-lg bg-wash dark:bg-elevated">
+            <div className="aspect-video w-full bg-hairline dark:bg-elevated" />
           </div>
         )}
 
@@ -142,14 +142,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
         {/* Author Bio */}
         {article.author?.bio && (
-          <aside className="mb-12 rounded-lg border border-zinc-200 bg-zinc-50 p-6 dark:border-zinc-700 dark:bg-zinc-800/50">
+          <aside className="mb-12 rounded-lg border border-hairline bg-wash p-6 dark:border-hairline-dark dark:bg-elevated">
             <div className="flex items-start gap-4">
-              <div className="h-12 w-12 flex-shrink-0 rounded-full bg-zinc-200 dark:bg-zinc-700" />
+              <div className="h-12 w-12 flex-shrink-0 rounded-full bg-hairline dark:bg-elevated" />
               <div>
-                <p className="font-medium text-zinc-900 dark:text-zinc-100">
+                <p className="font-medium text-ink dark:text-ink-inverse">
                   {article.author.name}
                 </p>
-                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                <p className="mt-1 text-sm text-ink-body dark:text-ink-inverse-muted">
                   {article.author.bio}
                 </p>
               </div>
@@ -159,8 +159,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <section className="border-t border-zinc-200 pt-12 dark:border-zinc-700">
-            <h2 className="mb-6 font-serif text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+          <section className="border-t border-hairline pt-12 dark:border-hairline-dark">
+            <h2 className="mb-6 font-serif text-2xl font-bold text-ink dark:text-ink-inverse">
               Related Articles
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

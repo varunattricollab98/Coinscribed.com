@@ -28,31 +28,29 @@ export function CalculatorLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <div className="border-b border-brand-border-gray bg-gradient-to-r from-teal-pale/30 to-white dark:border-zinc-700 dark:from-zinc-900 dark:to-zinc-900">
+      <div className="hairline-b">
         <div className="container-page py-8 sm:py-12">
-          <nav className="mb-4 text-sm text-brand-medium-gray dark:text-zinc-400">
+          <nav className="mb-4 text-caption text-ink-muted dark:text-ink-inverse-muted">
             <Link
               href="/"
-              className="transition-colors hover:text-teal-primary dark:hover:text-teal-medium"
+              className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
             >
               Home
             </Link>
             <span className="mx-2">/</span>
             <Link
               href="/calculators"
-              className="transition-colors hover:text-teal-primary dark:hover:text-teal-medium"
+              className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
             >
               Calculators
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-brand-near-black dark:text-zinc-100">
+            <span className="text-ink dark:text-ink-inverse">
               {title}
             </span>
           </nav>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            {title}
-          </h1>
-          <p className="mt-3 max-w-2xl text-brand-medium-gray dark:text-zinc-400">
+          <h1 className="page-title">{title}</h1>
+          <p className="mt-3 max-w-2xl text-ink-body dark:text-ink-inverse-body">
             {description}
           </p>
         </div>
@@ -61,22 +59,22 @@ export function CalculatorLayout({
       <div className="container-page py-8 sm:py-12">
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Input Form Area */}
-          <div className="rounded-xl border border-brand-border-gray bg-white p-6 shadow-card dark:border-zinc-700 dark:bg-zinc-800">
-            <h2 className="mb-6 flex items-center text-xl font-semibold">
-              <span className="mr-2 inline-block h-5 w-1 rounded-full bg-teal-primary" />
+          <div className="panel">
+            <h2 className="mb-6 flex items-center font-serif text-display-3 font-bold">
+              <span className="accent-rule mr-3 !h-6 !w-0.5" />
               Input Details
             </h2>
             {children}
           </div>
 
           {/* Results Area */}
-          <div className="rounded-xl border border-brand-border-gray bg-white p-6 shadow-card dark:border-zinc-700 dark:bg-zinc-800">
-            <h2 className="mb-6 flex items-center text-xl font-semibold">
-              <span className="mr-2 inline-block h-5 w-1 rounded-full bg-teal-primary" />
+          <div className="panel">
+            <h2 className="mb-6 flex items-center font-serif text-display-3 font-bold">
+              <span className="accent-rule mr-3 !h-6 !w-0.5" />
               Results
             </h2>
             {results || (
-              <p className="text-brand-medium-gray dark:text-zinc-400">
+              <p className="text-ink-muted dark:text-ink-inverse-muted">
                 Enter your details and click calculate to see results.
               </p>
             )}
@@ -85,9 +83,7 @@ export function CalculatorLayout({
 
         {/* Educational Content */}
         {educationalContent && (
-          <div className="mt-12 rounded-xl border border-brand-border-gray bg-brand-off-white p-6 shadow-card sm:p-8 dark:border-zinc-700 dark:bg-zinc-900">
-            {educationalContent}
-          </div>
+          <div className="mt-12 panel-muted sm:p-8">{educationalContent}</div>
         )}
       </div>
     </>

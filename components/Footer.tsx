@@ -5,7 +5,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-zinc-700 bg-brand-charcoal text-zinc-300">
+    <footer className="border-t border-hairline bg-ink text-ink-muted">
       <div className="container-page section-padding">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
@@ -15,7 +15,7 @@ export function Footer() {
                 {siteConfig.name}
               </span>
             </Link>
-            <p className="mt-3 text-sm text-brand-light-gray-text">
+            <p className="mt-3 text-sm text-ink-muted">
               {siteConfig.description}
             </p>
             {/* Social links */}
@@ -24,7 +24,7 @@ export function Footer() {
                 href={siteConfig.social.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-brand-light-gray-text transition-colors hover:text-teal-medium"
+                className="text-ink-muted transition-colors hover:text-oxblood-lighter"
                 aria-label="Follow us on Twitter"
               >
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -35,7 +35,7 @@ export function Footer() {
                 href={siteConfig.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-brand-light-gray-text transition-colors hover:text-teal-medium"
+                className="text-ink-muted transition-colors hover:text-oxblood-lighter"
                 aria-label="Follow us on Facebook"
               >
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -46,7 +46,7 @@ export function Footer() {
                 href={siteConfig.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-brand-light-gray-text transition-colors hover:text-teal-medium"
+                className="text-ink-muted transition-colors hover:text-oxblood-lighter"
                 aria-label="Follow us on LinkedIn"
               >
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -66,7 +66,7 @@ export function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-brand-light-gray-text transition-colors hover:text-teal-medium"
+                    className="text-sm text-ink-muted transition-colors hover:text-oxblood-lighter"
                   >
                     {item.label}
                   </Link>
@@ -85,7 +85,7 @@ export function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-brand-light-gray-text transition-colors hover:text-teal-medium"
+                    className="text-sm text-ink-muted transition-colors hover:text-oxblood-lighter"
                   >
                     {item.label}
                   </Link>
@@ -104,7 +104,7 @@ export function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-brand-light-gray-text transition-colors hover:text-teal-medium"
+                    className="text-sm text-ink-muted transition-colors hover:text-oxblood-lighter"
                   >
                     {item.label}
                   </Link>
@@ -115,13 +115,13 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 border-t border-zinc-700 pt-8">
+        <div className="mt-12 border-t border-hairline pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <p className="text-sm text-brand-light-gray-text">
+            <p className="text-sm text-ink-muted">
               &copy; {currentYear} {siteConfig.name}. All rights reserved. For
               informational purposes only. Not financial advice.
             </p>
-            <div className="h-1 w-12 rounded-full bg-teal-primary" />
+            <div className="h-1 w-12 rounded-full bg-oxblood" />
           </div>
         </div>
       </div>

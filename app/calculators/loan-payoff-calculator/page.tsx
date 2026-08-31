@@ -123,38 +123,38 @@ export default function LoanPayoffCalculatorPage() {
       results={
         results ? (
           <div className="space-y-6">
-            <div className="rounded-lg bg-brand-off-white p-4 dark:bg-zinc-900">
-              <p className="text-sm text-brand-medium-gray dark:text-zinc-400">New Payoff Date</p>
-              <p className="text-3xl font-bold text-brand-near-black dark:text-zinc-100">{results.payoffDate}</p>
+            <div className="border-l-2 border-oxblood bg-wash px-4 py-4 dark:border-oxblood-light dark:bg-wash-dark">
+              <p className="eyebrow">New Payoff Date</p>
+              <p className="mt-2 font-serif text-display-2 font-bold tabular-nums text-ink dark:text-ink-inverse">{results.payoffDate}</p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Interest Saved</p>
-                <p className="text-lg font-semibold text-green-700 dark:text-green-400">{formatCurrency(results.interestSaved)}</p>
+                <p className="eyebrow">Interest Saved</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-up dark:text-up-light">{formatCurrency(results.interestSaved)}</p>
               </div>
               <div>
-                <p className="text-sm text-brand-medium-gray dark:text-zinc-400">Time Saved</p>
-                <p className="text-lg font-semibold text-green-700 dark:text-green-400">{formatMonths(results.monthsSaved)}</p>
+                <p className="eyebrow">Time Saved</p>
+                <p className="mt-1.5 font-serif text-display-4 font-bold tabular-nums text-up dark:text-up-light">{formatMonths(results.monthsSaved)}</p>
               </div>
             </div>
-            <div className="border-t border-brand-border-gray pt-4 dark:border-zinc-700">
-              <h3 className="mb-3 font-semibold dark:text-zinc-100">Comparison</h3>
+            <div className="border-t border-hairline pt-4 dark:border-hairline-dark">
+              <h3 className="eyebrow-strong mb-3 block">Comparison</h3>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-brand-medium-gray dark:text-zinc-400">Without extra payment</span>
-                  <span className="font-medium dark:text-zinc-200">{formatMonths(results.originalPayoffMonths)}</span>
+                  <span className="text-caption text-ink-muted dark:text-ink-inverse-muted">Without extra payment</span>
+                  <span className="font-medium tabular-nums text-ink dark:text-ink-inverse">{formatMonths(results.originalPayoffMonths)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-brand-medium-gray dark:text-zinc-400">With extra payment</span>
-                  <span className="font-medium dark:text-zinc-200">{formatMonths(results.newPayoffMonths)}</span>
+                  <span className="text-caption text-ink-muted dark:text-ink-inverse-muted">With extra payment</span>
+                  <span className="font-medium tabular-nums text-ink dark:text-ink-inverse">{formatMonths(results.newPayoffMonths)}</span>
                 </div>
-                <div className="flex justify-between border-t border-brand-border-gray pt-2 dark:border-zinc-700">
-                  <span className="text-brand-medium-gray dark:text-zinc-400">Total interest (without)</span>
-                  <span className="font-medium dark:text-zinc-200">{formatCurrency(results.interestWithout)}</span>
+                <div className="flex justify-between border-t border-hairline pt-2 dark:border-hairline-dark">
+                  <span className="text-caption text-ink-muted dark:text-ink-inverse-muted">Total interest (without)</span>
+                  <span className="font-medium tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.interestWithout)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-brand-medium-gray dark:text-zinc-400">Total interest (with)</span>
-                  <span className="font-medium dark:text-zinc-200">{formatCurrency(results.interestWith)}</span>
+                  <span className="text-caption text-ink-muted dark:text-ink-inverse-muted">Total interest (with)</span>
+                  <span className="font-medium tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.interestWith)}</span>
                 </div>
               </div>
             </div>
@@ -163,8 +163,8 @@ export default function LoanPayoffCalculatorPage() {
       }
       educationalContent={
         <div>
-          <h2 className="mb-4 text-xl font-semibold">Benefits of Extra Loan Payments</h2>
-          <div className="space-y-4 text-sm text-brand-dark-gray dark:text-zinc-300">
+          <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Benefits of Extra Loan Payments</h2>
+          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
             <p>Making extra payments on your loan can significantly reduce both the total interest paid and the time it takes to pay off your debt. Even small additional payments can make a big difference over time.</p>
             <p><strong>How it works:</strong> Extra payments go directly toward reducing your principal balance. With a lower principal, less interest accrues each month, meaning more of your regular payment goes toward principal reduction.</p>
             <p><strong>Strategies:</strong> You can make extra payments monthly, bi-weekly (resulting in one extra full payment per year), or as lump sums when you receive bonuses or tax refunds.</p>
@@ -174,31 +174,31 @@ export default function LoanPayoffCalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="loanBalance" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Current Loan Balance ($)</label>
+          <label htmlFor="loanBalance" className="field-label">Current Loan Balance ($)</label>
           <input id="loanBalance" type="number" min="0" value={loanBalance} onChange={(e) => setLoanBalance(e.target.value)} placeholder="200000"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.loanBalance && <p className="mt-1 text-xs text-red-600">{errors.loanBalance}</p>}
+            className="field-input" />
+          {errors.loanBalance && <p className="field-error">{errors.loanBalance}</p>}
         </div>
         <div>
-          <label htmlFor="interestRate" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Annual Interest Rate (%)</label>
+          <label htmlFor="interestRate" className="field-label">Annual Interest Rate (%)</label>
           <input id="interestRate" type="number" min="0" max="50" step="0.01" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} placeholder="6.5"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.interestRate && <p className="mt-1 text-xs text-red-600">{errors.interestRate}</p>}
+            className="field-input" />
+          {errors.interestRate && <p className="field-error">{errors.interestRate}</p>}
         </div>
         <div>
-          <label htmlFor="monthlyPayment" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Monthly Payment ($)</label>
+          <label htmlFor="monthlyPayment" className="field-label">Monthly Payment ($)</label>
           <input id="monthlyPayment" type="number" min="0" value={monthlyPayment} onChange={(e) => setMonthlyPayment(e.target.value)} placeholder="1500"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.monthlyPayment && <p className="mt-1 text-xs text-red-600">{errors.monthlyPayment}</p>}
+            className="field-input" />
+          {errors.monthlyPayment && <p className="field-error">{errors.monthlyPayment}</p>}
         </div>
         <div>
-          <label htmlFor="extraPayment" className="block text-sm font-medium text-brand-dark-gray dark:text-zinc-300">Extra Monthly Payment ($)</label>
+          <label htmlFor="extraPayment" className="field-label">Extra Monthly Payment ($)</label>
           <input id="extraPayment" type="number" min="0" value={extraPayment} onChange={(e) => setExtraPayment(e.target.value)} placeholder="200"
-            className="mt-1 w-full rounded-md border border-brand-border-gray bg-white px-3 py-2 text-sm focus:border-brand-zinc focus:outline-none focus:ring-1 focus:ring-brand-zinc dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100" />
-          {errors.extraPayment && <p className="mt-1 text-xs text-red-600">{errors.extraPayment}</p>}
+            className="field-input" />
+          {errors.extraPayment && <p className="field-error">{errors.extraPayment}</p>}
         </div>
         <button onClick={calculate}
-          className="w-full rounded-md bg-brand-near-black px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-zinc dark:bg-zinc-100 dark:text-brand-near-black dark:hover:bg-zinc-200">
+          className="btn-primary w-full">
           Calculate Payoff
         </button>
       </div>

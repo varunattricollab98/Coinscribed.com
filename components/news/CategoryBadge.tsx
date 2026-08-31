@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getCategoryTone } from '@/lib/category-styles'
 
 interface CategoryBadgeProps {
   title: string
@@ -6,50 +7,33 @@ interface CategoryBadgeProps {
   linked?: boolean
 }
 
-const categoryColors: Record<string, { bg: string; text: string; hoverBg: string }> = {
-  crypto: {
-    bg: 'bg-category-crypto-bg',
-    text: 'text-category-crypto',
-    hoverBg: 'hover:bg-purple-100',
-  },
-  economy: {
-    bg: 'bg-category-economy-bg',
-    text: 'text-category-economy',
-    hoverBg: 'hover:bg-teal-100',
-  },
-  markets: {
-    bg: 'bg-category-markets-bg',
-    text: 'text-category-markets',
-    hoverBg: 'hover:bg-green-100',
-  },
-  banking: {
-    bg: 'bg-category-banking-bg',
-    text: 'text-category-banking',
-    hoverBg: 'hover:bg-amber-100',
-  },
-}
-
-const defaultColors = {
-  bg: 'bg-teal-pale',
-  text: 'text-teal-primary',
-  hoverBg: 'hover:bg-teal-100',
-}
-
-function getCategoryColors(slug: string) {
-  return categoryColors[slug] || defaultColors
-}
-
+/**
+ * Category label rendered as an eyebrow: tiny uppercase, letter-spaced text
+ * over a short 2px accent rule in that category's muted tone. No pill, no
+ * background wash.
+ */
 export function CategoryBadge({ title, slug, linked = true }: CategoryBadgeProps) {
-  const colors = getCategoryColors(slug)
-  const badgeClasses = `inline-block rounded-full px-3 py-1 text-xs font-semibold transition-colors ${colors.bg} ${colors.text} ${colors.hoverBg} dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700`
+  const tone = getCategoryTone(slug)
+
+  const content = (
+    <>
+      <span className={`text-eyebrow font-semibold uppercase ${tone.label}`}>
+        {title}
+      </span>
+      <span className={`mt-1.5 block h-0.5 w-7 ${tone.rule}`} aria-hidden="true" />
+    </>
+  )
 
   if (linked) {
     return (
-      <Link href={`/news/category/${slug}`} className={badgeClasses}>
-        {title}
+      <Link
+        href={`/news/category/${slug}`}
+        className="group/badge inline-block transition-opacity hover:opacity-70"
+      >
+        {content}
       </Link>
     )
   }
 
-  return <span className={badgeClasses}>{title}</span>
+  return <span className="inline-block">{content}</span>
 }

@@ -10,12 +10,12 @@ export function Header() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-brand-border-gray bg-white/95 backdrop-blur-sm dark:border-zinc-700 dark:bg-brand-near-black/95">
+    <header className="sticky top-0 z-50 border-b border-hairline bg-white/95 backdrop-blur-sm dark:border-hairline-dark dark:bg-ink/95">
       <div className="container-page">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <span className="font-serif text-xl font-bold text-brand-near-black dark:text-white">
+            <span className="font-serif text-xl font-bold text-ink dark:text-white">
               {siteConfig.name}
             </span>
           </Link>
@@ -26,7 +26,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-brand-dark-gray transition-colors hover:text-teal-primary dark:text-zinc-300 dark:hover:text-teal-medium"
+                className="text-sm font-medium text-ink-body transition-colors hover:text-oxblood dark:text-ink-inverse-body dark:hover:text-oxblood-lighter"
               >
                 {item.label}
               </Link>
@@ -38,7 +38,7 @@ export function Header() {
             {/* Dark mode toggle */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="rounded-md p-2 text-brand-medium-gray transition-colors hover:bg-brand-light-gray hover:text-teal-primary dark:hover:bg-zinc-800 dark:hover:text-teal-medium"
+              className="rounded-md p-2 text-ink-muted transition-colors hover:bg-wash hover:text-oxblood dark:hover:bg-wash-dark dark:hover:text-oxblood-lighter"
               aria-label="Toggle dark mode"
             >
               {/* Sun icon (shown in dark mode) */}
@@ -74,7 +74,7 @@ export function Header() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-md p-2 text-brand-medium-gray transition-colors hover:bg-brand-light-gray hover:text-brand-near-black md:hidden dark:hover:bg-zinc-800 dark:hover:text-white"
+              className="rounded-md p-2 text-ink-muted transition-colors hover:bg-wash hover:text-ink md:hidden dark:hover:bg-wash-dark dark:hover:text-ink-inverse"
               aria-label="Toggle mobile menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -113,14 +113,14 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="border-t border-brand-border-gray pb-4 pt-2 md:hidden dark:border-zinc-700" aria-label="Mobile navigation">
+          <nav className="border-t border-hairline pb-4 pt-2 md:hidden dark:border-hairline-dark" aria-label="Mobile navigation">
             <div className="flex flex-col space-y-2">
               {siteConfig.nav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-brand-dark-gray transition-colors hover:bg-teal-pale hover:text-teal-primary dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-teal-medium"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-ink-body transition-colors hover:bg-wash hover:text-oxblood dark:text-ink-inverse-body dark:hover:bg-wash-dark dark:hover:text-oxblood-lighter"
                 >
                   {item.label}
                 </Link>

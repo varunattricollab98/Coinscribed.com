@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { CategoryBadge } from './CategoryBadge'
-import { getCategoryGradient } from '@/lib/category-styles'
 import type { ArticleCard as ArticleCardType } from '@/lib/sanity-queries'
 
 interface ArticleCardProps {
@@ -15,55 +14,55 @@ function formatDate(dateString: string): string {
   })
 }
 
+/**
+ * Article cell. Designed to sit inside a `.rule-grid`, so it carries no border
+ * or shadow of its own — the grid supplies the hairline column/row rules.
+ */
 export function ArticleCard({ article }: ArticleCardProps) {
-  const gradient = getCategoryGradient(article.category?.slug.current)
+  const eyebrow = article.category?.title ?? 'Coinscribed'
 
   return (
-    <article className="group card card-hover card-teal-border">
-      {/* Thumbnail: always rendered. Sample articles have no mainImage, so we
-          fall back to a category-colored gradient placeholder. */}
+    <article className="group rule-cell-hover flex h-full flex-col px-5 py-6 sm:px-6">
+      {/* Thumbnail: sample articles have no mainImage, so we render a neutral
+          paper/ink duotone plate carrying an eyebrow label overlay. */}
       <Link
         href={`/news/${article.slug.current}`}
-        className="mb-4 block overflow-hidden rounded-md"
+        className="thumb-duotone mb-4 aspect-video w-full"
+        tabIndex={-1}
+        aria-hidden="true"
       >
-        <div
-          className={`flex aspect-video w-full items-center justify-center ${gradient}`}
-        >
-          <span className="font-serif text-lg font-bold text-white/90">
-            {article.category?.title ?? 'Coinscribed'}
-          </span>
-        </div>
+        <span className="eyebrow px-3 pb-2.5">{eyebrow}</span>
       </Link>
 
-      <div className="space-y-3">
-        {article.category && (
+      {article.category && (
+        <div className="mb-3">
           <CategoryBadge
             title={article.category.title}
             slug={article.category.slug.current}
           />
-        )}
-
-        <h2 className="font-serif text-xl font-bold leading-tight text-zinc-900 transition-colors group-hover:text-teal-primary dark:text-zinc-100 dark:group-hover:text-teal-medium">
-          <Link href={`/news/${article.slug.current}`}>
-            {article.title}
-          </Link>
-        </h2>
-
-        <p className="line-clamp-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-          {article.excerpt}
-        </p>
-
-        <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-500">
-          {article.author?.name && (
-            <>
-              <span className="font-medium">{article.author.name}</span>
-              <span aria-hidden="true">&middot;</span>
-            </>
-          )}
-          <time dateTime={article.publishedAt}>
-            {formatDate(article.publishedAt)}
-          </time>
         </div>
+      )}
+
+      <h2 className="font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+        <Link href={`/news/${article.slug.current}`} className="title-link">
+          {article.title}
+        </Link>
+      </h2>
+
+      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+        {article.excerpt}
+      </p>
+
+      <div className="mt-auto flex items-center gap-2 pt-4 text-caption text-ink-muted dark:text-ink-inverse-muted">
+        {article.author?.name && (
+          <>
+            <span className="font-medium">{article.author.name}</span>
+            <span aria-hidden="true">&middot;</span>
+          </>
+        )}
+        <time dateTime={article.publishedAt}>
+          {formatDate(article.publishedAt)}
+        </time>
       </div>
     </article>
   )

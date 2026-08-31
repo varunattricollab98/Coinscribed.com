@@ -45,10 +45,10 @@ export default async function NewsPage() {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       {/* Page Header */}
       <header className="mb-10">
-        <h1 className="font-serif text-4xl font-bold text-zinc-900 dark:text-zinc-100">
+        <h1 className="font-serif text-4xl font-bold text-ink dark:text-ink-inverse">
           News
         </h1>
-        <p className="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 text-lg text-ink-body dark:text-ink-inverse-muted">
           The latest in cryptocurrency, finance, and markets
         </p>
       </header>
@@ -59,7 +59,7 @@ export default async function NewsPage() {
           <Link
             key={cat.slug}
             href={cat.slug === 'all' ? '/news' : `/news/category/${cat.slug}`}
-            className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:border-zinc-500 dark:hover:text-zinc-100"
+            className="rounded-full border border-hairline bg-white px-4 py-2 text-sm font-medium text-ink-body transition-colors hover:border-oxblood hover:text-oxblood dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse-body dark:hover:border-oxblood-light dark:hover:text-ink-inverse"
           >
             {cat.title}
           </Link>
@@ -74,8 +74,8 @@ export default async function NewsPage() {
           ))}
         </div>
       ) : (
-        <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-12 text-center dark:border-zinc-700 dark:bg-zinc-800/50">
-          <p className="text-zinc-600 dark:text-zinc-400">
+        <div className="rounded-lg border border-hairline bg-wash p-12 text-center dark:border-hairline-dark dark:bg-elevated">
+          <p className="text-ink-body dark:text-ink-inverse-muted">
             No articles published yet. Check back soon for the latest news.
           </p>
         </div>

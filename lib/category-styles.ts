@@ -1,31 +1,53 @@
-// Category-colored gradient placeholders.
+// Category tones for the "Ink & Oxblood" design language.
 //
-// Keyed to the same category color scheme used in
-// components/news/CategoryBadge.tsx:
-//   crypto  = purple (#7c3aed)
-//   economy = teal   (#0f766e)
-//   markets = green  (#16a34a)
-//   banking = amber  (#d97706)
+// Each category keeps a desaturated, ink-adjacent tone so it stays visually
+// distinguishable without introducing saturated or pastel colour:
+//   crypto  = muted aubergine (#514B63)
+//   economy = muted olive     (#4A5A45)
+//   markets = muted steel     (#3B5266)
+//   banking = muted sepia     (#6B5540)
 //
-// Returned as Tailwind gradient utility classes so they can be dropped
-// straight onto a thumbnail placeholder <div>. Used by ArticleCard and the
-// FeaturedArticle hero for articles that have no mainImage (sample data).
+// The tone is expressed as eyebrow label text plus a short 2px accent rule —
+// never as a pill background. Article thumbnails deliberately share one
+// neutral paper/ink duotone treatment (`.thumb-duotone` in globals.css) so
+// they read as print plates rather than coloured blocks.
 
-const categoryGradients: Record<string, string> = {
-  crypto: 'bg-gradient-to-br from-violet-500 via-purple-600 to-fuchsia-700',
-  economy: 'bg-gradient-to-br from-teal-medium via-teal-primary to-emerald-800',
-  markets: 'bg-gradient-to-br from-green-500 via-green-600 to-emerald-800',
-  banking: 'bg-gradient-to-br from-amber-badge via-amber-accent to-orange-800',
+export interface CategoryTone {
+  /** Text colour classes for the uppercase eyebrow label. */
+  label: string
+  /** Background colour classes for the short 2px accent rule. */
+  rule: string
 }
 
-const defaultGradient =
-  'bg-gradient-to-br from-teal-medium via-teal-primary to-emerald-800'
+const CATEGORY_TONES: Record<string, CategoryTone> = {
+  crypto: {
+    label: 'text-category-crypto dark:text-category-crypto-light',
+    rule: 'bg-category-crypto dark:bg-category-crypto-light',
+  },
+  economy: {
+    label: 'text-category-economy dark:text-category-economy-light',
+    rule: 'bg-category-economy dark:bg-category-economy-light',
+  },
+  markets: {
+    label: 'text-category-markets dark:text-category-markets-light',
+    rule: 'bg-category-markets dark:bg-category-markets-light',
+  },
+  banking: {
+    label: 'text-category-banking dark:text-category-banking-light',
+    rule: 'bg-category-banking dark:bg-category-banking-light',
+  },
+}
+
+const DEFAULT_TONE: CategoryTone = {
+  label: 'text-category-neutral dark:text-category-neutral-light',
+  rule: 'bg-category-neutral dark:bg-category-neutral-light',
+}
 
 /**
- * Return Tailwind gradient classes for a category slug, matching the
- * CategoryBadge color scheme. Falls back to teal for unknown/undefined slugs.
+ * Return the eyebrow label and accent-rule classes for a category slug.
+ * Falls back to a neutral warm grey for unknown or undefined slugs.
  */
-export function getCategoryGradient(slug?: string): string {
-  if (!slug) return defaultGradient
-  return categoryGradients[slug] || defaultGradient
+export function getCategoryTone(slug?: string): CategoryTone {
+  if (!slug) return DEFAULT_TONE
+  return CATEGORY_TONES[slug] ?? DEFAULT_TONE
 }

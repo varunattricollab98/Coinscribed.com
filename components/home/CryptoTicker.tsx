@@ -93,17 +93,17 @@ export function CryptoTicker() {
     const down = coin.change24h < 0
     const arrow = up ? '▲' : down ? '▼' : '■'
     const colorClass = up
-      ? 'text-green-400'
+      ? 'text-up-light'
       : down
-        ? 'text-red-400'
-        : 'text-zinc-400'
+        ? 'text-down-light'
+        : 'text-ink-muted'
     return (
       <div
         key={`${coin.id}-${i}`}
         className="flex items-center gap-2 px-5 py-2.5 text-sm"
       >
         <span className="font-semibold tracking-wide">{coin.symbol}</span>
-        <span className="tabular-nums text-zinc-300">
+        <span className="tabular-nums text-ink-muted">
           {formatPrice(coin.price)}
         </span>
         <span
@@ -117,7 +117,7 @@ export function CryptoTicker() {
   }
 
   return (
-    <div className="w-full overflow-hidden border-b border-zinc-800 bg-brand-near-black text-zinc-100">
+    <div className="w-full overflow-hidden border-b border-hairline bg-ink text-zinc-100">
       <div className="group flex whitespace-nowrap">
         <div className="flex min-w-full shrink-0 animate-marquee items-center group-hover:[animation-play-state:paused] motion-reduce:animate-none">
           {/* Real list, read by assistive tech. */}

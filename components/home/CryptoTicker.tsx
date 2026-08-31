@@ -86,37 +86,49 @@ export function CryptoTicker() {
     }
   }, [])
 
-  // Duplicate the list so the marquee loops seamlessly (animation shifts -50%).
-  const items = [...coins, ...coins]
+  const renderCoin = (coin: Coin, i: number) => {
+    // A flat 0.00% change is neither a gain nor a loss: show it neutral gray
+    // rather than a green up-arrow. Positive is up/green, negative is down/red.
+    const up = coin.change24h > 0
+    const down = coin.change24h < 0
+    const arrow = up ? '▲' : down ? '▼' : '■'
+    const colorClass = up
+      ? 'text-green-400'
+      : down
+        ? 'text-red-400'
+        : 'text-zinc-400'
+    return (
+      <div
+        key={`${coin.id}-${i}`}
+        className="flex items-center gap-2 px-5 py-2.5 text-sm"
+      >
+        <span className="font-semibold tracking-wide">{coin.symbol}</span>
+        <span className="tabular-nums text-zinc-300">
+          {formatPrice(coin.price)}
+        </span>
+        <span
+          className={`flex items-center gap-0.5 font-medium tabular-nums ${colorClass}`}
+        >
+          <span aria-hidden="true">{arrow}</span>
+          {Math.abs(coin.change24h).toFixed(2)}%
+        </span>
+      </div>
+    )
+  }
 
   return (
     <div className="w-full overflow-hidden border-b border-zinc-800 bg-brand-near-black text-zinc-100">
       <div className="group flex whitespace-nowrap">
-        <div className="flex min-w-full shrink-0 animate-marquee items-center group-hover:[animation-play-state:paused]">
-          {items.map((coin, i) => {
-            const up = coin.change24h >= 0
-            return (
-              <div
-                key={`${coin.id}-${i}`}
-                className="flex items-center gap-2 px-5 py-2.5 text-sm"
-              >
-                <span className="font-semibold tracking-wide">
-                  {coin.symbol}
-                </span>
-                <span className="tabular-nums text-zinc-300">
-                  {formatPrice(coin.price)}
-                </span>
-                <span
-                  className={`flex items-center gap-0.5 font-medium tabular-nums ${
-                    up ? 'text-green-400' : 'text-red-400'
-                  }`}
-                >
-                  <span aria-hidden="true">{up ? '▲' : '▼'}</span>
-                  {Math.abs(coin.change24h).toFixed(2)}%
-                </span>
-              </div>
-            )
-          })}
+        <div className="flex min-w-full shrink-0 animate-marquee items-center group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+          {/* Real list, read by assistive tech. */}
+          <div className="flex items-center">
+            {coins.map((coin, i) => renderCoin(coin, i))}
+          </div>
+          {/* Duplicate list so the marquee loops seamlessly (animation shifts
+              -50%). Hidden from assistive tech so prices are not read twice. */}
+          <div className="flex items-center" aria-hidden="true">
+            {coins.map((coin, i) => renderCoin(coin, i))}
+          </div>
         </div>
       </div>
     </div>

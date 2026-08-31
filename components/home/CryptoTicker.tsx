@@ -9,19 +9,27 @@ interface Coin {
   change24h: number
 }
 
-// CoinGecko ids -> display symbols
-const COINS: { id: string; symbol: string }[] = [
-  { id: 'bitcoin', symbol: 'BTC' },
-  { id: 'ethereum', symbol: 'ETH' },
-  { id: 'binancecoin', symbol: 'BNB' },
-  { id: 'solana', symbol: 'SOL' },
-  { id: 'ripple', symbol: 'XRP' },
-  { id: 'cardano', symbol: 'ADA' },
+// Top coins to display, in order. CoinGecko `/coins/markets` returns them by
+// market cap; we filter to this set (skipping stablecoins we don't want in a
+// price ticker) and keep this display order.
+const DISPLAY_SYMBOLS = [
+  'BTC',
+  'ETH',
+  'BNB',
+  'SOL',
+  'XRP',
+  'ADA',
+  'DOGE',
+  'TRX',
+  'AVAX',
+  'LINK',
+  'DOT',
+  'MATIC',
 ]
 
-// Realistic static fallback prices. Used for the initial render (before the
-// first fetch resolves) and whenever the CoinGecko request fails or returns a
-// non-ok response, so the ticker never crashes or blanks the page.
+// Realistic static fallback. Used for the initial render (before the first
+// fetch resolves) and whenever the request fails or returns a bad payload, so
+// the ticker never crashes or blanks the page.
 const FALLBACK_COINS: Coin[] = [
   { id: 'bitcoin', symbol: 'BTC', price: 78000, change24h: -0.24 },
   { id: 'ethereum', symbol: 'ETH', price: 2400, change24h: 0.85 },
@@ -29,10 +37,17 @@ const FALLBACK_COINS: Coin[] = [
   { id: 'solana', symbol: 'SOL', price: 100, change24h: -1.1 },
   { id: 'ripple', symbol: 'XRP', price: 1.3, change24h: 2.3 },
   { id: 'cardano', symbol: 'ADA', price: 0.19, change24h: -0.5 },
+  { id: 'dogecoin', symbol: 'DOGE', price: 0.14, change24h: 1.2 },
+  { id: 'tron', symbol: 'TRX', price: 0.24, change24h: 0.3 },
+  { id: 'avalanche-2', symbol: 'AVAX', price: 22, change24h: -0.9 },
+  { id: 'chainlink', symbol: 'LINK', price: 14, change24h: 0.6 },
+  { id: 'polkadot', symbol: 'DOT', price: 5.4, change24h: -0.4 },
+  { id: 'matic-network', symbol: 'MATIC', price: 0.42, change24h: 1.5 },
 ]
 
+// One call returns price + 24h change for the top coins by market cap.
 const COINGECKO_URL =
-  'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana,ripple,cardano&vs_currencies=usd&include_24hr_change=true'
+  'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&price_change_percentage=24h'
 
 function formatPrice(price: number): string {
   const fractionDigits = price >= 100 ? 0 : price >= 1 ? 2 : 4
@@ -55,20 +70,39 @@ export function CryptoTicker() {
         const res = await fetch(COINGECKO_URL, { cache: 'no-store' })
         if (!res.ok) return // keep last good / fallback data
         const data = await res.json()
+        if (!Array.isArray(data)) return
 
-        const next = COINS.map(({ id, symbol }) => {
-          const entry = data?.[id]
-          const fallback = FALLBACK_COINS.find((c) => c.id === id)!
-          return {
-            id,
+        // Map API rows keyed by upper-case symbol, then pull our display set in
+        // order. Any symbol missing from the response falls back to its static
+        // entry so the bar never shows gaps or NaN.
+        const bySymbol = new Map<string, Coin>()
+        for (const row of data) {
+          const symbol =
+            typeof row?.symbol === 'string' ? row.symbol.toUpperCase() : ''
+          if (!symbol) continue
+          bySymbol.set(symbol, {
+            id: typeof row?.id === 'string' ? row.id : symbol,
             symbol,
             price:
-              typeof entry?.usd === 'number' ? entry.usd : fallback.price,
+              typeof row?.current_price === 'number' ? row.current_price : NaN,
             change24h:
-              typeof entry?.usd_24h_change === 'number'
-                ? entry.usd_24h_change
-                : fallback.change24h,
+              typeof row?.price_change_percentage_24h === 'number'
+                ? row.price_change_percentage_24h
+                : NaN,
+          })
+        }
+
+        const next = DISPLAY_SYMBOLS.map((sym) => {
+          const fallback = FALLBACK_COINS.find((c) => c.symbol === sym)
+          const live = bySymbol.get(sym)
+          if (
+            live &&
+            Number.isFinite(live.price) &&
+            Number.isFinite(live.change24h)
+          ) {
+            return live
           }
+          return fallback ?? { id: sym, symbol: sym, price: 0, change24h: 0 }
         })
 
         if (active) setCoins(next)

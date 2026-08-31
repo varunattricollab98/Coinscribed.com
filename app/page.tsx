@@ -99,7 +99,8 @@ export default async function HomePage() {
   // Trending / Most-Read reuses the freshest five stories.
   const trendingArticles = articles.slice(0, 5)
   // Editor's Picks pulls a distinct set offset from the grid above.
-  const editorsPicks = articles.slice(8, 11)
+  // slice(8, 12) keeps all 12 fetched articles in play (no wasted fetch).
+  const editorsPicks = articles.slice(8, 12)
 
   return (
     <>
@@ -297,7 +298,7 @@ export default async function HomePage() {
                 More Stories &rarr;
               </Link>
             </div>
-            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
+            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
               {editorsPicks.map((article) => (
                 <ArticleCard key={article._id} article={article} />
               ))}

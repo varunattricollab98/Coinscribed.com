@@ -67,12 +67,13 @@ export default async function NewsPage() {
           className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-hairline pb-4 dark:border-hairline-dark"
           aria-label="News categories"
         >
-          <span
+          <Link
+            href="/news"
             aria-current="page"
             className="text-eyebrow font-semibold uppercase text-oxblood dark:text-oxblood-lighter"
           >
             All
-          </span>
+          </Link>
           {categoryTabs.map((cat) => (
             <Link
               key={cat.slug}

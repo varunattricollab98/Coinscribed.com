@@ -122,7 +122,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   {article.author.imageUrl ? (
                     <Image
                       src={article.author.imageUrl}
-                      alt={article.author.name}
+                      alt=""
                       width={32}
                       height={32}
                       className="h-8 w-8 rounded-full object-cover"
@@ -136,9 +136,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <span className="font-medium text-ink-body dark:text-ink-inverse-body">
                     {article.author.name}
                   </span>
+                  <span aria-hidden="true">&middot;</span>
                 </div>
               )}
-              <span aria-hidden="true">&middot;</span>
               <time dateTime={article.publishedAt}>
                 {new Date(article.publishedAt).toLocaleDateString('en-US', {
                   year: 'numeric',
@@ -181,7 +181,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 {article.author.imageUrl ? (
                   <Image
                     src={article.author.imageUrl}
-                    alt={article.author.name}
+                    alt=""
                     width={48}
                     height={48}
                     className="h-12 w-12 flex-shrink-0 rounded-full object-cover"

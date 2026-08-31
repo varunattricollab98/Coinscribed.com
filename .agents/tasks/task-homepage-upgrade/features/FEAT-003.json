@@ -1,0 +1,27 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Reassemble app/page.tsx into the new news-first homepage using the components from FEAT-002. Reorder so News comes before Calculators. Depends on FEAT-002.",
+  "status": "pending",
+  "steps": [
+    "In app/page.tsx (keep it an async server component), fetch more articles: change getLatestArticles(3) to getLatestArticles(8) so there are enough for the featured hero, sidebar, and news grid. The first article is the featured hero; the next 3-4 fill the FeaturedArticle sidebar; the remaining fill the Latest News grid (use ArticleCard).",
+    "Reorder the page sections to this exact top-to-bottom order: (1) CryptoTicker bar at the very top of the page content, (2) a compact hero band (keep a slimmed version of the existing 'Financial Tools You Can Trust' hero OR fold it in above/around the featured article; keep it lightweight so news leads) followed by the FeaturedArticle (featured + sidebar), (3) MarketDataWidget, (4) Latest News grid using the upgraded ArticleCard with a 'View All ->' link to /news, (5) TrustSignals, (6) Calculator Highlights section (MOVED to here, below news - reuse the existing calculatorHighlights array and card markup already in app/page.tsx), (7) Bank Routing Numbers section (existing markup), (8) NewsletterSignup, then the global Footer (already rendered by app/layout.tsx).",
+    "Wire the fetched articles: pass articles[0] as the featured prop and articles.slice(1,5) as the sidebar prop to FeaturedArticle; render articles.slice(5) (or a sensible slice) in the Latest News grid with the ArticleCard component. Guard for the case where fewer articles exist so it never throws.",
+    "Import the new components from '@/components/home/...' and the upgraded '@/components/news/ArticleCard'. Remove the old inline article card markup in the Latest News section in favor of ArticleCard. Keep the existing calculatorHighlights, bank list, and their section markup intact (just moved into the new order).",
+    "Preserve existing palette, .container-page/.section-padding rhythm, alternating section backgrounds (e.g. keep the amber-light/30 tint on the calculators section), border dividers, and dark-mode variants. Ensure the whole page is responsive and sections stack cleanly on mobile."
+  ],
+  "acceptance_criteria": [
+    "Homepage renders sections in the order: Crypto Ticker -> Featured Hero + sidebar -> Market Data Widget -> Latest News grid -> Trust Signals -> Calculators -> Bank Routing Numbers -> Newsletter Signup -> Footer.",
+    "News content appears before the Calculators section.",
+    "Latest News grid uses the upgraded image-rich ArticleCard.",
+    "The featured article and sidebar are populated from getLatestArticles and link to /news/[slug].",
+    "No runtime crash when article count is lower than expected (guarded slices).",
+    "`npm run build` completes with exit code 0 and no type errors."
+  ],
+  "verification": [
+    "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; cd /projects/sandbox/Coinscribed.com; npm run build",
+    "Read app/page.tsx and confirm the JSX section order matches the required order and that News precedes Calculators."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

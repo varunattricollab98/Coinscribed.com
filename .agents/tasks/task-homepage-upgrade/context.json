@@ -1,0 +1,28 @@
+{
+  "project_type": "Next.js 14 (App Router) + TypeScript + Tailwind CSS finance/crypto news website (Coinscribed.com)",
+  "language": "TypeScript / React 18",
+  "build_system": "npm (Next.js). Node must be sourced from nvm in the sandbox: export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\" (Node v22, npm 11). `node` is NOT on PATH by default.",
+  "test_framework": "None. No test runner configured. Verification is via `npm run build` (next build) which type-checks and compiles all routes, plus ESLint via `npm run lint`.",
+  "build_command": "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; npm run build",
+  "test_command": "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; npm run lint (no unit tests exist)",
+  "verification_instructions": "1) Source nvm. 2) Run `npm run build` from repo root and confirm it completes with exit 0 and no type errors (postbuild runs next-sitemap, which is expected). 3) Optionally run `npm run lint`. 4) Manually confirm homepage section ordering matches spec by reading app/page.tsx.",
+  "snapshot_or_generated_files": "next-sitemap generates public/sitemap.xml and robots via postbuild. These are gitignored (.next, sitemap). No checked-in snapshots to regenerate.",
+  "setup_instructions": "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; cd /projects/sandbox/Coinscribed.com; npm install",
+  "environment_constraints": "Network mode OPEN_INTERNET. CoinGecko free API (https://api.coingecko.com/api/v3/simple/price) is reachable and returns live prices (verified). CoinGecko has rate limits, so the crypto ticker MUST fetch client-side (in a 'use client' component) on mount + refresh every 60s, and MUST fall back gracefully to static placeholder prices if the fetch fails. Do NOT fetch CoinGecko server-side during build (would fail/rate-limit static generation). The homepage (app/page.tsx) is a server component that awaits getLatestArticles(); keep it a server component and embed client components (ticker, newsletter form) as islands.",
+  "contribution_requirements": "No CONTRIBUTING.md. Conventional commit style used in history (feat:, chore:). Do not push or open PRs (orchestrator handles that).",
+  "key_patterns": "Styling uses Tailwind utility classes plus custom component classes defined in app/globals.css: .container-page (max-w-7xl centered), .section-padding (py-12/16/20), .btn-primary (teal button), .btn-secondary, .card, .card-hover, .card-teal-border (left teal border). Colors are custom Tailwind tokens in tailwind.config.ts: teal-primary #0f766e, teal-medium #0d9488, teal-pale #ccfbf1, amber-accent #b45309, amber-light #fef3c7, and category.{crypto,economy,markets,banking} + matching -bg tokens. Fonts: font-serif (Playfair Display) for headings, font-sans (Inter) for body. Full dark-mode support via `dark:` variants and next-themes (class strategy). Category color mapping lives in components/news/CategoryBadge.tsx (crypto=purple #7c3aed, economy=teal, markets=green #16a34a, banking=amber #d97706). Article data type ArticleCard is in lib/sanity-queries.ts. Sample data + helper getters (getLatestSampleArticles, getSampleArticles) in data/sample-news.ts. Homepage currently imports getLatestArticles from lib/sanity-queries.",
+  "relevant_files": [
+    "app/page.tsx (homepage server component to be reordered/rebuilt)",
+    "app/layout.tsx (root layout; wraps Header/main/Footer; where a ticker could mount site-wide if desired, but spec places ticker at top of homepage)",
+    "app/globals.css (custom component classes; add marquee keyframes here if needed)",
+    "tailwind.config.ts (color tokens + fonts; may add marquee animation/keyframes)",
+    "components/Header.tsx (client component, sticky header)",
+    "components/Footer.tsx",
+    "components/news/ArticleCard.tsx (news card to make image-rich with gradient placeholder)",
+    "components/news/CategoryBadge.tsx (category->color mapping; reuse for gradient placeholders)",
+    "config/site.ts (site metadata, nav, footer links)",
+    "data/sample-news.ts (12 sample articles + getters; source of news for homepage)",
+    "lib/sanity-queries.ts (ArticleCard type + getLatestArticles, falls back to sample data)"
+  ],
+  "directory_structure": "app/ = App Router pages (page.tsx homepage, calculators/, news/, bank-routing-numbers/, legal pages, layout.tsx, globals.css). components/ = React components (Header, Footer, ThemeProvider, news/, banks/, calculators/). config/site.ts = central config. data/ = sample-news.ts and banks.ts static data. lib/ = sanity client + queries + schema markup. No tests dir."
+}

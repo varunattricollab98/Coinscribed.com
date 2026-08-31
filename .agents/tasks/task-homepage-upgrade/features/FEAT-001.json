@@ -1,0 +1,22 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Environment setup and baseline verification. Confirm the project installs and builds green before any changes, so later features start from a known-good state.",
+  "status": "completed",
+  "steps": [
+    "Source Node from nvm: export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\" (node is not on PATH otherwise; expect Node v22, npm 11).",
+    "From repo root /projects/sandbox/Coinscribed.com run `npm install`.",
+    "Run `npm run build` and confirm it exits 0 with no TypeScript errors (the postbuild next-sitemap step running is normal).",
+    "Confirm the CoinGecko free endpoint is reachable: curl 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true' returns JSON with usd and usd_24h_change fields."
+  ],
+  "acceptance_criteria": [
+    "`npm install` completes without errors.",
+    "`npm run build` completes with exit code 0 and no type errors.",
+    "CoinGecko endpoint returns valid JSON with price and 24h change fields."
+  ],
+  "verification": [
+    "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; cd /projects/sandbox/Coinscribed.com; npm run build"
+  ],
+  "blocked_reason": null,
+  "findings": "Baseline is green. Node v22.23.2, npm 11.4.2 (sourced from nvm; node not on PATH by default as documented). `npm install` reported 'up to date' (deps already present) and completed without errors; note 5 high-severity npm audit vulnerabilities exist but do not block the build. `npm run build` exits 0 with no TypeScript errors; postbuild next-sitemap ran normally and generated https://coinscribed.com/sitemap.xml. All routes prerendered as expected (homepage / is Static ○). CoinGecko free endpoint verified reachable: curl returned valid JSON e.g. {\"bitcoin\":{\"usd\":77979,\"usd_24h_change\":-0.2486...},\"ethereum\":{\"usd\":2437.39,\"usd_24h_change\":-0.7906...}} with both usd and usd_24h_change fields present. No source code changes in this feature. Working tree before this task had only the untracked .agents/ task-state directory. Confirms the client-side-fetch requirement for the ticker is viable in later features."
+}

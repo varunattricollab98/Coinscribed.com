@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
 import { getArticlesByCategory, getCategories } from '@/lib/sanity-queries'
 import { ArticleCard } from '@/components/news/ArticleCard'
+import { CategoryBadge } from '@/components/news/CategoryBadge'
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>
@@ -52,12 +54,19 @@ export async function generateMetadata({
 }
 
 const defaultCategories = [
-  { title: 'All', slug: 'all' },
   { title: 'Crypto', slug: 'crypto' },
   { title: 'Economy', slug: 'economy' },
   { title: 'Markets', slug: 'markets' },
   { title: 'Banking', slug: 'banking' },
 ]
+
+function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+}
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params
@@ -69,70 +78,159 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const categoryTabs =
     categories.length > 0
-      ? [
-          { title: 'All', slug: 'all' },
-          ...categories.map((c) => ({
-            title: c.title,
-            slug: c.slug.current,
-          })),
-        ]
+      ? categories.map((c) => ({ title: c.title, slug: c.slug.current }))
       : defaultCategories
 
   const meta = categoryMeta[category]
-  const pageTitle = meta?.title || `${category.charAt(0).toUpperCase() + category.slice(1)} News`
+  const pageTitle =
+    meta?.title || `${category.charAt(0).toUpperCase() + category.slice(1)} News`
+
+  const lead = articles[0]
+  const rest = articles.slice(1)
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      {/* Page Header */}
-      <header className="mb-10">
-        <nav className="mb-4 text-sm text-ink-muted dark:text-ink-inverse-muted">
-          <Link href="/news" className="hover:text-oxblood dark:hover:text-ink-inverse">
+    <div className="hairline-b">
+      <div className="container-page section-padding">
+        {/* Breadcrumb */}
+        <nav className="mb-4 text-caption text-ink-muted dark:text-ink-inverse-muted">
+          <Link
+            href="/news"
+            className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
+          >
             News
           </Link>
-          <span className="mx-2">/</span>
+          <span className="mx-2" aria-hidden="true">
+            /
+          </span>
           <span className="text-ink dark:text-ink-inverse">{pageTitle}</span>
         </nav>
-        <h1 className="font-serif text-4xl font-bold text-ink dark:text-ink-inverse">
-          {pageTitle}
-        </h1>
+
+        {/* Page header */}
+        <div className="section-header mb-8">
+          <div>
+            <span className="eyebrow-accent">Newsroom</span>
+            <h1 className="page-title mt-1.5">{pageTitle}</h1>
+          </div>
+        </div>
+
         {meta?.description && (
-          <p className="mt-2 text-lg text-ink-body dark:text-ink-inverse-muted">
+          <p className="mb-6 max-w-2xl text-base leading-relaxed text-ink-body dark:text-ink-inverse-body">
             {meta.description}
           </p>
         )}
-      </header>
 
-      {/* Category Filter Tabs */}
-      <nav className="mb-8 flex flex-wrap gap-2" aria-label="News categories">
-        {categoryTabs.map((cat) => (
+        {/* Category filter — active tab uses oxblood/bold ink, not a pill */}
+        <nav
+          className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-hairline pb-4 dark:border-hairline-dark"
+          aria-label="News categories"
+        >
           <Link
-            key={cat.slug}
-            href={cat.slug === 'all' ? '/news' : `/news/category/${cat.slug}`}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-              cat.slug === category
-                ? 'border-hairline bg-zinc-900 text-white dark:border-hairline-dark dark:bg-wash dark:text-ink'
-                : 'border-hairline bg-white text-ink-body hover:border-oxblood hover:text-oxblood dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse-body dark:hover:border-oxblood-light dark:hover:text-ink-inverse'
-            }`}
+            href="/news"
+            className="text-eyebrow font-semibold uppercase text-ink-muted transition-colors hover:text-oxblood dark:text-ink-inverse-muted dark:hover:text-oxblood-lighter"
           >
-            {cat.title}
+            All
           </Link>
-        ))}
-      </nav>
+          {categoryTabs.map((cat) => {
+            const active = cat.slug === category
+            return (
+              <Link
+                key={cat.slug}
+                href={`/news/category/${cat.slug}`}
+                aria-current={active ? 'page' : undefined}
+                className={
+                  active
+                    ? 'text-eyebrow font-semibold uppercase text-oxblood dark:text-oxblood-lighter'
+                    : 'text-eyebrow font-semibold uppercase text-ink-muted transition-colors hover:text-oxblood dark:text-ink-inverse-muted dark:hover:text-oxblood-lighter'
+                }
+              >
+                {cat.title}
+              </Link>
+            )
+          })}
+        </nav>
 
-      {/* Articles Grid */}
-      {articles.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article) => (
-            <ArticleCard key={article._id} article={article} />
-          ))}
-        </div>
-      ) : (
-        <div className="rounded-lg border border-hairline bg-wash p-12 text-center dark:border-hairline-dark dark:bg-elevated">
-          <p className="text-ink-body dark:text-ink-inverse-muted">
-            No articles in this category yet. Check back soon.
-          </p>
-        </div>
-      )}
+        {articles.length > 0 ? (
+          <>
+            {/* Lead featured story */}
+            {lead && (
+              <article className="group mb-10 grid grid-cols-1 gap-6 border-b border-hairline pb-10 lg:grid-cols-2 lg:gap-10 dark:border-hairline-dark">
+                {lead.imageUrl ? (
+                  <Link
+                    href={`/news/${lead.slug.current}`}
+                    className="relative aspect-video w-full overflow-hidden"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  >
+                    <Image
+                      src={lead.imageUrl}
+                      alt={lead.title}
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/news/${lead.slug.current}`}
+                    className="thumb-duotone aspect-video w-full"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                  />
+                )}
+                <div className="flex flex-col justify-center">
+                  {lead.category && (
+                    <div className="mb-3">
+                      <CategoryBadge
+                        title={lead.category.title}
+                        slug={lead.category.slug.current}
+                      />
+                    </div>
+                  )}
+                  <h2 className="font-serif text-display-2 font-bold leading-tight text-ink dark:text-ink-inverse">
+                    <Link href={`/news/${lead.slug.current}`} className="title-link">
+                      {lead.title}
+                    </Link>
+                  </h2>
+                  <p className="mt-3 text-base leading-relaxed text-ink-body dark:text-ink-inverse-body">
+                    {lead.excerpt}
+                  </p>
+                  <div className="mt-4 flex items-center gap-2 text-caption text-ink-muted dark:text-ink-inverse-muted">
+                    {lead.author?.name && (
+                      <>
+                        <span className="font-medium">{lead.author.name}</span>
+                        <span aria-hidden="true">&middot;</span>
+                      </>
+                    )}
+                    <time dateTime={lead.publishedAt}>{formatDate(lead.publishedAt)}</time>
+                    {lead.readingTime && (
+                      <>
+                        <span aria-hidden="true">&middot;</span>
+                        <span className="tabular-nums">{lead.readingTime} min read</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </article>
+            )}
+
+            {/* Remaining stories in a dense rule-grid */}
+            {rest.length > 0 && (
+              <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
+                {rest.map((article) => (
+                  <ArticleCard key={article._id} article={article} />
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="panel-muted text-center">
+            <p className="text-ink-body dark:text-ink-inverse-muted">
+              No articles in this category yet. Check back soon.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

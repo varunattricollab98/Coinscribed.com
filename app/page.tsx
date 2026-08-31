@@ -1,5 +1,8 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { getLatestArticles } from '@/lib/sanity-queries'
+import { sampleCategories } from '@/data/sample-news'
+import { getCategoryTone } from '@/lib/category-styles'
 import { CryptoTicker } from '@/components/home/CryptoTicker'
 import { FeaturedArticle } from '@/components/home/FeaturedArticle'
 import { MarketDataWidget } from '@/components/home/MarketDataWidget'
@@ -69,12 +72,34 @@ const popularBanks = [
   { name: 'US Bank', slug: 'us-bank' },
 ]
 
+// Topic tiles for the "Explore by Topic" section. Each maps to a category
+// slug so it can pull the shared muted tone + description from sample data.
+const topicTiles: { slug: string; icon: LineIconName }[] = [
+  { slug: 'crypto', icon: 'coins' },
+  { slug: 'economy', icon: 'globe' },
+  { slug: 'markets', icon: 'bars' },
+  { slug: 'banking', icon: 'bank' },
+]
+
+function formatDate(dateString: string): string {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+}
+
 export default async function HomePage() {
-  const articles = await getLatestArticles(8)
+  const articles = await getLatestArticles(12)
 
   const featured = articles[0]
   const sidebarArticles = articles.slice(1, 5)
-  const gridArticles = articles.slice(5)
+  const gridArticles = articles.slice(5, 8)
+
+  // Trending / Most-Read reuses the freshest five stories.
+  const trendingArticles = articles.slice(0, 5)
+  // Editor's Picks pulls a distinct set offset from the grid above.
+  const editorsPicks = articles.slice(8, 11)
 
   return (
     <>
@@ -137,6 +162,143 @@ export default async function HomePage() {
             </div>
             <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
               {gridArticles.map((article) => (
+                <ArticleCard key={article._id} article={article} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Trending / Most-Read */}
+      {trendingArticles.length > 0 && (
+        <section className="hairline-b">
+          <div className="container-page section-padding">
+            <div className="section-header mb-8">
+              <div>
+                <span className="eyebrow">Ranked</span>
+                <h2 className="section-title mt-1.5">Most Read</h2>
+              </div>
+              <Link
+                href="/news"
+                className="link-quiet text-eyebrow font-semibold uppercase"
+              >
+                All News &rarr;
+              </Link>
+            </div>
+            <ol className="divide-y divide-hairline dark:divide-hairline-dark">
+              {trendingArticles.map((article, index) => (
+                <li key={article._id}>
+                  <Link
+                    href={`/news/${article.slug.current}`}
+                    className="group rule-cell-hover flex items-center gap-4 py-4 sm:gap-6"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="w-10 shrink-0 font-serif text-display-2 font-bold tabular-nums text-oxblood dark:text-oxblood-lighter"
+                    >
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    {article.imageUrl && (
+                      <span className="relative hidden aspect-video w-28 shrink-0 overflow-hidden sm:block">
+                        <Image
+                          src={article.imageUrl}
+                          alt={article.title}
+                          fill
+                          sizes="112px"
+                          className="object-cover"
+                        />
+                      </span>
+                    )}
+                    <span className="min-w-0 flex-1">
+                      {article.category && (
+                        <span className="text-eyebrow font-semibold uppercase text-ink-muted dark:text-ink-inverse-muted">
+                          {article.category.title}
+                        </span>
+                      )}
+                      <span className="mt-1 block font-serif text-display-4 font-bold leading-snug text-ink dark:text-ink-inverse">
+                        <span className="title-link">{article.title}</span>
+                      </span>
+                      <span className="mt-1 flex items-center gap-2 text-caption text-ink-muted dark:text-ink-inverse-muted">
+                        {article.author?.name && (
+                          <>
+                            <span className="font-medium">{article.author.name}</span>
+                            <span aria-hidden="true">&middot;</span>
+                          </>
+                        )}
+                        <time dateTime={article.publishedAt}>
+                          {formatDate(article.publishedAt)}
+                        </time>
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
+
+      {/* Explore by topic */}
+      <section className="hairline-b">
+        <div className="container-page section-padding">
+          <div className="section-header mb-8">
+            <div>
+              <span className="eyebrow">Sections</span>
+              <h2 className="section-title mt-1.5">Explore by Topic</h2>
+            </div>
+          </div>
+          <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
+            {topicTiles.map((topic) => {
+              const category = sampleCategories.find(
+                (c) => c.slug.current === topic.slug
+              )
+              if (!category) return null
+              const tone = getCategoryTone(topic.slug)
+              return (
+                <Link
+                  key={topic.slug}
+                  href={`/news/category/${topic.slug}`}
+                  className="group rule-cell-hover flex h-full flex-col px-5 py-6 sm:px-6"
+                >
+                  <LineIcon
+                    name={topic.icon}
+                    className={`h-6 w-6 ${tone.label}`}
+                  />
+                  <span className={`mt-4 text-eyebrow font-semibold uppercase ${tone.label}`}>
+                    {category.title}
+                  </span>
+                  <span className={`mt-1.5 block h-0.5 w-7 ${tone.rule}`} aria-hidden="true" />
+                  <p className="mt-3 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+                    {category.description}
+                  </p>
+                  <span className="eyebrow-accent mt-4 inline-block">
+                    Read {category.title} &rarr;
+                  </span>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Editor's picks */}
+      {editorsPicks.length > 0 && (
+        <section className="hairline-b">
+          <div className="container-page section-padding">
+            <div className="section-header mb-8">
+              <div>
+                <span className="eyebrow">Selected</span>
+                <h2 className="section-title mt-1.5">Editor&rsquo;s Picks</h2>
+              </div>
+              <Link
+                href="/news"
+                className="link-quiet text-eyebrow font-semibold uppercase"
+              >
+                More Stories &rarr;
+              </Link>
+            </div>
+            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
+              {editorsPicks.map((article) => (
                 <ArticleCard key={article._id} article={article} />
               ))}
             </div>

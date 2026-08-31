@@ -13,6 +13,8 @@ export type LineIconName =
   | 'coins'
   | 'target'
   | 'umbrella'
+  | 'globe'
+  | 'bank'
 
 const PATHS: Record<LineIconName, ReactNode> = {
   house: (
@@ -64,6 +66,24 @@ const PATHS: Record<LineIconName, ReactNode> = {
       <path d="M12 3.5V5" />
       <path d="M3.5 12.5a8.5 8.5 0 0 1 17 0Z" />
       <path d="M12 12.5v5.5a2.5 2.5 0 0 0 5 0" />
+    </>
+  ),
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17" />
+      <path d="M12 3.5c2.4 2.3 3.75 5.3 3.75 8.5S14.4 18.2 12 20.5c-2.4-2.3-3.75-5.3-3.75-8.5S9.6 5.8 12 3.5Z" />
+    </>
+  ),
+  bank: (
+    <>
+      <path d="M3.5 9 12 4l8.5 5" />
+      <path d="M3.5 9h17" />
+      <path d="M5.5 9.5v8" />
+      <path d="M9.5 9.5v8" />
+      <path d="M14.5 9.5v8" />
+      <path d="M18.5 9.5v8" />
+      <path d="M3.5 20.5h17" />
     </>
   ),
 }

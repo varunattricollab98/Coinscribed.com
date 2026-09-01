@@ -139,11 +139,21 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 border-t border-hairline pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <p className="text-sm text-ink-muted">
-              &copy; {currentYear} {siteConfig.name}. All rights reserved. For
-              informational purposes only. Not financial advice.
+            <p className="max-w-3xl text-sm leading-relaxed text-ink-muted">
+              &copy; {currentYear} {siteConfig.name}. All rights reserved.
+              Published for general information and education only — this is{' '}
+              <strong className="font-semibold">not</strong> financial,
+              investment, tax, or legal advice, and no content here is a
+              recommendation to buy, sell, or hold anything.{' '}
+              {siteConfig.name} is not a bank, broker, or registered adviser.
+              Verify routing numbers and payment details with your institution,
+              and consult a licensed professional before acting. See our{' '}
+              <Link href="/disclaimer" className="underline hover:text-accent-light">
+                Disclaimer
+              </Link>
+              .
             </p>
-            <div className="h-1 w-12 rounded-full bg-oxblood" />
+            <div className="h-1 w-12 shrink-0 rounded-full bg-oxblood" />
           </div>
         </div>
       </div>

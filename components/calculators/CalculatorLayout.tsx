@@ -99,6 +99,30 @@ export function CalculatorLayout({
             {educationalContent}
           </div>
         )}
+
+        {/*
+          The disclaimer sits with the results, not only on a linked page. Someone
+          about to act on a figure should read the caveat where they read the
+          figure.
+        */}
+        <aside className="mt-8 border-t border-hairline pt-6 dark:border-hairline-dark">
+          <p className="eyebrow">Important</p>
+          <p className="mt-2 text-caption leading-relaxed text-ink-muted dark:text-ink-inverse-muted">
+            This calculator is provided for general information and education
+            only and is <strong>not</strong> financial, investment, tax, or legal
+            advice. Results are estimates produced from the figures you enter and
+            are not a quotation, an offer of credit, or a guarantee. They
+            generally exclude fees, taxes, insurance, rate changes, inflation,
+            and eligibility limits, so an actual figure from a provider may
+            differ materially. Selecting a currency changes the unit only — no
+            amount is converted. Speak to a licensed professional before making
+            a decision. See our{' '}
+            <Link href="/disclaimer" className="link-accent">
+              full disclaimer
+            </Link>
+            .
+          </p>
+        </aside>
       </div>
     </>
   )

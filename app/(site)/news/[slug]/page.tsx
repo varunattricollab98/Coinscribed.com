@@ -163,9 +163,33 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           )}
 
           {/* Article Body */}
-          <div className="mb-14">
+          <div className="mb-8">
             <PortableTextRenderer content={article.body} />
           </div>
+
+          {/*
+            Per-article notice. Coverage of a market, asset, or institution is
+            reporting, not a recommendation, and that belongs at the end of the
+            piece rather than only in the footer.
+          */}
+          <aside className="mb-14 border-l-2 border-gold bg-gold-soft px-5 py-4 dark:border-gold-light dark:bg-gold/10">
+            <p className="eyebrow-royal">Editorial notice</p>
+            <p className="mt-2 text-caption leading-relaxed text-ink-body dark:text-ink-inverse-body">
+              This article is published for general information and education
+              only. It is <strong>not</strong> financial, investment, tax, or
+              legal advice, and nothing in it is a recommendation to buy, sell,
+              or hold any security or digital asset. Prices and figures were
+              accurate as understood at the time of writing and may since have
+              changed. Past performance does not indicate future results, and
+              digital assets in particular are volatile and may not be covered by
+              any deposit-insurance or investor-compensation scheme. Do your own
+              research and consult a licensed professional before acting. See our{' '}
+              <Link href="/disclaimer" className="link-accent">
+                full disclaimer
+              </Link>
+              .
+            </p>
+          </aside>
 
           {/* Author Bio */}
           {article.author?.bio && (

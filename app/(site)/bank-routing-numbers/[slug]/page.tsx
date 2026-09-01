@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { banks, getBankBySlug, getAllBankSlugs } from '@/data/banks'
 import { siteConfig } from '@/config/site'
 import { RoutingNumberTable } from '@/components/banks/RoutingNumberTable'
+import { BankMark } from '@/components/banks/BankMark'
 import { Reveal } from '@/components/motion/Reveal'
 
 interface BankPageProps {
@@ -146,9 +147,12 @@ export default function BankPage({ params }: BankPageProps) {
           <div className="lg:col-span-2">
             <Reveal>
               <span className="eyebrow">Reference</span>
-              <h1 className="page-title mt-1.5">
-                {bank.name} Routing Numbers
-              </h1>
+              <div className="mt-1.5 flex items-center gap-4">
+                <BankMark brand={bank.brand} size="lg" />
+                <h1 className="page-title">
+                  {bank.name} Routing Numbers
+                </h1>
+              </div>
               <p className="mt-4 text-lg text-ink-body dark:text-ink-inverse-body">
                 {bank.description}
               </p>
@@ -312,8 +316,9 @@ export default function BankPage({ params }: BankPageProps) {
                   <li key={relatedBank.slug}>
                     <Link
                       href={`/bank-routing-numbers/${relatedBank.slug}`}
-                      className="text-sm text-ink-body transition-colors hover:text-accent dark:text-ink-inverse-muted dark:hover:text-accent-light"
+                      className="flex items-center gap-2.5 text-sm text-ink-body transition-colors hover:text-accent dark:text-ink-inverse-muted dark:hover:text-accent-light"
                     >
+                      <BankMark brand={relatedBank.brand} size="sm" />
                       {relatedBank.name}
                     </Link>
                   </li>

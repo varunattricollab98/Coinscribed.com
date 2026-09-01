@@ -3,6 +3,8 @@ import { getLatestArticles } from '@/lib/sanity-queries'
 import { sampleCategories } from '@/data/sample-news'
 import { getCategoryTone } from '@/lib/category-styles'
 import { rankByReadership } from '@/lib/story-ranking'
+import { banks } from '@/data/banks'
+import { BankMark } from '@/components/banks/BankMark'
 import { CryptoTicker } from '@/components/home/CryptoTicker'
 import { MarketHero } from '@/components/home/MarketHero'
 import { Reveal } from '@/components/motion/Reveal'
@@ -65,16 +67,26 @@ const calculatorHighlights: {
   },
 ]
 
-const popularBanks = [
-  { name: 'Chase', slug: 'chase' },
-  { name: 'Bank of America', slug: 'bank-of-america' },
-  { name: 'Wells Fargo', slug: 'wells-fargo' },
-  { name: 'Citibank', slug: 'citibank' },
-  { name: 'Capital One', slug: 'capital-one' },
-  { name: 'TD Bank', slug: 'td-bank' },
-  { name: 'PNC', slug: 'pnc-bank' },
-  { name: 'US Bank', slug: 'us-bank' },
+/**
+ * The eight banks surfaced on the front page, resolved from the bank dataset
+ * rather than restated here. The previous hardcoded list carried only a name
+ * and slug, so it could silently drift from the real data — and it had no brand
+ * mark to render.
+ */
+const POPULAR_BANK_SLUGS = [
+  'chase',
+  'bank-of-america',
+  'wells-fargo',
+  'citibank',
+  'capital-one',
+  'td-bank',
+  'pnc-bank',
+  'us-bank',
 ]
+
+const popularBanks = POPULAR_BANK_SLUGS.map((slug) =>
+  banks.find((bank) => bank.slug === slug)
+).filter((bank): bank is (typeof banks)[number] => Boolean(bank))
 
 // Topic tiles for the "Explore by Topic" section. Each maps to a category
 // slug so it can pull the shared muted tone + description from sample data.
@@ -367,9 +379,7 @@ export default async function HomePage() {
                   href={`/bank-routing-numbers/${bank.slug}`}
                   className="group flex h-full items-center gap-3 border border-hairline bg-surface px-4 py-4 shadow-soft transition-all duration-200 ease-editorial hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift motion-reduce:transform-none dark:border-hairline-dark dark:bg-elevated dark:shadow-none dark:hover:border-accent-light/40"
                 >
-                  <span className="grid h-9 w-9 shrink-0 place-items-center bg-accent-soft text-accent dark:bg-accent/15 dark:text-accent-light">
-                    <LineIcon name="bank" className="h-4 w-4" />
-                  </span>
+                  <BankMark brand={bank.brand} size="sm" />
                   <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink dark:text-ink-inverse">
                     {bank.name}
                   </span>

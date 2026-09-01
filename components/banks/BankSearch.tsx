@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { Bank } from '@/data/banks'
-import { LineIcon } from '@/components/icons/LineIcon'
+import { BankMark } from '@/components/banks/BankMark'
 import { Reveal } from '@/components/motion/Reveal'
 
 interface BankSearchProps {
@@ -65,10 +65,9 @@ export function BankSearch({ banks }: BankSearchProps) {
                   aria-hidden="true"
                   className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-accent/0 blur-2xl transition-colors duration-300 group-hover:bg-accent/10"
                 />
-                {/* Gradient icon badge */}
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-gradient text-white shadow-sm">
-                  <LineIcon name="bank" className="h-6 w-6" />
-                </span>
+                {/* The bank's own monogram tile, so every card is
+                    distinguishable at a glance. */}
+                <BankMark brand={bank.brand} size="lg" />
                 <h2 className="mt-5 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
                   <span className="title-link">{bank.name}</span>
                 </h2>

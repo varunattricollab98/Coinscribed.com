@@ -40,10 +40,31 @@ export interface MainOffice {
   source: string
 }
 
+/**
+ * Identifying mark for a bank, rendered as a coloured monogram tile.
+ *
+ * Deliberately NOT the institution's logo. Reproducing bank logos on a page
+ * that also lists routing numbers is the visual signature of a phishing site,
+ * and trademark "nominative fair use" is an affirmative defence rather than a
+ * guarantee. A monogram in the bank's recognised brand colour gives each card a
+ * distinct, realistic identity while reproducing no protected artwork.
+ *
+ * `color` is the institution's widely-published brand colour, used here purely
+ * to help readers tell one row from another. It is an approximation for
+ * identification and is not an official brand asset.
+ */
+export interface BankMarkStyle {
+  /** Brand colour as a hex string. */
+  color: string
+  /** 2-3 character monogram shown on the tile. */
+  monogram: string
+}
+
 export interface Bank {
   name: string
   slug: string
   description: string
+  brand: BankMarkStyle
   routingNumbers: RoutingNumber[]
   /** Parent company's corporate headquarters, as "City, ST". */
   headquarters: string
@@ -77,6 +98,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://www.chase.com/digital/wire-transfer/faqs',
     founded: 1799,
     website: 'https://www.chase.com',
+    brand: { color: '#117ACA', monogram: 'CH' },
     routingNumbers: [
       { number: '021000021', state: 'New York', type: 'paper' },
       { number: '021000021', state: 'New York', type: 'electronic' },
@@ -128,6 +150,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://www.bankofamerica.com/deposits/routing-number-faqs/',
     founded: 1904,
     website: 'https://www.bankofamerica.com',
+    brand: { color: '#E31837', monogram: 'BA' },
     routingNumbers: [
       { number: '011000138', state: 'Connecticut', type: 'paper' },
       { number: '011200365', state: 'Maine', type: 'paper' },
@@ -182,6 +205,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://www.wellsfargo.com/help/online-banking/wires-faqs',
     founded: 1852,
     website: 'https://www.wellsfargo.com',
+    brand: { color: '#D71E28', monogram: 'WF' },
     routingNumbers: [
       { number: '011100106', state: 'Connecticut', type: 'paper' },
       { number: '021200025', state: 'New Jersey', type: 'paper' },
@@ -236,6 +260,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://online.citi.com/US/JRS/pands/detail.do?ID=WireTransfers',
     founded: 1812,
     website: 'https://www.citibank.com',
+    brand: { color: '#056DAE', monogram: 'CI' },
     routingNumbers: [
       { number: '021000089', state: 'New York (Metro)', type: 'paper' },
       { number: '021000089', state: 'New York (Metro)', type: 'electronic' },
@@ -273,6 +298,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://www.capitalone.com/help-center/',
     founded: 1994,
     website: 'https://www.capitalone.com',
+    brand: { color: '#004977', monogram: 'CO' },
     routingNumbers: [
       { number: '051405515', state: 'Virginia', type: 'paper' },
       { number: '051405515', state: 'Virginia', type: 'electronic' },
@@ -304,6 +330,7 @@ export const banks: Bank[] = [
     },
     founded: 1852,
     website: 'https://www.td.com/us/en/personal-banking',
+    brand: { color: '#00A651', monogram: 'TD' },
     routingNumbers: [
       { number: '011103093', state: 'Connecticut', type: 'paper' },
       { number: '011103093', state: 'Connecticut', type: 'electronic' },
@@ -345,6 +372,7 @@ export const banks: Bank[] = [
     },
     founded: 1845,
     website: 'https://www.pnc.com',
+    brand: { color: '#F58025', monogram: 'PNC' },
     routingNumbers: [
       { number: '031000053', state: 'Pennsylvania (Eastern)', type: 'paper' },
       { number: '031000053', state: 'Pennsylvania (Eastern)', type: 'electronic' },
@@ -385,6 +413,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://www.usbank.com/online-mobile-banking/transfer-money/wire-transfers-faq.html',
     founded: 1863,
     website: 'https://www.usbank.com',
+    brand: { color: '#0C2074', monogram: 'USB' },
     routingNumbers: [
       { number: '091000022', state: 'Minnesota', type: 'paper' },
       { number: '091000022', state: 'Minnesota', type: 'electronic' },
@@ -432,6 +461,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://www.truist.com/help',
     founded: 2019,
     website: 'https://www.truist.com',
+    brand: { color: '#582C83', monogram: 'TR' },
     routingNumbers: [
       { number: '053101121', state: 'North Carolina', type: 'paper' },
       { number: '053101121', state: 'North Carolina', type: 'electronic' },
@@ -472,6 +502,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://www.marcus.com/us/en',
     founded: 1869,
     website: 'https://www.marcus.com',
+    brand: { color: '#16305B', monogram: 'GS' },
     routingNumbers: [
       { number: '124085024', state: 'Nationwide (Savings)', type: 'paper' },
       { number: '124085024', state: 'Nationwide (Savings)', type: 'electronic' },
@@ -496,6 +527,7 @@ export const banks: Bank[] = [
     wireInfoUrl: 'https://www.ally.com/help/bank/transfers/',
     founded: 2009,
     website: 'https://www.ally.com',
+    brand: { color: '#6F2C91', monogram: 'AL' },
     routingNumbers: [
       { number: '124003116', state: 'Nationwide', type: 'paper' },
       { number: '124003116', state: 'Nationwide', type: 'electronic' },
@@ -518,6 +550,7 @@ export const banks: Bank[] = [
     },
     founded: 2003,
     website: 'https://www.schwab.com',
+    brand: { color: '#00A0DF', monogram: 'CS' },
     routingNumbers: [
       { number: '121202211', state: 'Nationwide (Checking)', type: 'paper' },
       { number: '121202211', state: 'Nationwide (Checking)', type: 'electronic' },

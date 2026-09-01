@@ -31,7 +31,7 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
             placeholder="Search by number or state..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-md border border-hairline bg-white px-4 py-2 pl-9 text-sm text-ink-body placeholder-ink-muted focus:border-ink-body focus:outline-none focus:ring-1 focus:ring-ink-body dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse dark:placeholder-ink-inverse-muted"
+            className="w-full border border-hairline bg-surface px-4 py-2.5 pl-9 text-sm text-ink-body placeholder-ink-muted transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse dark:placeholder-ink-inverse-muted dark:focus:border-accent-light"
             aria-label="Filter routing numbers"
           />
           <svg
@@ -52,7 +52,7 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="rounded-md border border-hairline bg-white px-3 py-2 text-sm text-ink-body focus:border-ink-body focus:outline-none focus:ring-1 focus:ring-ink-body dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse"
+          className="border border-hairline bg-surface px-3 py-2.5 text-sm text-ink-body transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse dark:focus:border-accent-light"
           aria-label="Filter by type"
         >
           <option value="all">All Types</option>
@@ -65,22 +65,16 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border border-hairline dark:border-hairline-dark">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-hairline bg-wash dark:border-hairline-dark dark:bg-elevated">
+      <div className="overflow-x-auto rounded-2xl border border-hairline bg-surface dark:border-hairline-dark dark:bg-elevated">
+        <table className="data-table">
+          <thead>
             <tr>
-              <th className="px-4 py-3 font-semibold text-ink dark:text-ink-inverse">
-                Routing Number
-              </th>
-              <th className="px-4 py-3 font-semibold text-ink dark:text-ink-inverse">
-                State / Region
-              </th>
-              <th className="px-4 py-3 font-semibold text-ink dark:text-ink-inverse">
-                Type
-              </th>
+              <th>Routing Number</th>
+              <th>State / Region</th>
+              <th>Type</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-hairline dark:divide-hairline-dark">
+          <tbody>
             {filteredNumbers.length === 0 ? (
               <tr>
                 <td
@@ -94,18 +88,16 @@ export function RoutingNumberTable({ routingNumbers }: RoutingNumberTableProps) 
               filteredNumbers.map((rn, index) => (
                 <tr
                   key={`${rn.number}-${rn.state}-${rn.type}-${index}`}
-                  className="bg-white transition-colors hover:bg-wash dark:bg-graphite dark:hover:bg-wash-dark"
+                  className="transition-colors hover:bg-wash dark:hover:bg-wash-dark"
                 >
-                  <td className="px-4 py-3 font-mono text-ink dark:text-ink-inverse">
+                  <td className="font-mono tabular-nums text-ink dark:text-ink-inverse">
                     {rn.number}
                   </td>
-                  <td className="px-4 py-3 text-ink-body dark:text-ink-inverse-body">
+                  <td className="text-ink-body dark:text-ink-inverse-body">
                     {rn.state}
                   </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className="text-eyebrow font-semibold uppercase text-ink-muted dark:text-ink-inverse-muted"
-                    >
+                  <td>
+                    <span className="text-eyebrow font-semibold uppercase text-ink-muted dark:text-ink-inverse-muted">
                       {rn.type.charAt(0).toUpperCase() + rn.type.slice(1)}
                     </span>
                   </td>

@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { banks } from '@/data/banks'
 import { siteConfig } from '@/config/site'
 import { BankSearch } from '@/components/banks/BankSearch'
+import { LineIcon } from '@/components/icons/LineIcon'
+import { Reveal } from '@/components/motion/Reveal'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
@@ -58,7 +60,7 @@ export default function BankRoutingNumbersPage() {
             <li>
               <Link
                 href="/"
-                className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
+                className="transition-colors hover:text-accent dark:hover:text-accent-light"
               >
                 Home
               </Link>
@@ -74,8 +76,11 @@ export default function BankRoutingNumbersPage() {
       {/* Header */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="eyebrow">Reference</span>
+          <Reveal className="mx-auto max-w-3xl text-center">
+            <span className="mx-auto inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-gradient text-white shadow-sm">
+              <LineIcon name="bank" className="h-6 w-6" />
+            </span>
+            <span className="mt-5 block eyebrow">Reference</span>
             <h1 className="page-title mt-1.5">
               US Bank Routing Numbers
             </h1>
@@ -84,7 +89,7 @@ export default function BankRoutingNumbersPage() {
               numbers for wire transfers, ACH payments, direct deposits, and
               electronic transactions.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -98,44 +103,49 @@ export default function BankRoutingNumbersPage() {
       {/* Info Section */}
       <section className="border-t border-hairline dark:border-hairline-dark">
         <div className="container-page section-padding">
-          <div className="mx-auto max-w-3xl">
-            <h2 className="text-2xl font-bold">
-              What is a Routing Number?
-            </h2>
-            <p className="mt-4 text-ink-body dark:text-ink-inverse-body">
+          <Reveal className="container-prose">
+            <div className="section-header mb-6">
+              <div>
+                <span className="eyebrow">Reference</span>
+                <h2 className="section-title mt-1.5">
+                  What is a Routing Number?
+                </h2>
+              </div>
+            </div>
+            <p className="text-ink-body dark:text-ink-inverse-body">
               A routing number (also known as an ABA routing number or routing
               transit number) is a nine-digit code used to identify the financial
               institution in a transaction. Routing numbers are used for direct
               deposits, wire transfers, bill payments, and other electronic
               transactions.
             </p>
-            <h3 className="mt-6 text-lg font-semibold">
+            <h3 className="mt-6 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
               Types of Routing Numbers
             </h3>
             <ul className="mt-3 space-y-2 text-ink-body dark:text-ink-inverse-body">
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-oxblood" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                 <span>
                   <strong>Paper (ACH):</strong> Used for check processing and
                   paper transactions
                 </span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-oxblood" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                 <span>
                   <strong>Electronic (ACH):</strong> Used for electronic
                   transfers like direct deposits and online bill pay
                 </span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-oxblood" />
+                <span className="mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                 <span>
                   <strong>Wire:</strong> Used specifically for domestic and
                   international wire transfers
                 </span>
               </li>
             </ul>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

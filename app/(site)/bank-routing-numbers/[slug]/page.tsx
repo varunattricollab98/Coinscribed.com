@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { banks, getBankBySlug, getAllBankSlugs } from '@/data/banks'
 import { siteConfig } from '@/config/site'
 import { RoutingNumberTable } from '@/components/banks/RoutingNumberTable'
+import { Reveal } from '@/components/motion/Reveal'
 
 interface BankPageProps {
   params: { slug: string }
@@ -114,7 +115,7 @@ export default function BankPage({ params }: BankPageProps) {
             <li>
               <Link
                 href="/"
-                className="transition-colors hover:text-ink dark:hover:text-ink-inverse"
+                className="transition-colors hover:text-accent dark:hover:text-accent-light"
               >
                 Home
               </Link>
@@ -123,7 +124,7 @@ export default function BankPage({ params }: BankPageProps) {
             <li>
               <Link
                 href="/bank-routing-numbers"
-                className="transition-colors hover:text-ink dark:hover:text-ink-inverse"
+                className="transition-colors hover:text-accent dark:hover:text-accent-light"
               >
                 Bank Routing Numbers
               </Link>
@@ -141,29 +142,32 @@ export default function BankPage({ params }: BankPageProps) {
         <div className="lg:grid lg:grid-cols-3 lg:gap-8">
           {/* Main Column */}
           <div className="lg:col-span-2">
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              {bank.name} Routing Numbers
-            </h1>
-            <p className="mt-4 text-lg text-ink-muted dark:text-ink-inverse-muted">
-              {bank.description}
-            </p>
+            <Reveal>
+              <span className="eyebrow">Reference</span>
+              <h1 className="page-title mt-1.5">
+                {bank.name} Routing Numbers
+              </h1>
+              <p className="mt-4 text-lg text-ink-body dark:text-ink-inverse-body">
+                {bank.description}
+              </p>
+            </Reveal>
 
             {/* Routing Number Table */}
             <div className="mt-8">
-              <h2 className="mb-4 text-xl font-semibold">
+              <h2 className="mb-4 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
                 All Routing Numbers
               </h2>
               <RoutingNumberTable routingNumbers={bank.routingNumbers} />
             </div>
 
             {/* Usage Info */}
-            <div className="mt-10 rounded-lg border border-hairline bg-wash p-6 dark:border-hairline-dark dark:bg-elevated">
-              <h2 className="text-lg font-semibold">
+            <div className="mt-10 rounded-2xl border border-hairline bg-surface p-6 dark:border-hairline-dark dark:bg-elevated">
+              <h2 className="font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
                 How to Use {bank.name} Routing Numbers
               </h2>
               <ul className="mt-4 space-y-3 text-sm text-ink-body dark:text-ink-inverse-body">
                 <li className="flex items-start">
-                  <span className="mr-2 mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ink-body" />
+                  <span className="mr-2 mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                   <span>
                     <strong>Direct Deposits:</strong> Use the electronic or paper
                     routing number for your state to set up payroll direct
@@ -171,7 +175,7 @@ export default function BankPage({ params }: BankPageProps) {
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ink-body" />
+                  <span className="mr-2 mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                   <span>
                     <strong>Wire Transfers:</strong> Use the wire routing number
                     for domestic wire transfers. International wires may require
@@ -179,14 +183,14 @@ export default function BankPage({ params }: BankPageProps) {
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ink-body" />
+                  <span className="mr-2 mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                   <span>
                     <strong>ACH Payments:</strong> Use the electronic routing
                     number to set up automatic bill payments and transfers.
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <span className="mr-2 mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-ink-body" />
+                  <span className="mr-2 mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
                   <span>
                     <strong>Check Processing:</strong> The paper routing number is
                     printed on the bottom left of your checks.
@@ -198,8 +202,8 @@ export default function BankPage({ params }: BankPageProps) {
 
           {/* Sidebar */}
           <aside className="mt-8 lg:mt-0">
-            <div className="rounded-lg border border-hairline bg-white p-6 dark:border-hairline-dark dark:bg-elevated">
-              <h2 className="text-lg font-semibold">Bank Details</h2>
+            <div className="rounded-2xl border border-hairline bg-surface p-6 dark:border-hairline-dark dark:bg-elevated">
+              <h2 className="font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">Bank Details</h2>
               <dl className="mt-4 space-y-4 text-sm">
                 <div>
                   <dt className="font-medium text-ink-muted dark:text-ink-inverse-muted">
@@ -226,7 +230,7 @@ export default function BankPage({ params }: BankPageProps) {
                       href={bank.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-ink-body transition-colors hover:text-ink dark:text-ink-inverse-muted dark:hover:text-ink-inverse"
+                      className="text-accent transition-colors hover:text-accent/80 dark:text-accent-light dark:hover:text-accent-light/80"
                     >
                       {bank.website.replace('https://', '').replace('www.', '')}
                     </a>
@@ -244,14 +248,14 @@ export default function BankPage({ params }: BankPageProps) {
             </div>
 
             {/* Related Banks */}
-            <div className="mt-6 rounded-lg border border-hairline bg-white p-6 dark:border-hairline-dark dark:bg-elevated">
-              <h2 className="text-lg font-semibold">Other Banks</h2>
+            <div className="mt-6 rounded-2xl border border-hairline bg-surface p-6 dark:border-hairline-dark dark:bg-elevated">
+              <h2 className="font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">Other Banks</h2>
               <ul className="mt-4 space-y-3">
                 {relatedBanks.map((relatedBank) => (
                   <li key={relatedBank.slug}>
                     <Link
                       href={`/bank-routing-numbers/${relatedBank.slug}`}
-                      className="text-sm text-ink-body transition-colors hover:text-ink dark:text-ink-inverse-muted dark:hover:text-ink-inverse"
+                      className="text-sm text-ink-body transition-colors hover:text-accent dark:text-ink-inverse-muted dark:hover:text-accent-light"
                     >
                       {relatedBank.name}
                     </Link>
@@ -260,9 +264,10 @@ export default function BankPage({ params }: BankPageProps) {
               </ul>
               <Link
                 href="/bank-routing-numbers"
-                className="mt-4 inline-block text-sm font-medium text-ink-body transition-colors hover:text-ink dark:text-ink-inverse-muted dark:hover:text-ink-inverse"
+                className="mt-4 inline-flex items-center gap-1 text-eyebrow font-semibold uppercase text-accent transition-colors hover:gap-2 dark:text-accent-light"
               >
-                View All Banks &rarr;
+                View All Banks
+                <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </aside>

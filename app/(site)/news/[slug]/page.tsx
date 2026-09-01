@@ -8,6 +8,7 @@ import { generateArticleSchema } from '@/lib/schema-markup'
 import { PortableTextRenderer } from '@/components/news/PortableTextRenderer'
 import { CategoryBadge } from '@/components/news/CategoryBadge'
 import { ArticleCard } from '@/components/news/ArticleCard'
+import { Reveal } from '@/components/motion/Reveal'
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>
@@ -85,7 +86,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <nav className="mb-6 text-caption text-ink-muted dark:text-ink-inverse-muted">
               <Link
                 href="/news"
-                className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
+                className="transition-colors hover:text-accent dark:hover:text-accent-light"
               >
                 News
               </Link>
@@ -94,7 +95,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </span>
               <Link
                 href={`/news/category/${article.category.slug.current}`}
-                className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
+                className="transition-colors hover:text-accent dark:hover:text-accent-light"
               >
                 {article.category.title}
               </Link>
@@ -158,7 +159,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           {/* Hero image */}
           {article.imageUrl && (
-            <figure className="relative mb-8 aspect-video w-full overflow-hidden">
+            <figure className="relative mb-8 aspect-video w-full overflow-hidden rounded-2xl border border-hairline dark:border-hairline-dark">
               <Image
                 src={article.imageUrl}
                 alt={article.title}
@@ -177,7 +178,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           {/* Author Bio */}
           {article.author?.bio && (
-            <aside className="panel-muted mb-12">
+            <aside className="mb-12 rounded-2xl border border-hairline bg-surface p-6 dark:border-hairline-dark dark:bg-elevated">
               <div className="flex items-start gap-4">
                 {article.author.imageUrl ? (
                   <Image
@@ -209,15 +210,17 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
           <section className="mt-4">
-            <div className="section-header mb-8">
+            <Reveal className="section-header mb-8">
               <div>
                 <span className="eyebrow">More Coverage</span>
                 <h2 className="section-title mt-1.5">Related Articles</h2>
               </div>
-            </div>
+            </Reveal>
             <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
-              {relatedArticles.map((relatedArticle) => (
-                <ArticleCard key={relatedArticle._id} article={relatedArticle} />
+              {relatedArticles.map((relatedArticle, i) => (
+                <Reveal key={relatedArticle._id} delay={i * 0.05}>
+                  <ArticleCard article={relatedArticle} />
+                </Reveal>
               ))}
             </div>
           </section>

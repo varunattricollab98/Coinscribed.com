@@ -275,7 +275,9 @@ export default async function HomePage() {
                       aria-hidden="true"
                       className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-accent/0 blur-2xl transition-colors duration-300 group-hover:bg-accent/10"
                     />
-                    <span className="icon-plate">
+                    {/* Each section gets its own tone, so the four cards are
+                        distinguishable rather than four identical claret plates. */}
+                    <span className={`icon-plate-tone ${tone.plate}`}>
                       <LineIcon name={topic.icon} className="h-6 w-6" />
                     </span>
                     <span

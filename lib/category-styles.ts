@@ -17,30 +17,42 @@ export interface CategoryTone {
   label: string
   /** Background colour classes for the short 2px accent rule. */
   rule: string
+  /**
+   * Background for a solid icon plate carrying white artwork. Uses the base
+   * tone in both colour schemes rather than swapping to the `-light` variant:
+   * those are pale by design and would leave white icons unreadable. All four
+   * base tones clear AA against white.
+   */
+  plate: string
 }
 
 const CATEGORY_TONES: Record<string, CategoryTone> = {
   crypto: {
     label: 'text-category-crypto dark:text-category-crypto-light',
     rule: 'bg-category-crypto dark:bg-category-crypto-light',
+    plate: 'bg-category-crypto',
   },
   economy: {
     label: 'text-category-economy dark:text-category-economy-light',
     rule: 'bg-category-economy dark:bg-category-economy-light',
+    plate: 'bg-category-economy',
   },
   markets: {
     label: 'text-category-markets dark:text-category-markets-light',
     rule: 'bg-category-markets dark:bg-category-markets-light',
+    plate: 'bg-category-markets',
   },
   banking: {
     label: 'text-category-banking dark:text-category-banking-light',
     rule: 'bg-category-banking dark:bg-category-banking-light',
+    plate: 'bg-category-banking',
   },
 }
 
 const DEFAULT_TONE: CategoryTone = {
   label: 'text-category-neutral dark:text-category-neutral-light',
   rule: 'bg-category-neutral dark:bg-category-neutral-light',
+  plate: 'bg-category-neutral',
 }
 
 /**

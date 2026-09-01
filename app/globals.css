@@ -242,7 +242,20 @@
       0 6px 16px -8px rgba(90, 26, 36, 0.45);
   }
 
-  .group:hover .icon-plate {
+  /* Same plate geometry, but with no background of its own so a per-item tone
+     utility can supply one. `.icon-plate` paints a gradient via
+     background-image, which a background-color utility cannot override — hence
+     a separate class rather than a modifier. */
+  .icon-plate-tone {
+    @apply inline-flex h-12 w-12 items-center justify-center rounded-lg text-white ring-1 ring-white/15 transition-transform duration-300 ease-editorial;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 1px 2px rgba(11, 11, 12, 0.06),
+      0 6px 16px -8px rgba(11, 11, 12, 0.35);
+  }
+
+  .group:hover .icon-plate,
+  .group:hover .icon-plate-tone {
     @apply scale-[1.06] motion-reduce:transform-none;
   }
 

@@ -54,14 +54,16 @@ const config: Config = {
           lighter: '#C9645A', // AA-legible small text on graphite
         },
 
-        /* Electric-blue brand accent — modern fintech energy for hero,
-           gradients, links, live data and interactive highlights. */
+        /* Brand accent — deep claret. Deliberately NOT blue: it sits in the
+           same family as oxblood so the accent and the editorial ornaments
+           (gilt rules, drop caps) read as one palette rather than two. Used for
+           links, CTAs, icon plates, focus rings and interactive highlights. */
         accent: {
-          DEFAULT: '#2563EB', // primary electric blue
-          hover: '#1D4ED8', // darker for hover/pressed
-          light: '#60A5FA', // dark-mode / lightened
-          soft: '#DBEAFE', // subtle tinted backgrounds
-          cyan: '#06B6D4', // gradient partner
+          DEFAULT: '#8C2F3B', // claret — primary interactive tone
+          hover: '#6E2330', // deeper for hover/pressed
+          light: '#C97A82', // AA-legible on graphite (dark mode)
+          soft: '#F7EBEC', // subtle tinted backgrounds
+          deep: '#5A1A24', // gradient partner (rich, near-black claret)
         },
 
         /* Antique brass — the "royal" ornament tone. Reserved for editorial
@@ -135,29 +137,34 @@ const config: Config = {
         inset: 'inset 0 1px 0 rgba(255,255,255,0.6)',
       },
 
-      /* Sharp corners. `full` is kept only for 2-3px list bullets. */
+      /* Softened corners. The original scale was clamped to 2px for a print
+         feel, but at card size that reads as a plain box. These values keep
+         data tables and rules crisp while letting cards and plates feel
+         contemporary. `rounded-none` is still available where a hard edge is
+         wanted (rules, table cells, thumbnails). */
       borderRadius: {
         none: '0',
-        sm: '1px',
-        DEFAULT: '2px',
-        md: '2px',
-        lg: '2px',
-        xl: '2px',
-        '2xl': '2px',
-        '3xl': '2px',
+        sm: '3px',
+        DEFAULT: '6px',
+        md: '8px',
+        lg: '10px',
+        xl: '14px',
+        '2xl': '18px',
+        '3xl': '24px',
         full: '9999px',
       },
 
       backgroundImage: {
+        /* Claret deepening into gilt — the "royal" plate/gradient. No blue. */
         'accent-gradient':
-          'linear-gradient(135deg, #2563EB 0%, #06B6D4 100%)',
+          'linear-gradient(135deg, #8C2F3B 0%, #5A1A24 55%, #9C7B3C 100%)',
         /* Gilt rule used under section eyebrows and around featured badges. */
         'gold-gradient':
           'linear-gradient(90deg, #9C7B3C 0%, #DCC894 50%, #9C7B3C 100%)',
         'hero-radial':
-          'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37,99,235,0.18), transparent 70%)',
+          'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(140,47,59,0.13), transparent 70%)',
         'hero-radial-dark':
-          'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(96,165,250,0.14), transparent 70%)',
+          'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,122,130,0.12), transparent 70%)',
         /* Bottom-up scrim so headline text stays legible over photography. */
         scrim:
           'linear-gradient(to top, rgba(11,11,12,0.88) 0%, rgba(11,11,12,0.55) 32%, rgba(11,11,12,0.12) 62%, rgba(11,11,12,0) 100%)',

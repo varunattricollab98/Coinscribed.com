@@ -1,0 +1,24 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Establish and confirm a green baseline before making design changes. Node is not on PATH in the sandbox and must be sourced via nvm. Confirm the existing build and lint both pass so later features can be verified against a known-good starting point.",
+  "status": "completed",
+  "steps": [
+    "Source Node: run `export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"` in the same shell before any npm command (Node v22.23.2 becomes available).",
+    "Confirm dependencies are present: `ls node_modules` (already installed). If missing, run `npm install`.",
+    "Run `npm run lint` and confirm it prints 'No ESLint warnings or errors'.",
+    "Run `npm run build` and confirm it completes with no TypeScript or build errors (the postbuild next-sitemap step may run; that is expected).",
+    "Record in findings that the baseline is green so subsequent features have a known-good reference."
+  ],
+  "acceptance_criteria": [
+    "`npm run lint` reports no warnings or errors on the baseline.",
+    "`npm run build` completes successfully on the baseline.",
+    "The exact command to source Node via nvm is confirmed working and recorded in findings."
+  ],
+  "verification": [
+    "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; npm run lint",
+    "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; npm run build"
+  ],
+  "blocked_reason": null,
+  "findings": "Baseline is GREEN on commit 71d2f0f. Confirmed node sourcing command works: `export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"` yields Node v22.23.2. node_modules already present (no npm install needed). `npm run lint` printed exactly 'No ESLint warnings or errors'. `npm run build` completed successfully with no TypeScript/build errors; the postbuild next-sitemap step ran as expected ('[next-sitemap] Generation completed', sitemap.xml at https://coinscribed.com/sitemap.xml). Build artifacts (public/sitemap.xml, public/robots.txt, .next/) are generated and NOT source-checked-in; leave them untracked/uncommitted. Per instructions, NO commit was made for this baseline feature and git tree left as-is (only untracked .agents/tasks dir present). This is the known-good reference for subsequent redesign features FEAT-002..FEAT-005."
+}

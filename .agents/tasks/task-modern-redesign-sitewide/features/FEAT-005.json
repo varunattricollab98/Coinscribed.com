@@ -1,0 +1,27 @@
+{
+  "id": "FEAT-005",
+  "type": "feat",
+  "description": "Polish the About page into a modern editorial page with an accent-tinted masthead, and apply consistent light typography polish to the three legal pages (privacy-policy, terms-of-service, disclaimer). The legal pages currently use raw text-3xl/text-xl font-bold headings; bring them to the shared .page-title + .container-prose + serif heading typography. No heavy cards on the legal pages. This is one coherent feature because the legal pages share an identical structure (same-pattern edit across 3 files).",
+  "status": "completed",
+  "steps": [
+    "about/page.tsx: The page already uses the design system well. Elevate the masthead to a modern accent-tinted feel consistent with the homepage: add the hero-radial accent background wash (bg-hero-radial / dark:bg-hero-radial-dark) behind the masthead section, keep .eyebrow-accent + .page-title + description. Modernize the 'What we cover' coverage cells from the flat rule-grid into the modern-card pattern (elevated rounded-2xl cards with hover lift + accent border + gradient icon badge). Map each coverage topic to a LineIcon (crypto->coins, economy->globe, markets->bars, banking->bank) and add per-card <Reveal delay={i*0.05}> stagger. Switch the coverage CTA links/eyebrows to the electric-blue accent. Keep the editorial statement prose section and the NewsletterSignup usage unchanged. Keep the exported metadata unchanged.",
+    "privacy-policy/page.tsx: Replace `h1.text-3xl font-bold sm:text-4xl` with the shared `.page-title` (serif). Wrap the body content in `.container-prose` for consistent measure. Replace each `h2.text-xl font-semibold` with a serif section heading using a design-system size token (e.g. font-serif text-display-3 font-bold text-ink dark:text-ink-inverse) so headings render in Playfair Display like the rest of the site. Switch inline `text-ink-body underline` links to the `.link-accent` utility. Keep ALL legal copy text, the effective date, section numbering, and metadata unchanged.",
+    "terms-of-service/page.tsx: Apply the identical typography polish as privacy-policy: .page-title for the h1, .container-prose wrapper, serif section headings replacing text-xl font-semibold, .link-accent for inline links. Keep all copy, numbering, and metadata unchanged.",
+    "disclaimer/page.tsx: Apply the identical typography polish as privacy-policy: .page-title for the h1, .container-prose wrapper, serif section headings replacing text-xl font-semibold, .link-accent for inline links. Keep all copy and metadata unchanged.",
+    "Confirm the legal pages remain light (no elevated cards, no gradient badges) - just consistent .page-title + .container-prose + serif headings + accent links. Confirm the About page hover transforms carry motion-reduce guards via Reveal / motion-reduce:transform-none."
+  ],
+  "acceptance_criteria": [
+    "The About masthead has an accent-tinted background (hero-radial) and the coverage section uses the elevated modern-card pattern with gradient icon badges and Reveal stagger.",
+    "All three legal pages use .page-title for their h1, wrap content in .container-prose, render section headings in the serif font (Playfair) via display size tokens, and use .link-accent for inline links.",
+    "No raw `text-3xl`/`text-xl font-bold`/`text-ink-body underline` heading or link patterns remain in the three legal pages.",
+    "All legal copy, effective dates, section numbering, About prose, and all exported metadata are unchanged.",
+    "`npm run lint` and `npm run build` both pass."
+  ],
+  "verification": [
+    "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; npm run lint",
+    "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; npm run build",
+    "grep for `text-3xl` and `text-xl font-semibold` in the three legal pages and confirm none remain."
+  ],
+  "blocked_reason": null,
+  "findings": "About masthead now uses bg-hero-radial / dark:bg-hero-radial-dark accent wash (same token as MarketHero). Coverage cells converted to the homepage modern-card pattern: group rounded-2xl bg-surface/dark:bg-elevated cards with hover lift (motion-reduce:transform-none guard), accent glow span, gradient icon badge (coins/globe/bars/bank via LineIcon), title-link serif h3, and accent CTA row with nudging arrow; grid wrapped in per-card Reveal delay={i*0.05} and section header wrapped in Reveal. Editorial prose + NewsletterSignup + exported metadata unchanged. Legal pages (privacy-policy, terms-of-service, disclaimer): light polish only, no cards/badges. h1 -> .page-title, body wrapped in .container-prose, all h2.text-xl font-semibold -> font-serif text-display-3 font-bold text-ink dark:text-ink-inverse, inline text-ink-body underline links -> .link-accent. All legal copy, effective dates, section numbering, and exported metadata verbatim. Verified no text-3xl / text-xl font-semibold / text-ink-body underline remain in the three legal pages. npm run lint (No ESLint warnings or errors) and npm run build both pass. Committed on local main; NOTE: user sent a live steering message asking to push since the repo is public, but as a sub-agent I cannot push/open PRs - flagged to orchestrator."
+}

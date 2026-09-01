@@ -1,0 +1,20 @@
+{
+  "task_id": "task-modern-redesign-sitewide",
+  "task_description": "Extend the modern fintech redesign (established on the homepage) consistently across all remaining public pages of the Coinscribed site: news listing, article detail, category landing, calculators index + shared CalculatorLayout (all 7 calculators inherit it), bank routing number index + detail + their components, the About page, and the three legal pages. Keep the Ink & Oxblood base with the single electric-blue accent, reuse existing globals.css utilities and Reveal/AnimatedCounter/Sparkline/LineIcon/ArticleCard/CategoryBadge components, stay fully responsive and reduced-motion safe, and preserve ALL SEO metadata and JSON-LD and all calculator math and data layers unchanged.",
+  "status": "completed",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004", "FEAT-005"],
+  "blocked_reason": null,
+  "review": {
+    "verdict": "APPROVED",
+    "iterations": 1,
+    "review_file": ".agents/tasks/task-modern-redesign-sitewide/2026-09-01-072313-review.md",
+    "summary": "v1 semantic review APPROVED. Two non-blocking cosmetic issues surfaced; issue 1 (bank-detail CTA transition mismatch) fixed in commit 692e21b, issue 2 (news lead-image zoom keyboard-focus parity) intentionally left as-is per reviewer guidance to avoid a duplicate focusable link."
+  },
+  "verification": {
+    "build": "pass",
+    "tests": "pass",
+    "test_quality": "pass",
+    "docker_build": "skipped",
+    "summary": "npm run lint reports no ESLint warnings or errors; npm run build completes successfully with postbuild next-sitemap. No test framework exists (test_quality/tests reflect the lint+build gate, which is the project's only automated verification). No Dockerfile so docker_build skipped. Verified: all JSON-LD preserved (Article on news/[slug], HowTo on 7 calculators, FinancialService+BreadcrumbList on bank detail, CollectionPage on bank index); calculator pages show only a 2-line accent className swap each with math untouched; zero teal/amber tokens reintroduced; diff scoped to the intended 19 source files."
+  }
+}

@@ -9,15 +9,15 @@ export const metadata: Metadata = {
 export default function DisclaimerPage() {
   return (
     <div className="container-page section-padding">
-      <div className="mx-auto max-w-3xl">
-        <h1 className="text-3xl font-bold sm:text-4xl">Disclaimer</h1>
+      <div className="container-prose">
+        <h1 className="page-title">Disclaimer</h1>
         <p className="mt-4 text-sm text-ink-muted dark:text-ink-inverse-muted">
           Effective Date: January 1, 2024
         </p>
 
         <div className="mt-8 space-y-8 text-ink-body dark:text-ink-inverse-body">
           <section>
-            <h2 className="text-xl font-semibold">General Disclaimer</h2>
+            <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">General Disclaimer</h2>
             <p className="mt-3 leading-relaxed">
               The information provided on {siteConfig.name} ({siteConfig.url}) is for general
               informational and educational purposes only. All information on the Site is
@@ -28,7 +28,7 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold">Not Financial Advice</h2>
+            <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Not Financial Advice</h2>
             <p className="mt-3 leading-relaxed">
               The content on this website, including but not limited to calculator results, news
               articles, market data, and educational content, does not constitute financial,
@@ -43,7 +43,7 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold">Calculator Disclaimer</h2>
+            <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Calculator Disclaimer</h2>
             <p className="mt-3 leading-relaxed">
               Our financial calculators are designed to provide general estimates only. Results
               may differ from actual outcomes due to variations in interest rates, fees, taxes,
@@ -53,7 +53,7 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold">Routing Number Information</h2>
+            <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Routing Number Information</h2>
             <p className="mt-3 leading-relaxed">
               Bank routing numbers displayed on this site are sourced from publicly available
               information. While we make every effort to keep this information current and
@@ -64,7 +64,7 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold">News and Market Information</h2>
+            <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">News and Market Information</h2>
             <p className="mt-3 leading-relaxed">
               News articles and market information are provided for informational purposes and
               may not reflect the most current developments. We do not guarantee the timeliness
@@ -74,7 +74,7 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold">External Links Disclaimer</h2>
+            <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">External Links Disclaimer</h2>
             <p className="mt-3 leading-relaxed">
               This website may contain links to external websites that are not provided or
               maintained by us. We do not guarantee the accuracy, relevance, timeliness, or
@@ -83,7 +83,7 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold">Affiliate Disclaimer</h2>
+            <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Affiliate Disclaimer</h2>
             <p className="mt-3 leading-relaxed">
               {siteConfig.name} may earn commissions from affiliate partnerships and advertising.
               This may influence which products or services we write about and where they appear
@@ -93,10 +93,10 @@ export default function DisclaimerPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold">Contact</h2>
+            <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Contact</h2>
             <p className="mt-3 leading-relaxed">
               If you have questions about this disclaimer, contact us at{' '}
-              <a href="mailto:legal@coinscribed.com" className="text-ink-body underline">
+              <a href="mailto:legal@coinscribed.com" className="link-accent">
                 legal@coinscribed.com
               </a>
               .

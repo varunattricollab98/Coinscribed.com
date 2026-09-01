@@ -25,16 +25,46 @@ function toRgb(hex: string): [number, number, number] {
   ]
 }
 
-/** Mix toward black (amount 0-1). Used to bring bright brand hues up to AA. */
-function darken([r, g, b]: [number, number, number], amount: number) {
+/** WCAG relative luminance, 0 (black) to 1 (white). */
+function luminance([r, g, b]: [number, number, number]) {
+  const f = (v: number) => {
+    const s = v / 255
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4)
+  }
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b)
+}
+
+function mixToBlack([r, g, b]: [number, number, number], amount: number) {
   const k = 1 - amount
   return `rgb(${Math.round(r * k)} ${Math.round(g * k)} ${Math.round(b * k)})`
 }
 
-/** Mix toward white. Used so dark navies stay legible on graphite. */
-function lighten([r, g, b]: [number, number, number], amount: number) {
+function mixToWhite([r, g, b]: [number, number, number], amount: number) {
   const m = (c: number) => Math.round(c + (255 - c) * amount)
   return `rgb(${m(r)} ${m(g)} ${m(b)})`
+}
+
+/**
+ * Type colour for the light theme.
+ *
+ * Brand hues span a huge luminance range — PNC's orange and TD's green are far
+ * brighter than Citi's navy — so a single fixed darkening step would either wash
+ * out the bright ones or crush the dark ones to near-black. Darkening is scaled
+ * by measured luminance instead, which keeps every mark comfortably legible on
+ * its own tint while preserving the hue.
+ */
+function inkFor(rgb: [number, number, number]) {
+  const l = luminance(rgb)
+  // Bright hues need a lot of darkening; already-dark ones need almost none.
+  const amount = l > 0.5 ? 0.55 : l > 0.3 ? 0.45 : l > 0.15 ? 0.3 : 0.12
+  return mixToBlack(rgb, amount)
+}
+
+/** Type colour for the dark theme: lift dark hues far enough off graphite. */
+function inkInverseFor(rgb: [number, number, number]) {
+  const l = luminance(rgb)
+  const amount = l < 0.1 ? 0.68 : l < 0.25 ? 0.55 : 0.4
+  return mixToWhite(rgb, amount)
 }
 
 /**
@@ -70,8 +100,8 @@ export function BankMark({ brand, size = 'lg', className = '' }: BankMarkProps) 
           '--bank-tint': `rgb(${rgb[0]} ${rgb[1]} ${rgb[2]} / 0.11)`,
           '--bank-tint-dark': `rgb(${rgb[0]} ${rgb[1]} ${rgb[2]} / 0.20)`,
           '--bank-ring': `rgb(${rgb[0]} ${rgb[1]} ${rgb[2]} / 0.28)`,
-          '--bank-ink': darken(rgb, 0.24),
-          '--bank-ink-dark': lighten(rgb, 0.5),
+          '--bank-ink': inkFor(rgb),
+          '--bank-ink-dark': inkInverseFor(rgb),
         } as React.CSSProperties
       }
     >

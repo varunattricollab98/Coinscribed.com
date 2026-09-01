@@ -54,8 +54,10 @@ export default function BankPage({ params }: BankPageProps) {
     foundingDate: bank.founded.toString(),
     address: {
       '@type': 'PostalAddress',
-      addressLocality: bank.headquarters.split(', ')[0],
-      addressRegion: bank.headquarters.split(', ')[1],
+      streetAddress: bank.mainOffice.street,
+      addressLocality: bank.mainOffice.city,
+      addressRegion: bank.mainOffice.state,
+      postalCode: bank.mainOffice.zip,
       addressCountry: 'US',
     },
     parentOrganization: {
@@ -207,7 +209,23 @@ export default function BankPage({ params }: BankPageProps) {
               <dl className="mt-4 space-y-4 text-sm">
                 <div>
                   <dt className="font-medium text-ink-muted dark:text-ink-inverse-muted">
-                    Headquarters
+                    Registered main office
+                  </dt>
+                  {/* The charter's main office. Marked up as a postal address so
+                      it can be copied or parsed, and kept visually distinct from
+                      the parent company's corporate HQ below. */}
+                  <dd className="mt-1 text-ink dark:text-ink-inverse">
+                    <address className="not-italic leading-relaxed">
+                      {bank.mainOffice.street}
+                      <br />
+                      {bank.mainOffice.city}, {bank.mainOffice.state}{' '}
+                      <span className="tabular-nums">{bank.mainOffice.zip}</span>
+                    </address>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="font-medium text-ink-muted dark:text-ink-inverse-muted">
+                    Corporate headquarters
                   </dt>
                   <dd className="mt-1 text-ink dark:text-ink-inverse">
                     {bank.headquarters}
@@ -236,6 +254,23 @@ export default function BankPage({ params }: BankPageProps) {
                     </a>
                   </dd>
                 </div>
+                {bank.wireInfoUrl && (
+                  <div>
+                    <dt className="font-medium text-ink-muted dark:text-ink-inverse-muted">
+                      Official wire &amp; routing info
+                    </dt>
+                    <dd className="mt-1">
+                      <a
+                        href={bank.wireInfoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent transition-colors hover:text-accent/80 dark:text-accent-light dark:hover:text-accent-light/80"
+                      >
+                        {bank.name} wire guidance
+                      </a>
+                    </dd>
+                  </div>
+                )}
                 <div>
                   <dt className="font-medium text-ink-muted dark:text-ink-inverse-muted">
                     Routing Numbers
@@ -245,6 +280,25 @@ export default function BankPage({ params }: BankPageProps) {
                   </dd>
                 </div>
               </dl>
+
+              {/*
+                A corporate address is not a payment address. Someone landing on
+                a routing-number page is often mid-transfer, so the distinction
+                is stated where the address is read rather than buried in a
+                site-wide disclaimer.
+              */}
+              <p className="mt-5 border-t border-hairline pt-4 text-caption leading-relaxed text-ink-muted dark:border-hairline-dark dark:text-ink-inverse-muted">
+                <strong className="font-semibold text-ink dark:text-ink-inverse">
+                  Do not use this address for a wire.
+                </strong>{' '}
+                Banks publish separate instructions for incoming transfers, and
+                the correct address depends on the transfer type. Always confirm
+                the routing number and address with {bank.name} before sending
+                funds.
+              </p>
+              <p className="mt-3 text-caption leading-relaxed text-ink-muted dark:text-ink-inverse-muted">
+                Address verified September 2026 against {bank.mainOffice.source}.
+              </p>
             </div>
 
             {/* Related Banks */}

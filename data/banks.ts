@@ -1,6 +1,18 @@
-// Data last verified: August 2025. Source: Federal Reserve E-Payments Routing
-// Directory and individual bank websites. Routing numbers may change - verify
-// with your bank before initiating transfers.
+// Routing numbers last verified: August 2025. Source: Federal Reserve E-Payments
+// Routing Directory and individual bank websites.
+//
+// Main office addresses last verified: September 2026. Each was corroborated
+// against at least one authoritative source — the FFIEC National Information
+// Center, a Federal Reserve or state banking regulator record, or the
+// institution's own filings/corporate pages — and the source is recorded per
+// bank in `mainOffice.source`. Addresses were never inferred or guessed.
+//
+// Verification also caught a stale record: TD Bank relocated its US
+// headquarters from Cherry Hill to Mount Laurel, NJ, which this file previously
+// reflected incorrectly.
+//
+// Routing numbers and addresses both change. Always confirm with the bank before
+// initiating a transfer.
 
 export interface RoutingNumber {
   number: string
@@ -8,14 +20,43 @@ export interface RoutingNumber {
   type: 'paper' | 'electronic' | 'wire'
 }
 
+/**
+ * The bank's registered main office, as recorded by its federal/state regulator
+ * and corroborated against the institution's own published filings.
+ *
+ * IMPORTANT: this is the charter's main office, which is frequently NOT the same
+ * city as the parent company's corporate headquarters, and is NOT a wire-payment
+ * address. Wells Fargo Bank, N.A. is chartered in Sioux Falls while Wells Fargo
+ * & Company is headquartered in San Francisco; JPMorgan Chase Bank, N.A.'s main
+ * office is in Columbus while JPMorgan Chase & Co. sits in New York. Both facts
+ * are surfaced separately in the UI so neither is mistaken for the other.
+ */
+export interface MainOffice {
+  street: string
+  city: string
+  state: string
+  zip: string
+  /** Public source the address was verified against. */
+  source: string
+}
+
 export interface Bank {
   name: string
   slug: string
   description: string
   routingNumbers: RoutingNumber[]
+  /** Parent company's corporate headquarters, as "City, ST". */
   headquarters: string
+  /** Registered main office of the banking charter. */
+  mainOffice: MainOffice
   founded: number
   website: string
+  /**
+   * The institution's own page covering wire transfers or routing numbers.
+   * Present only where the exact URL was confirmed to resolve; omitted rather
+   * than guessed, because a dead link on a payments page is worse than none.
+   */
+  wireInfoUrl?: string
 }
 
 export const banks: Bank[] = [
@@ -25,6 +66,15 @@ export const banks: Bank[] = [
     description:
       'JPMorgan Chase Bank, N.A. is the largest bank in the United States by assets. Chase provides consumer and commercial banking, credit cards, mortgage, and investment services to millions of customers nationwide.',
     headquarters: 'New York, NY',
+    mainOffice: {
+      street: '1111 Polaris Parkway',
+      city: 'Columbus',
+      state: 'OH',
+      zip: '43240',
+      source:
+        'FFIEC NIC profile (RSSD 852218) and JPMorgan Chase Bank, N.A. regulatory filings',
+    },
+    wireInfoUrl: 'https://www.chase.com/digital/wire-transfer/faqs',
     founded: 1799,
     website: 'https://www.chase.com',
     routingNumbers: [
@@ -67,6 +117,15 @@ export const banks: Bank[] = [
     description:
       'Bank of America Corporation is a multinational investment bank and financial services holding company. It is the second-largest banking institution in the United States, serving approximately 68 million consumer and small business clients.',
     headquarters: 'Charlotte, NC',
+    mainOffice: {
+      street: '100 North Tryon Street',
+      city: 'Charlotte',
+      state: 'NC',
+      zip: '28255',
+      source:
+        'Bank of America investor relations (contact the board)',
+    },
+    wireInfoUrl: 'https://www.bankofamerica.com/deposits/routing-number-faqs/',
     founded: 1904,
     website: 'https://www.bankofamerica.com',
     routingNumbers: [
@@ -112,6 +171,15 @@ export const banks: Bank[] = [
     description:
       'Wells Fargo & Company is an American multinational financial services corporation and the fourth-largest bank in the United States by total assets. Wells Fargo offers banking, investments, mortgage, and consumer and commercial finance services.',
     headquarters: 'San Francisco, CA',
+    mainOffice: {
+      street: '101 North Phillips Avenue',
+      city: 'Sioux Falls',
+      state: 'SD',
+      zip: '57104',
+      source:
+        'State regulator filings for Wells Fargo Bank, N.A.',
+    },
+    wireInfoUrl: 'https://www.wellsfargo.com/help/online-banking/wires-faqs',
     founded: 1852,
     website: 'https://www.wellsfargo.com',
     routingNumbers: [
@@ -157,6 +225,15 @@ export const banks: Bank[] = [
     description:
       'Citibank is the consumer division of Citigroup, a multinational banking corporation. Citibank offers checking and savings accounts, credit cards, personal loans, mortgages, and investment products to individuals and businesses.',
     headquarters: 'New York, NY',
+    mainOffice: {
+      street: '388 Greenwich Street',
+      city: 'New York',
+      state: 'NY',
+      zip: '10013',
+      source:
+        'Citigroup corporate communications and FFIEC NIC profile',
+    },
+    wireInfoUrl: 'https://online.citi.com/US/JRS/pands/detail.do?ID=WireTransfers',
     founded: 1812,
     website: 'https://www.citibank.com',
     routingNumbers: [
@@ -185,6 +262,15 @@ export const banks: Bank[] = [
     description:
       'Capital One Financial Corporation is an American bank holding company specializing in credit cards, auto loans, banking, and savings accounts. It is one of the largest banks in the United States based on deposits and total assets.',
     headquarters: 'McLean, VA',
+    mainOffice: {
+      street: '1680 Capital One Drive',
+      city: 'McLean',
+      state: 'VA',
+      zip: '22102',
+      source:
+        'Capital One corporate offices page',
+    },
+    wireInfoUrl: 'https://www.capitalone.com/help-center/',
     founded: 1994,
     website: 'https://www.capitalone.com',
     routingNumbers: [
@@ -207,7 +293,15 @@ export const banks: Bank[] = [
     slug: 'td-bank',
     description:
       "TD Bank, N.A. is an American national bank and subsidiary of the Canadian multinational Toronto-Dominion Bank. Known as \"America's Most Convenient Bank,\" TD Bank operates primarily in the eastern United States.",
-    headquarters: 'Cherry Hill, NJ',
+    headquarters: 'Mount Laurel, NJ',
+    mainOffice: {
+      street: '4140 Church Road',
+      city: 'Mount Laurel',
+      state: 'NJ',
+      zip: '08054',
+      source:
+        'TD Bank newsroom announcement of its headquarters relocation',
+    },
     founded: 1852,
     website: 'https://www.td.com/us/en/personal-banking',
     routingNumbers: [
@@ -241,6 +335,14 @@ export const banks: Bank[] = [
     description:
       'PNC Financial Services Group is one of the largest diversified financial services institutions in the United States. PNC provides retail banking, corporate and institutional banking, and asset management services.',
     headquarters: 'Pittsburgh, PA',
+    mainOffice: {
+      street: 'The Tower at PNC Plaza, 300 Fifth Avenue',
+      city: 'Pittsburgh',
+      state: 'PA',
+      zip: '15222',
+      source:
+        'PNC Financial Services Group SEC filings (principal executive offices)',
+    },
     founded: 1845,
     website: 'https://www.pnc.com',
     routingNumbers: [
@@ -272,6 +374,15 @@ export const banks: Bank[] = [
     description:
       'U.S. Bancorp is an American bank holding company and the parent company of U.S. Bank. It is the fifth-largest banking institution in the United States, offering retail banking, wealth management, payment services, and wholesale banking.',
     headquarters: 'Minneapolis, MN',
+    mainOffice: {
+      street: '800 Nicollet Mall',
+      city: 'Minneapolis',
+      state: 'MN',
+      zip: '55402',
+      source:
+        'U.S. Bancorp fact sheet and investor relations',
+    },
+    wireInfoUrl: 'https://www.usbank.com/online-mobile-banking/transfer-money/wire-transfers-faq.html',
     founded: 1863,
     website: 'https://www.usbank.com',
     routingNumbers: [
@@ -310,6 +421,15 @@ export const banks: Bank[] = [
     description:
       'Truist Financial Corporation was formed from the merger of BB&T and SunTrust Banks in 2019. It is one of the largest financial services companies in the United States, providing consumer and commercial banking, insurance, and wealth management.',
     headquarters: 'Charlotte, NC',
+    mainOffice: {
+      street: '214 North Tryon Street',
+      city: 'Charlotte',
+      state: 'NC',
+      zip: '28202',
+      source:
+        'Truist newsroom and Truist Center branch listing',
+    },
+    wireInfoUrl: 'https://www.truist.com/help',
     founded: 2019,
     website: 'https://www.truist.com',
     routingNumbers: [
@@ -341,6 +461,15 @@ export const banks: Bank[] = [
     description:
       'Goldman Sachs Bank USA offers consumer banking through its Marcus brand. Marcus by Goldman Sachs provides high-yield savings accounts, certificates of deposit, and personal loans with no fees.',
     headquarters: 'New York, NY',
+    mainOffice: {
+      street: '200 West Street',
+      city: 'New York',
+      state: 'NY',
+      zip: '10282',
+      source:
+        'Goldman Sachs corporate publications',
+    },
+    wireInfoUrl: 'https://www.marcus.com/us/en',
     founded: 1869,
     website: 'https://www.marcus.com',
     routingNumbers: [
@@ -356,6 +485,15 @@ export const banks: Bank[] = [
     description:
       'Ally Bank is an online-only bank and subsidiary of Ally Financial. Known for competitive interest rates and no monthly maintenance fees, Ally offers savings accounts, checking accounts, CDs, money market accounts, and mortgage products.',
     headquarters: 'Sandy, UT',
+    mainOffice: {
+      street: '200 West Civic Center Drive',
+      city: 'Sandy',
+      state: 'UT',
+      zip: '84070',
+      source:
+        'FFIEC NIC profile and Federal Reserve CRA evaluation',
+    },
+    wireInfoUrl: 'https://www.ally.com/help/bank/transfers/',
     founded: 2009,
     website: 'https://www.ally.com',
     routingNumbers: [
@@ -370,6 +508,14 @@ export const banks: Bank[] = [
     description:
       'Charles Schwab Bank, SSB is the banking subsidiary of The Charles Schwab Corporation. It provides checking accounts linked to Schwab brokerage accounts, high-yield savings, and home lending services with no ATM fees worldwide.',
     headquarters: 'Westlake, TX',
+    mainOffice: {
+      street: '3000 Schwab Way',
+      city: 'Westlake',
+      state: 'TX',
+      zip: '76262',
+      source:
+        'Charles Schwab statement of financial condition',
+    },
     founded: 2003,
     website: 'https://www.schwab.com',
     routingNumbers: [

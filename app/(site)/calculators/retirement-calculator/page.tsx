@@ -2,10 +2,9 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { useCurrency } from '@/components/calculators/CurrencyProvider'
 import { generateHowToSchema } from '@/lib/schema-markup'
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
 
 interface RetirementResults {
   projectedSavings: number
@@ -18,6 +17,7 @@ interface RetirementResults {
 }
 
 export default function RetirementCalculatorPage() {
+  const { format: formatCurrency, symbol } = useCurrency()
   const [currentAge, setCurrentAge] = useState('')
   const [retirementAge, setRetirementAge] = useState('')
   const [currentSavings, setCurrentSavings] = useState('')
@@ -198,13 +198,13 @@ export default function RetirementCalculatorPage() {
           {errors.retirementAge && <p className="field-error">{errors.retirementAge}</p>}
         </div>
         <div>
-          <label htmlFor="currentSavings" className="field-label">Current Retirement Savings ($)</label>
+          <label htmlFor="currentSavings" className="field-label">Current Retirement Savings ({symbol})</label>
           <input id="currentSavings" type="number" min="0" value={currentSavings} onChange={(e) => setCurrentSavings(e.target.value)} placeholder="100000"
             className="field-input" />
           {errors.currentSavings && <p className="field-error">{errors.currentSavings}</p>}
         </div>
         <div>
-          <label htmlFor="monthlySavings" className="field-label">Monthly Savings ($)</label>
+          <label htmlFor="monthlySavings" className="field-label">Monthly Savings ({symbol})</label>
           <input id="monthlySavings" type="number" min="0" value={monthlySavings} onChange={(e) => setMonthlySavings(e.target.value)} placeholder="1000"
             className="field-input" />
           {errors.monthlySavings && <p className="field-error">{errors.monthlySavings}</p>}
@@ -216,7 +216,7 @@ export default function RetirementCalculatorPage() {
           {errors.expectedReturn && <p className="field-error">{errors.expectedReturn}</p>}
         </div>
         <div>
-          <label htmlFor="desiredIncome" className="field-label">Desired Annual Retirement Income ($)</label>
+          <label htmlFor="desiredIncome" className="field-label">Desired Annual Retirement Income ({symbol})</label>
           <input id="desiredIncome" type="number" min="0" value={desiredIncome} onChange={(e) => setDesiredIncome(e.target.value)} placeholder="60000"
             className="field-input" />
           <p className="mt-1.5 text-caption text-ink-muted dark:text-ink-inverse-muted">How much annual income you want in retirement (in today&apos;s dollars)</p>

@@ -2,10 +2,9 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { useCurrency } from '@/components/calculators/CurrencyProvider'
 import { generateHowToSchema } from '@/lib/schema-markup'
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
 
 interface SIPResults {
   totalInvested: number
@@ -14,6 +13,7 @@ interface SIPResults {
 }
 
 export default function SIPCalculatorPage() {
+  const { format: formatCurrency, symbol } = useCurrency()
   const [monthlyInvestment, setMonthlyInvestment] = useState('')
   const [expectedReturn, setExpectedReturn] = useState('')
   const [timePeriod, setTimePeriod] = useState('')
@@ -122,7 +122,7 @@ export default function SIPCalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="monthlyInvestment" className="field-label">Monthly Investment ($)</label>
+          <label htmlFor="monthlyInvestment" className="field-label">Monthly Investment ({symbol})</label>
           <input id="monthlyInvestment" type="number" min="0" value={monthlyInvestment} onChange={(e) => setMonthlyInvestment(e.target.value)} placeholder="500"
             className="field-input" />
           {errors.monthlyInvestment && <p className="field-error">{errors.monthlyInvestment}</p>}

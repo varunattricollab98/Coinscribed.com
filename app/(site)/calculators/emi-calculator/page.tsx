@@ -2,10 +2,9 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { useCurrency } from '@/components/calculators/CurrencyProvider'
 import { generateHowToSchema } from '@/lib/schema-markup'
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)
 
 interface EMIResults {
   emi: number
@@ -15,6 +14,7 @@ interface EMIResults {
 }
 
 export default function EMICalculatorPage() {
+  const { format: formatCurrency, symbol } = useCurrency()
   const [loanAmount, setLoanAmount] = useState('')
   const [interestRate, setInterestRate] = useState('')
   const [loanTenure, setLoanTenure] = useState('')
@@ -124,7 +124,7 @@ export default function EMICalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="loanAmount" className="field-label">Loan Amount ($)</label>
+          <label htmlFor="loanAmount" className="field-label">Loan Amount ({symbol})</label>
           <input id="loanAmount" type="number" min="0" value={loanAmount} onChange={(e) => setLoanAmount(e.target.value)} placeholder="25000"
             className="field-input" />
           {errors.loanAmount && <p className="field-error">{errors.loanAmount}</p>}

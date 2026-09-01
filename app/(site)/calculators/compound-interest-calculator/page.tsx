@@ -2,10 +2,9 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { useCurrency } from '@/components/calculators/CurrencyProvider'
 import { generateHowToSchema } from '@/lib/schema-markup'
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)
 
 interface CompoundResults {
   futureValue: number
@@ -22,6 +21,7 @@ const compoundingOptions = [
 ]
 
 export default function CompoundInterestCalculatorPage() {
+  const { format: formatCurrency, symbol } = useCurrency()
   const [principal, setPrincipal] = useState('')
   const [rate, setRate] = useState('')
   const [time, setTime] = useState('')
@@ -135,7 +135,7 @@ export default function CompoundInterestCalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="principal" className="field-label">Principal Amount ($)</label>
+          <label htmlFor="principal" className="field-label">Principal Amount ({symbol})</label>
           <input id="principal" type="number" min="0" value={principal} onChange={(e) => setPrincipal(e.target.value)} placeholder="10000"
             className="field-input" />
           {errors.principal && <p className="field-error">{errors.principal}</p>}

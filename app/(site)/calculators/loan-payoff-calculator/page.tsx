@@ -2,10 +2,9 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { useCurrency } from '@/components/calculators/CurrencyProvider'
 import { generateHowToSchema } from '@/lib/schema-markup'
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)
 
 interface LoanPayoffResults {
   originalPayoffMonths: number
@@ -18,6 +17,7 @@ interface LoanPayoffResults {
 }
 
 export default function LoanPayoffCalculatorPage() {
+  const { format: formatCurrency, symbol } = useCurrency()
   const [loanBalance, setLoanBalance] = useState('')
   const [interestRate, setInterestRate] = useState('')
   const [monthlyPayment, setMonthlyPayment] = useState('')
@@ -174,7 +174,7 @@ export default function LoanPayoffCalculatorPage() {
     >
       <div className="space-y-4">
         <div>
-          <label htmlFor="loanBalance" className="field-label">Current Loan Balance ($)</label>
+          <label htmlFor="loanBalance" className="field-label">Current Loan Balance ({symbol})</label>
           <input id="loanBalance" type="number" min="0" value={loanBalance} onChange={(e) => setLoanBalance(e.target.value)} placeholder="200000"
             className="field-input" />
           {errors.loanBalance && <p className="field-error">{errors.loanBalance}</p>}
@@ -186,13 +186,13 @@ export default function LoanPayoffCalculatorPage() {
           {errors.interestRate && <p className="field-error">{errors.interestRate}</p>}
         </div>
         <div>
-          <label htmlFor="monthlyPayment" className="field-label">Monthly Payment ($)</label>
+          <label htmlFor="monthlyPayment" className="field-label">Monthly Payment ({symbol})</label>
           <input id="monthlyPayment" type="number" min="0" value={monthlyPayment} onChange={(e) => setMonthlyPayment(e.target.value)} placeholder="1500"
             className="field-input" />
           {errors.monthlyPayment && <p className="field-error">{errors.monthlyPayment}</p>}
         </div>
         <div>
-          <label htmlFor="extraPayment" className="field-label">Extra Monthly Payment ($)</label>
+          <label htmlFor="extraPayment" className="field-label">Extra Monthly Payment ({symbol})</label>
           <input id="extraPayment" type="number" min="0" value={extraPayment} onChange={(e) => setExtraPayment(e.target.value)} placeholder="200"
             className="field-input" />
           {errors.extraPayment && <p className="field-error">{errors.extraPayment}</p>}

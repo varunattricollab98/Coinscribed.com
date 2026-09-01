@@ -2,22 +2,10 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { useCurrency } from '@/components/calculators/CurrencyProvider'
 import { generateHowToSchema } from '@/lib/schema-markup'
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(value)
 
-const formatCurrencyDetailed = (value: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value)
 
 interface MortgageResults {
   monthlyPayment: number
@@ -27,6 +15,7 @@ interface MortgageResults {
 }
 
 export default function MortgageCalculatorPage() {
+  const { format: formatCurrency, symbol } = useCurrency()
   const [homePrice, setHomePrice] = useState('')
   const [downPayment, setDownPayment] = useState('')
   const [loanTerm, setLoanTerm] = useState('30')
@@ -108,7 +97,7 @@ export default function MortgageCalculatorPage() {
             <div className="border-l-2 border-accent bg-accent-soft px-4 py-4 dark:border-accent-light dark:bg-accent/10">
               <p className="eyebrow">Monthly Payment</p>
               <p className="mt-2 font-serif text-display-2 font-bold tabular-nums text-ink dark:text-ink-inverse">
-                {formatCurrencyDetailed(results.monthlyPayment)}
+                {formatCurrency(results.monthlyPayment)}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -174,7 +163,7 @@ export default function MortgageCalculatorPage() {
       <div className="space-y-4">
         <div>
           <label htmlFor="homePrice" className="field-label">
-            Home Price ($)
+            Home Price ({symbol})
           </label>
           <input
             id="homePrice"
@@ -189,7 +178,7 @@ export default function MortgageCalculatorPage() {
         </div>
         <div>
           <label htmlFor="downPayment" className="field-label">
-            Down Payment ($)
+            Down Payment ({symbol})
           </label>
           <input
             id="downPayment"

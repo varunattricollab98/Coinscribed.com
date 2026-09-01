@@ -2,14 +2,9 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { useCurrency } from '@/components/calculators/CurrencyProvider'
 import { generateHowToSchema } from '@/lib/schema-markup'
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(value)
 
 interface Results401k {
   projectedSavings: number
@@ -20,6 +15,7 @@ interface Results401k {
 }
 
 export default function Calculator401kPage() {
+  const { format: formatCurrency, symbol } = useCurrency()
   const [currentAge, setCurrentAge] = useState('')
   const [retirementAge, setRetirementAge] = useState('')
   const [currentSavings, setCurrentSavings] = useState('')
@@ -184,13 +180,13 @@ export default function Calculator401kPage() {
           {errors.retirementAge && <p className="field-error">{errors.retirementAge}</p>}
         </div>
         <div>
-          <label htmlFor="currentSavings" className="field-label">Current 401(k) Balance ($)</label>
+          <label htmlFor="currentSavings" className="field-label">Current 401(k) Balance ({symbol})</label>
           <input id="currentSavings" type="number" min="0" value={currentSavings} onChange={(e) => setCurrentSavings(e.target.value)} placeholder="50000"
             className="field-input" />
           {errors.currentSavings && <p className="field-error">{errors.currentSavings}</p>}
         </div>
         <div>
-          <label htmlFor="monthlyContribution" className="field-label">Monthly Contribution ($)</label>
+          <label htmlFor="monthlyContribution" className="field-label">Monthly Contribution ({symbol})</label>
           <input id="monthlyContribution" type="number" min="0" value={monthlyContribution} onChange={(e) => setMonthlyContribution(e.target.value)} placeholder="500"
             className="field-input" />
           {errors.monthlyContribution && <p className="field-error">{errors.monthlyContribution}</p>}

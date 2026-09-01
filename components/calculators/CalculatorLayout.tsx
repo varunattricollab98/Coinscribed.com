@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import { CurrencySelect } from './CurrencySelect'
 
 interface CalculatorLayoutProps {
   title: string
@@ -49,13 +50,20 @@ export function CalculatorLayout({
               {title}
             </span>
           </nav>
-          <span className="text-eyebrow font-semibold uppercase text-accent dark:text-accent-light">
-            Calculator
-          </span>
-          <h1 className="page-title mt-1.5">{title}</h1>
-          <p className="mt-3 max-w-2xl text-ink-body dark:text-ink-inverse-body">
-            {description}
-          </p>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <span className="text-eyebrow font-semibold uppercase text-accent dark:text-accent-light">
+                Calculator
+              </span>
+              <h1 className="page-title mt-1.5">{title}</h1>
+              <p className="mt-3 max-w-2xl text-ink-body dark:text-ink-inverse-body">
+                {description}
+              </p>
+            </div>
+            <div className="shrink-0">
+              <CurrencySelect />
+            </div>
+          </div>
         </div>
       </div>
 

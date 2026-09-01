@@ -16,10 +16,15 @@ export const siteConfig = {
     'retirement planning',
     'personal finance',
   ],
+  // Primary navigation. `categories` is a dropdown driven by `categoryNav`
+  // below rather than its own page, so it carries no href — the Header renders
+  // it as a menu. Order: Home, News, Calculators, Categories, Bank Routing
+  // Numbers, About.
   nav: [
     { label: 'Home', href: '/' },
-    { label: 'Calculators', href: '/calculators' },
     { label: 'News', href: '/news' },
+    { label: 'Calculators', href: '/calculators' },
+    { label: 'Categories', dropdown: 'categories' as const },
     { label: 'Bank Routing Numbers', href: '/bank-routing-numbers' },
     { label: 'About', href: '/about' },
   ],

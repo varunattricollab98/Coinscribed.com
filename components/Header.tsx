@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { siteConfig } from '@/config/site'
+import { NavDropdown } from '@/components/NavDropdown'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -24,15 +25,24 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden items-center space-x-8 md:flex" aria-label="Main navigation">
-            {siteConfig.nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-ink-body transition-colors hover:text-oxblood dark:text-ink-inverse-body dark:hover:text-oxblood-lighter"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {siteConfig.nav.map((item) =>
+              'dropdown' in item ? (
+                <NavDropdown
+                  key={item.label}
+                  label={item.label}
+                  items={siteConfig.categoryNav}
+                  footerLink={{ label: 'All News', href: '/news' }}
+                />
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-sm font-medium text-ink-body transition-colors hover:text-oxblood dark:text-ink-inverse-body dark:hover:text-oxblood-lighter"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
           </nav>
 
           {/* Right side: Theme toggle + Mobile menu button */}
@@ -183,16 +193,39 @@ export function Header() {
             aria-label="Mobile navigation"
           >
             <div className="flex flex-col space-y-2">
-              {siteConfig.nav.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-ink-body transition-colors hover:bg-wash hover:text-oxblood dark:text-ink-inverse-body dark:hover:bg-wash-dark dark:hover:text-oxblood-lighter"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {siteConfig.nav.map((item) =>
+                'dropdown' in item ? (
+                  // Categories expand inline on mobile — a nested dropdown in a
+                  // menu that is itself a dropdown is awkward on touch, so the
+                  // section links are simply listed and indented under a label.
+                  <div key={item.label}>
+                    <p className="px-3 pb-1 pt-2 text-eyebrow font-semibold uppercase text-ink-muted dark:text-ink-inverse-muted">
+                      {item.label}
+                    </p>
+                    <div className="flex flex-col">
+                      {siteConfig.categoryNav.map((cat) => (
+                        <Link
+                          key={cat.href}
+                          href={cat.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="rounded-md py-2 pl-6 pr-3 text-sm text-ink-body transition-colors hover:bg-wash hover:text-oxblood dark:text-ink-inverse-body dark:hover:bg-wash-dark dark:hover:text-oxblood-lighter"
+                        >
+                          {cat.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-md px-3 py-2 text-sm font-medium text-ink-body transition-colors hover:bg-wash hover:text-oxblood dark:text-ink-inverse-body dark:hover:bg-wash-dark dark:hover:text-oxblood-lighter"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
             </div>
           </nav>
         </div>

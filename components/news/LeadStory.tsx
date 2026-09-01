@@ -8,20 +8,58 @@ interface LeadStoryProps {
   article: ArticleCardType
   /** Small gilt label above the headline, e.g. "Top Story". */
   kicker?: string
+  /**
+   * `split` puts the photograph beside the text — the full-width treatment for
+   * listing pages. `stacked` puts it above, for the narrow primary column of
+   * the homepage's three-column block, where a two-up split would leave both
+   * halves too cramped to read.
+   */
+  layout?: 'split' | 'stacked'
+  /**
+   * Trailing hairline and spacing. Switched off when the surrounding layout
+   * already supplies a rule, so the two never double up.
+   */
+  divided?: boolean
+  /**
+   * `sizes` for the photograph. Must describe the column the component is
+   * actually rendered in, or the browser downloads the wrong candidate.
+   */
+  imageSizes?: string
 }
 
 /**
- * The lead story for a listing page: photograph on one side, headline and deck
- * on the other, separated from the grid below by a hairline.
+ * The lead story: the single most important item on a page.
  *
- * This is the only image on a listing page marked `priority` — it is the
- * page's largest-contentful-paint candidate. Everything below it stays lazy.
+ * This is the only image here marked `priority` — it is the page's
+ * largest-contentful-paint candidate. Everything below it stays lazy.
+ *
+ * The photograph is a second link to the same destination as the headline, so
+ * it is taken out of the tab order and hidden from assistive technology; the
+ * headline is the one accessible link.
  */
-export function LeadStory({ article, kicker = 'Top Story' }: LeadStoryProps) {
+export function LeadStory({
+  article,
+  kicker = 'Top Story',
+  layout = 'split',
+  divided = true,
+  imageSizes,
+}: LeadStoryProps) {
   const href = `/news/${article.slug.current}`
+  const isStacked = layout === 'stacked'
+
+  const sizes =
+    imageSizes ?? (isStacked ? '(min-width: 1024px) 42vw, 100vw' : '(min-width: 1024px) 50vw, 100vw')
 
   return (
-    <article className="group mb-12 grid grid-cols-1 gap-7 border-b border-hairline pb-12 lg:grid-cols-2 lg:gap-12 dark:border-hairline-dark">
+    <article
+      className={`group grid grid-cols-1 gap-7 ${
+        isStacked ? '' : 'lg:grid-cols-2 lg:gap-12'
+      } ${
+        divided
+          ? 'mb-12 border-b border-hairline pb-12 dark:border-hairline-dark'
+          : ''
+      }`}
+    >
       {article.imageUrl ? (
         <Link
           href={href}
@@ -34,7 +72,7 @@ export function LeadStory({ article, kicker = 'Top Story' }: LeadStoryProps) {
             alt={article.title}
             fill
             priority
-            sizes="(min-width: 1024px) 50vw, 100vw"
+            sizes={sizes}
             className="media-zoom"
           />
           <span aria-hidden="true" className="media-scrim-soft" />
@@ -48,7 +86,7 @@ export function LeadStory({ article, kicker = 'Top Story' }: LeadStoryProps) {
         />
       )}
 
-      <div className="flex flex-col justify-center">
+      <div className={`flex flex-col ${isStacked ? '' : 'justify-center'}`}>
         <div className="flex items-center gap-3">
           <span className="eyebrow-royal">{kicker}</span>
           <span className="gold-rule" aria-hidden="true" />
@@ -78,6 +116,13 @@ export function LeadStory({ article, kicker = 'Top Story' }: LeadStoryProps) {
           size="md"
           className="mt-5"
         />
+
+        {isStacked && (
+          <Link href={href} className="link-more mt-6 self-start">
+            Read the full story
+            <span aria-hidden="true">&rarr;</span>
+          </Link>
+        )}
       </div>
     </article>
   )

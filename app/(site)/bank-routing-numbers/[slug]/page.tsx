@@ -159,7 +159,10 @@ export default function BankPage({ params }: BankPageProps) {
               <h2 className="mb-4 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
                 All Routing Numbers
               </h2>
-              <RoutingNumberTable routingNumbers={bank.routingNumbers} />
+              <RoutingNumberTable
+                routingNumbers={bank.routingNumbers}
+                bankName={bank.name}
+              />
             </div>
 
             {/* Usage Info */}

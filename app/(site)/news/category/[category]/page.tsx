@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
 import { getArticlesByCategory, getCategories } from '@/lib/sanity-queries'
 import { ArticleCard } from '@/components/news/ArticleCard'
-import { CategoryBadge } from '@/components/news/CategoryBadge'
+import { LeadStory } from '@/components/news/LeadStory'
 import { Reveal } from '@/components/motion/Reveal'
 
 interface CategoryPageProps {
@@ -61,14 +60,6 @@ const defaultCategories = [
   { title: 'Banking', slug: 'banking' },
 ]
 
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params
 
@@ -86,14 +77,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const pageTitle =
     meta?.title || `${category.charAt(0).toUpperCase() + category.slice(1)} News`
 
-  const lead = articles[0]
-  const rest = articles.slice(1)
+  const [lead, ...rest] = articles
 
   return (
     <div className="hairline-b">
       <div className="container-page section-padding">
         {/* Breadcrumb */}
-        <nav className="mb-4 text-caption text-ink-muted dark:text-ink-inverse-muted">
+        <nav className="mb-5 text-caption text-ink-muted dark:text-ink-inverse-muted">
           <Link
             href="/news"
             className="transition-colors hover:text-accent dark:hover:text-accent-light"
@@ -110,24 +100,23 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         <Reveal className="section-header mb-8">
           <div>
             <span className="eyebrow-accent">Newsroom</span>
-            <h1 className="page-title mt-1.5">{pageTitle}</h1>
+            <h1 className="page-title mt-2">{pageTitle}</h1>
           </div>
+          <p className="text-caption text-ink-muted dark:text-ink-inverse-muted">
+            <span className="tabular-nums">{articles.length}</span> stories
+          </p>
         </Reveal>
 
-        {meta?.description && (
-          <p className="mb-6 max-w-2xl text-base leading-relaxed text-ink-body dark:text-ink-inverse-body">
-            {meta.description}
-          </p>
-        )}
+        {meta?.description && <p className="deck mb-8 max-w-2xl">{meta.description}</p>}
 
         {/* Category filter — accent-tinted tabs on a hairline underline row */}
         <nav
-          className="mb-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-hairline pb-4 dark:border-hairline-dark"
+          className="mb-12 flex flex-wrap items-center gap-x-7 gap-y-2 border-b border-hairline pb-4 dark:border-hairline-dark"
           aria-label="News categories"
         >
           <Link
             href="/news"
-            className="border-b-2 border-transparent pb-1 text-eyebrow font-semibold uppercase text-ink-muted transition-colors hover:text-accent dark:text-ink-inverse-muted dark:hover:text-accent-light"
+            className="border-b-2 border-transparent pb-1.5 text-eyebrow font-semibold uppercase text-ink-muted transition-colors hover:border-accent/40 hover:text-accent dark:text-ink-inverse-muted dark:hover:text-accent-light"
           >
             All
           </Link>
@@ -140,8 +129,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 aria-current={active ? 'page' : undefined}
                 className={
                   active
-                    ? 'border-b-2 border-accent pb-1 text-eyebrow font-semibold uppercase text-accent dark:border-accent-light dark:text-accent-light'
-                    : 'border-b-2 border-transparent pb-1 text-eyebrow font-semibold uppercase text-ink-muted transition-colors hover:text-accent dark:text-ink-inverse-muted dark:hover:text-accent-light'
+                    ? 'border-b-2 border-accent pb-1.5 text-eyebrow font-semibold uppercase text-accent dark:border-accent-light dark:text-accent-light'
+                    : 'border-b-2 border-transparent pb-1.5 text-eyebrow font-semibold uppercase text-ink-muted transition-colors hover:border-accent/40 hover:text-accent dark:text-ink-inverse-muted dark:hover:text-accent-light'
                 }
               >
                 {cat.title}
@@ -152,76 +141,16 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
         {articles.length > 0 ? (
           <>
-            {/* Lead featured story */}
             {lead && (
               <Reveal>
-                <article className="group mb-10 grid grid-cols-1 gap-6 border-b border-hairline pb-10 lg:grid-cols-2 lg:gap-10 dark:border-hairline-dark">
-                  {lead.imageUrl ? (
-                    <Link
-                      href={`/news/${lead.slug.current}`}
-                      className="relative aspect-video w-full overflow-hidden rounded-2xl"
-                      tabIndex={-1}
-                      aria-hidden="true"
-                    >
-                      <Image
-                        src={lead.imageUrl}
-                        alt={lead.title}
-                        fill
-                        priority
-                        sizes="(min-width: 1024px) 50vw, 100vw"
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transform-none"
-                      />
-                    </Link>
-                  ) : (
-                    <Link
-                      href={`/news/${lead.slug.current}`}
-                      className="thumb-duotone aspect-video w-full rounded-2xl"
-                      tabIndex={-1}
-                      aria-hidden="true"
-                    />
-                  )}
-                  <div className="flex flex-col justify-center">
-                    {lead.category && (
-                      <div className="mb-3">
-                        <CategoryBadge
-                          title={lead.category.title}
-                          slug={lead.category.slug.current}
-                        />
-                      </div>
-                    )}
-                    <h2 className="font-serif text-display-2 font-bold leading-tight text-ink dark:text-ink-inverse">
-                      <Link href={`/news/${lead.slug.current}`} className="title-link">
-                        {lead.title}
-                      </Link>
-                    </h2>
-                    <p className="mt-3 text-base leading-relaxed text-ink-body dark:text-ink-inverse-body">
-                      {lead.excerpt}
-                    </p>
-                    <div className="mt-4 flex items-center gap-2 text-caption text-ink-muted dark:text-ink-inverse-muted">
-                      {lead.author?.name && (
-                        <>
-                          <span className="font-medium">{lead.author.name}</span>
-                          <span aria-hidden="true">&middot;</span>
-                        </>
-                      )}
-                      <time dateTime={lead.publishedAt}>{formatDate(lead.publishedAt)}</time>
-                      {lead.readingTime && (
-                        <>
-                          <span aria-hidden="true">&middot;</span>
-                          <span className="tabular-nums">{lead.readingTime} min read</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </article>
+                <LeadStory article={lead} kicker="Lead Story" />
               </Reveal>
             )}
 
-            {/* Remaining stories in a dense rule-grid */}
             {rest.length > 0 && (
               <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
                 {rest.map((article, i) => (
-                  <Reveal key={article._id} delay={i * 0.05}>
+                  <Reveal key={article._id} delay={Math.min(i, 5) * 0.05}>
                     <ArticleCard article={article} />
                   </Reveal>
                 ))}

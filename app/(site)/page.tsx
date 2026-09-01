@@ -11,6 +11,7 @@ import { MarketDataWidget } from '@/components/home/MarketDataWidget'
 import { TrustSignals } from '@/components/home/TrustSignals'
 import { NewsletterSignup } from '@/components/home/NewsletterSignup'
 import { ArticleCard } from '@/components/news/ArticleCard'
+import { Byline } from '@/components/news/Byline'
 import { LineIcon, type LineIconName } from '@/components/icons/LineIcon'
 
 const calculatorHighlights: {
@@ -83,26 +84,19 @@ const topicTiles: { slug: string; icon: LineIconName }[] = [
   { slug: 'banking', icon: 'bank' },
 ]
 
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
 export default async function HomePage() {
-  const articles = await getLatestArticles(12)
+  // One fetch feeds every editorial block below; nothing is fetched and thrown
+  // away, and the homepage never renders the whole archive.
+  const articles = await getLatestArticles(15)
 
   const featured = articles[0]
   const sidebarArticles = articles.slice(1, 5)
-  const gridArticles = articles.slice(5, 8)
+  const gridArticles = articles.slice(5, 11)
 
-  // Trending / Most-Read reuses the freshest five stories.
+  // Trending / Most-Read reuses the freshest five stories (same images, already
+  // in cache — no extra network cost).
   const trendingArticles = articles.slice(0, 5)
-  // Editor's Picks pulls a distinct set offset from the grid above.
-  // slice(8, 12) keeps all 12 fetched articles in play (no wasted fetch).
-  const editorsPicks = articles.slice(8, 12)
+  const editorsPicks = articles.slice(11, 15)
 
   return (
     <>
@@ -115,13 +109,14 @@ export default async function HomePage() {
       {/* Lead story */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <Reveal className="section-header mb-8">
+          <Reveal className="section-header mb-10">
             <div>
-              <span className="eyebrow-accent">Top Story</span>
-              <h2 className="section-title mt-1.5">Today&rsquo;s Briefing</h2>
+              <span className="eyebrow-royal">Top Story</span>
+              <h2 className="section-title mt-2">Today&rsquo;s Briefing</h2>
             </div>
-            <Link href="/news" className="link-quiet text-eyebrow font-semibold uppercase">
-              All News &rarr;
+            <Link href="/news" className="link-more">
+              All News
+              <span aria-hidden="true">&rarr;</span>
             </Link>
           </Reveal>
 
@@ -142,10 +137,10 @@ export default async function HomePage() {
       {/* Market data */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <Reveal className="section-header mb-6">
+          <Reveal className="section-header mb-8">
             <div>
               <span className="eyebrow">Markets</span>
-              <h2 className="section-title mt-1.5">Index Snapshot</h2>
+              <h2 className="section-title mt-2">Index Snapshot</h2>
             </div>
           </Reveal>
           <Reveal delay={0.05}>
@@ -158,21 +153,21 @@ export default async function HomePage() {
       {gridArticles.length > 0 && (
         <section className="hairline-b">
           <div className="container-page section-padding">
-            <div className="section-header mb-8">
+            <div className="section-header mb-10">
               <div>
                 <span className="eyebrow">Analysis</span>
-                <h2 className="section-title mt-1.5">Latest News</h2>
+                <h2 className="section-title mt-2">Latest News</h2>
               </div>
-              <Link
-                href="/news"
-                className="link-quiet text-eyebrow font-semibold uppercase"
-              >
-                View All &rarr;
+              <Link href="/news" className="link-more">
+                View All
+                <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
             <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
-              {gridArticles.map((article) => (
-                <ArticleCard key={article._id} article={article} />
+              {gridArticles.map((article, i) => (
+                <Reveal key={article._id} delay={Math.min(i, 3) * 0.05}>
+                  <ArticleCard article={article} />
+                </Reveal>
               ))}
             </div>
           </div>
@@ -186,13 +181,11 @@ export default async function HomePage() {
             <div className="section-header mb-8">
               <div>
                 <span className="eyebrow">Ranked</span>
-                <h2 className="section-title mt-1.5">Most Read</h2>
+                <h2 className="section-title mt-2">Most Read</h2>
               </div>
-              <Link
-                href="/news"
-                className="link-quiet text-eyebrow font-semibold uppercase"
-              >
-                All News &rarr;
+              <Link href="/news" className="link-more">
+                All News
+                <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
             <ol className="divide-y divide-hairline dark:divide-hairline-dark">
@@ -200,22 +193,22 @@ export default async function HomePage() {
                 <li key={article._id}>
                   <Link
                     href={`/news/${article.slug.current}`}
-                    className="group rule-cell-hover flex items-center gap-4 py-4 sm:gap-6"
+                    className="group rule-cell-hover flex items-center gap-4 py-5 sm:gap-7"
                   >
                     <span
                       aria-hidden="true"
-                      className="w-10 shrink-0 font-serif text-display-2 font-bold tabular-nums text-oxblood dark:text-oxblood-lighter"
+                      className="w-10 shrink-0 font-serif text-display-2 font-bold tabular-nums text-gold dark:text-gold-light"
                     >
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     {article.imageUrl && (
-                      <span className="relative hidden aspect-video w-28 shrink-0 overflow-hidden sm:block">
+                      <span className="media-frame hidden aspect-[16/10] w-32 shrink-0 sm:block">
                         <Image
                           src={article.imageUrl}
                           alt={article.title}
                           fill
-                          sizes="112px"
-                          className="object-cover"
+                          sizes="128px"
+                          className="media-zoom"
                         />
                       </span>
                     )}
@@ -225,20 +218,14 @@ export default async function HomePage() {
                           {article.category.title}
                         </span>
                       )}
-                      <span className="mt-1 block font-serif text-display-4 font-bold leading-snug text-ink dark:text-ink-inverse">
+                      <span className="mt-1.5 block font-serif text-display-4 font-bold leading-snug text-ink dark:text-ink-inverse">
                         <span className="title-link">{article.title}</span>
                       </span>
-                      <span className="mt-1 flex items-center gap-2 text-caption text-ink-muted dark:text-ink-inverse-muted">
-                        {article.author?.name && (
-                          <>
-                            <span className="font-medium">{article.author.name}</span>
-                            <span aria-hidden="true">&middot;</span>
-                          </>
-                        )}
-                        <time dateTime={article.publishedAt}>
-                          {formatDate(article.publishedAt)}
-                        </time>
-                      </span>
+                      <Byline
+                        author={article.author}
+                        publishedAt={article.publishedAt}
+                        className="mt-2"
+                      />
                     </span>
                   </Link>
                 </li>
@@ -251,13 +238,13 @@ export default async function HomePage() {
       {/* Explore by topic */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <Reveal className="section-header mb-8">
+          <Reveal className="section-header mb-10">
             <div>
               <span className="eyebrow">Sections</span>
-              <h2 className="section-title mt-1.5">Explore by Topic</h2>
+              <h2 className="section-title mt-2">Explore by Topic</h2>
             </div>
           </Reveal>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {topicTiles.map((topic, i) => {
               const category = sampleCategories.find(
                 (c) => c.slug.current === topic.slug
@@ -268,25 +255,29 @@ export default async function HomePage() {
                 <Reveal key={topic.slug} delay={i * 0.06}>
                   <Link
                     href={`/news/category/${topic.slug}`}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 dark:border-hairline-dark dark:bg-elevated dark:hover:border-accent-light/40"
+                    className="group card-premium p-7"
                   >
                     {/* Soft accent glow on hover */}
                     <span
                       aria-hidden="true"
                       className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-accent/0 blur-2xl transition-colors duration-300 group-hover:bg-accent/10"
                     />
-                    {/* Gradient icon badge */}
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-gradient text-white shadow-sm">
+                    <span className="icon-plate">
                       <LineIcon name={topic.icon} className="h-6 w-6" />
                     </span>
-                    <span className={`mt-5 text-eyebrow font-semibold uppercase ${tone.label}`}>
+                    <span
+                      className={`mt-6 text-eyebrow font-semibold uppercase ${tone.label}`}
+                    >
                       {category.title}
                     </span>
-                    <span className={`mt-1.5 block h-0.5 w-8 ${tone.rule}`} aria-hidden="true" />
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+                    <span
+                      className={`mt-2 block h-0.5 w-8 ${tone.rule}`}
+                      aria-hidden="true"
+                    />
+                    <p className="mt-3.5 flex-1 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
                       {category.description}
                     </p>
-                    <span className="mt-5 inline-flex items-center gap-1 text-eyebrow font-semibold uppercase text-accent transition-transform duration-150 group-hover:gap-2 dark:text-accent-light">
+                    <span className="mt-6 inline-flex items-center gap-1.5 text-eyebrow font-semibold uppercase text-accent transition-all duration-200 ease-editorial group-hover:gap-2.5 dark:text-accent-light">
                       Read {category.title}
                       <span aria-hidden="true">&rarr;</span>
                     </span>
@@ -302,21 +293,21 @@ export default async function HomePage() {
       {editorsPicks.length > 0 && (
         <section className="hairline-b">
           <div className="container-page section-padding">
-            <div className="section-header mb-8">
+            <div className="section-header mb-10">
               <div>
-                <span className="eyebrow">Selected</span>
-                <h2 className="section-title mt-1.5">Editor&rsquo;s Picks</h2>
+                <span className="eyebrow-royal">Selected</span>
+                <h2 className="section-title mt-2">Editor&rsquo;s Picks</h2>
               </div>
-              <Link
-                href="/news"
-                className="link-quiet text-eyebrow font-semibold uppercase"
-              >
-                More Stories &rarr;
+              <Link href="/news" className="link-more">
+                More Stories
+                <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
             <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
-              {editorsPicks.map((article) => (
-                <ArticleCard key={article._id} article={article} />
+              {editorsPicks.map((article, i) => (
+                <Reveal key={article._id} delay={Math.min(i, 3) * 0.05}>
+                  <ArticleCard article={article} />
+                </Reveal>
               ))}
             </div>
           </div>
@@ -335,39 +326,34 @@ export default async function HomePage() {
       {/* Calculators */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="section-header mb-8">
+          <div className="section-header mb-10">
             <div>
               <span className="eyebrow">Tools</span>
-              <h2 className="section-title mt-1.5">Financial Calculators</h2>
+              <h2 className="section-title mt-2">Financial Calculators</h2>
             </div>
-            <Link
-              href="/calculators"
-              className="link-quiet text-eyebrow font-semibold uppercase"
-            >
-              All Tools &rarr;
+            <Link href="/calculators" className="link-more">
+              All Tools
+              <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {calculatorHighlights.map((calc, i) => (
-              <Reveal key={calc.href} delay={i * 0.05}>
-                <Link
-                  href={calc.href}
-                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 dark:border-hairline-dark dark:bg-elevated dark:hover:border-accent-light/40"
-                >
+              <Reveal key={calc.href} delay={Math.min(i, 3) * 0.05}>
+                <Link href={calc.href} className="group card-premium p-7">
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-accent/0 blur-2xl transition-colors duration-300 group-hover:bg-accent/10"
                   />
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-gradient text-white shadow-sm">
+                  <span className="icon-plate">
                     <LineIcon name={calc.icon} className="h-6 w-6" />
                   </span>
-                  <h3 className="mt-5 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+                  <h3 className="mt-6 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
                     <span className="title-link">{calc.title}</span>
                   </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+                  <p className="mt-2.5 flex-1 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
                     {calc.description}
                   </p>
-                  <span className="mt-5 inline-flex items-center gap-1 text-eyebrow font-semibold uppercase text-accent transition-transform duration-150 group-hover:gap-2 dark:text-accent-light">
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-eyebrow font-semibold uppercase text-accent transition-all duration-200 ease-editorial group-hover:gap-2.5 dark:text-accent-light">
                     Calculate
                     <span aria-hidden="true">&rarr;</span>
                   </span>
@@ -381,33 +367,31 @@ export default async function HomePage() {
       {/* Bank routing numbers preview */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="section-header mb-8">
+          <div className="section-header mb-10">
             <div>
               <span className="eyebrow">Reference</span>
-              <h2 className="section-title mt-1.5">US Bank Routing Numbers</h2>
+              <h2 className="section-title mt-2">US Bank Routing Numbers</h2>
             </div>
-            <Link
-              href="/bank-routing-numbers"
-              className="link-quiet text-eyebrow font-semibold uppercase"
-            >
-              Browse All &rarr;
+            <Link href="/bank-routing-numbers" className="link-more">
+              Browse All
+              <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
 
           <Reveal>
-            <p className="max-w-2xl text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p className="deck max-w-2xl">
               Find routing numbers for all major US banks. Verify ABA routing
               numbers for wire transfers, ACH payments, and direct deposits.
             </p>
           </Reveal>
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {popularBanks.map((bank, i) => (
-              <Reveal key={bank.slug} delay={i * 0.03}>
+              <Reveal key={bank.slug} delay={Math.min(i, 4) * 0.03}>
                 <Link
                   href={`/bank-routing-numbers/${bank.slug}`}
-                  className="group flex h-full items-center gap-3 rounded-xl border border-hairline bg-surface px-4 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 dark:border-hairline-dark dark:bg-elevated dark:hover:border-accent-light/40"
+                  className="group flex h-full items-center gap-3 border border-hairline bg-surface px-4 py-4 shadow-soft transition-all duration-200 ease-editorial hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-lift motion-reduce:transform-none dark:border-hairline-dark dark:bg-elevated dark:shadow-none dark:hover:border-accent-light/40"
                 >
-                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent dark:bg-accent/15 dark:text-accent-light">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center bg-accent-soft text-accent dark:bg-accent/15 dark:text-accent-light">
                     <LineIcon name="bank" className="h-4 w-4" />
                   </span>
                   <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink dark:text-ink-inverse">
@@ -415,7 +399,7 @@ export default async function HomePage() {
                   </span>
                   <span
                     aria-hidden="true"
-                    className="text-ink-muted transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-accent dark:group-hover:text-accent-light"
+                    className="text-ink-muted transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent dark:group-hover:text-accent-light"
                   >
                     &rarr;
                   </span>

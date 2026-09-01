@@ -574,3 +574,85 @@ export function getBankBySlug(slug: string): Bank | undefined {
 export function getAllBankSlugs(): string[] {
   return banks.map((bank) => bank.slug)
 }
+
+// ============================================================
+// State grouping (powers the /bank-routing-numbers/state/* hub pages)
+// ============================================================
+
+import { resolveState, stateBySlug, US_STATES, type USState } from '@/lib/us-states'
+
+export interface BankInState {
+  bankName: string
+  bankSlug: string
+  routingNumbers: RoutingNumber[]
+}
+
+export interface StateRoutingSummary {
+  state: USState
+  bankCount: number
+  routingNumberCount: number
+}
+
+/**
+ * All states that actually appear in the data, each with how many banks and
+ * routing numbers we hold for it — used to build the state index and its
+ * static params. Only real, resolvable states are included; non-geographic
+ * labels are ignored here.
+ */
+export function getStatesWithData(): StateRoutingSummary[] {
+  const map = new Map<string, { state: USState; banks: Set<string>; numbers: number }>()
+
+  for (const bank of banks) {
+    // Count each bank at most once per state, but sum its routing numbers.
+    const seenForBank = new Map<string, number>()
+    for (const rn of bank.routingNumbers) {
+      const st = resolveState(rn.state)
+      if (!st) continue
+      seenForBank.set(st.code, (seenForBank.get(st.code) ?? 0) + 1)
+    }
+    seenForBank.forEach((count, code) => {
+      const st = US_STATES.find((s) => s.code === code)!
+      const entry = map.get(code) ?? { state: st, banks: new Set<string>(), numbers: 0 }
+      entry.banks.add(bank.slug)
+      entry.numbers += count
+      map.set(code, entry)
+    })
+  }
+
+  return Array.from(map.values())
+    .map((e) => ({
+      state: e.state,
+      bankCount: e.banks.size,
+      routingNumberCount: e.numbers,
+    }))
+    .sort((a, b) => a.state.name.localeCompare(b.state.name))
+}
+
+/**
+ * For a given state slug, the banks that have routing numbers there and the
+ * matching numbers. Returns null for an unknown or empty state so the page can
+ * 404 cleanly.
+ */
+export function getStateRoutingData(
+  slug: string
+): { state: USState; banks: BankInState[] } | null {
+  const state = stateBySlug(slug)
+  if (!state) return null
+
+  const result: BankInState[] = []
+  for (const bank of banks) {
+    const numbers = bank.routingNumbers.filter(
+      (rn) => resolveState(rn.state)?.code === state.code
+    )
+    if (numbers.length > 0) {
+      result.push({
+        bankName: bank.name,
+        bankSlug: bank.slug,
+        routingNumbers: numbers,
+      })
+    }
+  }
+
+  if (result.length === 0) return null
+  return { state, banks: result }
+}

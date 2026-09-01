@@ -242,6 +242,21 @@
       0 6px 16px -8px rgba(90, 26, 36, 0.45);
   }
 
+  /* A bank's monogram tile. The four colours arrive as custom properties set
+     inline by BankMark, because they derive from per-bank data that Tailwind
+     cannot generate variants for; this class is what gives them a dark-mode
+     counterpart. */
+  .bank-mark {
+    background-color: var(--bank-tint);
+    color: var(--bank-ink);
+    box-shadow: inset 0 0 0 1px var(--bank-ring);
+  }
+
+  .dark .bank-mark {
+    background-color: var(--bank-tint-dark);
+    color: var(--bank-ink-dark);
+  }
+
   /* Same plate geometry, but with no background of its own so a per-item tone
      utility can supply one. `.icon-plate` paints a gradient via
      background-image, which a background-color utility cannot override — hence

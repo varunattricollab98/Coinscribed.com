@@ -2,48 +2,85 @@ import type { BankMarkStyle } from '@/data/banks'
 
 interface BankMarkProps {
   brand: BankMarkStyle
-  /** `lg` for cards, `sm` for compact lists and the detail header. */
+  /** `sm` for compact rows, `md`/`lg` for cards and page headers. */
   size?: 'sm' | 'md' | 'lg'
   className?: string
 }
 
 const SIZES = {
-  sm: { box: 'h-9 w-9 rounded-md', text: 'text-[10px]' },
-  md: { box: 'h-11 w-11 rounded-lg', text: 'text-xs' },
-  lg: { box: 'h-12 w-12 rounded-lg', text: 'text-sm' },
+  sm: { box: 'h-8 w-8 rounded-md', two: 'text-[11px]', three: 'text-[9px]' },
+  md: { box: 'h-10 w-10 rounded-lg', two: 'text-[13px]', three: 'text-[10px]' },
+  lg: { box: 'h-12 w-12 rounded-lg', two: 'text-[15px]', three: 'text-xs' },
 } as const
 
+/** #RGB or #RRGGBB -> [r, g, b]. Falls back to mid grey on anything unexpected. */
+function toRgb(hex: string): [number, number, number] {
+  let h = hex.replace('#', '').trim()
+    if (h.length === 3) h = h.split('').map((c) => c + c).join('')
+  if (!/^[0-9a-fA-F]{6}$/.test(h)) return [90, 85, 78]
+  return [
+    parseInt(h.slice(0, 2), 16),
+    parseInt(h.slice(2, 4), 16),
+    parseInt(h.slice(4, 6), 16),
+  ]
+}
+
+/** Mix toward black (amount 0-1). Used to bring bright brand hues up to AA. */
+function darken([r, g, b]: [number, number, number], amount: number) {
+  const k = 1 - amount
+  return `rgb(${Math.round(r * k)} ${Math.round(g * k)} ${Math.round(b * k)})`
+}
+
+/** Mix toward white. Used so dark navies stay legible on graphite. */
+function lighten([r, g, b]: [number, number, number], amount: number) {
+  const m = (c: number) => Math.round(c + (255 - c) * amount)
+  return `rgb(${m(r)} ${m(g)} ${m(b)})`
+}
+
 /**
- * A bank's identifying tile: its monogram on its brand colour.
+ * A bank's identifying tile: its monogram set in the institution's brand hue on
+ * a wash of that same hue.
  *
- * Always decorative. The bank's name is rendered next to this in every place it
- * is used, so announcing the monogram too would just repeat the same
- * information — hence `aria-hidden`.
+ * Earlier this was a saturated solid block with white text. At 32-36px that read
+ * as a loud sticker and fought the surrounding editorial palette, and the
+ * three-letter monograms looked cramped. A tint plus coloured type keeps each
+ * bank just as distinguishable while sitting quietly on warm paper.
  *
- * The colour is applied inline because it comes from data, not from the design
- * system; Tailwind cannot generate a class for an arbitrary runtime hex. A thin
- * inset highlight and a translucent ring keep the tile reading as an object on
- * both paper and graphite backgrounds, including for the lighter brand colours
- * where a flat swatch would otherwise wash out.
+ * Brand hues vary enormously in luminance — PNC's orange and TD's green would
+ * both fail contrast if used as-is for text — so the type colour is mixed toward
+ * black for light mode and toward white for dark mode rather than used raw. The
+ * four values are handed to CSS as custom properties, which is what lets a
+ * single class carry both colour schemes; Tailwind cannot generate variants for
+ * a runtime hex.
+ *
+ * Always decorative: the bank's name is rendered next to this everywhere it
+ * appears, so announcing the monogram too would only repeat it.
  */
 export function BankMark({ brand, size = 'lg', className = '' }: BankMarkProps) {
-  const { box, text } = SIZES[size]
+  const { box, two, three } = SIZES[size]
+  const rgb = toRgb(brand.color)
+  const monogram = brand.monogram.slice(0, 3)
 
   return (
     <span
       aria-hidden="true"
-      className={`inline-flex shrink-0 items-center justify-center ring-1 ring-inset ring-white/15 ${box} ${className}`}
-      style={{
-        backgroundColor: brand.color,
-        boxShadow:
-          'inset 0 1px 0 rgba(255,255,255,0.28), 0 1px 2px rgba(11,11,12,0.10)',
-      }}
+      className={`bank-mark inline-flex shrink-0 items-center justify-center ${box} ${className}`}
+      style={
+        {
+          '--bank-tint': `rgb(${rgb[0]} ${rgb[1]} ${rgb[2]} / 0.11)`,
+          '--bank-tint-dark': `rgb(${rgb[0]} ${rgb[1]} ${rgb[2]} / 0.20)`,
+          '--bank-ring': `rgb(${rgb[0]} ${rgb[1]} ${rgb[2]} / 0.28)`,
+          '--bank-ink': darken(rgb, 0.24),
+          '--bank-ink-dark': lighten(rgb, 0.5),
+        } as React.CSSProperties
+      }
     >
       <span
-        className={`font-sans font-bold uppercase leading-none tracking-wide text-white ${text}`}
-        style={{ textShadow: '0 1px 1px rgba(0,0,0,0.22)' }}
+        className={`font-sans font-bold uppercase leading-none tracking-[0.02em] ${
+          monogram.length > 2 ? three : two
+        }`}
       >
-        {brand.monogram}
+        {monogram}
       </span>
     </span>
   )

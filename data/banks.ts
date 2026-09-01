@@ -559,6 +559,195 @@ export const banks: Bank[] = [
       { number: '121202211', state: 'Wire Transfers', type: 'wire' },
     ],
   },
+
+  // ==========================================================================
+  // The banks below were added with each bank's PRIMARY (wire) routing number
+  // only. Each number was confirmed on Wise (which validates against Federal
+  // Reserve data) and independently passes the Fed ABA check-digit algorithm
+  // and prefix-range test. Multi-state paper/ACH variants are deliberately NOT
+  // included, because they could not be verified from an authoritative source
+  // at the time of writing — a wrong number here is worse than a missing one.
+  // ==========================================================================
+  {
+    name: 'Fifth Third Bank',
+    slug: 'fifth-third-bank',
+    description:
+      'Fifth Third Bank, National Association is a large regional bank and the principal subsidiary of Fifth Third Bancorp. It operates across the Midwest and Southeast, offering consumer and commercial banking, wealth management, and payments services.',
+    headquarters: 'Cincinnati, OH',
+    mainOffice: {
+      street: '38 Fountain Square Plaza',
+      city: 'Cincinnati',
+      state: 'OH',
+      zip: '45263',
+      source: 'Fifth Third Bancorp SEC filings and corporate publications',
+    },
+    founded: 1858,
+    website: 'https://www.53.com',
+    brand: { color: '#00874D', monogram: '5/3' },
+    routingNumbers: [
+      { number: '072402348', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
+  {
+    name: 'Regions Bank',
+    slug: 'regions-bank',
+    description:
+      'Regions Bank is the banking subsidiary of Regions Financial Corporation, one of the largest full-service providers of consumer and commercial banking, wealth management, and mortgage products across the South, Midwest, and Texas.',
+    headquarters: 'Birmingham, AL',
+    mainOffice: {
+      street: '1900 Fifth Avenue North',
+      city: 'Birmingham',
+      state: 'AL',
+      zip: '35203',
+      source: 'Regions Financial Corporation SEC filings',
+    },
+    founded: 1971,
+    website: 'https://www.regions.com',
+    brand: { color: '#00843D', monogram: 'RG' },
+    routingNumbers: [
+      { number: '062005690', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
+  {
+    name: 'Citizens Bank',
+    slug: 'citizens-bank',
+    description:
+      'Citizens Bank, National Association is the banking subsidiary of Citizens Financial Group, one of the largest retail and commercial banks in the United States, serving customers primarily across the Northeast, Mid-Atlantic, and Midwest.',
+    headquarters: 'Providence, RI',
+    mainOffice: {
+      street: 'One Citizens Plaza',
+      city: 'Providence',
+      state: 'RI',
+      zip: '02903',
+      source: 'Citizens Financial Group SEC filings',
+    },
+    founded: 1828,
+    website: 'https://www.citizensbank.com',
+    brand: { color: '#008559', monogram: 'CZ' },
+    routingNumbers: [
+      { number: '271972462', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
+  {
+    name: 'KeyBank',
+    slug: 'keybank',
+    description:
+      'KeyBank, National Association is the primary subsidiary of KeyCorp, one of the largest bank-based financial services companies in the United States, offering consumer, small business, corporate, and investment banking across the Midwest, Northeast, and West.',
+    headquarters: 'Cleveland, OH',
+    mainOffice: {
+      street: '127 Public Square',
+      city: 'Cleveland',
+      state: 'OH',
+      zip: '44114',
+      source: 'KeyCorp SEC filings and corporate publications',
+    },
+    founded: 1849,
+    website: 'https://www.key.com',
+    brand: { color: '#C8102E', monogram: 'KEY' },
+    routingNumbers: [
+      { number: '041001039', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
+  {
+    name: 'Huntington National Bank',
+    slug: 'huntington-national-bank',
+    description:
+      'The Huntington National Bank is the banking subsidiary of Huntington Bancshares, a regional bank holding company providing consumer and commercial banking, wealth management, and payments services across the Midwest.',
+    headquarters: 'Columbus, OH',
+    mainOffice: {
+      street: '17 South High Street',
+      city: 'Columbus',
+      state: 'OH',
+      zip: '43215',
+      source: 'Huntington Bancshares SEC filings',
+    },
+    founded: 1866,
+    website: 'https://www.huntington.com',
+    brand: { color: '#00A651', monogram: 'HB' },
+    routingNumbers: [
+      { number: '241271180', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
+  {
+    name: 'M&T Bank',
+    slug: 'mt-bank',
+    description:
+      'Manufacturers and Traders Trust Company (M&T Bank) is the principal banking subsidiary of M&T Bank Corporation, a regional bank serving the Northeast and Mid-Atlantic with retail, commercial, and mortgage banking services.',
+    headquarters: 'Buffalo, NY',
+    mainOffice: {
+      street: 'One M&T Plaza',
+      city: 'Buffalo',
+      state: 'NY',
+      zip: '14203',
+      source: 'M&T Bank Corporation SEC filings',
+    },
+    founded: 1856,
+    website: 'https://www.mtb.com',
+    brand: { color: '#005F2F', monogram: 'M&T' },
+    routingNumbers: [
+      { number: '022000046', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
+  {
+    name: 'First Citizens Bank',
+    slug: 'first-citizens-bank',
+    description:
+      'First-Citizens Bank & Trust Company is the banking subsidiary of First Citizens BancShares. One of the largest family-controlled banks in the United States, it expanded nationally following its acquisition of the former Silicon Valley Bank operations.',
+    headquarters: 'Raleigh, NC',
+    mainOffice: {
+      street: '4300 Six Forks Road',
+      city: 'Raleigh',
+      state: 'NC',
+      zip: '27609',
+      source: 'First Citizens BancShares SEC filings',
+    },
+    founded: 1898,
+    website: 'https://www.firstcitizens.com',
+    brand: { color: '#0A3055', monogram: 'FC' },
+    routingNumbers: [
+      { number: '122187335', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
+  {
+    name: 'American Express National Bank',
+    slug: 'american-express-bank',
+    description:
+      'American Express National Bank is the direct-banking subsidiary of American Express. It offers high-yield savings accounts and certificates of deposit online, without branch locations, alongside the company’s card products.',
+    headquarters: 'Sandy, UT',
+    mainOffice: {
+      street: '115 West Towne Ridge Parkway',
+      city: 'Sandy',
+      state: 'UT',
+      zip: '84070',
+      source: 'American Express National Bank regulatory filings',
+    },
+    founded: 1989,
+    website: 'https://www.americanexpress.com/en-us/banking',
+    brand: { color: '#006FCF', monogram: 'AE' },
+    routingNumbers: [
+      { number: '124303243', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
+  {
+    name: 'Comerica Bank',
+    slug: 'comerica-bank',
+    description:
+      'Comerica Bank is a financial services company serving business and consumer customers, with a strong presence in Texas, California, Michigan, and Arizona. In 2026 it became part of Fifth Third; the Comerica brand is being phased out over time.',
+    headquarters: 'Dallas, TX',
+    mainOffice: {
+      street: '1717 Main Street',
+      city: 'Dallas',
+      state: 'TX',
+      zip: '75201',
+      source: 'Comerica Incorporated SEC filings',
+    },
+    founded: 1849,
+    website: 'https://www.comerica.com',
+    brand: { color: '#C8102E', monogram: 'CM' },
+    routingNumbers: [
+      { number: '114912288', state: 'Wire Transfers', type: 'wire' },
+    ],
+  },
 ]
 
 /**

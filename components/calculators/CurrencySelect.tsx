@@ -14,19 +14,18 @@ export function CurrencySelect() {
   const { code, setCode, symbol } = useCurrency()
 
   return (
-    <div className="sm:text-right">
-      <label
-        htmlFor="calculator-currency"
-        className="field-label sm:justify-end"
-      >
+    <div>
+      <label htmlFor="calculator-currency" className="field-label">
         Currency
       </label>
+      {/* Matches `.field-input` so it reads as the first field of the form
+          rather than a control bolted on above it. */}
       <select
         id="calculator-currency"
         value={code}
         onChange={(event) => setCode(event.target.value)}
         aria-describedby="calculator-currency-note"
-        className="mt-2 border border-hairline bg-surface px-3 py-2 text-sm text-ink-body transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse dark:focus:border-accent-light"
+        className="field-input"
       >
         {CURRENCIES.map((currency) => (
           <option key={currency.code} value={currency.code}>
@@ -36,10 +35,10 @@ export function CurrencySelect() {
       </select>
       <p
         id="calculator-currency-note"
-        className="mt-2 max-w-xs text-caption leading-relaxed text-ink-muted sm:ml-auto dark:text-ink-inverse-muted"
+        className="mt-2 text-caption leading-relaxed text-ink-muted dark:text-ink-inverse-muted"
       >
-        Sets the unit for every figure on this page. Amounts are not converted —
-        enter your values in {symbol}.
+        Enter every amount below in {symbol}. Changing this switches the unit —
+        figures are not converted.
       </p>
     </div>
   )

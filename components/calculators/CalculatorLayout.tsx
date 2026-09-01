@@ -50,20 +50,13 @@ export function CalculatorLayout({
               {title}
             </span>
           </nav>
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <span className="text-eyebrow font-semibold uppercase text-accent dark:text-accent-light">
-                Calculator
-              </span>
-              <h1 className="page-title mt-1.5">{title}</h1>
-              <p className="mt-3 max-w-2xl text-ink-body dark:text-ink-inverse-body">
-                {description}
-              </p>
-            </div>
-            <div className="shrink-0">
-              <CurrencySelect />
-            </div>
-          </div>
+          <span className="text-eyebrow font-semibold uppercase text-accent dark:text-accent-light">
+            Calculator
+          </span>
+          <h1 className="page-title mt-1.5">{title}</h1>
+          <p className="mt-3 max-w-2xl text-ink-body dark:text-ink-inverse-body">
+            {description}
+          </p>
         </div>
       </div>
 
@@ -75,6 +68,14 @@ export function CalculatorLayout({
               <span className="mr-3 h-6 w-0.5 rounded-full bg-accent-gradient" />
               Input Details
             </h2>
+            {/*
+              Currency leads the form. It is the unit every field below is
+              entered in, so it belongs with the inputs rather than up beside the
+              page title — and reading it first tells you what the fields mean.
+            */}
+            <div className="mb-5 border-b border-hairline pb-5 dark:border-hairline-dark">
+              <CurrencySelect />
+            </div>
             {children}
           </div>
 

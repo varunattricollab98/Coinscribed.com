@@ -126,6 +126,21 @@ const articleFullFields = `
 `
 
 // ============================================================
+// Fetch caching
+// ============================================================
+
+/**
+ * Cache options applied to every content query.
+ *
+ * Without these, each query was an uncached network round-trip on every render,
+ * so a single page could spend hundreds of milliseconds in Sanity before it
+ * produced any HTML — and <Link> prefetches paid the same cost in the
+ * background. Five minutes keeps the newsroom responsive to freshly published
+ * articles while making repeat renders and prefetches effectively free.
+ */
+const CONTENT_CACHE = { next: { revalidate: 300, tags: ['sanity-content'] } }
+
+// ============================================================
 // Sanity availability
 // ============================================================
 
@@ -150,7 +165,17 @@ const hasSanityArticles = cache(async (): Promise<boolean> => {
   if (!isSanityConfigured) return false
 
   try {
-    const count = await sanityClient.fetch<number>('count(*[_type == "article"])')
+    // React `cache` only dedupes within a single request. Without a fetch-level
+    // cache this count was a fresh network round-trip to Sanity on every render
+    // — including every <Link> prefetch — which measured as the dominant cost on
+    // the dynamic news routes (600-700ms each). Caching it for five minutes
+    // keeps "has content been published yet?" effectively free, and newly
+    // published articles still appear within that window.
+    const count = await sanityClient.fetch<number>(
+      'count(*[_type == "article"])',
+      {},
+      { next: { revalidate: 300, tags: ['sanity-article-count'] } }
+    )
     return typeof count === 'number' && count > 0
   } catch {
     return false
@@ -172,7 +197,7 @@ export async function getAllArticles(): Promise<ArticleCard[]> {
   }`
 
   try {
-    const articles = await sanityClient.fetch<ArticleCard[]>(query)
+    const articles = await sanityClient.fetch<ArticleCard[]>(query, {}, CONTENT_CACHE)
     return articles?.length ? articles : getSampleArticles()
   } catch {
     return getSampleArticles()
@@ -190,7 +215,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
   }`
 
   try {
-    const article = await sanityClient.fetch<Article | null>(query, { slug })
+    const article = await sanityClient.fetch<Article | null>(query, { slug }, CONTENT_CACHE)
     return article ?? getSampleArticleBySlug(slug)
   } catch {
     return getSampleArticleBySlug(slug)
@@ -213,7 +238,7 @@ export async function getArticlesByCategory(
     // An empty result here is a legitimate answer once Sanity holds content —
     // a category simply may not have been written to yet — so it is returned
     // as-is rather than mixing real and sample stories on one page.
-    return await sanityClient.fetch<ArticleCard[]>(query, { categorySlug })
+    return await sanityClient.fetch<ArticleCard[]>(query, { categorySlug }, CONTENT_CACHE)
   } catch {
     return getSampleArticlesByCategory(categorySlug)
   }
@@ -233,7 +258,7 @@ export async function getCategories(): Promise<Category[]> {
   }`
 
   try {
-    const categories = await sanityClient.fetch<Category[]>(query)
+    const categories = await sanityClient.fetch<Category[]>(query, {}, CONTENT_CACHE)
     return categories?.length ? categories : sampleCategories
   } catch {
     return sampleCategories
@@ -251,7 +276,7 @@ export async function getLatestArticles(limit: number = 5): Promise<ArticleCard[
   }`
 
   try {
-    const articles = await sanityClient.fetch<ArticleCard[]>(query, { limit })
+    const articles = await sanityClient.fetch<ArticleCard[]>(query, { limit }, CONTENT_CACHE)
     return articles?.length ? articles : getLatestSampleArticles(limit)
   } catch {
     return getLatestSampleArticles(limit)
@@ -278,7 +303,7 @@ export async function getRelatedArticles(
       categorySlug,
       currentArticleId,
       limit,
-    })
+    }, CONTENT_CACHE)
   } catch {
     return getRelatedSampleArticles(categorySlug, currentArticleId, limit)
   }

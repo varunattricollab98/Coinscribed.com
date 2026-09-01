@@ -10,6 +10,26 @@ import { CategoryBadge } from '@/components/news/CategoryBadge'
 import { ArticleCard } from '@/components/news/ArticleCard'
 import { Byline } from '@/components/news/Byline'
 import { Reveal } from '@/components/motion/Reveal'
+import { sampleArticles } from '@/data/sample-news'
+
+/**
+ * Pre-render every known article at build time.
+ *
+ * The home page links to a lot of stories, and Next prefetches each <Link> as it
+ * enters the viewport. While this route was server-rendered on demand every one
+ * of those prefetches became a server render (~440ms observed), so simply
+ * scrolling the front page fired a burst of background renders. Static output
+ * turns them into CDN file reads.
+ *
+ * Slugs published in the CMS after a build are still served: `dynamicParams`
+ * defaults to true, so an unknown slug is rendered on demand and then cached.
+ */
+export function generateStaticParams() {
+  return sampleArticles.map((article) => ({ slug: article.slug.current }))
+}
+
+/** Refresh the static output periodically so CMS edits still land. */
+export const revalidate = 300
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>

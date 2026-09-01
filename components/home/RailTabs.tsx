@@ -126,7 +126,7 @@ export function RailTabs({ latest, mostRead }: RailTabsProps) {
                 <Link
                   href={`/news/${article.slug.current}`}
                   className="group block"
-                >
+                 prefetch={false}>
                   <span className="flex items-center gap-2">
                     {article.category && (
                       <span
@@ -171,7 +171,7 @@ export function RailTabs({ latest, mostRead }: RailTabsProps) {
               <Link
                 href={`/news/${article.slug.current}`}
                 className="group flex items-baseline gap-3"
-              >
+               prefetch={false}>
                 <span
                   aria-hidden="true"
                   className="w-5 shrink-0 font-serif text-display-4 font-bold tabular-nums text-gold dark:text-gold-light"

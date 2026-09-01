@@ -28,6 +28,7 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
       {article.imageUrl ? (
         <Link
           href={href}
+          prefetch={false}
           className="media-frame mb-5 aspect-[16/10] w-full"
           tabIndex={-1}
           aria-hidden="true"
@@ -47,6 +48,7 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
       ) : (
         <Link
           href={href}
+          prefetch={false}
           className="thumb-duotone mb-5 aspect-[16/10] w-full"
           tabIndex={-1}
           aria-hidden="true"
@@ -65,7 +67,7 @@ export function ArticleCard({ article, priority = false }: ArticleCardProps) {
       )}
 
       <h2 className="font-serif text-display-4 font-bold leading-snug text-ink dark:text-ink-inverse">
-        <Link href={href} className="title-link">
+        <Link href={href} prefetch={false} className="title-link">
           {article.title}
         </Link>
       </h2>

@@ -51,7 +51,7 @@ export function StoryRow({
         )}
 
         <Heading className="mt-1.5 font-serif text-display-4 font-bold leading-snug text-ink dark:text-ink-inverse">
-          <Link href={href} className="title-link">
+          <Link href={href} prefetch={false} className="title-link">
             {article.title}
           </Link>
         </Heading>
@@ -66,6 +66,7 @@ export function StoryRow({
       {article.imageUrl ? (
         <Link
           href={href}
+          prefetch={false}
           tabIndex={-1}
           aria-hidden="true"
           className="media-frame aspect-video w-24 shrink-0 rounded-md sm:w-28"
@@ -81,6 +82,7 @@ export function StoryRow({
       ) : (
         <Link
           href={href}
+          prefetch={false}
           tabIndex={-1}
           aria-hidden="true"
           className="thumb-duotone aspect-video w-24 shrink-0 rounded-md sm:w-28"

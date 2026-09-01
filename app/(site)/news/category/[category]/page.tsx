@@ -2,9 +2,28 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
 import { getArticlesByCategory, getCategories } from '@/lib/sanity-queries'
+import { sampleCategories } from '@/data/sample-news'
 import { ArticleCard } from '@/components/news/ArticleCard'
 import { LeadStory } from '@/components/news/LeadStory'
 import { Reveal } from '@/components/motion/Reveal'
+
+/**
+ * Pre-render every category at build time.
+ *
+ * Without this the route was server-rendered on demand, so each of the four
+ * category links on the home page turned its <Link> prefetch into a full server
+ * render — measured at 600-700ms each, and they fired in parallel while the
+ * reader was still loading the page. Statically generated, those prefetches
+ * become plain CDN file reads.
+ */
+export function generateStaticParams() {
+  return sampleCategories.map((category) => ({
+    category: category.slug.current,
+  }))
+}
+
+/** Refresh the static output periodically so CMS edits still land. */
+export const revalidate = 300
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>

@@ -23,6 +23,20 @@ export const siteConfig = {
     { label: 'Bank Routing Numbers', href: '/bank-routing-numbers' },
     { label: 'About', href: '/about' },
   ],
+  /**
+   * The four editorial sections, surfaced as the masthead's slim second row.
+   *
+   * Declared here rather than inside `Header` so the sub-nav, the homepage
+   * topic tiles and anything else that needs the canonical section list read
+   * from a single source. Slugs must match the category slugs the newsroom
+   * publishes under (`/news/category/<slug>`).
+   */
+  categoryNav: [
+    { label: 'Crypto', href: '/news/category/crypto' },
+    { label: 'Economy', href: '/news/category/economy' },
+    { label: 'Markets', href: '/news/category/markets' },
+    { label: 'Banking', href: '/news/category/banking' },
+  ],
   footer: {
     calculators: [
       { label: 'Mortgage Calculator', href: '/calculators/mortgage-calculator' },

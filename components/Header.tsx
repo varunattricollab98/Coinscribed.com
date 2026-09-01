@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { siteConfig } from '@/config/site'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
+  const pathname = usePathname()
 
   return (
     <header className="sticky top-0 z-50 border-b border-hairline bg-white/95 backdrop-blur-sm dark:border-hairline-dark dark:bg-ink/95">
@@ -110,10 +112,76 @@ export function Header() {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <nav className="border-t border-hairline pb-4 pt-2 md:hidden dark:border-hairline-dark" aria-label="Mobile navigation">
+      {/*
+        Category sub-navigation.
+
+        A deliberately quiet second row: eyebrow-scale uppercase on a hairline
+        band, so it reads as a sub-level of the masthead rather than a second
+        primary nav. It scrolls horizontally on narrow screens instead of
+        wrapping into a tall block, which would push the whole page down on the
+        devices that can least afford it.
+      */}
+      <div className="border-t border-hairline dark:border-hairline-dark">
+        <div className="container-page">
+          <nav
+            aria-label="News sections"
+            className="scrollbar-none -mx-4 flex items-center gap-6 overflow-x-auto px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+          >
+            {/* Signals "these are sections", and is pure ornament. */}
+            <span
+              aria-hidden="true"
+              className="hidden shrink-0 items-center gap-2 lg:flex"
+            >
+              <span className="eyebrow-royal">Sections</span>
+              <span className="gold-rule w-6" />
+            </span>
+
+            {siteConfig.categoryNav.map((item) => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`relative shrink-0 whitespace-nowrap py-2.5 text-eyebrow font-semibold uppercase transition-colors duration-150 ${
+                    isActive
+                      ? 'text-accent dark:text-accent-light'
+                      : 'text-ink-muted hover:text-accent dark:text-ink-inverse-muted dark:hover:text-accent-light'
+                  }`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-0 -bottom-px h-0.5 bg-accent-gradient"
+                    />
+                  )}
+                </Link>
+              )
+            })}
+
+            {/* Hidden on phones so the scrollable row holds only the four
+                sections and nothing has to be scrolled past to reach them. */}
+            <Link
+              href="/news"
+              className="link-more ml-auto hidden shrink-0 py-2.5 pl-6 md:inline-flex"
+            >
+              All News
+              <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </nav>
+        </div>
+      </div>
+
+      {/* Mobile Navigation */}
+      {mobileMenuOpen && (
+        <div className="container-page">
+          <nav
+            className="border-t border-hairline pb-4 pt-2 md:hidden dark:border-hairline-dark"
+            aria-label="Mobile navigation"
+          >
             <div className="flex flex-col space-y-2">
               {siteConfig.nav.map((item) => (
                 <Link
@@ -127,8 +195,8 @@ export function Header() {
               ))}
             </div>
           </nav>
-        )}
-      </div>
+        </div>
+      )}
     </header>
   )
 }

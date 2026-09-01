@@ -7,8 +7,9 @@
     /* Lenis drives smooth scrolling on the client. Native smooth behaviour is
        left off so the two never fight over the same scroll animation. */
     scroll-behavior: auto;
-    /* Anchor targets clear the sticky masthead. */
-    scroll-padding-top: 5.5rem;
+    /* Anchor targets clear the sticky masthead — the primary row plus the slim
+       category sub-nav beneath it. */
+    scroll-padding-top: 7.5rem;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -383,6 +384,19 @@
 }
 
 @layer utilities {
+  /* Horizontal overflow rows (the masthead category sub-nav) scroll by touch
+     and by trackpad, but a visible scrollbar under a 32px-tall nav reads as a
+     rendering bug rather than an affordance. The row still shows a partially
+     clipped item, which is the real overflow cue. */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Opt out of the drop cap where a body starts with a heading or a list. */
   .no-dropcap > p:first-of-type::first-letter {
     float: none;

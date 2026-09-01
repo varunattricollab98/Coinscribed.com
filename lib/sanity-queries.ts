@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { sanityClient, isSanityConfigured } from './sanity'
 import {
   getSampleArticles,
@@ -77,6 +78,10 @@ export interface PortableTextBlock {
     marks?: string[]
   }>
   style?: string
+  /** Present on list blocks only: 'bullet' | 'number'. */
+  listItem?: string
+  /** Nesting depth for list blocks (1-based), as emitted by Sanity. */
+  level?: number
   markDefs?: Array<{
     _key: string
     _type: string
@@ -120,30 +125,76 @@ const articleFullFields = `
   "category": category->{ _id, title, slug, description }
 `
 
+// ============================================================
+// Sanity availability
+// ============================================================
+
+/**
+ * Whether Sanity should be treated as the source of truth for articles.
+ *
+ * Being *configured* is not the same as having *content*: a project can be
+ * wired up with credentials while the dataset is still empty, which is exactly
+ * the state a newly provisioned Studio starts in. Falling back only on missing
+ * credentials would leave such a site rendering blank listings and 404ing every
+ * article — so we check for actual documents.
+ *
+ * The count is memoised per request with React `cache`, so a page that calls
+ * several of the helpers below issues one extra lightweight query rather than
+ * one per helper. Any transport error resolves to 0, which degrades to the
+ * sample newsroom instead of throwing a 500.
+ *
+ * The moment real articles are published, every function here switches to
+ * Sanity automatically — no code change, no redeploy.
+ */
+const hasSanityArticles = cache(async (): Promise<boolean> => {
+  if (!isSanityConfigured) return false
+
+  try {
+    const count = await sanityClient.fetch<number>('count(*[_type == "article"])')
+    return typeof count === 'number' && count > 0
+  } catch {
+    return false
+  }
+})
+
+// ============================================================
+// Data access
+// ============================================================
+
 /**
  * Get all articles, ordered by publish date (newest first)
  */
 export async function getAllArticles(): Promise<ArticleCard[]> {
-  if (!isSanityConfigured) return getSampleArticles()
+  if (!(await hasSanityArticles())) return getSampleArticles()
 
   const query = `*[_type == "article"] | order(publishedAt desc) {
     ${articleCardFields}
   }`
 
-  return sanityClient.fetch(query)
+  try {
+    const articles = await sanityClient.fetch<ArticleCard[]>(query)
+    return articles?.length ? articles : getSampleArticles()
+  } catch {
+    return getSampleArticles()
+  }
 }
 
 /**
  * Get a single article by its slug
  */
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  if (!isSanityConfigured) return getSampleArticleBySlug(slug)
+  if (!(await hasSanityArticles())) return getSampleArticleBySlug(slug)
 
   const query = `*[_type == "article" && slug.current == $slug][0] {
     ${articleFullFields}
   }`
 
-  return sanityClient.fetch(query, { slug })
+  try {
+    const article = await sanityClient.fetch<Article | null>(query, { slug })
+    return article ?? getSampleArticleBySlug(slug)
+  } catch {
+    return getSampleArticleBySlug(slug)
+  }
 }
 
 /**
@@ -152,13 +203,20 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 export async function getArticlesByCategory(
   categorySlug: string
 ): Promise<ArticleCard[]> {
-  if (!isSanityConfigured) return getSampleArticlesByCategory(categorySlug)
+  if (!(await hasSanityArticles())) return getSampleArticlesByCategory(categorySlug)
 
   const query = `*[_type == "article" && category->slug.current == $categorySlug] | order(publishedAt desc) {
     ${articleCardFields}
   }`
 
-  return sanityClient.fetch(query, { categorySlug })
+  try {
+    // An empty result here is a legitimate answer once Sanity holds content —
+    // a category simply may not have been written to yet — so it is returned
+    // as-is rather than mixing real and sample stories on one page.
+    return await sanityClient.fetch<ArticleCard[]>(query, { categorySlug })
+  } catch {
+    return getSampleArticlesByCategory(categorySlug)
+  }
 }
 
 /**
@@ -174,20 +232,30 @@ export async function getCategories(): Promise<Category[]> {
     description
   }`
 
-  return sanityClient.fetch(query)
+  try {
+    const categories = await sanityClient.fetch<Category[]>(query)
+    return categories?.length ? categories : sampleCategories
+  } catch {
+    return sampleCategories
+  }
 }
 
 /**
  * Get the latest N articles
  */
 export async function getLatestArticles(limit: number = 5): Promise<ArticleCard[]> {
-  if (!isSanityConfigured) return getLatestSampleArticles(limit)
+  if (!(await hasSanityArticles())) return getLatestSampleArticles(limit)
 
   const query = `*[_type == "article"] | order(publishedAt desc)[0...$limit] {
     ${articleCardFields}
   }`
 
-  return sanityClient.fetch(query, { limit })
+  try {
+    const articles = await sanityClient.fetch<ArticleCard[]>(query, { limit })
+    return articles?.length ? articles : getLatestSampleArticles(limit)
+  } catch {
+    return getLatestSampleArticles(limit)
+  }
 }
 
 /**
@@ -198,11 +266,20 @@ export async function getRelatedArticles(
   currentArticleId: string,
   limit: number = 3
 ): Promise<ArticleCard[]> {
-  if (!isSanityConfigured) return getRelatedSampleArticles(categorySlug, currentArticleId, limit)
+  if (!(await hasSanityArticles()))
+    return getRelatedSampleArticles(categorySlug, currentArticleId, limit)
 
   const query = `*[_type == "article" && category->slug.current == $categorySlug && _id != $currentArticleId] | order(publishedAt desc)[0...$limit] {
     ${articleCardFields}
   }`
 
-  return sanityClient.fetch(query, { categorySlug, currentArticleId, limit })
+  try {
+    return await sanityClient.fetch<ArticleCard[]>(query, {
+      categorySlug,
+      currentArticleId,
+      limit,
+    })
+  } catch {
+    return getRelatedSampleArticles(categorySlug, currentArticleId, limit)
+  }
 }

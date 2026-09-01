@@ -1,17 +1,18 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { getLatestArticles } from '@/lib/sanity-queries'
 import { sampleCategories } from '@/data/sample-news'
 import { getCategoryTone } from '@/lib/category-styles'
+import { rankByReadership } from '@/lib/story-ranking'
 import { CryptoTicker } from '@/components/home/CryptoTicker'
 import { MarketHero } from '@/components/home/MarketHero'
 import { Reveal } from '@/components/motion/Reveal'
-import { FeaturedArticle } from '@/components/home/FeaturedArticle'
 import { MarketDataWidget } from '@/components/home/MarketDataWidget'
+import { RailTabs } from '@/components/home/RailTabs'
 import { TrustSignals } from '@/components/home/TrustSignals'
 import { NewsletterSignup } from '@/components/home/NewsletterSignup'
 import { ArticleCard } from '@/components/news/ArticleCard'
-import { Byline } from '@/components/news/Byline'
+import { LeadStory } from '@/components/news/LeadStory'
+import { StoryRow } from '@/components/news/StoryRow'
 import { LineIcon, type LineIconName } from '@/components/icons/LineIcon'
 
 const calculatorHighlights: {
@@ -87,16 +88,21 @@ const topicTiles: { slug: string; icon: LineIconName }[] = [
 export default async function HomePage() {
   // One fetch feeds every editorial block below; nothing is fetched and thrown
   // away, and the homepage never renders the whole archive.
-  const articles = await getLatestArticles(15)
+  const articles = await getLatestArticles(17)
 
+  // The three-column newsroom block. The slices are disjoint on purpose: a
+  // trade publication front page earns its density from *distinct* headlines,
+  // so repeating the lead's neighbours in the rail would spend vertical space
+  // without adding anything to scan. 1 + 6 + 6 = 13 headlines in the block,
+  // 17 across the page.
   const featured = articles[0]
-  const sidebarArticles = articles.slice(1, 5)
-  const gridArticles = articles.slice(5, 11)
+  const secondaryStories = articles.slice(1, 7)
+  const railLatest = articles.slice(7, 13)
+  const editorsPicks = articles.slice(13, 17)
 
-  // Trending / Most-Read reuses the freshest five stories (same images, already
-  // in cache — no extra network cost).
-  const trendingArticles = articles.slice(0, 5)
-  const editorsPicks = articles.slice(11, 15)
+  // A stable seeded rotation of the same pool — no extra fetch, and explicitly
+  // not a traffic ranking (see lib/story-ranking.ts).
+  const railMostRead = rankByReadership(articles, 6)
 
   return (
     <>
@@ -106,33 +112,114 @@ export default async function HomePage() {
       {/* Bold modern fintech hero with live coin cards + sparklines */}
       <MarketHero />
 
-      {/* Lead story */}
-      <section className="hairline-b">
-        <div className="container-page section-padding">
-          <Reveal className="section-header mb-10">
-            <div>
-              <span className="eyebrow-royal">Top Story</span>
-              <h2 className="section-title mt-2">Today&rsquo;s Briefing</h2>
-            </div>
-            <Link href="/news" className="link-more">
-              All News
-              <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </Reveal>
+      {/*
+        ============================================================
+        The newsroom block — lead story, headline column, rail.
+        ============================================================
 
-          {featured ? (
-            <Reveal>
-              <FeaturedArticle featured={featured} sidebar={sidebarArticles} />
-            </Reveal>
-          ) : (
+        One block replaces what used to be three stacked sections (Today's
+        Briefing, Latest News, Most Read). Those showed four or five headlines
+        across the first two screens; this shows thirteen, which is the whole
+        point of the pattern.
+
+        Density comes from the columns, not from tightening the type: the lead
+        keeps its full display headline and deck, and the secondary stories are
+        hairline-divided rows rather than cards, so nothing feels cramped.
+
+        Nothing in this block is wrapped in `Reveal`. It is the first screen —
+        fading in the largest-contentful-paint element would trade real speed
+        for the appearance of polish. Reveals resume below the fold.
+      */}
+      {featured ? (
+        <section className="hairline-b">
+          <div className="container-page section-padding">
+            <div className="grid grid-cols-1 gap-y-10 md:grid-cols-12 md:gap-x-8 lg:gap-x-0">
+              {/* Primary column: the lead story, widest of the three. */}
+              <div className="min-w-0 md:col-span-7 lg:col-span-5 lg:border-r lg:border-hairline lg:pr-8 xl:pr-10 dark:lg:border-hairline-dark">
+                <LeadStory
+                  article={featured}
+                  layout="stacked"
+                  divided={false}
+                  imageSizes="(min-width: 1280px) 38vw, (min-width: 1024px) 40vw, (min-width: 768px) 56vw, 100vw"
+                />
+              </div>
+
+              {/* Middle column: the scannable headline list. */}
+              <div className="min-w-0 hairline-t pt-10 md:border-t-0 md:pt-0 md:col-span-5 lg:col-span-4 lg:border-r lg:border-hairline lg:px-8 dark:lg:border-hairline-dark">
+                <div className="flex items-end justify-between gap-4 border-b border-ink/15 pb-3 dark:border-ink-inverse/15">
+                  <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">
+                    Latest News
+                  </h2>
+                  <Link href="/news" className="link-more pb-1">
+                    All News
+                    <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                </div>
+
+                <ul className="divide-y divide-hairline dark:divide-hairline-dark">
+                  {secondaryStories.map((article) => (
+                    <li key={article._id} className="py-5">
+                      <StoryRow article={article} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/*
+                Right rail. Narrowest column, and the only sticky one — on a
+                long front page the tabs and the signup stay with the reader
+                instead of scrolling away after one screen.
+              */}
+              <aside className="min-w-0 hairline-t pt-10 md:col-span-12 lg:col-span-3 lg:border-t-0 lg:pl-8 lg:pt-0">
+                <div className="grid gap-8 md:grid-cols-2 lg:sticky lg:top-28 lg:grid-cols-1">
+                  <RailTabs latest={railLatest} mostRead={railMostRead} />
+                  <NewsletterSignup variant="compact" />
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section className="hairline-b">
+          <div className="container-page section-padding">
             <div className="panel text-center">
               <p className="text-ink-muted dark:text-ink-inverse-muted">
                 Stay tuned for the latest finance and crypto news.
               </p>
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
+
+      {/*
+        Editor's Picks follows the newsroom block directly, so the editorial
+        run stays together before the page changes register to market data and
+        tools. Cards here rather than rows: after thirteen dense headlines the
+        eye wants the change of pace.
+      */}
+      {editorsPicks.length > 0 && (
+        <section className="hairline-b">
+          <div className="container-page section-padding">
+            <div className="section-header mb-10">
+              <div>
+                <span className="eyebrow-royal">Selected</span>
+                <h2 className="section-title mt-2">Editor&rsquo;s Picks</h2>
+              </div>
+              <Link href="/news" className="link-more">
+                More Stories
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
+            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
+              {editorsPicks.map((article, i) => (
+                <Reveal key={article._id} delay={Math.min(i, 3) * 0.05}>
+                  <ArticleCard article={article} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Market data */}
       <section className="hairline-b">
@@ -148,92 +235,6 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </section>
-
-      {/* Latest news grid */}
-      {gridArticles.length > 0 && (
-        <section className="hairline-b">
-          <div className="container-page section-padding">
-            <div className="section-header mb-10">
-              <div>
-                <span className="eyebrow">Analysis</span>
-                <h2 className="section-title mt-2">Latest News</h2>
-              </div>
-              <Link href="/news" className="link-more">
-                View All
-                <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
-            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
-              {gridArticles.map((article, i) => (
-                <Reveal key={article._id} delay={Math.min(i, 3) * 0.05}>
-                  <ArticleCard article={article} />
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Trending / Most-Read */}
-      {trendingArticles.length > 0 && (
-        <section className="hairline-b">
-          <div className="container-page section-padding">
-            <div className="section-header mb-8">
-              <div>
-                <span className="eyebrow">Ranked</span>
-                <h2 className="section-title mt-2">Most Read</h2>
-              </div>
-              <Link href="/news" className="link-more">
-                All News
-                <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
-            <ol className="divide-y divide-hairline dark:divide-hairline-dark">
-              {trendingArticles.map((article, index) => (
-                <li key={article._id}>
-                  <Link
-                    href={`/news/${article.slug.current}`}
-                    className="group rule-cell-hover flex items-center gap-4 py-5 sm:gap-7"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="w-10 shrink-0 font-serif text-display-2 font-bold tabular-nums text-gold dark:text-gold-light"
-                    >
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    {article.imageUrl && (
-                      <span className="media-frame hidden aspect-[16/10] w-32 shrink-0 sm:block">
-                        <Image
-                          src={article.imageUrl}
-                          alt={article.title}
-                          fill
-                          sizes="128px"
-                          className="media-zoom"
-                        />
-                      </span>
-                    )}
-                    <span className="min-w-0 flex-1">
-                      {article.category && (
-                        <span className="text-eyebrow font-semibold uppercase text-ink-muted dark:text-ink-inverse-muted">
-                          {article.category.title}
-                        </span>
-                      )}
-                      <span className="mt-1.5 block font-serif text-display-4 font-bold leading-snug text-ink dark:text-ink-inverse">
-                        <span className="title-link">{article.title}</span>
-                      </span>
-                      <Byline
-                        author={article.author}
-                        publishedAt={article.publishedAt}
-                        className="mt-2"
-                      />
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-      )}
 
       {/* Explore by topic */}
       <section className="hairline-b">
@@ -288,31 +289,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Editor's picks */}
-      {editorsPicks.length > 0 && (
-        <section className="hairline-b">
-          <div className="container-page section-padding">
-            <div className="section-header mb-10">
-              <div>
-                <span className="eyebrow-royal">Selected</span>
-                <h2 className="section-title mt-2">Editor&rsquo;s Picks</h2>
-              </div>
-              <Link href="/news" className="link-more">
-                More Stories
-                <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
-            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
-              {editorsPicks.map((article, i) => (
-                <Reveal key={article._id} delay={Math.min(i, 3) * 0.05}>
-                  <ArticleCard article={article} />
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Trust signals */}
       <section className="hairline-b">

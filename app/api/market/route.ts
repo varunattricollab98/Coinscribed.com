@@ -24,6 +24,7 @@ interface MarketRow {
   isCurrency?: boolean
   value: number | null
   changePercent: number | null
+  spark: number[]
 }
 
 async function fetchOne(
@@ -36,11 +37,13 @@ async function fetchOne(
     isCurrency: inst.isCurrency,
     value: null,
     changePercent: null,
+    spark: [],
   }
   try {
+    // range=1d&interval=5m gives an intraday series we can use for a sparkline.
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(
       inst.symbol
-    )}`
+    )}?range=1d&interval=5m`
     const res = await fetch(url, {
       // A UA header avoids occasional bot blocks; revalidate caches the result.
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Coinscribed/1.0)' },
@@ -48,7 +51,8 @@ async function fetchOne(
     })
     if (!res.ok) return base
     const data = await res.json()
-    const meta = data?.chart?.result?.[0]?.meta
+    const result = data?.chart?.result?.[0]
+    const meta = result?.meta
     const price = meta?.regularMarketPrice
     let changePct = meta?.regularMarketChangePercent
     if (
@@ -59,8 +63,21 @@ async function fetchOne(
     ) {
       changePct = ((price - meta.previousClose) / meta.previousClose) * 100
     }
+
+    // Extract intraday close prices, drop nulls, downsample to ~24 points.
+    let spark: number[] = []
+    const closes = result?.indicators?.quote?.[0]?.close
+    if (Array.isArray(closes)) {
+      const clean = closes.filter(
+        (n: unknown): n is number => typeof n === 'number'
+      )
+      const targetPoints = 24
+      const stride = Math.max(1, Math.floor(clean.length / targetPoints))
+      spark = clean.filter((_, i) => i % stride === 0).slice(0, targetPoints)
+    }
+
     if (typeof price === 'number' && typeof changePct === 'number') {
-      return { ...base, value: price, changePercent: changePct }
+      return { ...base, value: price, changePercent: changePct, spark }
     }
     return base
   } catch {

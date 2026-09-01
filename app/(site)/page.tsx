@@ -251,40 +251,47 @@ export default async function HomePage() {
       {/* Explore by topic */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="section-header mb-8">
+          <Reveal className="section-header mb-8">
             <div>
               <span className="eyebrow">Sections</span>
               <h2 className="section-title mt-1.5">Explore by Topic</h2>
             </div>
-          </div>
-          <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
-            {topicTiles.map((topic) => {
+          </Reveal>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {topicTiles.map((topic, i) => {
               const category = sampleCategories.find(
                 (c) => c.slug.current === topic.slug
               )
               if (!category) return null
               const tone = getCategoryTone(topic.slug)
               return (
-                <Link
-                  key={topic.slug}
-                  href={`/news/category/${topic.slug}`}
-                  className="group rule-cell-hover flex h-full flex-col px-5 py-6 sm:px-6"
-                >
-                  <LineIcon
-                    name={topic.icon}
-                    className={`h-6 w-6 ${tone.label}`}
-                  />
-                  <span className={`mt-4 text-eyebrow font-semibold uppercase ${tone.label}`}>
-                    {category.title}
-                  </span>
-                  <span className={`mt-1.5 block h-0.5 w-7 ${tone.rule}`} aria-hidden="true" />
-                  <p className="mt-3 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
-                    {category.description}
-                  </p>
-                  <span className="eyebrow-accent mt-4 inline-block">
-                    Read {category.title} &rarr;
-                  </span>
-                </Link>
+                <Reveal key={topic.slug} delay={i * 0.06}>
+                  <Link
+                    href={`/news/category/${topic.slug}`}
+                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 dark:border-hairline-dark dark:bg-elevated dark:hover:border-accent-light/40"
+                  >
+                    {/* Soft accent glow on hover */}
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-accent/0 blur-2xl transition-colors duration-300 group-hover:bg-accent/10"
+                    />
+                    {/* Gradient icon badge */}
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-gradient text-white shadow-sm">
+                      <LineIcon name={topic.icon} className="h-6 w-6" />
+                    </span>
+                    <span className={`mt-5 text-eyebrow font-semibold uppercase ${tone.label}`}>
+                      {category.title}
+                    </span>
+                    <span className={`mt-1.5 block h-0.5 w-8 ${tone.rule}`} aria-hidden="true" />
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+                      {category.description}
+                    </p>
+                    <span className="mt-5 inline-flex items-center gap-1 text-eyebrow font-semibold uppercase text-accent transition-transform duration-150 group-hover:gap-2 dark:text-accent-light">
+                      Read {category.title}
+                      <span aria-hidden="true">&rarr;</span>
+                    </span>
+                  </Link>
+                </Reveal>
               )
             })}
           </div>

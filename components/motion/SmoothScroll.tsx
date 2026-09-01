@@ -51,12 +51,25 @@ export function SmoothScroll() {
       if (lenisRef.current) return
 
       const lenis = new Lenis({
-        // ~0.9s to settle: long enough to feel like weight, short enough that
-        // it never feels like the page is disobeying the wheel.
-        duration: 0.9,
-        easing: (t: number) => 1 - Math.pow(1 - t, 3),
-        wheelMultiplier: 0.9,
-        touchMultiplier: 1.6,
+        // `lerp` rather than `duration`+`easing`.
+        //
+        // A fixed duration restarts a ~0.9s animation on every wheel tick, so
+        // during a normal scroll the page is permanently animating toward a
+        // target the wheel has already moved past — which reads as lag, not
+        // smoothness. lerp interpolates a fixed fraction of the remaining
+        // distance each frame instead, so fast input is followed immediately
+        // while the motion still eases.
+        //
+        // 0.14 lands between "syrupy" (~0.05) and "basically native" (~0.3).
+        lerp: 0.14,
+
+        // Was 0.9, i.e. each wheel tick travelled *less* than the browser's own
+        // scroll. Combined with the long duration that was the main reason
+        // scrolling felt heavy. Slightly above 1 so it keeps pace with the
+        // wheel.
+        wheelMultiplier: 1.1,
+
+        touchMultiplier: 1.8,
         syncTouch: false,
         autoRaf: false,
       })

@@ -1,16 +1,20 @@
-// Trust / social-proof stats rendered as typography — large serif numerals
-// separated by hairline dividers. No cards, no shadows, no emoji.
+// Trust / social-proof stats rendered as large serif numerals separated by
+// hairline dividers. Numbers count up on scroll (AnimatedCounter); non-numeric
+// stats render as-is.
+import { AnimatedCounter } from '@/components/motion/AnimatedCounter'
 
 interface Stat {
-  value: string
+  value: number
+  suffix?: string
+  staticLabel?: string
   label: string
 }
 
 const stats: Stat[] = [
-  { value: '7', label: 'Financial Calculators' },
-  { value: '12+', label: 'Major US Banks' },
-  { value: 'Daily', label: 'Market News' },
-  { value: '100%', label: 'Free' },
+  { value: 7, label: 'Financial Calculators' },
+  { value: 12, suffix: '+', label: 'Major US Banks' },
+  { value: 0, staticLabel: 'Daily', label: 'Market News' },
+  { value: 100, suffix: '%', label: 'Free' },
 ]
 
 export function TrustSignals() {
@@ -19,11 +23,14 @@ export function TrustSignals() {
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="flex flex-col items-center gap-1 px-4 py-6 text-center"
+          className="flex flex-col items-center gap-1 px-4 py-8 text-center"
         >
-          <span className="font-serif text-display-1 font-bold tabular-nums text-ink dark:text-ink-inverse">
-            {stat.value}
-          </span>
+          <AnimatedCounter
+            value={stat.value}
+            suffix={stat.suffix}
+            staticLabel={stat.staticLabel}
+            className="bg-accent-gradient bg-clip-text font-serif text-display-1 font-bold tabular-nums text-transparent"
+          />
           <span className="eyebrow text-ink-muted dark:text-ink-inverse-muted">
             {stat.label}
           </span>

@@ -54,6 +54,16 @@ const config: Config = {
           lighter: '#C9645A', // AA-legible small text on graphite
         },
 
+        /* Electric-blue brand accent — modern fintech energy for hero,
+           gradients, links, live data and interactive highlights. */
+        accent: {
+          DEFAULT: '#2563EB', // primary electric blue
+          hover: '#1D4ED8', // darker for hover/pressed
+          light: '#60A5FA', // dark-mode / lightened
+          soft: '#DBEAFE', // subtle tinted backgrounds
+          cyan: '#06B6D4', // gradient partner
+        },
+
         /* Directional values only — never decorative. */
         up: {
           DEFAULT: '#1F6F4A',
@@ -109,14 +119,30 @@ const config: Config = {
         full: '9999px',
       },
 
+      backgroundImage: {
+        'accent-gradient':
+          'linear-gradient(135deg, #2563EB 0%, #06B6D4 100%)',
+        'hero-radial':
+          'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37,99,235,0.18), transparent 70%)',
+        'hero-radial-dark':
+          'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(96,165,250,0.14), transparent 70%)',
+      },
       keyframes: {
         marquee: {
           from: { transform: 'translateX(0)' },
           to: { transform: 'translateX(-50%)' },
         },
+        'fade-up': {
+          from: { opacity: '0', transform: 'translateY(12px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        shimmer: {
+          '100%': { transform: 'translateX(100%)' },
+        },
       },
       animation: {
         marquee: 'marquee 45s linear infinite',
+        'fade-up': 'fade-up 0.5s ease-out both',
       },
     },
   },

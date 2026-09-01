@@ -158,9 +158,10 @@
     @apply text-ink-muted transition-colors hover:text-oxblood dark:text-ink-inverse-muted dark:hover:text-oxblood-lighter;
   }
 
-  /* Underline-reveal for headlines inside a `group` container. */
+  /* Underline-reveal for headlines inside a `group` container. Now reveals in
+     the electric-blue accent for a livelier, more modern hover. */
   .title-link {
-    @apply underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-150 group-hover:decoration-oxblood dark:group-hover:decoration-oxblood-light;
+    @apply underline decoration-transparent decoration-2 underline-offset-4 transition-colors duration-150 group-hover:text-accent group-hover:decoration-accent dark:group-hover:text-accent-light dark:group-hover:decoration-accent-light;
   }
 
   /* ----------------------------------------------------------------- forms */

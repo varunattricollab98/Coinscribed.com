@@ -16,6 +16,18 @@ const nextConfig = {
         hostname: 'cdn.sanity.io',
         pathname: '/**',
       },
+      {
+        // Editorial photography for the sample/fallback articles.
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+      {
+        // Coin logos shown in the live market hero cards.
+        protocol: 'https',
+        hostname: 'coin-images.coingecko.com',
+        pathname: '/**',
+      },
     ],
   },
 }

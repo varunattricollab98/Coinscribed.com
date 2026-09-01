@@ -45,7 +45,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Michael Torres' },
     publishedAt: '2025-01-15T09:00:00Z',
     category: { title: 'Crypto', slug: { current: 'crypto' } },
-    imageUrl: '/covers/crypto.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1200&q=70',
     readingTime: 6,
   },
   {
@@ -57,7 +57,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Sarah Chen' },
     publishedAt: '2025-01-14T14:30:00Z',
     category: { title: 'Economy', slug: { current: 'economy' } },
-    imageUrl: '/covers/economy.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=70',
     readingTime: 5,
   },
   {
@@ -69,7 +69,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'David Park' },
     publishedAt: '2025-01-13T11:00:00Z',
     category: { title: 'Markets', slug: { current: 'markets' } },
-    imageUrl: '/covers/markets.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=70',
     readingTime: 4,
   },
   {
@@ -81,7 +81,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Emily Rodriguez' },
     publishedAt: '2025-01-12T08:45:00Z',
     category: { title: 'Banking', slug: { current: 'banking' } },
-    imageUrl: '/covers/banking.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?auto=format&fit=crop&w=1200&q=70',
     readingTime: 5,
   },
   {
@@ -93,7 +93,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Alex Nakamura' },
     publishedAt: '2025-01-11T16:20:00Z',
     category: { title: 'Crypto', slug: { current: 'crypto' } },
-    imageUrl: '/covers/crypto.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1200&q=70',
     readingTime: 7,
   },
   {
@@ -105,7 +105,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Jennifer Walsh' },
     publishedAt: '2025-01-10T10:15:00Z',
     category: { title: 'Economy', slug: { current: 'economy' } },
-    imageUrl: '/covers/economy.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=70',
     readingTime: 4,
   },
   {
@@ -117,7 +117,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'David Park' },
     publishedAt: '2025-01-09T13:00:00Z',
     category: { title: 'Markets', slug: { current: 'markets' } },
-    imageUrl: '/covers/markets.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=70',
     readingTime: 3,
   },
   {
@@ -129,7 +129,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Sarah Chen' },
     publishedAt: '2025-01-08T09:30:00Z',
     category: { title: 'Banking', slug: { current: 'banking' } },
-    imageUrl: '/covers/banking.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?auto=format&fit=crop&w=1200&q=70',
     readingTime: 5,
   },
   {
@@ -141,7 +141,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Michael Torres' },
     publishedAt: '2025-01-07T15:45:00Z',
     category: { title: 'Crypto', slug: { current: 'crypto' } },
-    imageUrl: '/covers/crypto.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1200&q=70',
     readingTime: 4,
   },
   {
@@ -153,7 +153,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Jennifer Walsh' },
     publishedAt: '2025-01-06T08:00:00Z',
     category: { title: 'Economy', slug: { current: 'economy' } },
-    imageUrl: '/covers/economy.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=70',
     readingTime: 3,
   },
   {
@@ -165,7 +165,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Alex Nakamura' },
     publishedAt: '2025-01-05T12:30:00Z',
     category: { title: 'Markets', slug: { current: 'markets' } },
-    imageUrl: '/covers/markets.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=70',
     readingTime: 4,
   },
   {
@@ -177,7 +177,7 @@ export const sampleArticles: ArticleCard[] = [
     author: { name: 'Emily Rodriguez' },
     publishedAt: '2025-01-04T11:00:00Z',
     category: { title: 'Banking', slug: { current: 'banking' } },
-    imageUrl: '/covers/banking.svg',
+    imageUrl: 'https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?auto=format&fit=crop&w=1200&q=70',
     readingTime: 3,
   },
 ]

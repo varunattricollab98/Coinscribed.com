@@ -4,6 +4,8 @@ import { getLatestArticles } from '@/lib/sanity-queries'
 import { sampleCategories } from '@/data/sample-news'
 import { getCategoryTone } from '@/lib/category-styles'
 import { CryptoTicker } from '@/components/home/CryptoTicker'
+import { MarketHero } from '@/components/home/MarketHero'
+import { Reveal } from '@/components/motion/Reveal'
 import { FeaturedArticle } from '@/components/home/FeaturedArticle'
 import { MarketDataWidget } from '@/components/home/MarketDataWidget'
 import { TrustSignals } from '@/components/home/TrustSignals'
@@ -107,21 +109,26 @@ export default async function HomePage() {
       {/* Live crypto price ticker */}
       <CryptoTicker />
 
-      {/* Lead story — no marketing hero, straight into the news (WSJ/FT style) */}
+      {/* Bold modern fintech hero with live coin cards + sparklines */}
+      <MarketHero />
+
+      {/* Lead story */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="section-header mb-8">
+          <Reveal className="section-header mb-8">
             <div>
               <span className="eyebrow-accent">Top Story</span>
-              <h1 className="section-title mt-1.5">Today&rsquo;s Briefing</h1>
+              <h2 className="section-title mt-1.5">Today&rsquo;s Briefing</h2>
             </div>
             <Link href="/news" className="link-quiet text-eyebrow font-semibold uppercase">
               All News &rarr;
             </Link>
-          </div>
+          </Reveal>
 
           {featured ? (
-            <FeaturedArticle featured={featured} sidebar={sidebarArticles} />
+            <Reveal>
+              <FeaturedArticle featured={featured} sidebar={sidebarArticles} />
+            </Reveal>
           ) : (
             <div className="panel text-center">
               <p className="text-ink-muted dark:text-ink-inverse-muted">
@@ -135,13 +142,15 @@ export default async function HomePage() {
       {/* Market data */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <div className="section-header mb-6">
+          <Reveal className="section-header mb-6">
             <div>
               <span className="eyebrow">Markets</span>
               <h2 className="section-title mt-1.5">Index Snapshot</h2>
             </div>
-          </div>
-          <MarketDataWidget />
+          </Reveal>
+          <Reveal delay={0.05}>
+            <MarketDataWidget />
+          </Reveal>
         </div>
       </section>
 
@@ -310,7 +319,9 @@ export default async function HomePage() {
       {/* Trust signals */}
       <section className="hairline-b">
         <div className="container-page section-padding">
-          <TrustSignals />
+          <Reveal>
+            <TrustSignals />
+          </Reveal>
         </div>
       </section>
 

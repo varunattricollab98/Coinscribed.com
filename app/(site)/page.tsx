@@ -347,27 +347,32 @@ export default async function HomePage() {
               All Tools &rarr;
             </Link>
           </div>
-          <div className="rule-grid sm:grid-cols-2 lg:grid-cols-3">
-            {calculatorHighlights.map((calc) => (
-              <Link
-                key={calc.href}
-                href={calc.href}
-                className="group rule-cell-hover flex flex-col px-5 py-6 sm:px-6"
-              >
-                <LineIcon
-                  name={calc.icon}
-                  className="h-6 w-6 text-oxblood dark:text-oxblood-lighter"
-                />
-                <h3 className="mt-4 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
-                  <span className="title-link">{calc.title}</span>
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
-                  {calc.description}
-                </p>
-                <span className="eyebrow-accent mt-4 inline-block">
-                  Calculate &rarr;
-                </span>
-              </Link>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {calculatorHighlights.map((calc, i) => (
+              <Reveal key={calc.href} delay={i * 0.05}>
+                <Link
+                  href={calc.href}
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 dark:border-hairline-dark dark:bg-elevated dark:hover:border-accent-light/40"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-accent/0 blur-2xl transition-colors duration-300 group-hover:bg-accent/10"
+                  />
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-accent-gradient text-white shadow-sm">
+                    <LineIcon name={calc.icon} className="h-6 w-6" />
+                  </span>
+                  <h3 className="mt-5 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+                    <span className="title-link">{calc.title}</span>
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+                    {calc.description}
+                  </p>
+                  <span className="mt-5 inline-flex items-center gap-1 text-eyebrow font-semibold uppercase text-accent transition-transform duration-150 group-hover:gap-2 dark:text-accent-light">
+                    Calculate
+                    <span aria-hidden="true">&rarr;</span>
+                  </span>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -389,29 +394,34 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-3">
-            <p className="max-w-2xl text-sm leading-relaxed text-ink-body lg:col-span-2 dark:text-ink-inverse-body">
+          <Reveal>
+            <p className="max-w-2xl text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
               Find routing numbers for all major US banks. Verify ABA routing
               numbers for wire transfers, ACH payments, and direct deposits.
             </p>
-            <div>
-              <span className="eyebrow">Popular Banks</span>
-              <ul className="mt-3 divide-y divide-hairline dark:divide-hairline-dark">
-                {popularBanks.map((bank) => (
-                  <li key={bank.slug}>
-                    <Link
-                      href={`/bank-routing-numbers/${bank.slug}`}
-                      className="group flex items-center justify-between py-2.5 text-sm text-ink-body transition-colors hover:text-oxblood dark:text-ink-inverse-body dark:hover:text-oxblood-lighter"
-                    >
-                      <span>{bank.name}</span>
-                      <span aria-hidden="true" className="text-ink-muted transition-colors group-hover:text-oxblood dark:group-hover:text-oxblood-lighter">
-                        &rarr;
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          </Reveal>
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {popularBanks.map((bank, i) => (
+              <Reveal key={bank.slug} delay={i * 0.03}>
+                <Link
+                  href={`/bank-routing-numbers/${bank.slug}`}
+                  className="group flex h-full items-center gap-3 rounded-xl border border-hairline bg-surface px-4 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 dark:border-hairline-dark dark:bg-elevated dark:hover:border-accent-light/40"
+                >
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent dark:bg-accent/15 dark:text-accent-light">
+                    <LineIcon name="bank" className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink dark:text-ink-inverse">
+                    {bank.name}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="text-ink-muted transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-accent dark:group-hover:text-accent-light"
+                  >
+                    &rarr;
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>

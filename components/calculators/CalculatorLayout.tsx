@@ -33,14 +33,14 @@ export function CalculatorLayout({
           <nav className="mb-4 text-caption text-ink-muted dark:text-ink-inverse-muted">
             <Link
               href="/"
-              className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
+              className="transition-colors hover:text-accent dark:hover:text-accent-light"
             >
               Home
             </Link>
             <span className="mx-2">/</span>
             <Link
               href="/calculators"
-              className="transition-colors hover:text-oxblood dark:hover:text-oxblood-lighter"
+              className="transition-colors hover:text-accent dark:hover:text-accent-light"
             >
               Calculators
             </Link>
@@ -49,7 +49,10 @@ export function CalculatorLayout({
               {title}
             </span>
           </nav>
-          <h1 className="page-title">{title}</h1>
+          <span className="text-eyebrow font-semibold uppercase text-accent dark:text-accent-light">
+            Calculator
+          </span>
+          <h1 className="page-title mt-1.5">{title}</h1>
           <p className="mt-3 max-w-2xl text-ink-body dark:text-ink-inverse-body">
             {description}
           </p>
@@ -59,18 +62,18 @@ export function CalculatorLayout({
       <div className="container-page py-8 sm:py-12">
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Input Form Area */}
-          <div className="panel">
+          <div className="rounded-2xl border border-hairline bg-surface p-6 dark:border-hairline-dark dark:bg-elevated">
             <h2 className="mb-6 flex items-center font-serif text-display-3 font-bold">
-              <span className="accent-rule mr-3 !h-6 !w-0.5" />
+              <span className="mr-3 h-6 w-0.5 rounded-full bg-accent-gradient" />
               Input Details
             </h2>
             {children}
           </div>
 
           {/* Results Area */}
-          <div className="panel">
+          <div className="rounded-2xl border border-hairline bg-surface p-6 dark:border-hairline-dark dark:bg-elevated">
             <h2 className="mb-6 flex items-center font-serif text-display-3 font-bold">
-              <span className="accent-rule mr-3 !h-6 !w-0.5" />
+              <span className="mr-3 h-6 w-0.5 rounded-full bg-accent-gradient" />
               Results
             </h2>
             {results || (
@@ -83,7 +86,9 @@ export function CalculatorLayout({
 
         {/* Educational Content */}
         {educationalContent && (
-          <div className="mt-12 panel-muted sm:p-8">{educationalContent}</div>
+          <div className="mt-12 rounded-2xl border border-hairline bg-wash p-6 dark:border-hairline-dark dark:bg-elevated sm:p-8">
+            {educationalContent}
+          </div>
         )}
       </div>
     </>

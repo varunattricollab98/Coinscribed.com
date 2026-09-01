@@ -71,7 +71,7 @@ export default function SIPCalculatorPage() {
       results={
         results ? (
           <div className="space-y-6">
-            <div className="border-l-2 border-oxblood bg-wash px-4 py-4 dark:border-oxblood-light dark:bg-wash-dark">
+            <div className="border-l-2 border-accent bg-accent-soft px-4 py-4 dark:border-accent-light dark:bg-accent/10">
               <p className="eyebrow">Total Value</p>
               <p className="mt-2 font-serif text-display-2 font-bold tabular-nums text-ink dark:text-ink-inverse">{formatCurrency(results.totalValue)}</p>
             </div>

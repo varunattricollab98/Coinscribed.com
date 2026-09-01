@@ -10,7 +10,14 @@ interface CalculatorLayoutProps {
   children: ReactNode
   results?: ReactNode
   educationalContent?: ReactNode
-  jsonLd?: object
+  /**
+   * One or more JSON-LD blocks. Each is emitted as its own <script> tag —
+   * multiple schema types (e.g. HowTo + FAQPage) must be separate top-level
+   * scripts, not nested, for Google to parse both.
+   */
+  jsonLd?: object | object[]
+  /** Visible FAQ, rendered below the educational content. */
+  faq?: ReactNode
 }
 
 export function CalculatorLayout({
@@ -20,15 +27,22 @@ export function CalculatorLayout({
   results,
   educationalContent,
   jsonLd,
+  faq,
 }: CalculatorLayoutProps) {
+  const jsonLdBlocks = jsonLd
+    ? Array.isArray(jsonLd)
+      ? jsonLd
+      : [jsonLd]
+    : []
   return (
     <>
-      {jsonLd && (
+      {jsonLdBlocks.map((block, i) => (
         <script
+          key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(block) }}
         />
-      )}
+      ))}
       <div className="hairline-b">
         <div className="container-page py-8 sm:py-12">
           <nav className="mb-4 text-caption text-ink-muted dark:text-ink-inverse-muted">
@@ -99,6 +113,9 @@ export function CalculatorLayout({
             {educationalContent}
           </div>
         )}
+
+        {/* Visible FAQ — content here must match the FAQPage JSON-LD. */}
+        {faq && <div className="mt-12">{faq}</div>}
 
         {/*
           The disclaimer sits with the results, not only on a linked page. Someone

@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { CalculatorFAQ } from '@/components/calculators/CalculatorFAQ'
+import { calculatorFAQs } from '@/data/calculator-faqs'
 import { useCurrency } from '@/components/calculators/CurrencyProvider'
-import { generateHowToSchema } from '@/lib/schema-markup'
+import { generateHowToSchema, generateFAQSchema } from '@/lib/schema-markup'
 
 
 
@@ -16,6 +18,7 @@ interface MortgageResults {
 
 export default function MortgageCalculatorPage() {
   const { format: formatCurrency, symbol } = useCurrency()
+  const faqItems = calculatorFAQs['mortgage']
   const [homePrice, setHomePrice] = useState('')
   const [downPayment, setDownPayment] = useState('')
   const [loanTerm, setLoanTerm] = useState('30')
@@ -90,7 +93,8 @@ export default function MortgageCalculatorPage() {
     <CalculatorLayout
       title="Mortgage Calculator"
       description="Calculate your monthly mortgage payments, total interest paid, and view a payment summary based on your home price, down payment, loan term, and interest rate."
-      jsonLd={jsonLd}
+      jsonLd={[jsonLd, generateFAQSchema(faqItems)]}
+      faq={<CalculatorFAQ items={faqItems} />}
       results={
         results ? (
           <div className="space-y-6">

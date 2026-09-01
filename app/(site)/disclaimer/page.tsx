@@ -4,6 +4,7 @@ import { siteConfig } from '@/config/site'
 import { Clause, LegalList, LegalPage } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/disclaimer' },
   title: 'Disclaimer',
   description: `Disclaimer for ${siteConfig.name}. All content is provided for general information only and is not financial, investment, tax, or legal advice.`,
 }

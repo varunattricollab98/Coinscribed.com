@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { CalculatorFAQ } from '@/components/calculators/CalculatorFAQ'
+import { calculatorFAQs } from '@/data/calculator-faqs'
 import { useCurrency } from '@/components/calculators/CurrencyProvider'
-import { generateHowToSchema } from '@/lib/schema-markup'
+import { generateHowToSchema, generateFAQSchema } from '@/lib/schema-markup'
 
 
 interface Results401k {
@@ -16,6 +18,7 @@ interface Results401k {
 
 export default function Calculator401kPage() {
   const { format: formatCurrency, symbol } = useCurrency()
+  const faqItems = calculatorFAQs['401k']
   const [currentAge, setCurrentAge] = useState('')
   const [retirementAge, setRetirementAge] = useState('')
   const [currentSavings, setCurrentSavings] = useState('')
@@ -109,7 +112,8 @@ export default function Calculator401kPage() {
     <CalculatorLayout
       title="401(k) Calculator"
       description="Project your 401(k) retirement savings with employer matching contributions, compound growth, and monthly contributions over time."
-      jsonLd={jsonLd}
+      jsonLd={[jsonLd, generateFAQSchema(faqItems)]}
+      faq={<CalculatorFAQ items={faqItems} />}
       results={
         results ? (
           <div className="space-y-6">

@@ -4,6 +4,7 @@ import { siteConfig } from '@/config/site'
 import { Clause, LegalList, LegalPage } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/privacy-policy' },
   title: 'Privacy Policy',
   description: `Privacy Policy for ${siteConfig.name}. What we collect, what we do not collect, who processes it, and the rights you have.`,
 }

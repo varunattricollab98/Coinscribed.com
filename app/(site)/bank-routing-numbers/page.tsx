@@ -7,6 +7,7 @@ import { Reveal } from '@/components/motion/Reveal'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/bank-routing-numbers' },
   title: 'US Bank Routing Numbers - Find ABA Routing Numbers',
   description:
     'Find routing numbers for all major US banks including Chase, Bank of America, Wells Fargo, Citibank, Capital One, and more. Verify ABA routing numbers for wire transfers, ACH, and direct deposits.',

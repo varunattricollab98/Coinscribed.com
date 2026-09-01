@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { CalculatorFAQ } from '@/components/calculators/CalculatorFAQ'
+import { calculatorFAQs } from '@/data/calculator-faqs'
 import { useCurrency } from '@/components/calculators/CurrencyProvider'
-import { generateHowToSchema } from '@/lib/schema-markup'
+import { generateHowToSchema, generateFAQSchema } from '@/lib/schema-markup'
 
 
 interface EMIResults {
@@ -15,6 +17,7 @@ interface EMIResults {
 
 export default function EMICalculatorPage() {
   const { format: formatCurrency, symbol } = useCurrency()
+  const faqItems = calculatorFAQs['emi']
   const [loanAmount, setLoanAmount] = useState('')
   const [interestRate, setInterestRate] = useState('')
   const [loanTenure, setLoanTenure] = useState('')
@@ -65,7 +68,8 @@ export default function EMICalculatorPage() {
     <CalculatorLayout
       title="EMI Calculator"
       description="Calculate your Equated Monthly Installment (EMI) for any loan. See the breakdown of total interest and total payment over the loan tenure."
-      jsonLd={jsonLd}
+      jsonLd={[jsonLd, generateFAQSchema(faqItems)]}
+      faq={<CalculatorFAQ items={faqItems} />}
       results={
         results ? (
           <div className="space-y-6">

@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   title: 'Finance & Crypto News',
   description:
     'Stay informed with the latest cryptocurrency, market, economy, and banking news from Coinscribed.',
+  // The listing paginates via ?page=N. Every page points its canonical at the
+  // clean /news so the paginated variants are consolidated into one indexed
+  // URL rather than competing as near-duplicate content. The page links
+  // themselves remain crawlable for discovery.
+  alternates: { canonical: '/news' },
   openGraph: {
     title: `Finance & Crypto News | ${siteConfig.name}`,
     description:

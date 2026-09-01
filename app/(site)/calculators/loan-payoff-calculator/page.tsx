@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { CalculatorFAQ } from '@/components/calculators/CalculatorFAQ'
+import { calculatorFAQs } from '@/data/calculator-faqs'
 import { useCurrency } from '@/components/calculators/CurrencyProvider'
-import { generateHowToSchema } from '@/lib/schema-markup'
+import { generateHowToSchema, generateFAQSchema } from '@/lib/schema-markup'
 
 
 interface LoanPayoffResults {
@@ -18,6 +20,7 @@ interface LoanPayoffResults {
 
 export default function LoanPayoffCalculatorPage() {
   const { format: formatCurrency, symbol } = useCurrency()
+  const faqItems = calculatorFAQs['loan-payoff']
   const [loanBalance, setLoanBalance] = useState('')
   const [interestRate, setInterestRate] = useState('')
   const [monthlyPayment, setMonthlyPayment] = useState('')
@@ -119,7 +122,8 @@ export default function LoanPayoffCalculatorPage() {
     <CalculatorLayout
       title="Loan Payoff Calculator"
       description="Find out how extra payments can help you pay off your loan faster. See your new payoff date, total interest saved, and time saved."
-      jsonLd={jsonLd}
+      jsonLd={[jsonLd, generateFAQSchema(faqItems)]}
+      faq={<CalculatorFAQ items={faqItems} />}
       results={
         results ? (
           <div className="space-y-6">

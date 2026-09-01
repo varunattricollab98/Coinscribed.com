@@ -5,6 +5,7 @@ import { Reveal } from '@/components/motion/Reveal'
 import { LineIcon, type LineIconName } from '@/components/icons/LineIcon'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/calculators' },
   title: 'Financial Calculators',
   description:
     'Free online financial calculators for mortgage, retirement, compound interest, EMI, SIP, loan payoff, and 401(k) planning. Make informed financial decisions.',

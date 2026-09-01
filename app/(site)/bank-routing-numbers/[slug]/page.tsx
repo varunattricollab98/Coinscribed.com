@@ -30,6 +30,7 @@ export function generateMetadata({ params }: BankPageProps): Metadata {
   return {
     title,
     description,
+    alternates: { canonical: `/bank-routing-numbers/${bank.slug}` },
     openGraph: {
       title,
       description,

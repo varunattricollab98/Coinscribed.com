@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: '401(k) Calculator - Project Retirement Savings',
   description:
     'Free 401(k) calculator to project your retirement savings with employer matching, compound growth, and monthly contributions over time.',
+  alternates: { canonical: '/calculators/401k-calculator' },
   openGraph: {
     title: '401(k) Calculator',
     description:

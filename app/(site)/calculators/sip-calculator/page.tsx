@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { CalculatorFAQ } from '@/components/calculators/CalculatorFAQ'
+import { calculatorFAQs } from '@/data/calculator-faqs'
 import { useCurrency } from '@/components/calculators/CurrencyProvider'
-import { generateHowToSchema } from '@/lib/schema-markup'
+import { generateHowToSchema, generateFAQSchema } from '@/lib/schema-markup'
 
 
 interface SIPResults {
@@ -14,6 +16,7 @@ interface SIPResults {
 
 export default function SIPCalculatorPage() {
   const { format: formatCurrency, symbol } = useCurrency()
+  const faqItems = calculatorFAQs['sip']
   const [monthlyInvestment, setMonthlyInvestment] = useState('')
   const [expectedReturn, setExpectedReturn] = useState('')
   const [timePeriod, setTimePeriod] = useState('')
@@ -67,7 +70,8 @@ export default function SIPCalculatorPage() {
     <CalculatorLayout
       title="SIP Calculator"
       description="Calculate your Systematic Investment Plan (SIP) returns. See how regular monthly investments grow over time with the power of compounding."
-      jsonLd={jsonLd}
+      jsonLd={[jsonLd, generateFAQSchema(faqItems)]}
+      faq={<CalculatorFAQ items={faqItems} />}
       results={
         results ? (
           <div className="space-y-6">

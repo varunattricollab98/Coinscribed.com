@@ -4,6 +4,7 @@ import { siteConfig } from '@/config/site'
 import { Clause, LegalList, LegalPage } from '@/components/legal/LegalPage'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/terms-of-service' },
   title: 'Terms of Service',
   description: `Terms of Service for ${siteConfig.name}. The conditions on which you may use this website and its calculators, data, and content.`,
 }

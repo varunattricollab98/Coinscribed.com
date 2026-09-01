@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { CalculatorLayout } from '@/components/calculators/CalculatorLayout'
+import { CalculatorFAQ } from '@/components/calculators/CalculatorFAQ'
+import { calculatorFAQs } from '@/data/calculator-faqs'
 import { useCurrency } from '@/components/calculators/CurrencyProvider'
-import { generateHowToSchema } from '@/lib/schema-markup'
+import { generateHowToSchema, generateFAQSchema } from '@/lib/schema-markup'
 
 
 interface RetirementResults {
@@ -18,6 +20,7 @@ interface RetirementResults {
 
 export default function RetirementCalculatorPage() {
   const { format: formatCurrency, symbol } = useCurrency()
+  const faqItems = calculatorFAQs['retirement']
   const [currentAge, setCurrentAge] = useState('')
   const [retirementAge, setRetirementAge] = useState('')
   const [currentSavings, setCurrentSavings] = useState('')
@@ -113,7 +116,8 @@ export default function RetirementCalculatorPage() {
     <CalculatorLayout
       title="Retirement Calculator"
       description="Plan your retirement by calculating if you are on track to meet your retirement income goals. See projected savings, shortfall or surplus, and recommended monthly savings."
-      jsonLd={jsonLd}
+      jsonLd={[jsonLd, generateFAQSchema(faqItems)]}
+      faq={<CalculatorFAQ items={faqItems} />}
       results={
         results ? (
           <div className="space-y-6">

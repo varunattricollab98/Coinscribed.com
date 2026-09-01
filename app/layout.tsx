@@ -17,6 +17,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/' },
   metadataBase: new URL(siteConfig.url),
   title: {
     default: `${siteConfig.name} - ${siteConfig.tagline}`,

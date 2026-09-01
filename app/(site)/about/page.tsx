@@ -6,6 +6,7 @@ import { Reveal } from '@/components/motion/Reveal'
 import { LineIcon, type LineIconName } from '@/components/icons/LineIcon'
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/about' },
   title: 'About',
   description:
     'Coinscribed is your trusted source for financial intelligence: crypto and market news, financial calculators, and US bank routing references built for informed decisions.',

@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Compound Interest Calculator - Calculate Investment Growth',
   description:
     'Free compound interest calculator to see how your money grows over time. Calculate future value and total interest earned across different compounding frequencies.',
+  alternates: { canonical: '/calculators/compound-interest-calculator' },
   openGraph: {
     title: 'Compound Interest Calculator',
     description: 'See how your money grows with compound interest across different compounding frequencies.',

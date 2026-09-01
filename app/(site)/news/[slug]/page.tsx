@@ -53,6 +53,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: { canonical: `/news/${article.slug.current}` },
     openGraph: {
       title: `${title} | ${siteConfig.name}`,
       description,

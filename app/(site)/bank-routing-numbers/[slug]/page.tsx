@@ -264,7 +264,7 @@ export default function BankPage({ params }: BankPageProps) {
               </ul>
               <Link
                 href="/bank-routing-numbers"
-                className="mt-4 inline-flex items-center gap-1 text-eyebrow font-semibold uppercase text-accent transition-colors hover:gap-2 dark:text-accent-light"
+                className="mt-4 inline-flex items-center gap-1 text-eyebrow font-semibold uppercase text-accent transition-[gap] duration-150 hover:gap-2 motion-reduce:transform-none dark:text-accent-light"
               >
                 View All Banks
                 <span aria-hidden="true">&rarr;</span>

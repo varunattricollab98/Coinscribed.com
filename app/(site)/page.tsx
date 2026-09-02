@@ -16,6 +16,10 @@ import { ArticleCard } from '@/components/news/ArticleCard'
 import { LeadStory } from '@/components/news/LeadStory'
 import { StoryRow } from '@/components/news/StoryRow'
 import { LineIcon, type LineIconName } from '@/components/icons/LineIcon'
+import {
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+} from '@/lib/schema-markup'
 
 const calculatorHighlights: {
   title: string
@@ -116,8 +120,22 @@ export default async function HomePage() {
   // not a traffic ranking (see lib/story-ranking.ts).
   const railMostRead = rankByReadership(articles, 6)
 
+  // Organization + WebSite JSON-LD live on the site root: these are the brand
+  // entity signals Google reads to build the knowledge panel and sitelinks.
+  const organizationSchema = generateOrganizationSchema()
+  const webSiteSchema = generateWebSiteSchema()
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
+      />
+
       {/* Live crypto price ticker */}
       <CryptoTicker />
 

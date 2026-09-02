@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { siteConfig } from '@/config/site'
 import { getArticleBySlug, getRelatedArticles } from '@/lib/sanity-queries'
-import { generateArticleSchema } from '@/lib/schema-markup'
+import { generateArticleSchema, generateFAQSchema } from '@/lib/schema-markup'
 import { PortableTextRenderer } from '@/components/news/PortableTextRenderer'
 import { CategoryBadge } from '@/components/news/CategoryBadge'
 import { ArticleCard } from '@/components/news/ArticleCard'
@@ -102,6 +102,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
+      {article.faqs && article.faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateFAQSchema(article.faqs)),
+          }}
+        />
+      )}
+
       <div className="container-page section-padding">
         <article className="container-prose">
           {/* Article Header */}
@@ -191,6 +200,33 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               .
             </p>
           </aside>
+
+          {/*
+            FAQ section. Rendered visibly (not just as schema) because Google
+            requires FAQPage rich-result content to be present on the page. The
+            matching FAQPage JSON-LD is emitted at the top of this route.
+          */}
+          {article.faqs && article.faqs.length > 0 && (
+            <section className="mb-14">
+              <div className="mb-6 flex items-center gap-3">
+                <span className="eyebrow-royal">Questions</span>
+                <span className="gold-rule flex-1" aria-hidden="true" />
+              </div>
+              <h2 className="section-title mb-8">Frequently Asked Questions</h2>
+              <dl className="divide-y divide-hairline dark:divide-hairline-dark">
+                {article.faqs.map((faq, i) => (
+                  <div key={i} className="py-6 first:pt-0">
+                    <dt className="font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+                      {faq.question}
+                    </dt>
+                    <dd className="mt-3 leading-relaxed text-ink-body dark:text-ink-inverse-body">
+                      {faq.answer}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          )}
 
           {/* Author Bio */}
           {article.author?.bio && (

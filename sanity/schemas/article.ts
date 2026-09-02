@@ -144,6 +144,38 @@ const article = defineType({
         'Override the excerpt for search engine meta description (optional)',
       validation: (Rule) => Rule.max(160),
     }),
+    defineField({
+      name: 'faqs',
+      title: 'FAQs',
+      type: 'array',
+      description:
+        'Optional. Each question/answer renders as a visible FAQ section at the end of the article and powers Google FAQ rich snippets (FAQPage schema). Leave empty if the article has no FAQ.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'faq',
+          title: 'FAQ',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Question',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Answer',
+              type: 'text',
+              rows: 3,
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {
+            select: { title: 'question' },
+          },
+        }),
+      ],
+    }),
   ],
   orderings: [
     {

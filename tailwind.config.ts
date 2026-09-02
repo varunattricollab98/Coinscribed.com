@@ -189,7 +189,7 @@ const config: Config = {
         },
       },
       animation: {
-        marquee: 'marquee 45s linear infinite',
+        marquee: 'marquee 60s linear infinite',
         'fade-up': 'fade-up 0.5s ease-out both',
         'fade-in': 'fade-in 0.3s ease-out both',
       },

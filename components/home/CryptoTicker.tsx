@@ -127,23 +127,28 @@ export function CryptoTicker() {
     const down = coin.change24h < 0
     const arrow = up ? '▲' : down ? '▼' : '■'
     const colorClass = up
-      ? 'text-up-light'
+      ? 'text-emerald-400'
       : down
-        ? 'text-down-light'
-        : 'text-ink-muted'
+        ? 'text-rose-400'
+        : 'text-zinc-400'
     return (
       <div
         key={`${coin.id}-${i}`}
-        className="flex items-center gap-2 px-5 py-2.5 text-sm"
+        className="flex items-center gap-2 border-r border-white/10 px-6 py-3 text-[15px]"
       >
-        <span className="font-semibold tracking-wide">{coin.symbol}</span>
-        <span className="tabular-nums text-ink-muted">
+        {/* Brighter, heavier symbol so the eye can anchor on each coin. */}
+        <span className="font-bold tracking-wide text-white">{coin.symbol}</span>
+        {/* Price near-white instead of muted grey — the previous grey was the
+            main reason the bar read as low-contrast on the dark background. */}
+        <span className="font-medium tabular-nums text-zinc-200">
           {formatPrice(coin.price)}
         </span>
         <span
-          className={`flex items-center gap-0.5 font-medium tabular-nums ${colorClass}`}
+          className={`flex items-center gap-1 font-semibold tabular-nums ${colorClass}`}
         >
-          <span aria-hidden="true">{arrow}</span>
+          <span aria-hidden="true" className="text-[10px]">
+            {arrow}
+          </span>
           {Math.abs(coin.change24h).toFixed(2)}%
         </span>
       </div>
@@ -151,8 +156,17 @@ export function CryptoTicker() {
   }
 
   return (
-    <div className="w-full overflow-hidden border-b border-hairline bg-ink text-zinc-100">
-      <div className="group flex whitespace-nowrap">
+    <div className="relative flex w-full items-stretch overflow-hidden border-b border-hairline bg-gradient-to-r from-ink via-[#1a1a1d] to-ink dark:border-hairline-dark">
+      {/* Fixed "LIVE" flag on the left, so it is always visible and labels the
+          scrolling data. Sits above the marquee and does not scroll away. */}
+      <div className="z-10 flex shrink-0 items-center gap-2 border-r border-white/15 bg-oxblood px-4 dark:bg-oxblood-light">
+        <span className="h-2 w-2 animate-pulse rounded-full bg-white" aria-hidden="true" />
+        <span className="text-eyebrow font-bold uppercase tracking-wider text-white">
+          Live
+        </span>
+      </div>
+
+      <div className="group flex flex-1 items-center overflow-hidden whitespace-nowrap">
         <div className="flex min-w-full shrink-0 animate-marquee items-center group-hover:[animation-play-state:paused] motion-reduce:animate-none">
           {/* Real list, read by assistive tech. */}
           <div className="flex items-center">
@@ -165,6 +179,13 @@ export function CryptoTicker() {
           </div>
         </div>
       </div>
+
+      {/* Soft fade on the right edge so coins dissolve rather than getting
+          chopped mid-word as they scroll off. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink to-transparent"
+      />
     </div>
   )
 }

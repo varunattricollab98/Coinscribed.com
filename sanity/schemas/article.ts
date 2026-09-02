@@ -90,6 +90,8 @@ const article = defineType({
             },
           ],
         }),
+        // Comparison / data table (dependency-free, defined in tableBlock.ts).
+        defineArrayMember({ type: 'tableBlock' }),
       ],
     }),
     defineField({

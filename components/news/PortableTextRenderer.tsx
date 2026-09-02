@@ -11,7 +11,68 @@ import type { PortableTextBlock } from '@/lib/sanity-queries'
  * clear step between heading and body, and pull-quotes set in the serif with a
  * gilt rule instead of a heavy grey block.
  */
+interface TableValue {
+  caption?: string
+  header?: string[]
+  rows?: { cells?: string[] }[]
+}
+
 const components: PortableTextComponents = {
+  types: {
+    // Comparison / data table authored via the `tableBlock` object type.
+    // Rendered as a real, scrollable HTML <table> so it reads well on mobile
+    // and gives Google structured, snippet-friendly content.
+    tableBlock: ({ value }: { value: TableValue }) => {
+      const header = value?.header ?? []
+      const rows = value?.rows ?? []
+      if (header.length === 0 && rows.length === 0) return null
+      return (
+        <figure className="my-10">
+          <div className="overflow-x-auto rounded-sm border border-hairline dark:border-hairline-dark">
+            <table className="w-full border-collapse text-left text-sm">
+              {header.length > 0 && (
+                <thead>
+                  <tr className="border-b border-hairline bg-wash dark:border-hairline-dark dark:bg-elevated">
+                    {header.map((cell, i) => (
+                      <th
+                        key={i}
+                        scope="col"
+                        className="px-4 py-3 font-sans text-eyebrow font-semibold uppercase tracking-wide text-ink dark:text-ink-inverse"
+                      >
+                        {cell}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+              )}
+              <tbody>
+                {rows.map((row, r) => (
+                  <tr
+                    key={r}
+                    className="border-b border-hairline last:border-0 dark:border-hairline-dark"
+                  >
+                    {(row?.cells ?? []).map((cell, c) => (
+                      <td
+                        key={c}
+                        className="px-4 py-3 align-top leading-relaxed text-ink-body dark:text-ink-inverse-body"
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {value?.caption && (
+            <figcaption className="mt-3 text-caption text-ink-muted dark:text-ink-inverse-muted">
+              {value.caption}
+            </figcaption>
+          )}
+        </figure>
+      )
+    },
+  },
   block: {
     h2: ({ children }) => (
       <h2 className="mb-4 mt-12 font-serif text-display-3 font-bold leading-tight text-ink first:mt-0 dark:text-ink-inverse">

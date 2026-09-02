@@ -112,7 +112,12 @@ export function CryptoTicker() {
     }
 
     fetchPrices()
-    const interval = setInterval(fetchPrices, 60000)
+    // 30s refresh. CoinGecko's free/demo endpoint allows roughly 30 calls per
+    // minute per IP, so one call every 30s per open tab stays well within it.
+    // A failed or rate-limited response is swallowed above and the last-good
+    // prices stay on screen, so hitting the limit degrades gracefully rather
+    // than blanking the bar.
+    const interval = setInterval(fetchPrices, 30000)
 
     return () => {
       active = false

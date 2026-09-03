@@ -6,6 +6,8 @@ import {
   getSampleArticlesByCategory,
   getSampleArticleBySlug,
   getRelatedSampleArticles,
+  getSampleAuthorBySlug,
+  getSampleArticlesByAuthor,
   sampleCategories,
 } from '@/data/sample-news'
 
@@ -29,6 +31,12 @@ export interface Author {
   bio?: string
   image?: SanityImage
   imageUrl?: string
+  /** Author's professional role, e.g. 'Senior Cryptocurrency Correspondent'. Used for E-E-A-T Person schema. */
+  jobTitle?: string
+  /** Short qualification line, e.g. 'CFA, MBA' or a one-line credential. Used for E-E-A-T. */
+  credentials?: string
+  /** Author's own professional profile URLs (LinkedIn, personal site) for schema `sameAs`. */
+  sameAs?: string[]
 }
 
 export interface Category {
@@ -123,8 +131,21 @@ const articleFullFields = `
   seoTitle,
   seoDescription,
   faqs,
-  "author": author->{ _id, name, slug, bio, "imageUrl": image.asset->url },
+  "author": author->{ _id, name, slug, bio, jobTitle, credentials, sameAs, "imageUrl": image.asset->url },
   "category": category->{ _id, title, slug, description }
+`
+
+// Author document projection for the dedicated author bio page. Mirrors the
+// author fields resolved in `articleFullFields` so the two paths share a shape.
+const authorFields = `
+  _id,
+  name,
+  slug,
+  bio,
+  jobTitle,
+  credentials,
+  sameAs,
+  "imageUrl": image.asset->url
 `
 
 // ============================================================
@@ -308,5 +329,43 @@ export async function getRelatedArticles(
     }, CONTENT_CACHE)
   } catch {
     return getRelatedSampleArticles(categorySlug, currentArticleId, limit)
+  }
+}
+
+/**
+ * Get a single author by slug for the dedicated author bio page.
+ *
+ * Uses Sanity when the dataset holds published articles, otherwise falls back
+ * to the sample newsroom — the same content the rest of the site renders.
+ */
+export async function getAuthorBySlug(slug: string): Promise<Author | null> {
+  if (!(await hasSanityArticles())) return getSampleAuthorBySlug(slug)
+
+  const query = `*[_type == "author" && slug.current == $slug][0] {
+    ${authorFields}
+  }`
+
+  try {
+    const author = await sanityClient.fetch<Author | null>(query, { slug }, CONTENT_CACHE)
+    return author ?? getSampleAuthorBySlug(slug)
+  } catch {
+    return getSampleAuthorBySlug(slug)
+  }
+}
+
+/**
+ * Get every article written by a given author (newest first), as cards.
+ */
+export async function getArticlesByAuthor(slug: string): Promise<ArticleCard[]> {
+  if (!(await hasSanityArticles())) return getSampleArticlesByAuthor(slug)
+
+  const query = `*[_type == "article" && author->slug.current == $slug] | order(publishedAt desc) {
+    ${articleCardFields}
+  }`
+
+  try {
+    return await sanityClient.fetch<ArticleCard[]>(query, { slug }, CONTENT_CACHE)
+  } catch {
+    return getSampleArticlesByAuthor(slug)
   }
 }

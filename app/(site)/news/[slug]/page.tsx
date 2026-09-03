@@ -86,12 +86,25 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     3
   )
 
+  const authorSlug = article.author?.slug?.current
   const articleSchema = generateArticleSchema({
     title: article.seoTitle || article.title,
     description: article.seoDescription || article.excerpt,
     url: `${siteConfig.url}/news/${article.slug.current}`,
     datePublished: article.publishedAt,
-    author: article.author?.name,
+    author: article.author
+      ? {
+          name: article.author.name,
+          ...(authorSlug && {
+            url: `${siteConfig.url}/news/author/${authorSlug}`,
+          }),
+          ...(article.author.jobTitle && { jobTitle: article.author.jobTitle }),
+          ...(article.author.sameAs?.length && {
+            sameAs: article.author.sameAs,
+          }),
+          ...(article.author.imageUrl && { image: article.author.imageUrl }),
+        }
+      : undefined,
     image: article.imageUrl,
   })
 
@@ -252,8 +265,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 )}
                 <div>
                   <p className="font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
-                    {article.author.name}
+                    {authorSlug ? (
+                      <Link
+                        href={`/news/author/${authorSlug}`}
+                        className="transition-colors hover:text-accent dark:hover:text-accent-light"
+                      >
+                        {article.author.name}
+                      </Link>
+                    ) : (
+                      article.author.name
+                    )}
                   </p>
+                  {article.author.jobTitle && (
+                    <p className="mt-0.5 text-caption text-ink-muted dark:text-ink-inverse-muted">
+                      {article.author.jobTitle}
+                    </p>
+                  )}
                   <p className="mt-1.5 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
                     {article.author.bio}
                   </p>

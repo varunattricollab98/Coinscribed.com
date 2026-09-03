@@ -53,9 +53,32 @@ export function generateArticleSchema({
   url: string
   datePublished: string
   dateModified?: string
-  author?: string
+  author?: {
+    name: string
+    url?: string
+    jobTitle?: string
+    sameAs?: string[]
+    image?: string
+  }
   image?: string
 }) {
+  // Attribute authorship to a named Person for E-E-A-T when we have one, so
+  // Google can connect the article to a real, credentialed human. Fall back to
+  // the publishing Organization only when no author is supplied.
+  const authorSchema = author?.name
+    ? {
+        '@type': 'Person',
+        name: author.name,
+        ...(author.url && { url: author.url }),
+        ...(author.jobTitle && { jobTitle: author.jobTitle }),
+        ...(author.image && { image: author.image }),
+        ...(author.sameAs?.length && { sameAs: author.sameAs }),
+      }
+    : {
+        '@type': 'Organization',
+        name: siteConfig.name,
+      }
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -64,10 +87,7 @@ export function generateArticleSchema({
     url,
     datePublished,
     dateModified: dateModified || datePublished,
-    author: {
-      '@type': 'Organization',
-      name: author || siteConfig.name,
-    },
+    author: authorSchema,
     publisher: {
       '@type': 'Organization',
       name: siteConfig.name,

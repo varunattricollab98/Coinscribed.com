@@ -34,6 +34,28 @@ const author = defineType({
       description: 'A brief biography of the author',
     }),
     defineField({
+      name: 'jobTitle',
+      title: 'Job Title',
+      type: 'string',
+      description:
+        "The author's professional role, e.g. 'Senior Cryptocurrency Correspondent'. Shown on the byline/bio page and emitted in Person schema.",
+    }),
+    defineField({
+      name: 'credentials',
+      title: 'Credentials',
+      type: 'string',
+      description:
+        'A short qualification line (e.g. "CFA, MBA" or "Former research economist, Federal Reserve Bank of New York"). Used for E-E-A-T to establish author expertise.',
+    }),
+    defineField({
+      name: 'sameAs',
+      title: 'Profile links / sameAs',
+      type: 'array',
+      of: [{ type: 'url' }],
+      description:
+        "The author's own professional profile URLs (LinkedIn, personal site). Emitted as schema.org sameAs on the author's Person markup for E-E-A-T.",
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',

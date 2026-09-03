@@ -186,6 +186,85 @@ articles in `/studio`, they automatically replace the samples — no code change
 no redeploy needed. Calculators, bank routing numbers, and legal pages are
 unaffected either way.
 
+### Custom Admin Editor (via `/admin`)
+
+Alongside Sanity Studio, this site ships a second, WordPress-style editor at
+**`/admin`**. It is completely **additive**: Sanity Studio at `/studio` still
+works exactly as before, and both tools read and write the **same Sanity
+dataset**, so an article created in one is fully editable in the other. Use
+whichever you prefer.
+
+Why it exists: building tables in Studio was awkward, so `/admin` includes an
+easy, **spreadsheet-style table creator** (add and remove rows and columns,
+type into each cell, set an optional caption). Tables built here save into the
+exact same format Studio uses, so they render identically on the public site
+and stay editable in `/studio`.
+
+**Authentication** uses each writer's own Sanity account (the same login as
+Studio). It is real multi-user auth with per-user roles managed in
+[manage.sanity.io](https://manage.sanity.io). Every save, publish, and image
+upload runs **as the logged-in Sanity user**, so per-user roles and the audit
+trail apply. There is **no shared password and no master/server write token**
+anywhere in this project, and none should ever be added.
+
+#### What YOU need to do once (in the Sanity dashboard)
+
+The `/admin` editor writes to Sanity from the browser as the logged-in user, so
+a couple of dashboard settings must be in place. Most of these overlap with the
+Studio setup above.
+
+1. **Allow credentialed writes in CORS**
+   - Go to [manage.sanity.io](https://manage.sanity.io) → your project → **API → CORS Origins**.
+   - Make sure each of these origins has **"Allow credentials" CHECKED**:
+     - `http://localhost:3000` (local development)
+     - `https://coinscribed-iota.vercel.app` (current Vercel URL)
+     - `https://coinscribed.com` (once the custom domain is connected)
+   - "Allow credentials" is what lets the browser send the writer's Sanity
+     session for **writes and image uploads**, not just reads. Without it,
+     saving or uploading from `/admin` will fail with a permission or CORS error.
+
+2. **Invite your writers with the right role**
+   - manage.sanity.io → your project → **Members → Invite members**.
+   - Give writers the **Editor** role, and yourself (owners) **Administrator**.
+   - Because writes run as the logged-in user, each person's role and the audit
+     trail apply automatically. No separate `/admin` user list to maintain.
+
+3. **Confirm the environment variables are set**
+   - Locally in `.env.local` and on Vercel (Project → Settings → Environment
+     Variables), confirm both are present:
+     ```env
+     NEXT_PUBLIC_SANITY_PROJECT_ID=h0xv92n1
+     NEXT_PUBLIC_SANITY_DATASET=production
+     ```
+   - The `/admin` editor reuses these same two public values. **No new
+     environment variables are required**, and no secret token is used.
+
+#### Daily authoring workflow (log in at `/admin`)
+
+1. Go to **`yourdomain.com/admin`** and **sign in with your Sanity account**
+   (unauthenticated visitors are sent to Sanity's hosted login and returned to
+   `/admin`).
+2. You land on the **article list**, showing published articles and drafts with
+   a status badge. Click **New Article**, or **Edit** on an existing one.
+3. Fill in the fields: **Title** (the slug auto-generates and stays editable),
+   **Excerpt** (up to 300 characters), **Author** and **Category** pickers,
+   **Published At**, and optional **SEO Title** (up to 70) and **SEO
+   Description** (up to 160). Add **FAQs** as needed.
+4. Build the **Body** with the rich-text toolbar: headings (H2 to H4), quote,
+   bold, italic, underline, inline code, links, and bullet or numbered lists.
+5. **Insert a table** with the spreadsheet-style editor: add and remove rows and
+   columns, type directly into each cell, reorder rows and columns, and set an
+   optional caption.
+6. **Upload images** for the featured image and inline in the body (with alt
+   text, plus a caption for inline images). Uploads go to Sanity as the
+   logged-in user.
+7. Click **Save Draft** to keep working, or **Publish** when ready. Publishing
+   uses the same draft-and-publish model as Studio, so documents stay
+   interchangeable between `/admin` and `/studio`.
+8. Published articles appear on the public site (`/news`, the homepage, the
+   category page, and `/news/<slug>`) within the existing cache window, exactly
+   the same as Studio-published content.
+
 ### Site Configuration
 
 Non-technical team members can update site settings by editing `config/site.ts`:

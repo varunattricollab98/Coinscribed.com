@@ -1,7 +1,9 @@
 'use client'
 
+import Image from 'next/image'
 import { PortableText, PortableTextComponents } from '@portabletext/react'
 import type { PortableTextBlock } from '@/lib/sanity-queries'
+import { urlFor } from '@/lib/sanity'
 
 /**
  * Long-form editorial typography.
@@ -17,8 +19,51 @@ interface TableValue {
   rows?: { cells?: string[] }[]
 }
 
+/**
+ * Inline body image, matching the schema's `image` array member and the shape
+ * the /admin editor serializes (see lib/admin-types EditorImageBlock and
+ * lib/portable-text serializeBlock): an asset reference plus optional alt and
+ * caption. Studio-authored inline images share this exact shape, so both paths
+ * render through the same handler below.
+ */
+interface ImageValue {
+  _type: 'image'
+  asset?: { _ref?: string; _type?: 'reference' }
+  alt?: string
+  caption?: string
+}
+
 const components: PortableTextComponents = {
   types: {
+    // Inline body image. The featured `mainImage` is rendered by the article
+    // page template; this handler covers images placed inside the body by the
+    // /admin editor or Sanity Studio so they actually appear on the public page.
+    image: ({ value }: { value: ImageValue }) => {
+      if (!value?.asset?._ref) return null
+      // Build a max-width, DPR-friendly URL via the project's Sanity image
+      // builder. We render at a fixed layout width with height:auto so any
+      // aspect ratio is preserved without needing the asset's intrinsic size.
+      const width = 1200
+      const height = 800
+      const src = urlFor(value).width(width).fit('max').auto('format').url()
+      return (
+        <figure className="my-10">
+          <Image
+            src={src}
+            alt={value.alt ?? ''}
+            width={width}
+            height={height}
+            sizes="(min-width: 768px) 768px, 100vw"
+            className="h-auto w-full rounded-sm"
+          />
+          {value?.caption && (
+            <figcaption className="mt-3 text-caption text-ink-muted dark:text-ink-inverse-muted">
+              {value.caption}
+            </figcaption>
+          )}
+        </figure>
+      )
+    },
     // Comparison / data table authored via the `tableBlock` object type.
     // Rendered as a real, scrollable HTML <table> so it reads well on mobile
     // and gives Google structured, snippet-friendly content.

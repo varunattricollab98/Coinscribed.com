@@ -1,0 +1,34 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "THE headline feature: an easy spreadsheet-style visual TABLE editor (the user's #1 pain point in Studio), plus Draft vs Publish save/write-back to Sanity as the authenticated user. The table editor produces exactly the existing tableBlock shape so tables render identically on the public site and remain editable in Studio. Depends on FEAT-001 (portable-text buildTableBlock, admin client) and FEAT-002 (editor host + onSave hook).",
+  "status": "pending",
+  "steps": [
+    "Build components/admin/TableEditor.tsx ('use client') - a visual, spreadsheet-like grid. UI: an editable header row (each column header is a text input) plus editable data rows (each cell a text input), rendered as an actual HTML table so it reads like a spreadsheet. Toolbar/controls: 'Add column' and 'Add row' buttons; per-column delete (x on hover over a header) and per-row delete (x at the row start); optional 'Move row up/down' and 'Move column left/right' if feasible; and an optional Caption text input above the grid. Keyboard nice-to-haves: Tab moves to next cell, Enter on the last row optionally adds a row. Keep it dependency-free and simple - ease of use is the entire point of this feature.",
+    "The TableEditor's value/onChange must map to and from the tableBlock model: { caption?:string, header:string[], rows:{cells:string[]}[] }. Adding/removing a column must keep header and every row's cells array length in sync (pad/truncate cells to header length). On serialize (via lib/portable-text.ts buildTableBlock), emit EXACTLY { _key, _type:'tableBlock', caption?, header:string[], rows:[{ _key, _type:'row', cells:string[] }] } - matching sanity/schemas/tableBlock.ts and the TableValue shape in components/news/PortableTextRenderer.tsx. Verify against both files before finalizing.",
+    "Integrate the table editor into the body: 'Insert table' in the RichTextEditor (FEAT-002) inserts a tableBlock node into the body model at the cursor/end; existing tableBlocks loaded from a saved article must open in the TableEditor for editing (parse via lib/portable-text.ts). A table can be edited inline within the body flow and deleted like any other block.",
+    "Implement the save/write-back in components/admin/ArticleEditor.tsx (fulfilling the onSave hook from FEAT-002) using the authenticated admin client (lib/sanity-admin.ts) so all writes are attributed to the logged-in Sanity user and subject to their role. Assemble the full article document from the editor model: _type:'article', title, slug:{_type:'slug', current}, excerpt, body (Portable Text array incl blocks/images/tableBlocks), author (reference), publishedAt, category (reference), mainImage (image+alt) if set, seoTitle?, seoDescription?, faqs? (array of {_key,_type:'faq',question,answer}). Match sanity/schemas/article.ts exactly.",
+    "Implement Draft vs Publish using Sanity's drafts. id convention (mirroring Studio): SAVE DRAFT writes to id `drafts.<uuid>` (new) or `drafts.<existingId>` (edit) via client.createOrReplace. PUBLISH writes the document to the published id (strip the `drafts.` prefix) and deletes the corresponding draft (client.transaction: createOrReplace(published) + delete(draftId)), mirroring Studio's publish action. For a brand-new article generate a stable document id (e.g. a uuid) shared by draft and published forms. UNPUBLISH (optional) can create a draft from the published doc; include only if low-risk. Ensure ids and _type match what Studio expects so a doc created here is fully editable in /studio and vice-versa.",
+    "Add a Publish panel in the right sidebar: status indicator (Draft/Published/Unsaved changes), 'Save Draft' and 'Publish' buttons (disabled until validation passes), a spinner + success/error toast on save, and redirect to /admin (or stay with a saved confirmation) after success. Surface Sanity permission errors clearly (e.g. if the logged-in user's role lacks write access or CORS credentialed-write is not configured, show an actionable message rather than a silent failure).",
+    "If browser credentialed writes/uploads are blocked in a way that cannot be solved by CORS config alone, add thin proxy route handlers under app/api/admin/* (following app/api/market/route.ts pattern) that FORWARD the user's Sanity credential/session (never a master project token) and perform the mutation/upload server-side on the user's behalf. Only add these if needed; document why. Do not introduce a server-side all-powerful write token."
+  ],
+  "acceptance_criteria": [
+    "TableEditor renders a spreadsheet-like grid where the user can add/remove columns and rows, edit header cells and data cells, and set an optional caption - with header and all row cells kept length-synced.",
+    "Serialized table is EXACTLY {_type:'tableBlock', caption?, header:string[], rows:[{_type:'row', cells:string[]}]} (with _key on tableBlock and each row) and renders through components/news/PortableTextRenderer.tsx identically to a Studio-authored table.",
+    "Tables can be inserted into the body, edited inline, reordered/deleted, and existing saved tables reopen in the TableEditor.",
+    "Save Draft writes drafts.<id>; Publish writes the published id and removes the draft (transaction), matching Studio's drafts. convention so docs are interchangeable between /admin and /studio.",
+    "All writes and asset uploads execute as the logged-in Sanity user via the withCredentials client (or a credential-forwarding proxy) - NO master write token anywhere in the codebase.",
+    "Publish/Save buttons respect validation; success and permission/CORS errors are surfaced to the user.",
+    "The published article appears on the public site (/news, homepage, category, /news/<slug>) exactly as a Studio-authored one would, with tables rendered as HTML tables.",
+    "No new npm dependency added; if unavoidable, added to package.json AND package-lock.json."
+  ],
+  "verification": [
+    "Static review: diff the emitted tableBlock and full article document against sanity/schemas/tableBlock.ts, sanity/schemas/article.ts, and components/news/PortableTextRenderer.tsx TableValue - field names, _type values ('row'), and array shapes must match.",
+    "Confirm draft/publish id handling matches Sanity's drafts.<id> convention and uses client.createOrReplace / client.transaction with delete of the draft on publish.",
+    "Confirm no createClient call anywhere sets a token from an env var / hardcoded token for writes (grep for 'token'); writes go through the withCredentials client or a credential-forwarding proxy only.",
+    "Confirm any app/api/admin/* route forwards user credentials and does not use a master token, and follows the next/server route handler pattern.",
+    "Rely on GitHub Actions CI for next build + next lint; ensure code passes (no unused vars, escaped JSX entities, image element rule handled)."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

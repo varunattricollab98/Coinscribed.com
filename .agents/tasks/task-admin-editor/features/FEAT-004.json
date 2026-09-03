@@ -1,0 +1,27 @@
+{
+  "id": "FEAT-004",
+  "type": "docs",
+  "description": "Documentation + final integration polish. Document the /admin editor: the auth mechanism (logged-in Sanity user, no master token), the required manual Sanity dashboard steps (CORS credentialed-write origins, inviting users with Editor/Admin roles, env vars), the daily authoring workflow, and how it coexists with /studio. Update env example if any new NEXT_PUBLIC_ var is used, and verify /studio and public rendering remain untouched. Depends on FEAT-001..003.",
+  "status": "pending",
+  "steps": [
+    "Add a 'Custom Admin Editor (/admin)' section to README.md alongside the existing Sanity Studio section. Explain: it is an ADDITIVE WordPress-style editor at /admin (Studio at /studio still works); login uses each writer's own Sanity account (multi-user, roles managed in manage.sanity.io); the easy spreadsheet-style table creator solves the Studio table pain; content is saved back into the SAME Sanity dataset and is fully interchangeable with Studio.",
+    "Document the exact REQUIRED manual user steps: (1) In manage.sanity.io > API > CORS Origins, ensure http://localhost:3000, the Vercel URL, and https://coinscribed.com each have 'Allow credentials' CHECKED (needed for credentialed browser writes/uploads, not just reads). (2) Invite writers via Members > Invite with Editor role (and Administrator for owners); per-user roles + audit trail apply because writes run as the logged-in user. (3) Confirm NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET are set locally and on Vercel. Explicitly state that NO master/server write token is used or should be added.",
+    "Document the daily workflow: go to /admin, sign in with Sanity, see the article list, click New Article or Edit, fill fields, build the body with the rich-text toolbar, insert a table with the spreadsheet editor, upload images, then Save Draft or Publish. Note that Published articles appear on the public site within the existing cache window, same as Studio.",
+    "If FEAT-001..003 introduced any new NEXT_PUBLIC_ env var (e.g. an explicit app origin/base URL) or any dependency, update .env.example and note it in README; if none, state that no new env vars are required. Do NOT add any secret token to .env.example.",
+    "Final coexistence check: confirm app/studio/* , sanity.config.ts, sanity/schemas/*, lib/sanity.ts (read client), lib/sanity-queries.ts, and components/news/PortableTextRenderer.tsx are unchanged by this task (git diff), so the public site and Studio behavior are unaffected. If any were changed, justify or revert."
+  ],
+  "acceptance_criteria": [
+    "README.md documents the /admin editor: additive to /studio, Sanity multi-user auth with roles, easy table creator, save-back to the same dataset.",
+    "README clearly lists the manual steps: CORS 'Allow credentials' for the app origins, inviting users with Editor/Admin roles, and the NEXT_PUBLIC_ env vars; and states no master write token is used.",
+    "Daily authoring workflow is documented end to end including the table editor.",
+    ".env.example reflects reality (updated if a new NEXT_PUBLIC_ var was added; otherwise unchanged) and contains no secret token.",
+    "git diff confirms /studio, sanity.config.ts, sanity/schemas/*, lib/sanity.ts, lib/sanity-queries.ts, and components/news/PortableTextRenderer.tsx are unchanged (or changes are justified)."
+  ],
+  "verification": [
+    "Read README.md and .env.example to confirm the documented steps and env accuracy.",
+    "git diff --name-only against the branch base and confirm no unintended changes to /studio, schemas, read client, queries, or the public Portable Text renderer.",
+    "Rely on GitHub Actions CI for the final next build + next lint pass."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

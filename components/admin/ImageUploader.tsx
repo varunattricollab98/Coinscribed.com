@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useRef, useState } from 'react'
-import { adminSanityClient } from '@/lib/sanity-admin'
+import { getAdminClient } from '@/lib/sanity-admin'
 import { urlFor } from '@/lib/sanity'
 
 /**
@@ -38,9 +38,9 @@ const MAX_BYTES = 10 * 1024 * 1024
 /**
  * Upload an image to Sanity and edit its alt / caption metadata.
  *
- * The file is uploaded with `adminSanityClient.assets.upload('image', file)`,
- * which runs AS THE LOGGED-IN USER (the client carries the session cookie, no
- * master token). On success the returned asset id is stored as an image object
+ * The file is uploaded with `getAdminClient().assets.upload('image', file)`,
+ * which runs AS THE LOGGED-IN USER (the client carries the per-user session
+ * token or session cookie, no master token). On success the returned asset id is stored as an image object
  * with an asset reference; the preview is rendered through the existing
  * `urlFor()` image-url builder.
  */
@@ -67,7 +67,7 @@ export function ImageUploader({
       }
       setUploading(true)
       try {
-        const asset = await adminSanityClient.assets.upload('image', file)
+        const asset = await getAdminClient().assets.upload('image', file)
         onChange({
           _type: 'image',
           asset: { _type: 'reference', _ref: asset._id },

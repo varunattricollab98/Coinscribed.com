@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { adminSanityClient } from '@/lib/sanity-admin'
+import { getAdminClient } from '@/lib/sanity-admin'
 import type { AdminArticleListItem } from '@/lib/admin-types'
 
 /**
@@ -58,7 +58,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     let active = true
-    adminSanityClient
+    getAdminClient()
       .fetch<RawArticleRow[]>(ARTICLES_QUERY)
       .then((result) => {
         if (!active) return

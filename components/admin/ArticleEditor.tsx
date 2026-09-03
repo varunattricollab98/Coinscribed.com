@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { adminSanityClient } from '@/lib/sanity-admin'
+import { getAdminClient } from '@/lib/sanity-admin'
 import { genKey, parseBody, serializeBody } from '@/lib/portable-text'
 import {
   ARTICLE_LIMITS,
@@ -158,7 +158,7 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
     if (!documentId) return
     let active = true
     setLoading(true)
-    adminSanityClient
+    getAdminClient()
       .fetch<RawArticleDoc | null>(LOAD_QUERY, {
         id: documentId,
         draftId: `drafts.${documentId}`,
@@ -406,12 +406,12 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
         await onSave(draft, mode)
       } else if (mode === 'draft') {
         // SAVE DRAFT -> write drafts.<baseId>, leaving any published copy as-is.
-        await adminSanityClient.createOrReplace(buildDocument(draft, draftId))
+        await getAdminClient().createOrReplace(buildDocument(draft, draftId))
         setDocStatus((prev) => (prev === 'published' ? 'published' : 'draft'))
       } else {
         // PUBLISH -> write the published doc at <baseId> and delete the draft,
         // in a single transaction (mirrors Studio's publish action).
-        await adminSanityClient
+        await getAdminClient()
           .transaction()
           .createOrReplace(buildDocument(draft, baseId))
           .delete(draftId)

@@ -77,22 +77,29 @@ const TAG_TO_MARK: Record<string, EditorMark> = {
 
 /**
  * Serialize the child nodes of a contentEditable element into Portable Text
- * spans plus the link annotations they reference. Adjacent text with identical
- * marks is not merged (Sanity tolerates multiple spans), keeping the walk
- * simple and predictable.
+ * spans plus the link annotations they reference.
+ *
+ * Post-processing:
+ * - Adjacent spans with identical marks are MERGED (reduces span noise and
+ *   brings the output closer to what Studio produces).
+ * - Each span's `marks` array is sorted (decorator names first
+ *   alphabetically, then link keys) so the order is deterministic.
+ * - `<BR>` elements are DROPPED rather than emitted as a `\n` span, because
+ *   Sanity does not model hard breaks as literal newline text and the public
+ *   renderer would display it as visible whitespace.
  */
 function domToSpans(root: HTMLElement): {
   spans: EditorSpan[]
   links: EditorLink[]
 } {
-  const spans: EditorSpan[] = []
+  const rawSpans: EditorSpan[] = []
   const links: EditorLink[] = []
 
   const walk = (node: Node, marks: string[]) => {
     if (node.nodeType === Node.TEXT_NODE) {
       const text = node.textContent ?? ''
       if (text.length > 0) {
-        spans.push({ _key: genKey(), text, marks: [...marks] })
+        rawSpans.push({ _key: genKey(), text, marks: [...marks] })
       }
       return
     }
@@ -101,8 +108,11 @@ function domToSpans(root: HTMLElement): {
     const el = node as HTMLElement
     const tag = el.tagName
 
+    // Drop <BR> entirely: Sanity represents hard breaks as separate blocks,
+    // not as literal '\n' spans. Inside a single contentEditable row, a <BR>
+    // would otherwise produce a span with '\n' text that the renderer shows
+    // as a visible newline character, which is a shape divergence.
     if (tag === 'BR') {
-      spans.push({ _key: genKey(), text: '\n', marks: [...marks] })
       return
     }
 
@@ -122,10 +132,45 @@ function domToSpans(root: HTMLElement): {
 
   root.childNodes.forEach((child) => walk(child, []))
 
-  if (spans.length === 0) {
-    spans.push({ _key: genKey(), text: '', marks: [] })
+  // --- Normalization pass ---
+  // 1. Sort each span's marks for deterministic output.
+  // 2. Merge adjacent spans that share the exact same marks set.
+  const normalized: EditorSpan[] = []
+  for (const span of rawSpans) {
+    span.marks = normalizeMarks(span.marks)
+    const prev = normalized.length > 0 ? normalized[normalized.length - 1] : null
+    if (prev && marksEqual(prev.marks, span.marks)) {
+      // Merge into the previous span.
+      prev.text += span.text
+    } else {
+      normalized.push(span)
+    }
   }
-  return { spans, links }
+
+  if (normalized.length === 0) {
+    normalized.push({ _key: genKey(), text: '', marks: [] })
+  }
+  return { spans: normalized, links }
+}
+
+/**
+ * Sort marks deterministically: decorator names (alphabetical) first, then
+ * link annotation keys (which are random hex strings). Deduplicate.
+ */
+function normalizeMarks(marks: string[]): string[] {
+  const unique = Array.from(new Set(marks))
+  const decorators = unique.filter((m): m is EditorMark => m in MARK_TAGS).sort()
+  const linkKeys = unique.filter((m) => !(m in MARK_TAGS)).sort()
+  return [...decorators, ...linkKeys]
+}
+
+/** Check whether two sorted, deduplicated marks arrays are equal. */
+function marksEqual(a: string[], b: string[]): boolean {
+  if (a.length !== b.length) return false
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false
+  }
+  return true
 }
 
 /** Render spans (+ link annotations) back to HTML for the contentEditable. */

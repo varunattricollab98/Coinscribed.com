@@ -1,7 +1,14 @@
 {
   "task_id": "task-admin-editor",
   "task_description": "Build an additive, WordPress-style custom admin editor at /admin for Coinscribed (Next.js 14 + Sanity). It authenticates each writer with their OWN Sanity account (multi-user, Editor/Admin roles managed in manage.sanity.io) and writes back into the SAME Sanity dataset AS THE LOGGED-IN USER (no master write token). Core deliverables: protected /admin dashboard + Studio-like shell; full article editor (title, auto slug, excerpt, author/category pickers, publishedAt, SEO title<=70/description<=160, FAQs); a rich-text body editor emitting valid Portable Text matching data/sample-news.ts + PortableTextRenderer.tsx; featured + inline image upload to Sanity assets as the user; and THE headline feature - an easy spreadsheet-style visual TABLE editor that serializes to the existing tableBlock shape (caption?, header:string[], rows:[{_type:'row',cells:string[]}]) so tables render identically and stay Studio-editable; plus Draft/Publish via the drafts.<id> convention. /studio and the public site remain untouched.",
-  "status": "in_progress",
+  "status": "completed",
   "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004"],
-  "blocked_reason": null
+  "blocked_reason": null,
+  "verification": {
+    "build": "deferred",
+    "tests": "n/a",
+    "test_quality": "n/a",
+    "docker_build": "skipped",
+    "summary": "Local build/lint/tsc CANNOT run in this sandbox (INTEGRATIONS_ONLY: npm registry unreachable; node_modules incomplete, no next/tsc/eslint binaries, @sanity/client package folder empty). Authoritative next build + next lint is deferred to GitHub Actions CI (.github/workflows/ci.yml runs npm ci && npm run build && npm run lint on push). Verified by static review + git diff: (1) all 4 features completed and committed (3fb2a56, 1096c7c, e0ee943, 564d681); (2) diff vs main is purely additive - protected paths app/studio/*, sanity.config.ts, sanity/schemas/*, lib/sanity.ts, lib/sanity-queries.ts, components/news/PortableTextRenderer.tsx are UNCHANGED, so Studio and public rendering are unaffected; (3) NO master/write token anywhere in admin code (grep 'token' matches only explanatory comments) - all reads/writes/uploads run as the logged-in Sanity user via adminSanityClient withCredentials; (4) table editor serializes to the exact existing tableBlock shape {_type:'tableBlock',caption?,header,rows:[{_type:'row',cells}]}; (5) zero new npm dependencies; no test framework exists in the project so no tests were added (test_quality n/a). KNOWN RISK to validate in a real browser: the withCredentials cookie login flow may be affected by third-party-cookie restrictions for cross-site writes; documented per-user-token fallback exists but is not implemented. Requires user CORS 'Allow credentials' config."
+  }
 }

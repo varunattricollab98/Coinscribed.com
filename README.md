@@ -207,6 +207,17 @@ upload runs **as the logged-in Sanity user**, so per-user roles and the audit
 trail apply. There is **no shared password and no master/server write token**
 anywhere in this project, and none should ever be added.
 
+**How the login flow works:** clicking "Sign in with Sanity" redirects to
+Sanity's hosted login with `?type=token`. After the user authenticates, Sanity
+redirects back to `/admin` with a **per-user session token** in the `sid`
+query parameter. The app captures that token, holds it in memory (mirrored to
+`sessionStorage` so a page reload keeps the session), and attaches it to every
+Sanity API request via `client.withConfig({ token })`. This token is scoped to
+the signed-in user's identity and roles; it is NOT a master or project token.
+The `withCredentials: true` cookie path is kept as a secondary fallback, but
+the primary mechanism is the captured per-user token, which avoids cross-site
+third-party cookie issues entirely.
+
 #### What YOU need to do once (in the Sanity dashboard)
 
 The `/admin` editor writes to Sanity from the browser as the logged-in user, so

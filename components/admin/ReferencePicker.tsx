@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { adminSanityClient } from '@/lib/sanity-admin'
+import { getAdminClient } from '@/lib/sanity-admin'
 import type { SanityReference } from '@/lib/admin-types'
 
 /**
@@ -61,7 +61,7 @@ export function ReferencePicker({
 
   useEffect(() => {
     let active = true
-    adminSanityClient
+    getAdminClient()
       .fetch<ReferenceOption[]>(QUERIES[kind])
       .then((result) => {
         if (!active) return

@@ -93,6 +93,7 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-michael-torres',
     name: 'Michael Torres',
     slug: { current: 'michael-torres' },
+    jobTitle: 'Senior Cryptocurrency Correspondent',
     bio: 'Michael Torres is a senior cryptocurrency correspondent with more than a decade covering digital assets, exchange infrastructure and the institutional adoption of blockchain markets.',
     imageUrl: avatar('photo-1547425260-76bcadfb4f2c'),
   },
@@ -100,6 +101,8 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-sarah-chen',
     name: 'Sarah Chen',
     slug: { current: 'sarah-chen' },
+    jobTitle: 'Federal Reserve & Monetary Policy Writer',
+    credentials: 'Former research economist at the Federal Reserve Bank of New York',
     bio: 'Sarah Chen writes about monetary policy and the Federal Reserve. She previously served as a research economist at the Federal Reserve Bank of New York.',
     imageUrl: avatar('photo-1534528741775-53994a69daeb'),
   },
@@ -107,6 +110,7 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-david-park',
     name: 'David Park',
     slug: { current: 'david-park' },
+    jobTitle: 'Markets Reporter',
     bio: 'David Park is a markets reporter covering US equities, fixed income and the flow of institutional capital across asset classes.',
     imageUrl: avatar('photo-1633332755192-727a05c4013d'),
   },
@@ -114,6 +118,7 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-emily-rodriguez',
     name: 'Emily Rodriguez',
     slug: { current: 'emily-rodriguez' },
+    jobTitle: 'Banking Industry Reporter',
     bio: 'Emily Rodriguez covers the banking industry, with a focus on digital transformation, bank–fintech partnerships and consumer protection rulemaking.',
     imageUrl: avatar('photo-1573497019940-1c28c88b4f3e'),
   },
@@ -121,6 +126,7 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-alex-nakamura',
     name: 'Alex Nakamura',
     slug: { current: 'alex-nakamura' },
+    jobTitle: 'Blockchain Engineering Reporter',
     bio: 'Alex Nakamura reports on blockchain engineering — Ethereum protocol upgrades, Layer 2 scaling and the economics of validator networks.',
     imageUrl: avatar('photo-1500648767791-00dcc994a43e'),
   },
@@ -128,6 +134,8 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-jennifer-walsh',
     name: 'Jennifer Walsh',
     slug: { current: 'jennifer-walsh' },
+    jobTitle: 'Housing & Mortgage Reporter',
+    credentials: 'Degree in urban economics, MIT',
     bio: 'Jennifer Walsh covers housing, mortgage markets and household balance sheets. She holds a degree in urban economics from MIT.',
     imageUrl: avatar('photo-1607746882042-944635dfe10e'),
   },
@@ -135,6 +143,7 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-priya-raman',
     name: 'Priya Raman',
     slug: { current: 'priya-raman' },
+    jobTitle: 'Commodities & Energy Markets Reporter',
     bio: 'Priya Raman is a commodities and energy markets reporter, tracking crude, metals and the capital cycle behind the US industrial build-out.',
     imageUrl: avatar('photo-1531746020798-e6953c6e8e04'),
   },
@@ -142,6 +151,8 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-robert-feldman',
     name: 'Robert Feldman',
     slug: { current: 'robert-feldman' },
+    jobTitle: 'Regulation Editor',
+    credentials: 'Former securities attorney (14 years)',
     bio: 'Robert Feldman is Coinscribed’s regulation editor. He spent 14 years as a securities attorney before moving to financial journalism.',
     imageUrl: avatar('photo-1560250097-0b93528c311a'),
   },
@@ -149,6 +160,7 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-danielle-whitfield',
     name: 'Danielle Whitfield',
     slug: { current: 'danielle-whitfield' },
+    jobTitle: 'Payments & Consumer Credit Reporter',
     bio: 'Danielle Whitfield reports on payments, consumer credit and the retail side of American banking — from overdraft policy to instant settlement.',
     imageUrl: avatar('photo-1573497019418-b400bb3ab074'),
   },
@@ -156,6 +168,7 @@ export const sampleAuthors: Record<AuthorKey, Author> = {
     _id: 'author-marcus-ellison',
     name: 'Marcus Ellison',
     slug: { current: 'marcus-ellison' },
+    jobTitle: 'Labor Markets & Fiscal Policy Reporter',
     bio: 'Marcus Ellison covers labor markets, fiscal policy and the data releases that move Washington and Wall Street in the same afternoon.',
     imageUrl: avatar('photo-1615813967515-e1838c1c5116'),
   },
@@ -1917,4 +1930,35 @@ export function getRelatedSampleArticles(
         article._id !== currentArticleId
     )
     .slice(0, Math.max(0, limit))
+}
+
+// ============================================================
+// Author helpers
+// ============================================================
+
+/** Article card ids keyed by their author's slug, derived from the seeds. */
+const cardIdsByAuthorSlug: Record<string, Set<string>> = orderedSeeds.reduce(
+  (acc, seed) => {
+    const authorSlug = sampleAuthors[seed.author].slug.current
+    ;(acc[authorSlug] ??= new Set<string>()).add(`article-${seed.n}`)
+    return acc
+  },
+  {} as Record<string, Set<string>>
+)
+
+/** Every sample author, listed alphabetically by name. */
+export function getSampleAuthors(): Author[] {
+  return Object.values(sampleAuthors).sort((a, b) => a.name.localeCompare(b.name))
+}
+
+/** Get a single sample author by slug. */
+export function getSampleAuthorBySlug(slug: string): Author | null {
+  return getSampleAuthors().find((author) => author.slug.current === slug) || null
+}
+
+/** Get every sample article written by a given author (newest first), as cards. */
+export function getSampleArticlesByAuthor(slug: string): ArticleCard[] {
+  const ids = cardIdsByAuthorSlug[slug]
+  if (!ids) return []
+  return sampleArticles.filter((article) => ids.has(article._id))
 }

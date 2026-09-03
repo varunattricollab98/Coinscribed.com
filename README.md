@@ -18,7 +18,6 @@ Your Trusted Source for Financial Intelligence. Coinscribed provides financial c
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [Sanity CMS](https://www.sanity.io/) - Headless CMS for news content
 - [next-themes](https://github.com/pacocoursey/next-themes) - Dark mode support
-- [next-sitemap](https://github.com/iamvishnusankar/next-sitemap) - Sitemap generation
 
 ## Getting Started
 
@@ -91,7 +90,6 @@ public/                 # Static assets
 tailwind.config.ts      # Tailwind CSS configuration
 tsconfig.json           # TypeScript configuration
 next.config.js          # Next.js configuration
-next-sitemap.config.js  # Sitemap generation config
 postcss.config.js       # PostCSS configuration
 ```
 
@@ -254,7 +252,7 @@ The site includes comprehensive SEO support:
 
 - **Metadata API** - Title, description, and Open Graph tags on every page
 - **JSON-LD Schema** - Organization, WebSite, Article, FAQ, HowTo, and BreadcrumbList schemas
-- **Sitemap** - Auto-generated sitemap.xml via next-sitemap
+- **Sitemap** - Generated at /sitemap.xml via the native Next.js `app/sitemap.ts`
 - **robots.txt** - Configured via Next.js Metadata API
 - **Semantic HTML** - Proper heading hierarchy and ARIA labels
 

@@ -67,10 +67,24 @@ export const siteConfig = {
       { label: 'Disclaimer', href: '/disclaimer' },
     ],
   },
+  /**
+   * Official social profiles.
+   *
+   * IMPORTANT (YMYL / factual accuracy): the URLs below are PLACEHOLDERS and
+   * have NOT been verified as live, owned accounts. Because this is a finance
+   * site, an unverified profile emitted as fact in Organization schema
+   * (`sameAs`) or a Twitter card is a real trust/accuracy risk, so the schema
+   * layer only emits handles whose `confirmed` flag is `true`.
+   *
+   * To publish a handle: create/confirm the real account, put its exact URL
+   * here, and flip that handle's `confirmed` to `true`. This is the single
+   * place to update; nothing else needs to change. Until then the handles are
+   * intentionally omitted from all structured data.
+   */
   social: {
-    twitter: 'https://twitter.com/coinscribed',
-    facebook: 'https://facebook.com/coinscribed',
-    linkedin: 'https://linkedin.com/company/coinscribed',
+    twitter: { url: 'https://twitter.com/coinscribed', confirmed: false },
+    facebook: { url: 'https://facebook.com/coinscribed', confirmed: false },
+    linkedin: { url: 'https://linkedin.com/company/coinscribed', confirmed: false },
   },
 }
 

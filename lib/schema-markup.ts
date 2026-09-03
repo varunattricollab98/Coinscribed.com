@@ -4,6 +4,14 @@ import { siteConfig } from '@/config/site'
  * Generates Organization JSON-LD schema markup
  */
 export function generateOrganizationSchema() {
+  // Only emit social profiles that have been explicitly confirmed as real,
+  // owned accounts (see config/site.ts). Emitting an unverified `sameAs` on a
+  // YMYL finance site is a factual-accuracy risk, so when none are confirmed we
+  // omit `sameAs` entirely rather than publish placeholder URLs as fact.
+  const confirmedProfiles = Object.values(siteConfig.social)
+    .filter((profile) => profile.confirmed)
+    .map((profile) => profile.url)
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -11,11 +19,7 @@ export function generateOrganizationSchema() {
     url: siteConfig.url,
     logo: `${siteConfig.url}/logo.png`,
     description: siteConfig.description,
-    sameAs: [
-      siteConfig.social.twitter,
-      siteConfig.social.facebook,
-      siteConfig.social.linkedin,
-    ],
+    ...(confirmedProfiles.length > 0 && { sameAs: confirmedProfiles }),
   }
 }
 
@@ -53,9 +57,32 @@ export function generateArticleSchema({
   url: string
   datePublished: string
   dateModified?: string
-  author?: string
+  author?: {
+    name: string
+    url?: string
+    jobTitle?: string
+    sameAs?: string[]
+    image?: string
+  }
   image?: string
 }) {
+  // Attribute authorship to a named Person for E-E-A-T when we have one, so
+  // Google can connect the article to a real, credentialed human. Fall back to
+  // the publishing Organization only when no author is supplied.
+  const authorSchema = author?.name
+    ? {
+        '@type': 'Person',
+        name: author.name,
+        ...(author.url && { url: author.url }),
+        ...(author.jobTitle && { jobTitle: author.jobTitle }),
+        ...(author.image && { image: author.image }),
+        ...(author.sameAs?.length && { sameAs: author.sameAs }),
+      }
+    : {
+        '@type': 'Organization',
+        name: siteConfig.name,
+      }
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -64,10 +91,7 @@ export function generateArticleSchema({
     url,
     datePublished,
     dateModified: dateModified || datePublished,
-    author: {
-      '@type': 'Organization',
-      name: author || siteConfig.name,
-    },
+    author: authorSchema,
     publisher: {
       '@type': 'Organization',
       name: siteConfig.name,

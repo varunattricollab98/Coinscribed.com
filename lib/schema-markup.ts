@@ -4,6 +4,14 @@ import { siteConfig } from '@/config/site'
  * Generates Organization JSON-LD schema markup
  */
 export function generateOrganizationSchema() {
+  // Only emit social profiles that have been explicitly confirmed as real,
+  // owned accounts (see config/site.ts). Emitting an unverified `sameAs` on a
+  // YMYL finance site is a factual-accuracy risk, so when none are confirmed we
+  // omit `sameAs` entirely rather than publish placeholder URLs as fact.
+  const confirmedProfiles = Object.values(siteConfig.social)
+    .filter((profile) => profile.confirmed)
+    .map((profile) => profile.url)
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -11,11 +19,7 @@ export function generateOrganizationSchema() {
     url: siteConfig.url,
     logo: `${siteConfig.url}/logo.png`,
     description: siteConfig.description,
-    sameAs: [
-      siteConfig.social.twitter,
-      siteConfig.social.facebook,
-      siteConfig.social.linkedin,
-    ],
+    ...(confirmedProfiles.length > 0 && { sameAs: confirmedProfiles }),
   }
 }
 

@@ -13,6 +13,8 @@ import type {
   EditorListItem,
 } from '@/lib/admin-types'
 import { ImageUploader, type UploaderImageValue } from '@/components/admin/ImageUploader'
+import { TableEditor } from '@/components/admin/TableEditor'
+import type { EditorTableBlock } from '@/lib/admin-types'
 
 /**
  * Hand-rolled, dependency-free rich-text body editor.
@@ -31,18 +33,21 @@ import { ImageUploader, type UploaderImageValue } from '@/components/admin/Image
  * `lib/admin-types.ts`); serialization to the final Portable Text array is done
  * by `serializeBody` in `lib/portable-text.ts` when the article is saved.
  *
- * TABLE INSERTION: this component renders a read-only summary for `tableBlock`
- * rows and exposes an optional `onInsertTable` action in the toolbar. FEAT-003
- * supplies the actual TableEditor UI; until then the button is only rendered
- * when `onInsertTable` is provided.
+ * TABLE INSERTION: the toolbar's "Insert table" action (via `onInsertTable`)
+ * appends a new `tableBlock`, and each `tableBlock` row renders the full,
+ * spreadsheet-style `TableEditor` (FEAT-003) so both freshly-inserted and
+ * existing (parsed) tables can be edited inline, reordered and deleted like any
+ * other block.
  */
 
 interface RichTextEditorProps {
   value: EditorBlock[]
   onChange: (blocks: EditorBlock[]) => void
   /**
-   * Optional hook for the "Insert table" toolbar action. Provided by FEAT-003
-   * (the TableEditor). When omitted, the table button is hidden.
+   * Enables the "Insert table" toolbar action. The new `tableBlock` is appended
+   * to the body by this component (it owns value/onChange); this callback is an
+   * optional notification the host can use (e.g. to mark unsaved changes). When
+   * omitted the table button is hidden.
    */
   onInsertTable?: () => void
   /** Optional inline validation error for the body. */
@@ -299,6 +304,13 @@ export function RichTextEditor({
     [updateBlock]
   )
 
+  const handleInsertTable = useCallback(() => {
+    addBlock(newTableBlock())
+    // Notify the host (e.g. to scroll to / flag unsaved changes). The append
+    // itself is owned here since this component holds the body value/onChange.
+    onInsertTable?.()
+  }, [addBlock, onInsertTable])
+
   const handleInsertImage = useCallback(
     (img: UploaderImageValue | undefined) => {
       if (!img) return
@@ -345,7 +357,9 @@ export function RichTextEditor({
           1. List
         </ToolbarButton>
         {onInsertTable && (
-          <ToolbarButton onClick={onInsertTable}>Insert table</ToolbarButton>
+          <ToolbarButton onClick={handleInsertTable}>
+            Insert table
+          </ToolbarButton>
         )}
       </div>
 
@@ -421,7 +435,10 @@ export function RichTextEditor({
             )}
 
             {block._type === 'tableBlock' && (
-              <TableBlockSummary block={block} />
+              <TableEditor
+                value={block}
+                onChange={(next) => updateBlock(block._key, () => next)}
+              />
             )}
           </div>
         ))}
@@ -664,25 +681,15 @@ function ImageBlockRow({
 }
 
 /**
- * Read-only preview of a `tableBlock`. The editable TableEditor is delivered by
- * FEAT-003; this keeps existing tables visible (and removable) when editing an
- * article that already contains one.
+ * Build a fresh, empty `tableBlock` for the "Insert table" action: 2 columns ×
+ * 1 row of empty strings, kept rectangular. The user then fills in the header
+ * and cells and adds more rows/columns in the spreadsheet-style TableEditor.
  */
-function TableBlockSummary({
-  block,
-}: {
-  block: Extract<EditorBlock, { _type: 'tableBlock' }>
-}) {
-  return (
-    <div className="rounded-sm bg-wash p-3 text-caption text-ink-muted dark:bg-elevated dark:text-ink-inverse-muted">
-      <p className="font-semibold">
-        Table{block.caption ? `: ${block.caption}` : ''}
-      </p>
-      <p className="mt-1">
-        {block.header.length} column{block.header.length === 1 ? '' : 's'},{' '}
-        {block.rows.length} row{block.rows.length === 1 ? '' : 's'}. Full table
-        editing is available via the table tool.
-      </p>
-    </div>
-  )
+export function newTableBlock(): EditorTableBlock {
+  return {
+    _key: genKey(),
+    _type: 'tableBlock',
+    header: ['', ''],
+    rows: [{ _key: genKey(), cells: ['', ''] }],
+  }
 }

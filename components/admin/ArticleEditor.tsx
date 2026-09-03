@@ -1,9 +1,10 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { adminSanityClient } from '@/lib/sanity-admin'
-import { parseBody } from '@/lib/portable-text'
+import { genKey, parseBody, serializeBody } from '@/lib/portable-text'
 import {
   ARTICLE_LIMITS,
   type ArticleDraft,
@@ -119,6 +120,7 @@ type Errors = Partial<Record<string, string>>
 
 export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
   const isEdit = Boolean(documentId)
+  const router = useRouter()
 
   const [draft, setDraft] = useState<ArticleDraft>(emptyDraft)
   const [slugTouched, setSlugTouched] = useState(false)
@@ -127,6 +129,29 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
   const [errors, setErrors] = useState<Errors>({})
   const [saving, setSaving] = useState<SaveMode | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const [saveOk, setSaveOk] = useState<string | null>(null)
+
+  // Save status shown in the Publish panel.
+  //  - 'published' : a published document exists (id without the drafts. prefix)
+  //  - 'draft'     : only a draft (drafts.<id>) exists
+  //  - 'new'       : nothing saved yet
+  const [docStatus, setDocStatus] = useState<'new' | 'draft' | 'published'>(
+    isEdit ? 'draft' : 'new'
+  )
+  // True once the user changes anything after the last save/load.
+  const [dirty, setDirty] = useState(false)
+
+  // The stable id shared by a document's draft and published forms, WITHOUT the
+  // `drafts.` prefix. Generated once for a new article and reused by both Save
+  // Draft (drafts.<baseId>) and Publish (<baseId>), mirroring Studio.
+  const baseIdRef = useRef<string>(
+    documentId ? documentId.replace(/^drafts\./, '') : genKey(20)
+  )
+
+  const markDirty = useCallback(() => {
+    setDirty(true)
+    setSaveOk(null)
+  }, [])
 
   // ----- Load existing document (edit mode) -----
   useEffect(() => {
@@ -181,6 +206,10 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
         })
         // An existing doc already has a slug the user chose; don't overwrite it.
         setSlugTouched(true)
+        // Track the published/draft status and lock in the stable base id.
+        baseIdRef.current = doc._id.replace(/^drafts\./, '')
+        setDocStatus(doc._id.startsWith('drafts.') ? 'draft' : 'published')
+        setDirty(false)
         setLoading(false)
       })
       .catch(() => {
@@ -193,10 +222,14 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
     }
   }, [documentId])
 
-  // ----- Field setters -----
-  const patch = useCallback((partial: Partial<ArticleDraft>) => {
-    setDraft((prev) => ({ ...prev, ...partial }))
-  }, [])
+  // ----- Field setters ----- (each marks the draft dirty)
+  const patch = useCallback(
+    (partial: Partial<ArticleDraft>) => {
+      setDraft((prev) => ({ ...prev, ...partial }))
+      markDirty()
+    },
+    [markDirty]
+  )
 
   const handleTitleChange = (title: string) => {
     setDraft((prev) => ({
@@ -205,6 +238,7 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
       // Auto-derive the slug from the title until the user edits it manually.
       slug: slugTouched ? prev.slug : slugify(title),
     }))
+    markDirty()
   }
 
   const handleSlugChange = (slug: string) => {
@@ -213,8 +247,11 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
   }
 
   const setBody = useCallback(
-    (bodyModel: EditorBlock[]) => setDraft((prev) => ({ ...prev, bodyModel })),
-    []
+    (bodyModel: EditorBlock[]) => {
+      setDraft((prev) => ({ ...prev, bodyModel }))
+      markDirty()
+    },
+    [markDirty]
   )
 
   const setAuthor = useCallback(
@@ -280,22 +317,124 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
   const currentErrors = useMemo(() => validate(draft), [draft, validate])
   const isValid = Object.keys(currentErrors).length === 0
 
+  /**
+   * Assemble the full Sanity `article` document from the editor model. The
+   * shape matches `sanity/schemas/article.ts` EXACTLY so documents created here
+   * are fully interchangeable with Studio-authored ones:
+   *   { _id, _type:'article', title, slug:{_type:'slug',current}, excerpt,
+   *     body (Portable Text), author (ref), publishedAt, category (ref),
+   *     mainImage?, seoTitle?, seoDescription?, faqs?[{_key,_type:'faq',...}] }
+   * `_id` is supplied by the caller (draft vs published id).
+   */
+  const buildDocument = useCallback(
+    (
+      d: ArticleDraft,
+      id: string
+    ): { _id: string; _type: 'article' } & Record<string, unknown> => {
+      const doc: { _id: string; _type: 'article' } & Record<string, unknown> = {
+        _id: id,
+        _type: 'article',
+        title: d.title.trim(),
+        slug: { _type: 'slug', current: d.slug.trim() },
+        excerpt: d.excerpt.trim(),
+        body: serializeBody(d.bodyModel),
+        publishedAt: d.publishedAt,
+      }
+      if (d.authorRef) doc.author = d.authorRef
+      if (d.categoryRef) doc.category = d.categoryRef
+      if (d.mainImage?.asset) {
+        doc.mainImage = {
+          _type: 'image',
+          asset: d.mainImage.asset,
+          ...(d.mainImage.alt ? { alt: d.mainImage.alt } : {}),
+        }
+      }
+      if (d.seoTitle?.trim()) doc.seoTitle = d.seoTitle.trim()
+      if (d.seoDescription?.trim())
+        doc.seoDescription = d.seoDescription.trim()
+      const faqs = (d.faqs ?? []).filter(
+        (f) => f.question.trim() && f.answer.trim()
+      )
+      if (faqs.length > 0) {
+        doc.faqs = faqs.map((f) => ({
+          _key: genKey(),
+          _type: 'faq',
+          question: f.question.trim(),
+          answer: f.answer.trim(),
+        }))
+      }
+      return doc
+    },
+    []
+  )
+
+  /** Turn a Sanity write error into an actionable message for the user. */
+  const describeError = (err: unknown): string => {
+    const status = (err as { statusCode?: number; response?: { statusCode?: number } })
+      ?.statusCode ??
+      (err as { response?: { statusCode?: number } })?.response?.statusCode
+    const message =
+      err instanceof Error ? err.message : typeof err === 'string' ? err : ''
+    if (status === 401) {
+      return 'Your Sanity session has expired or is not being sent. Sign in again, and make sure this site\u2019s origin has "Allow credentials" checked in manage.sanity.io > API > CORS Origins.'
+    }
+    if (status === 403) {
+      return 'Your Sanity role does not have permission to write this document. Ask a project admin to grant Editor/Admin access.'
+    }
+    if (/cors|credential/i.test(message)) {
+      return 'A CORS / credentials error blocked the write. In manage.sanity.io > API > CORS Origins, add this site\u2019s origin with "Allow credentials" checked.'
+    }
+    return `Save failed: ${message || 'unknown error'}. Please try again.`
+  }
+
   const handleSave = async (mode: SaveMode) => {
     setSaveError(null)
+    setSaveOk(null)
     const found = validate(draft)
     setErrors(found)
     if (Object.keys(found).length > 0) return
-    if (!onSave) {
-      setSaveError(
-        'Saving is wired up in the next step (FEAT-003). The article model is valid and ready to save.'
-      )
-      return
-    }
+
+    const baseId = baseIdRef.current
+    const draftId = `drafts.${baseId}`
+
     try {
       setSaving(mode)
-      await onSave(draft, mode)
-    } catch {
-      setSaveError('Save failed. Please try again.')
+
+      // Allow callers to override the write behaviour (e.g. tests); otherwise
+      // perform the write directly as the logged-in Sanity user.
+      if (onSave) {
+        await onSave(draft, mode)
+      } else if (mode === 'draft') {
+        // SAVE DRAFT -> write drafts.<baseId>, leaving any published copy as-is.
+        await adminSanityClient.createOrReplace(buildDocument(draft, draftId))
+        setDocStatus((prev) => (prev === 'published' ? 'published' : 'draft'))
+      } else {
+        // PUBLISH -> write the published doc at <baseId> and delete the draft,
+        // in a single transaction (mirrors Studio's publish action).
+        await adminSanityClient
+          .transaction()
+          .createOrReplace(buildDocument(draft, baseId))
+          .delete(draftId)
+          .commit()
+        setDocStatus('published')
+      }
+
+      setDirty(false)
+      setDraft((prev) => ({
+        ...prev,
+        _id: mode === 'draft' ? draftId : baseId,
+      }))
+      setSaveOk(
+        mode === 'publish'
+          ? 'Published. Redirecting to your articles\u2026'
+          : 'Draft saved.'
+      )
+      if (mode === 'publish') {
+        // Give the user a beat to see the confirmation, then return to /admin.
+        setTimeout(() => router.push('/admin'), 800)
+      }
+    } catch (err) {
+      setSaveError(describeError(err))
     } finally {
       setSaving(null)
     }
@@ -406,7 +545,11 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
 
           {/* Body */}
           <Field label="Body">
-            <RichTextEditor value={draft.bodyModel} onChange={setBody} />
+            <RichTextEditor
+              value={draft.bodyModel}
+              onChange={setBody}
+              onInsertTable={markDirty}
+            />
           </Field>
 
           {/* FAQs */}
@@ -472,9 +615,12 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
         <aside className="space-y-6">
           {/* Publish panel */}
           <div className="rounded-sm border border-hairline bg-surface p-4 dark:border-hairline-dark dark:bg-elevated">
-            <h2 className="font-sans text-eyebrow font-semibold uppercase tracking-wide text-ink-muted dark:text-ink-inverse-muted">
-              Publish
-            </h2>
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="font-sans text-eyebrow font-semibold uppercase tracking-wide text-ink-muted dark:text-ink-inverse-muted">
+                Publish
+              </h2>
+              <StatusBadge status={docStatus} dirty={dirty} />
+            </div>
             <div className="mt-3 flex flex-col gap-2">
               <button
                 type="button"
@@ -501,6 +647,11 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
             {saveError && (
               <p className="mt-3 text-caption text-down dark:text-down-light">
                 {saveError}
+              </p>
+            )}
+            {saveOk && (
+              <p className="mt-3 text-caption text-up dark:text-up-light">
+                {saveOk}
               </p>
             )}
           </div>
@@ -597,6 +748,40 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
 // ============================================================
 // Small presentational helpers
 // ============================================================
+
+function StatusBadge({
+  status,
+  dirty,
+}: {
+  status: 'new' | 'draft' | 'published'
+  dirty: boolean
+}) {
+  let label: string
+  let tone: string
+  if (dirty) {
+    label = 'Unsaved changes'
+    tone =
+      'bg-gold/10 text-gold dark:bg-gold-light/10 dark:text-gold-light'
+  } else if (status === 'published') {
+    label = 'Published'
+    tone = 'bg-up/10 text-up dark:bg-up-light/10 dark:text-up-light'
+  } else if (status === 'draft') {
+    label = 'Draft'
+    tone =
+      'bg-wash text-ink-muted dark:bg-elevated dark:text-ink-inverse-muted'
+  } else {
+    label = 'New'
+    tone =
+      'bg-wash text-ink-muted dark:bg-elevated dark:text-ink-inverse-muted'
+  }
+  return (
+    <span
+      className={`rounded-sm px-2 py-0.5 font-sans text-caption font-semibold ${tone}`}
+    >
+      {label}
+    </span>
+  )
+}
 
 function inputClass(hasError: boolean): string {
   return `w-full rounded-sm border bg-paper px-3 py-2 font-sans text-sm text-ink transition-colors focus:border-accent focus:outline-none dark:bg-graphite dark:text-ink-inverse ${

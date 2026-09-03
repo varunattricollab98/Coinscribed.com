@@ -261,20 +261,41 @@ function describeSessionError(status: number | undefined, err: unknown): string 
 /**
  * Build the URL of Sanity's hosted login page for the per-user TOKEN flow.
  *
+ * We point at the GENERIC hosted-login entry point
+ * (`/v1/auth/login`), NOT a provider-specific path such as
+ * `/v1/auth/login/google`. The generic endpoint is what makes the OAuth flow
+ * valid end to end:
+ *
+ *   1. Sanity renders its own hosted login page and, crucially, ESTABLISHES the
+ *      OAuth `state` (CSRF) cookie on `api.sanity.io` before redirecting the
+ *      browser out to the chosen identity provider (Google, GitHub, ...).
+ *   2. The provider redirects back to
+ *      `.../v1/auth/callback/<provider>?state=...`, and Sanity can now verify
+ *      that `state` against the cookie it set in step 1.
+ *   3. On success Sanity returns the browser to `origin` with the per-user
+ *      session token in the `sid` query parameter, which
+ *      `captureTokenFromUrl()` reads on return.
+ *
+ * Hitting `/v1/auth/login/<provider>` directly SKIPS step 1: the browser jumps
+ * straight into the provider hand-off without Sanity ever setting the state
+ * cookie, so the callback fails with HTTP 400 "Unable to verify authorization
+ * request state." That was the login bug this function fixes.
+ *
  * `type=token` asks Sanity to return control to `origin` with a per-user
  * session token in the `sid` query parameter (rather than relying on a
- * first-party cookie the SPA cannot see cross-site). `captureTokenFromUrl()`
- * reads that token on return. The token is scoped to the signed-in user and
- * their roles - it is not a project/master token.
+ * first-party cookie the SPA cannot see cross-site). The token is scoped to the
+ * signed-in user and their roles - it is not a project/master token.
  *
- * @param origin   Absolute app origin to return to after login (e.g.
- *                 `${window.location.origin}/admin`).
- * @param provider Sanity auth provider (`google`, `github`, `sanity`, ...).
- *                 Defaults to `google`.
+ * The user picks their provider (e.g. Google) on Sanity's hosted page. We do
+ * not force a provider via the path segment because that is exactly what broke
+ * the state handshake.
+ *
+ * @param origin Absolute app origin to return to after login (e.g.
+ *               `${window.location.origin}/admin`).
  */
-export function getLoginUrl(origin: string, provider = 'google'): string {
+export function getLoginUrl(origin: string): string {
   const encodedOrigin = encodeURIComponent(origin)
-  return `https://${adminProjectId}.api.sanity.io/v1/auth/login/${provider}?origin=${encodedOrigin}&type=token`
+  return `https://${adminProjectId}.api.sanity.io/v1/auth/login?origin=${encodedOrigin}&type=token`
 }
 
 /**

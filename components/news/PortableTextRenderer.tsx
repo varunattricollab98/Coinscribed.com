@@ -39,13 +39,24 @@ const components: PortableTextComponents = {
     // page template; this handler covers images placed inside the body by the
     // /admin editor or Sanity Studio so they actually appear on the public page.
     image: ({ value }: { value: ImageValue }) => {
-      if (!value?.asset?._ref) return null
+      const ref = value?.asset?._ref
+      if (!ref) return null
       // Build a max-width, DPR-friendly URL via the project's Sanity image
       // builder. We render at a fixed layout width with height:auto so any
       // aspect ratio is preserved without needing the asset's intrinsic size.
+      // Construct a fully-typed image source (asset._ref/_type both required by
+      // `urlFor`) rather than passing the loosely-typed `value`, so the call
+      // type-checks under strict mode regardless of the incoming shape.
       const width = 1200
       const height = 800
-      const src = urlFor(value).width(width).fit('max').auto('format').url()
+      const src = urlFor({
+        _type: 'image',
+        asset: { _ref: ref, _type: 'reference' },
+      })
+        .width(width)
+        .fit('max')
+        .auto('format')
+        .url()
       return (
         <figure className="my-10">
           <Image

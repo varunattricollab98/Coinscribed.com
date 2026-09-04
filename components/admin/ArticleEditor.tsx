@@ -186,6 +186,11 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
   const [saving, setSaving] = useState<SaveMode | null>(null)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [saveOk, setSaveOk] = useState<string | null>(null)
+  // True while the Preview action's underlying draft-save is in flight. Kept
+  // separate from `saving` (which drives the Draft/Publish button labels) so the
+  // Preview button can show its own "Opening preview…" label; all three buttons
+  // include it in their disabled logic so only one write runs at a time.
+  const [previewing, setPreviewing] = useState(false)
 
   // Save status shown in the Publish panel.
   //  - 'published' : a published document exists (id without the drafts. prefix)
@@ -443,6 +448,28 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
     return `Save failed: ${message || 'unknown error'}. Please try again.`
   }
 
+  /**
+   * Write the current draft to `drafts.<baseId>` using the exact same path as
+   * Save draft: prefer the `onSave` override when supplied (mirroring
+   * handleSave('draft')), otherwise createOrReplace the draft document. Updates
+   * docStatus/dirty/_id like the draft branch of handleSave. Shared by both
+   * Save draft and Preview so their behaviour cannot drift. Throws on failure so
+   * callers can decide how to surface the error.
+   */
+  const writeDraft = useCallback(async () => {
+    const baseId = baseIdRef.current
+    const draftId = `drafts.${baseId}`
+    if (onSave) {
+      await onSave(draft, 'draft')
+    } else {
+      // SAVE DRAFT -> write drafts.<baseId>, leaving any published copy as-is.
+      await getAdminClient().createOrReplace(buildDocument(draft, draftId))
+    }
+    setDocStatus((prev) => (prev === 'published' ? 'published' : 'draft'))
+    setDirty(false)
+    setDraft((prev) => ({ ...prev, _id: draftId }))
+  }, [draft, onSave, buildDocument])
+
   const handleSave = async (mode: SaveMode) => {
     setSaveError(null)
     setSaveOk(null)
@@ -458,12 +485,16 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
 
       // Allow callers to override the write behaviour (e.g. tests); otherwise
       // perform the write directly as the logged-in Sanity user.
+      if (mode === 'draft') {
+        // SAVE DRAFT -> shared draft-write path (onSave override or
+        // createOrReplace drafts.<baseId>); handles docStatus/dirty/_id itself.
+        await writeDraft()
+        setSaveOk('Draft saved.')
+        return
+      }
+      // PUBLISH path (mode === 'publish').
       if (onSave) {
         await onSave(draft, mode)
-      } else if (mode === 'draft') {
-        // SAVE DRAFT -> write drafts.<baseId>, leaving any published copy as-is.
-        await getAdminClient().createOrReplace(buildDocument(draft, draftId))
-        setDocStatus((prev) => (prev === 'published' ? 'published' : 'draft'))
       } else {
         // PUBLISH -> write the published doc at <baseId> and delete the draft,
         // in a single transaction (mirrors Studio's publish action).
@@ -476,23 +507,59 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
       }
 
       setDirty(false)
-      setDraft((prev) => ({
-        ...prev,
-        _id: mode === 'draft' ? draftId : baseId,
-      }))
-      setSaveOk(
-        mode === 'publish'
-          ? 'Published. Redirecting to your articles\u2026'
-          : 'Draft saved.'
-      )
-      if (mode === 'publish') {
-        // Give the user a beat to see the confirmation, then return to /admin.
-        setTimeout(() => router.push('/admin'), 800)
-      }
+      setDraft((prev) => ({ ...prev, _id: baseId }))
+      setSaveOk('Published. Redirecting to your articles\u2026')
+      // Give the user a beat to see the confirmation, then return to /admin.
+      setTimeout(() => router.push('/admin'), 800)
     } catch (err) {
       setSaveError(describeError(err))
     } finally {
       setSaving(null)
+    }
+  }
+
+  /**
+   * PREVIEW -> save the current draft (same path as Save draft) then open the
+   * live preview route in a new tab.
+   *
+   * Popup-blocker note: browsers only allow window.open inside the direct
+   * user-gesture call stack. Opening AFTER an awaited save gets blocked, so we
+   * open a blank tab synchronously on click and redirect it once the save
+   * resolves. We deliberately open WITHOUT 'noopener' here: with noopener some
+   * browsers return null and we could not set `w.location` to redirect the tab.
+   * The target is same-origin (/preview/...) and gated by AdminAuthGate, so the
+   * lack of noopener is acceptable for this admin-only flow.
+   */
+  const handlePreview = async () => {
+    setSaveError(null)
+    setSaveOk(null)
+    const found = validate(draft)
+    setErrors(found)
+    // Require the same validity as Save: a partial draft is not useful to preview.
+    if (Object.keys(found).length > 0) return
+
+    // Open the placeholder tab synchronously, still inside the click gesture.
+    const w = window.open('', '_blank')
+    const previewUrl = `/preview/articles/${baseIdRef.current}`
+
+    try {
+      setPreviewing(true)
+      await writeDraft()
+      // Save succeeded: point the (already-open) tab at the preview route.
+      if (w) {
+        w.location.href = previewUrl
+      } else {
+        // Popup was blocked: keep the editor state and tell the user how to fix it.
+        setSaveError(
+          'Your browser blocked the preview tab. Allow pop-ups for this site, then click Preview again.'
+        )
+      }
+    } catch (err) {
+      // Save failed: close the blank tab we opened and surface the error.
+      w?.close()
+      setSaveError(describeError(err))
+    } finally {
+      setPreviewing(false)
     }
   }
 
@@ -681,7 +748,7 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
               <button
                 type="button"
                 onClick={() => handleSave('publish')}
-                disabled={!isValid || saving !== null}
+                disabled={!isValid || saving !== null || previewing}
                 className="inline-flex items-center justify-center rounded-sm bg-accent px-4 py-2.5 font-sans text-sm font-semibold text-surface transition-colors hover:bg-accent-hover disabled:opacity-50"
               >
                 {saving === 'publish' ? 'Publishing…' : 'Publish'}
@@ -689,10 +756,19 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
               <button
                 type="button"
                 onClick={() => handleSave('draft')}
-                disabled={saving !== null}
+                disabled={saving !== null || previewing}
                 className="inline-flex items-center justify-center rounded-sm border border-hairline px-4 py-2.5 font-sans text-sm font-semibold text-ink-body transition-colors hover:border-accent hover:text-accent disabled:opacity-50 dark:border-hairline-dark dark:text-ink-inverse-body dark:hover:border-accent-light dark:hover:text-accent-light"
               >
                 {saving === 'draft' ? 'Saving…' : 'Save draft'}
+              </button>
+              <button
+                type="button"
+                onClick={handlePreview}
+                disabled={!isValid || saving !== null || previewing}
+                title="Saves the draft and opens a live preview in a new tab"
+                className="inline-flex items-center justify-center rounded-sm border border-hairline px-4 py-2.5 font-sans text-sm font-semibold text-ink-body transition-colors hover:border-accent hover:text-accent disabled:opacity-50 dark:border-hairline-dark dark:text-ink-inverse-body dark:hover:border-accent-light dark:hover:text-accent-light"
+              >
+                {previewing ? 'Opening preview…' : 'Preview'}
               </button>
             </div>
             {!isValid && (

@@ -10,8 +10,8 @@ import type { Metadata, Viewport } from 'next'
  *
  * It deliberately renders NEITHER the public site chrome (Header/Footer from
  * app/(site)/layout.tsx) NOR the admin sidebar (AdminShell): the preview should
- * read as a clean, standalone article page. Fonts (--font-inter/--font-playfair)
- * and globals.css come from the root app/layout.tsx which wraps every route, so
+ * read as a clean, standalone article page. Fonts (--font-inter) and
+ * globals.css come from the root app/layout.tsx which wraps every route, so
  * all public typography utility classes work here without extra setup — the
  * wrapper below is intentionally minimal.
  */

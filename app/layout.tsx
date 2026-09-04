@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Inter, Source_Serif_4 } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { siteConfig } from '@/config/site'
 import './globals.css'
@@ -10,9 +10,9 @@ const inter = Inter({
   display: 'swap',
 })
 
-const playfair = Playfair_Display({
+const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-source-serif',
   display: 'swap',
 })
 
@@ -70,7 +70,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable}`}
+      className={`${inter.variable} ${sourceSerif.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen font-sans">

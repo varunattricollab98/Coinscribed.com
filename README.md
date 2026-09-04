@@ -306,7 +306,7 @@ Legal pages (Privacy Policy, Terms of Service, Disclaimer) are located in their 
 
 ### Typography
 
-- **Headlines**: Playfair Display (serif) - gives a newspaper/editorial feel
+- **Headlines**: Inter (sans-serif) - clean, modern and highly readable
 - **Body text**: Inter (sans-serif) - clean and highly readable
 
 ## Scripts

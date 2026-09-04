@@ -101,14 +101,19 @@ const config: Config = {
         },
       },
 
-      /* These MUST lead with the `next/font` CSS variables set on <html> in
-         app/layout.tsx. Naming the families literally makes the browser look
-         for a locally installed copy and silently fall back to Georgia — the
-         self-hosted woff2 files are shipped but never used, which is exactly
-         the bug this stack had. The literal names stay as a second step for
-         the rare machine that does have them installed. */
+      /* These MUST lead with the `next/font` CSS variable set on <html> in
+         app/layout.tsx. Naming the family literally makes the browser look for
+         a locally installed copy and silently fall back - the self-hosted
+         woff2 files are shipped but never used, which is exactly the bug this
+         stack had. The literal name stays as a second step for the rare
+         machine that does have it installed.
+
+         "Clean Modern": the whole site now uses a single clean sans-serif
+         (Inter) for both headings and body. `serif` is intentionally aliased
+         to the same Inter stack as `sans`, so every existing `font-serif`
+         heading renders in Inter without touching component classes. */
       fontFamily: {
-        serif: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'serif'],
+        serif: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
         sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
       },
 

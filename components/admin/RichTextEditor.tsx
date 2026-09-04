@@ -276,6 +276,20 @@ export function RichTextEditor({
     [onChange, value]
   )
 
+  /**
+   * Insert a block immediately AFTER the given index (mirrors `addBlock`, which
+   * appends). Used by the per-block inline "add" controls so the author can add
+   * the next block without scrolling back up to the top toolbar.
+   */
+  const insertBlockAfter = useCallback(
+    (index: number, block: EditorBlock) => {
+      const next = [...value]
+      next.splice(index + 1, 0, block)
+      onChange(next)
+    },
+    [onChange, value]
+  )
+
   /** Read the contentEditable DOM for a text block and store the spans. */
   const syncTextBlock = useCallback(
     (key: string) => {
@@ -356,6 +370,14 @@ export function RichTextEditor({
     onInsertTable?.()
   }, [addBlock, onInsertTable])
 
+  const handleInsertTableAfter = useCallback(
+    (index: number) => {
+      insertBlockAfter(index, newTableBlock())
+      onInsertTable?.()
+    },
+    [insertBlockAfter, onInsertTable]
+  )
+
   const handleInsertImage = useCallback(
     (img: UploaderImageValue | undefined) => {
       if (!img) return
@@ -373,39 +395,17 @@ export function RichTextEditor({
 
   return (
     <div>
-      {/* Add-block toolbar */}
-      <div className="flex flex-wrap items-center gap-1.5 rounded-t-sm border border-hairline bg-wash px-2 py-2 dark:border-hairline-dark dark:bg-elevated">
+      {/* Add-block toolbar — sticky so it stays reachable while scrolling the
+          body blocks. Uses a solid opaque background so body text does not show
+          through when it overlaps the blocks beneath it. */}
+      <div className="sticky top-0 z-10 flex flex-wrap items-center gap-1.5 rounded-t-sm border border-hairline bg-wash px-2 py-2 dark:border-hairline-dark dark:bg-elevated">
         <span className="mr-1 font-sans text-caption font-semibold uppercase tracking-wide text-ink-muted dark:text-ink-inverse-muted">
           Add
         </span>
-        <ToolbarButton onClick={() => addBlock(newTextBlock('normal'))}>
-          Paragraph
-        </ToolbarButton>
-        <ToolbarButton onClick={() => addBlock(newTextBlock('h2'))}>
-          H2
-        </ToolbarButton>
-        <ToolbarButton onClick={() => addBlock(newTextBlock('h3'))}>
-          H3
-        </ToolbarButton>
-        <ToolbarButton onClick={() => addBlock(newTextBlock('h4'))}>
-          H4
-        </ToolbarButton>
-        <ToolbarButton onClick={() => addBlock(newTextBlock('blockquote'))}>
-          Quote
-        </ToolbarButton>
-        <ToolbarButton onClick={() => addBlock(newTextBlock('normal', 'bullet'))}>
-          • List
-        </ToolbarButton>
-        <ToolbarButton
-          onClick={() => addBlock(newTextBlock('normal', 'number'))}
-        >
-          1. List
-        </ToolbarButton>
-        {onInsertTable && (
-          <ToolbarButton onClick={handleInsertTable}>
-            Insert table
-          </ToolbarButton>
-        )}
+        <AddBlockButtons
+          onAdd={addBlock}
+          onInsertTable={onInsertTable ? handleInsertTable : undefined}
+        />
       </div>
 
       {/* Blocks */}
@@ -485,8 +485,35 @@ export function RichTextEditor({
                 onChange={(next) => updateBlock(block._key, () => next)}
               />
             )}
+
+            {/* Inline "add block after this one" affordance so the author can
+                keep writing without scrolling back up to the top toolbar. */}
+            <div className="mt-2 flex flex-wrap items-center gap-1.5 border-t border-dashed border-hairline pt-2 dark:border-hairline-dark">
+              <span className="mr-1 font-sans text-caption font-semibold uppercase tracking-wide text-ink-muted dark:text-ink-inverse-muted">
+                Add below
+              </span>
+              <AddBlockButtons
+                onAdd={(newBlock) => insertBlockAfter(index, newBlock)}
+                onInsertTable={
+                  onInsertTable ? () => handleInsertTableAfter(index) : undefined
+                }
+              />
+            </div>
           </div>
         ))}
+
+        {/* Persistent add-bar at the bottom of the block list — same actions as
+            the top toolbar, so the next block can be added right where the
+            author is working. */}
+        <div className="flex flex-wrap items-center gap-1.5 rounded-sm border border-dashed border-hairline bg-wash px-2 py-2 dark:border-hairline-dark dark:bg-elevated">
+          <span className="mr-1 font-sans text-caption font-semibold uppercase tracking-wide text-ink-muted dark:text-ink-inverse-muted">
+            Add
+          </span>
+          <AddBlockButtons
+            onAdd={addBlock}
+            onInsertTable={onInsertTable ? handleInsertTable : undefined}
+          />
+        </div>
 
         {/* Inline image insert */}
         <div className="rounded-sm border border-dashed border-hairline p-3 dark:border-hairline-dark">
@@ -510,6 +537,43 @@ export function RichTextEditor({
 // ============================================================
 // Sub-components
 // ============================================================
+
+/**
+ * The shared set of "add block" actions rendered by the sticky top toolbar,
+ * the per-block "Add below" control, and the bottom add-bar. `onAdd` receives a
+ * freshly constructed block; the caller decides whether to append it or splice
+ * it in after a given index. `onInsertTable`, when provided, adds the table.
+ */
+function AddBlockButtons({
+  onAdd,
+  onInsertTable,
+}: {
+  onAdd: (block: EditorBlock) => void
+  onInsertTable?: () => void
+}) {
+  return (
+    <>
+      <ToolbarButton onClick={() => onAdd(newTextBlock('normal'))}>
+        Paragraph
+      </ToolbarButton>
+      <ToolbarButton onClick={() => onAdd(newTextBlock('h2'))}>H2</ToolbarButton>
+      <ToolbarButton onClick={() => onAdd(newTextBlock('h3'))}>H3</ToolbarButton>
+      <ToolbarButton onClick={() => onAdd(newTextBlock('h4'))}>H4</ToolbarButton>
+      <ToolbarButton onClick={() => onAdd(newTextBlock('blockquote'))}>
+        Quote
+      </ToolbarButton>
+      <ToolbarButton onClick={() => onAdd(newTextBlock('normal', 'bullet'))}>
+        • List
+      </ToolbarButton>
+      <ToolbarButton onClick={() => onAdd(newTextBlock('normal', 'number'))}>
+        1. List
+      </ToolbarButton>
+      {onInsertTable && (
+        <ToolbarButton onClick={onInsertTable}>Insert table</ToolbarButton>
+      )}
+    </>
+  )
+}
 
 function ToolbarButton({
   onClick,
@@ -665,6 +729,18 @@ function TextBlockRow({
         aria-multiline="true"
         onInput={onSync}
         onBlur={onSync}
+        onPaste={(e) => {
+          // Paste as PLAIN TEXT: pulling in source HTML carries inline
+          // background-color/color/font styles (the black box the author saw)
+          // and stray markup. We insert only the plain text at the caret via
+          // execCommand('insertText'), which preserves the caret and native
+          // undo, then re-sync the model. The pasted text then adopts the
+          // editor's own bg-paper/text-ink styling.
+          e.preventDefault()
+          const text = e.clipboardData.getData('text/plain')
+          document.execCommand('insertText', false, text)
+          onSync()
+        }}
         className="min-h-[2.5rem] w-full rounded-sm border border-hairline bg-paper px-3 py-2 font-sans text-sm leading-relaxed text-ink focus:border-accent focus:outline-none dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse"
       />
     </div>

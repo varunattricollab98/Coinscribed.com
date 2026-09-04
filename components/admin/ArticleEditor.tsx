@@ -97,23 +97,79 @@ function emptyDraft(): ArticleDraft {
   }
 }
 
-/** Convert an ISO datetime to the value a <input type="datetime-local"> wants. */
+// The "Published at" field operates in US Eastern Time (America/New_York),
+// regardless of the admin's own browser timezone (e.g. an India-based author
+// picks an ET time, not IST). The value is still STORED as a UTC ISO string so
+// nothing downstream changes. DST is handled correctly because the ET offset is
+// computed for the specific instant via Intl.DateTimeFormat rather than a fixed
+// -4/-5 hour assumption.
+const ET_TIME_ZONE = 'America/New_York'
+
+/**
+ * Compute the offset (in minutes) of America/New_York from UTC for a given
+ * instant, i.e. how far ET is behind UTC. EDT returns 240 (UTC-4), EST returns
+ * 300 (UTC-5). Works by formatting the instant in ET, reading the wall-clock
+ * fields back, and diffing against the same instant read as UTC.
+ */
+function easternOffsetMinutes(instant: Date): number {
+  const dtf = new Intl.DateTimeFormat('en-US', {
+    timeZone: ET_TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  })
+  const parts = dtf.formatToParts(instant)
+  const get = (type: string) =>
+    Number(parts.find((p) => p.type === type)?.value ?? '0')
+  let hour = get('hour')
+  // Intl can emit hour "24" at midnight for hour12:false; normalise to 0.
+  if (hour === 24) hour = 0
+  // The ET wall-clock fields as if they were UTC.
+  const asUtc = Date.UTC(
+    get('year'),
+    get('month') - 1,
+    get('day'),
+    hour,
+    get('minute'),
+    get('second')
+  )
+  // How far the ET wall clock is behind real UTC, in minutes.
+  return Math.round((instant.getTime() - asUtc) / 60000)
+}
+
+/**
+ * Convert a stored UTC ISO datetime to the yyyy-MM-ddTHH:mm value a
+ * <input type="datetime-local"> wants, expressed in US Eastern Time.
+ */
 function toDatetimeLocal(iso?: string): string {
   if (!iso) return ''
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return ''
-  // Adjust to local time then trim to minutes (yyyy-MM-ddTHH:mm).
-  const off = d.getTimezoneOffset()
-  const local = new Date(d.getTime() - off * 60 * 1000)
-  return local.toISOString().slice(0, 16)
+  const offset = easternOffsetMinutes(d)
+  // Shift the instant so its UTC fields read as the ET wall clock, then slice.
+  const etWall = new Date(d.getTime() - offset * 60 * 1000)
+  return etWall.toISOString().slice(0, 16)
 }
 
-/** Convert a datetime-local value back to an ISO string. */
+/**
+ * Convert a datetime-local value (interpreted as US Eastern wall-clock time)
+ * back to a UTC ISO string for storage.
+ */
 function fromDatetimeLocal(value: string): string {
   if (!value) return ''
-  const d = new Date(value)
-  if (Number.isNaN(d.getTime())) return ''
-  return d.toISOString()
+  // Parse the wall-clock fields as if they were UTC to get a first estimate.
+  const asUtc = new Date(`${value}:00.000Z`)
+  if (Number.isNaN(asUtc.getTime())) return ''
+  // Determine the ET offset at that approximate instant and correct for it.
+  // A single correction is DST-accurate except within the ~1h DST transition
+  // window, which is acceptable for a publish timestamp.
+  const offset = easternOffsetMinutes(asUtc)
+  const utc = new Date(asUtc.getTime() + offset * 60 * 1000)
+  return utc.toISOString()
 }
 
 type Errors = Partial<Record<string, string>>
@@ -687,7 +743,11 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
 
           {/* Published At */}
           <div className="rounded-sm border border-hairline bg-surface p-4 dark:border-hairline-dark dark:bg-elevated">
-            <Field label="Published at" required error={errors.publishedAt}>
+            <Field
+              label="Published at (US Eastern Time)"
+              required
+              error={errors.publishedAt}
+            >
               <input
                 type="datetime-local"
                 value={toDatetimeLocal(draft.publishedAt)}

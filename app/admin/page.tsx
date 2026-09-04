@@ -52,9 +52,37 @@ function baseId(id: string): string {
   return id.startsWith('drafts.') ? id.slice('drafts.'.length) : id
 }
 
+/**
+ * Turn a Sanity delete error into an actionable message, mirroring the editor's
+ * `describeError` so the two admin surfaces read the same to the operator.
+ */
+function describeDeleteError(err: unknown): string {
+  const status =
+    (err as { statusCode?: number; response?: { statusCode?: number } })
+      ?.statusCode ??
+    (err as { response?: { statusCode?: number } })?.response?.statusCode
+  const message =
+    err instanceof Error ? err.message : typeof err === 'string' ? err : ''
+  if (status === 401) {
+    return 'Your Sanity session has expired or is not being sent. Sign in again, and make sure this site\u2019s origin has "Allow credentials" checked in manage.sanity.io > API > CORS Origins.'
+  }
+  if (status === 403) {
+    return 'Your Sanity role does not have permission to delete this document. Ask a project admin to grant Editor/Admin access.'
+  }
+  if (/cors|credential/i.test(message)) {
+    return 'A CORS / credentials error blocked the delete. In manage.sanity.io > API > CORS Origins, add this site\u2019s origin with "Allow credentials" checked.'
+  }
+  return `Delete failed: ${message || 'unknown error'}. Please try again.`
+}
+
 export default function AdminDashboardPage() {
   const [rows, setRows] = useState<RawArticleRow[] | null>(null)
   const [error, setError] = useState<string | null>(null)
+  // Base id (drafts.-stripped) of the row whose delete is in flight, so its
+  // buttons show a "Deleting..." state and cannot fire a second request.
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  // Per-row delete error, keyed by base id, kept next to the row that failed.
+  const [deleteErrors, setDeleteErrors] = useState<Record<string, string>>({})
 
   useEffect(() => {
     let active = true
@@ -107,6 +135,49 @@ export default function AdminDashboardPage() {
       return bt - at
     })
   }, [rows])
+
+  /**
+   * Delete an article as the logged-in Sanity user. Both the draft
+   * (`drafts.<id>`) and the published document (`<id>`) are removed in a SINGLE
+   * transaction. Sanity `delete` mutations are idempotent - deleting an id that
+   * does not exist is a no-op rather than an error - so the same transaction
+   * cleanly covers the draft-only, published-only and draft+published cases.
+   * Requires an explicit confirmation first so nothing is removed by accident.
+   */
+  const handleDelete = async (item: AdminArticleListItem) => {
+    const id = baseId(item._id)
+    const title = item.title || 'Untitled'
+    const confirmed = window.confirm(
+      `Delete "${title}"? This permanently removes the article (and its draft) and cannot be undone.`
+    )
+    if (!confirmed) return
+
+    // Clear any previous error for this row and mark it in flight.
+    setDeleteErrors((prev) => {
+      const next = { ...prev }
+      delete next[id]
+      return next
+    })
+    setDeletingId(id)
+
+    try {
+      await getAdminClient()
+        .transaction()
+        .delete(`drafts.${id}`)
+        .delete(id)
+        .commit({ visibility: 'async' })
+      // Success: drop every raw row (draft and/or published) for this article
+      // so the list reflects the delete without a full reload.
+      setRows((prev) =>
+        prev ? prev.filter((row) => baseId(row._id) !== id) : prev
+      )
+    } catch (err) {
+      // Keep the row and surface an actionable inline error.
+      setDeleteErrors((prev) => ({ ...prev, [id]: describeDeleteError(err) }))
+    } finally {
+      setDeletingId((current) => (current === id ? null : current))
+    }
+  }
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -222,14 +293,42 @@ export default function AdminDashboardPage() {
                     {formatDate(item._updatedAt)}
                   </td>
                   <td className="px-4 py-3 align-top text-right">
-                    <Link
-                      href={`/admin/articles/${encodeURIComponent(
-                        baseId(item._id)
-                      )}/edit`}
-                      className="font-sans text-sm font-semibold text-accent underline-offset-2 hover:underline dark:text-accent-light"
-                    >
-                      Edit
-                    </Link>
+                    {(() => {
+                      const id = baseId(item._id)
+                      const isDeleting = deletingId === id
+                      const rowError = deleteErrors[id]
+                      return (
+                        <>
+                          <div className="flex items-center justify-end gap-4">
+                            <Link
+                              href={`/admin/articles/${encodeURIComponent(
+                                id
+                              )}/edit`}
+                              aria-disabled={isDeleting}
+                              tabIndex={isDeleting ? -1 : undefined}
+                              className={`font-sans text-sm font-semibold text-accent underline-offset-2 hover:underline dark:text-accent-light${
+                                isDeleting ? ' pointer-events-none opacity-50' : ''
+                              }`}
+                            >
+                              Edit
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(item)}
+                              disabled={isDeleting}
+                              className="font-sans text-sm font-semibold text-down underline-offset-2 hover:underline disabled:cursor-not-allowed disabled:opacity-50 dark:text-down-light"
+                            >
+                              {isDeleting ? 'Deleting\u2026' : 'Delete'}
+                            </button>
+                          </div>
+                          {rowError && (
+                            <p className="mt-2 text-caption text-down dark:text-down-light">
+                              {rowError}
+                            </p>
+                          )}
+                        </>
+                      )
+                    })()}
                   </td>
                 </tr>
               ))}

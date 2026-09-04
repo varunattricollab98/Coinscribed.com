@@ -190,6 +190,13 @@
     @apply font-serif text-display-1 font-bold leading-[1.03] text-ink sm:text-display-0 lg:text-display-hero dark:text-ink-inverse;
   }
 
+  /* Article-page headline. One step down the display scale from `.hero-title`
+     at every breakpoint, so a long story title no longer wraps to three lines
+     on desktop. Shares the hero's serif weight, leading and dark treatment. */
+  .article-title {
+    @apply font-serif text-display-2 font-bold leading-[1.03] text-ink sm:text-display-1 lg:text-display-0 dark:text-ink-inverse;
+  }
+
   /* Standfirst / deck copy under a major headline. */
   .deck {
     @apply text-body-lg leading-relaxed text-ink-body dark:text-ink-inverse-body;

@@ -72,7 +72,7 @@ export function ArticleView({ article, authorSlug, children }: ArticleViewProps)
           />
 
           {/* Title */}
-          <h1 className="hero-title mt-4">{article.title}</h1>
+          <h1 className="article-title mt-4">{article.title}</h1>
 
           {/* Standfirst */}
           <p className="deck mt-5 border-l-2 border-gold pl-5 dark:border-gold-light">

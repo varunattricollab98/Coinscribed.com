@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { genKey } from '@/lib/portable-text'
 import type {
   EditorBlock,
@@ -243,6 +243,29 @@ export function RichTextEditor({
   // apply marks to the current selection via document.execCommand.
   const editableRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
+  // When Enter splits a list item into a new sibling block, the new block's
+  // contentEditable only mounts on the NEXT render (after onChange). We stash
+  // its _key here and move focus/caret into it from an effect once it exists.
+  const [pendingFocusKey, setPendingFocusKey] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!pendingFocusKey) return
+    const el = editableRefs.current[pendingFocusKey]
+    if (el) {
+      el.focus()
+      // Place the caret inside the (empty) new block.
+      const sel = window.getSelection()
+      if (sel) {
+        const range = document.createRange()
+        range.selectNodeContents(el)
+        range.collapse(true)
+        sel.removeAllRanges()
+        sel.addRange(range)
+      }
+    }
+    setPendingFocusKey(null)
+  }, [pendingFocusKey, value])
+
   const updateBlock = useCallback(
     (key: string, updater: (block: EditorBlock) => EditorBlock) => {
       onChange(value.map((b) => (b._key === key ? updater(b) : b)))
@@ -363,6 +386,61 @@ export function RichTextEditor({
     [updateBlock]
   )
 
+  /**
+   * Enter pressed inside a LIST item. Because the contentEditable drops <BR>s
+   * on serialization, a native Enter would produce nothing useful (all lines
+   * collapse into one bullet). Instead we model Enter as a structural split:
+   *
+   * - If the current item still has text, capture that text (read the live DOM)
+   *   and insert a NEW empty list block of the SAME kind right after it, then
+   *   move the caret into the new block (via `pendingFocusKey`).
+   * - If the current item is EMPTY, "exit the list": convert this block back to
+   *   a normal paragraph instead of adding another empty bullet. This mirrors
+   *   the familiar Word/Docs behaviour and prevents runaway empty bullets.
+   *
+   * Both branches are expressed as a SINGLE `onChange` computed from the
+   * current `value`, so the freshly-read DOM text and the structural change are
+   * applied together (never off a stale closure).
+   */
+  const handleListEnter = useCallback(
+    (key: string, listItem: EditorListItem) => {
+      const el = editableRefs.current[key]
+      if (!el) return
+      const { spans, links } = domToSpans(el)
+      const isEmpty = spans.every((s) => s.text.trim().length === 0)
+
+      const index = value.findIndex((b) => b._key === key)
+      if (index === -1) return
+
+      if (isEmpty) {
+        // Exit the list: this item becomes a normal paragraph in place.
+        onChange(
+          value.map((b) => {
+            if (b._key !== key || b._type !== 'block') return b
+            const { listItem: _li, level: _lvl, ...rest } = b
+            void _li
+            void _lvl
+            return { ...rest, style: 'normal', children: spans, links }
+          })
+        )
+        return
+      }
+
+      // Persist what was typed into the current item, then splice a new empty
+      // sibling of the same list kind directly after it.
+      const newBlock = newTextBlock('normal', listItem)
+      const next = value.map((b) =>
+        b._key === key && b._type === 'block'
+          ? { ...b, children: spans, links }
+          : b
+      )
+      next.splice(index + 1, 0, newBlock)
+      onChange(next)
+      setPendingFocusKey(newBlock._key)
+    },
+    [onChange, value]
+  )
+
   const handleInsertTable = useCallback(() => {
     addBlock(newTableBlock())
     // Notify the host (e.g. to scroll to / flag unsaved changes). The append
@@ -461,6 +539,7 @@ export function RichTextEditor({
                 onStyle={(style) => setBlockStyle(block._key, style)}
                 onList={(li) => setListItem(block._key, li)}
                 onInline={(cmd) => applyInline(block._key, cmd)}
+                onListEnter={(li) => handleListEnter(block._key, li)}
               />
             )}
 
@@ -642,6 +721,7 @@ function TextBlockRow({
   onStyle,
   onList,
   onInline,
+  onListEnter,
 }: {
   block: EditorTextBlock
   editableRef: (el: HTMLDivElement | null) => void
@@ -649,6 +729,8 @@ function TextBlockRow({
   onStyle: (style: EditorBlockStyle) => void
   onList: (li: EditorListItem | undefined) => void
   onInline: (cmd: 'bold' | 'italic' | 'underline' | 'code' | 'link') => void
+  /** Plain Enter inside a list item: split into a new sibling list block. */
+  onListEnter: (li: EditorListItem) => void
 }) {
   // The contentEditable is UNCONTROLLED: its innerHTML is initialised exactly
   // once on mount and thereafter owned by the browser. React must never rewrite
@@ -729,6 +811,21 @@ function TextBlockRow({
         aria-multiline="true"
         onInput={onSync}
         onBlur={onSync}
+        onKeyDown={(e) => {
+          // Enter inside a LIST item must create a NEW sibling list item rather
+          // than a browser <BR> (which domToSpans drops, collapsing every line
+          // into one bullet). Shift+Enter keeps its native behaviour. Non-list
+          // blocks are left alone so paragraph editing is unchanged.
+          if (
+            e.key === 'Enter' &&
+            !e.shiftKey &&
+            !e.nativeEvent.isComposing &&
+            block.listItem
+          ) {
+            e.preventDefault()
+            onListEnter(block.listItem)
+          }
+        }}
         onPaste={(e) => {
           // Paste as PLAIN TEXT: pulling in source HTML carries inline
           // background-color/color/font styles (the black box the author saw)

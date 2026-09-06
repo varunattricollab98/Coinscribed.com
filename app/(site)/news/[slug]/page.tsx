@@ -3,7 +3,11 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { siteConfig } from '@/config/site'
 import { getArticleBySlug, getRelatedArticles, getAllArticleSlugs } from '@/lib/sanity-queries'
-import { generateArticleSchema, generateFAQSchema } from '@/lib/schema-markup'
+import {
+  generateArticleSchema,
+  generateFAQSchema,
+  generateBreadcrumbSchema,
+} from '@/lib/schema-markup'
 import { ArticleView } from '@/components/news/ArticleView'
 import { ArticleCard } from '@/components/news/ArticleCard'
 import { Reveal } from '@/components/motion/Reveal'
@@ -105,11 +109,29 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     image: article.imageUrl,
   })
 
+  // Breadcrumb schema matching the visible breadcrumb (News / Category /
+  // Article) — helps search engines show a breadcrumb trail in results.
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'News', url: `${siteConfig.url}/news` },
+    {
+      name: article.category.title,
+      url: `${siteConfig.url}/news/category/${article.category.slug.current}`,
+    },
+    {
+      name: article.title,
+      url: `${siteConfig.url}/news/${article.slug.current}`,
+    },
+  ])
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {article.faqs && article.faqs.length > 0 && (

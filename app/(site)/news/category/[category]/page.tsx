@@ -50,6 +50,12 @@ const categoryMeta: Record<string, { title: string; description: string }> = {
   },
 }
 
+// A category needs at least this many published stories to be worth indexing.
+// Below it the page is a near-empty list (thin content), so we noindex it until
+// it fills up — this keeps low-value/empty category pages out of Google while
+// still letting readers reach them via the on-site category tabs.
+const MIN_ARTICLES_TO_INDEX = 3
+
 export async function generateMetadata({
   params,
 }: CategoryPageProps): Promise<Metadata> {
@@ -59,10 +65,16 @@ export async function generateMetadata({
     description: `Latest ${category} news and analysis from ${siteConfig.name}.`,
   }
 
+  // Thin/empty category pages should not be indexed (penalty risk for a new
+  // YMYL site). They stay reachable on-site but are marked noindex,follow.
+  const articles = await getArticlesByCategory(category)
+  const tooThin = articles.length < MIN_ARTICLES_TO_INDEX
+
   return {
     title: meta.title,
     description: meta.description,
     alternates: { canonical: `/news/category/${category}` },
+    ...(tooThin && { robots: { index: false, follow: true } }),
     openGraph: {
       title: `${meta.title} | ${siteConfig.name}`,
       description: meta.description,

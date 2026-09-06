@@ -300,23 +300,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Live US market news — daily headlines pulled from a live feed
-          (Finnhub when a key is set, else Yahoo Finance RSS). */}
+      {/* Live market-news ticker — a single compact auto-scrolling strip of the
+          latest headlines. Non-clickable on purpose: it's a live "what's moving
+          the market" signal that keeps readers on the site rather than linking
+          out. Fed by /api/market-news (Finnhub when a key is set, else RSS). */}
       <section className="hairline-b">
-        <div className="container-page section-padding">
-          <Reveal className="section-header mb-8">
-            <div>
-              <span className="eyebrow">Markets</span>
-              <h2 className="section-title mt-2">US Market News</h2>
-              <p className="mt-2 max-w-2xl text-sm text-ink-body dark:text-ink-inverse-body">
-                The latest headlines moving US markets, updated throughout the
-                trading day.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <MarketNews />
-          </Reveal>
+        <div className="container-page py-6">
+          <div className="mb-3 flex items-baseline justify-between gap-4">
+            <h2 className="text-eyebrow font-semibold uppercase tracking-wide text-ink-muted dark:text-ink-inverse-muted">
+              Latest Market Headlines
+            </h2>
+          </div>
+          <MarketNews />
         </div>
       </section>
 

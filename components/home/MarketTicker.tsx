@@ -154,7 +154,7 @@ export function MarketTicker() {
       <div className="flex flex-1 items-center overflow-hidden">
         {/* Slower marquee so cards are readable; pauses on hover; respects
             reduced-motion. */}
-        <div className="flex min-w-full shrink-0 animate-marquee-slow items-center group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+        <div className="flex min-w-full shrink-0 animate-marquee-medium items-center group-hover:[animation-play-state:paused] motion-reduce:animate-none">
           <div className="flex items-center">
             {rows.map((row, i) => renderCard(row, i))}
           </div>

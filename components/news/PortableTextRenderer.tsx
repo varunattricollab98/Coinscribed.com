@@ -175,7 +175,7 @@ const components: PortableTextComponents = {
       return (
         <a
           href={href}
-          className="text-ink-body underline decoration-accent/40 decoration-1 underline-offset-[3px] transition-colors hover:text-accent hover:decoration-accent dark:text-ink-inverse-body dark:decoration-accent-light/40 dark:hover:text-accent-light"
+          className="font-medium text-accent underline decoration-accent/50 decoration-1 underline-offset-[3px] transition-colors hover:decoration-accent hover:decoration-2 dark:text-accent-light dark:decoration-accent-light/50 dark:hover:decoration-accent-light"
           {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
         >
           {children}

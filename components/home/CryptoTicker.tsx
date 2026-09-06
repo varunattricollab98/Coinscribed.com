@@ -46,8 +46,8 @@ const FALLBACK_COINS: Coin[] = [
 ]
 
 // One call returns price + 24h change for the top coins by market cap.
-const COINGECKO_URL =
-  'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&price_change_percentage=24h'
+// Fetch via our own server proxy (CoinGecko blocks direct browser calls).
+const COINGECKO_URL = '/api/crypto'
 
 function formatPrice(price: number): string {
   const fractionDigits = price >= 100 ? 0 : price >= 1 ? 2 : 4
@@ -70,25 +70,23 @@ export function CryptoTicker() {
         const res = await fetch(COINGECKO_URL, { cache: 'no-store' })
         if (!res.ok) return // keep last good / fallback data
         const data = await res.json()
-        if (!Array.isArray(data)) return
+        const list = Array.isArray(data?.coins) ? data.coins : []
+        if (!list.length) return
 
-        // Map API rows keyed by upper-case symbol, then pull our display set in
-        // order. Any symbol missing from the response falls back to its static
-        // entry so the bar never shows gaps or NaN.
+        // Map proxy rows keyed by upper-case symbol, then pull our display set
+        // in order. Any symbol missing from the response falls back to its
+        // static entry so the bar never shows gaps or NaN.
         const bySymbol = new Map<string, Coin>()
-        for (const row of data) {
+        for (const row of list) {
           const symbol =
             typeof row?.symbol === 'string' ? row.symbol.toUpperCase() : ''
           if (!symbol) continue
           bySymbol.set(symbol, {
             id: typeof row?.id === 'string' ? row.id : symbol,
             symbol,
-            price:
-              typeof row?.current_price === 'number' ? row.current_price : NaN,
+            price: typeof row?.price === 'number' ? row.price : NaN,
             change24h:
-              typeof row?.price_change_percentage_24h === 'number'
-                ? row.price_change_percentage_24h
-                : NaN,
+              typeof row?.change24h === 'number' ? row.change24h : NaN,
           })
         }
 

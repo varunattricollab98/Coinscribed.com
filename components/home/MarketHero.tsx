@@ -23,8 +23,9 @@ const FALLBACK: CoinCard[] = [
   { id: 'binancecoin', symbol: 'BNB', name: 'BNB', image: '', price: 687, change24h: 0.42, sparkline: [680, 682, 684, 683, 686, 685, 687] },
 ]
 
-const URL =
-  'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=4&page=1&sparkline=true&price_change_percentage=24h'
+// Fetch via our own server proxy (CoinGecko blocks direct browser calls, which
+// is why the hero used to fall back to static prices).
+const URL = '/api/crypto'
 
 function formatPrice(price: number): string {
   const digits = price >= 100 ? 0 : price >= 1 ? 2 : 4
@@ -47,22 +48,24 @@ export function MarketHero() {
         const res = await fetch(URL, { cache: 'no-store' })
         if (!res.ok) return
         const data = await res.json()
-        if (!Array.isArray(data)) return
-        const mapped: CoinCard[] = data.map((c) => ({
-          id: c.id,
-          symbol: typeof c.symbol === 'string' ? c.symbol.toUpperCase() : '',
+        const list = Array.isArray(data?.coins) ? data.coins : []
+        if (!list.length) return
+        const mapped: CoinCard[] = list.slice(0, 4).map((c: {
+          id?: string
+          symbol?: string
+          name?: string
+          image?: string
+          price?: number
+          change24h?: number
+          sparkline?: number[]
+        }) => ({
+          id: c.id ?? '',
+          symbol: typeof c.symbol === 'string' ? c.symbol : '',
           name: c.name ?? '',
           image: c.image ?? '',
-          price: typeof c.current_price === 'number' ? c.current_price : 0,
-          change24h:
-            typeof c.price_change_percentage_24h === 'number'
-              ? c.price_change_percentage_24h
-              : 0,
-          sparkline: Array.isArray(c.sparkline_in_7d?.price)
-            ? c.sparkline_in_7d.price.filter(
-                (n: unknown): n is number => typeof n === 'number'
-              )
-            : [],
+          price: typeof c.price === 'number' ? c.price : 0,
+          change24h: typeof c.change24h === 'number' ? c.change24h : 0,
+          sparkline: Array.isArray(c.sparkline) ? c.sparkline : [],
         }))
         if (active && mapped.length) setCoins(mapped)
       } catch {

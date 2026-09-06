@@ -273,15 +273,38 @@ export default function AdminDashboardPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 align-top">
-                    {item.isDraft ? (
-                      <span className="inline-flex items-center rounded-sm bg-gold-soft px-2 py-1 font-sans text-caption font-semibold uppercase tracking-wide text-gold dark:bg-wash-dark dark:text-gold-light">
-                        Draft
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center rounded-sm bg-up/10 px-2 py-1 font-sans text-caption font-semibold uppercase tracking-wide text-up dark:text-up-light">
-                        Published
-                      </span>
-                    )}
+                    {(() => {
+                      // A published (non-draft) doc whose publishedAt is in the
+                      // future is SCHEDULED: it won't appear on the site until
+                      // that time. Show a distinct badge so the author can see
+                      // what's queued vs already live.
+                      const scheduled =
+                        !item.isDraft &&
+                        item.publishedAt &&
+                        new Date(item.publishedAt).getTime() > Date.now()
+                      if (item.isDraft) {
+                        return (
+                          <span className="inline-flex items-center rounded-sm bg-gold-soft px-2 py-1 font-sans text-caption font-semibold uppercase tracking-wide text-gold dark:bg-wash-dark dark:text-gold-light">
+                            Draft
+                          </span>
+                        )
+                      }
+                      if (scheduled) {
+                        return (
+                          <span
+                            className="inline-flex items-center rounded-sm bg-accent/10 px-2 py-1 font-sans text-caption font-semibold uppercase tracking-wide text-accent dark:text-accent-light"
+                            title={`Goes live ${new Date(item.publishedAt!).toLocaleString('en-US')}`}
+                          >
+                            Scheduled
+                          </span>
+                        )
+                      }
+                      return (
+                        <span className="inline-flex items-center rounded-sm bg-up/10 px-2 py-1 font-sans text-caption font-semibold uppercase tracking-wide text-up dark:text-up-light">
+                          Published
+                        </span>
+                      )
+                    })()}
                   </td>
                   <td className="hidden px-4 py-3 align-top text-ink-body dark:text-ink-inverse-body sm:table-cell">
                     {item.category || '—'}
@@ -301,18 +324,24 @@ export default function AdminDashboardPage() {
                         <>
                           <div className="flex items-center justify-end gap-4">
                             {/* View the live published page in a new tab. Only
-                                shown for published articles with a slug — a
-                                draft has no live URL yet. */}
-                            {!item.isDraft && item.slug && (
-                              <a
-                                href={`/news/${item.slug}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="font-sans text-sm font-semibold text-ink-body underline-offset-2 hover:text-accent hover:underline dark:text-ink-inverse-body dark:hover:text-accent-light"
-                              >
-                                View
-                              </a>
-                            )}
+                                shown for a published, LIVE article with a slug —
+                                a draft or a still-scheduled (future) article has
+                                no live URL yet, so we hide View for those. */}
+                            {!item.isDraft &&
+                              item.slug &&
+                              !(
+                                item.publishedAt &&
+                                new Date(item.publishedAt).getTime() > Date.now()
+                              ) && (
+                                <a
+                                  href={`/news/${item.slug}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="font-sans text-sm font-semibold text-ink-body underline-offset-2 hover:text-accent hover:underline dark:text-ink-inverse-body dark:hover:text-accent-light"
+                                >
+                                  View
+                                </a>
+                              )}
                             <Link
                               href={`/admin/articles/${encodeURIComponent(
                                 id

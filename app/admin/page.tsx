@@ -300,6 +300,19 @@ export default function AdminDashboardPage() {
                       return (
                         <>
                           <div className="flex items-center justify-end gap-4">
+                            {/* View the live published page in a new tab. Only
+                                shown for published articles with a slug — a
+                                draft has no live URL yet. */}
+                            {!item.isDraft && item.slug && (
+                              <a
+                                href={`/news/${item.slug}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-sans text-sm font-semibold text-ink-body underline-offset-2 hover:text-accent hover:underline dark:text-ink-inverse-body dark:hover:text-accent-light"
+                              >
+                                View
+                              </a>
+                            )}
                             <Link
                               href={`/admin/articles/${encodeURIComponent(
                                 id

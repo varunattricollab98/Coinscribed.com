@@ -16,7 +16,7 @@ import type {
  * document model (`lib/admin-types.ts`) and Sanity Portable Text.
  *
  * The output shapes here match, EXACTLY:
- *   - `data/sample-news.ts` (buildBody / textBlock) for text and list blocks,
+ *   - `sanity/schemas/article.ts` (block / list styles) for text and list blocks,
  *   - `sanity/schemas/tableBlock.ts` + the `TableValue` in
  *     `components/news/PortableTextRenderer.tsx` for `tableBlock`,
  *   - the `PortableTextBlock` interface in `lib/sanity-queries.ts`.
@@ -94,13 +94,13 @@ export function buildLink(href: string, key?: string): EditorLink {
 }
 
 // ============================================================
-// Block builders (match data/sample-news.ts exactly)
+// Block builders (match the Sanity article schema exactly)
 // ============================================================
 
 /**
  * Build a text (paragraph / heading / quote / list-item) block.
  *
- * The emitted object matches `data/sample-news.ts` `textBlock`:
+ * The emitted object matches Sanity's Portable Text block shape:
  *   { _key, _type:'block', style, [listItem, level:1], children, markDefs }
  * List blocks add `listItem` and `level: 1`; link annotations go in `markDefs`.
  *
@@ -136,7 +136,7 @@ export function buildBlock(
 
 /**
  * Convenience: build a plain single-span text block (no inline formatting),
- * mirroring the common case in `data/sample-news.ts`.
+ * mirroring the common single-span paragraph case.
  */
 export function buildTextBlock(
   style: EditorBlockStyle,

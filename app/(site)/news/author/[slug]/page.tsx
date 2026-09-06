@@ -3,11 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { siteConfig } from '@/config/site'
-import { getAuthorBySlug, getArticlesByAuthor } from '@/lib/sanity-queries'
+import { getAuthorBySlug, getArticlesByAuthor, getAllAuthorSlugs } from '@/lib/sanity-queries'
 import { generateBreadcrumbSchema } from '@/lib/schema-markup'
 import { ArticleCard } from '@/components/news/ArticleCard'
 import { Reveal } from '@/components/motion/Reveal'
-import { getSampleAuthors } from '@/data/sample-news'
 
 /**
  * Pre-render every known author at build time.
@@ -17,8 +16,9 @@ import { getSampleAuthors } from '@/data/sample-news'
  * turns those prefetches into CDN file reads. `dynamicParams` defaults to true,
  * so authors added in the CMS after a build are still served on demand.
  */
-export function generateStaticParams() {
-  return getSampleAuthors().map((author) => ({ slug: author.slug.current }))
+export async function generateStaticParams() {
+  const slugs = await getAllAuthorSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 /** Refresh the static output periodically so CMS edits still land. */

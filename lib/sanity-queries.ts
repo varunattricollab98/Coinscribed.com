@@ -153,6 +153,22 @@ const authorFields = `
  */
 const CONTENT_CACHE = { next: { revalidate: 300, tags: ['sanity-content'] } }
 
+/**
+ * Scheduled-publishing gate.
+ *
+ * An article is only "live" once its `publishedAt` is in the past. Setting
+ * `publishedAt` to a FUTURE date/time therefore schedules the article: it stays
+ * hidden from every public listing, the article page, the sitemap and static
+ * params until that moment arrives, then appears automatically (within the
+ * 5-minute content cache window) with no cron or manual step.
+ *
+ * GROQ's `now()` is evaluated server-side at query time, so this needs no
+ * client clock. `dateTime(...)` makes the comparison an explicit datetime
+ * compare rather than string comparison. `defined(publishedAt)` keeps out
+ * drafts that never set a date.
+ */
+const PUBLISHED_GATE = `defined(publishedAt) && dateTime(publishedAt) <= dateTime(now())`
+
 // ============================================================
 // Sanity availability
 // ============================================================
@@ -205,7 +221,7 @@ const hasSanityArticles = cache(async (): Promise<boolean> => {
 export async function getAllArticles(): Promise<ArticleCard[]> {
   if (!(await hasSanityArticles())) return []
 
-  const query = `*[_type == "article"] | order(publishedAt desc) {
+  const query = `*[_type == "article" && ${PUBLISHED_GATE}] | order(publishedAt desc) {
     ${articleCardFields}
   }`
 
@@ -222,7 +238,7 @@ export async function getAllArticles(): Promise<ArticleCard[]> {
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   if (!(await hasSanityArticles())) return null
 
-  const query = `*[_type == "article" && slug.current == $slug][0] {
+  const query = `*[_type == "article" && slug.current == $slug && ${PUBLISHED_GATE}][0] {
     ${articleFullFields}
   }`
 
@@ -241,7 +257,7 @@ export async function getArticlesByCategory(
 ): Promise<ArticleCard[]> {
   if (!(await hasSanityArticles())) return []
 
-  const query = `*[_type == "article" && category->slug.current == $categorySlug] | order(publishedAt desc) {
+  const query = `*[_type == "article" && category->slug.current == $categorySlug && ${PUBLISHED_GATE}] | order(publishedAt desc) {
     ${articleCardFields}
   }`
 
@@ -278,7 +294,7 @@ export async function getCategories(): Promise<Category[]> {
 export async function getLatestArticles(limit: number = 5): Promise<ArticleCard[]> {
   if (!(await hasSanityArticles())) return []
 
-  const query = `*[_type == "article"] | order(publishedAt desc)[0...$limit] {
+  const query = `*[_type == "article" && ${PUBLISHED_GATE}] | order(publishedAt desc)[0...$limit] {
     ${articleCardFields}
   }`
 
@@ -299,7 +315,7 @@ export async function getRelatedArticles(
 ): Promise<ArticleCard[]> {
   if (!(await hasSanityArticles())) return []
 
-  const query = `*[_type == "article" && category->slug.current == $categorySlug && _id != $currentArticleId] | order(publishedAt desc)[0...$limit] {
+  const query = `*[_type == "article" && category->slug.current == $categorySlug && _id != $currentArticleId && ${PUBLISHED_GATE}] | order(publishedAt desc)[0...$limit] {
     ${articleCardFields}
   }`
 
@@ -340,7 +356,7 @@ export async function getAuthorBySlug(slug: string): Promise<Author | null> {
 export async function getArticlesByAuthor(slug: string): Promise<ArticleCard[]> {
   if (!(await hasSanityArticles())) return []
 
-  const query = `*[_type == "article" && author->slug.current == $slug] | order(publishedAt desc) {
+  const query = `*[_type == "article" && author->slug.current == $slug && ${PUBLISHED_GATE}] | order(publishedAt desc) {
     ${articleCardFields}
   }`
 
@@ -372,7 +388,7 @@ export async function getAllArticleSlugs(): Promise<
     const rows = await sanityClient.fetch<
       { slug?: { current?: string }; publishedAt?: string }[]
     >(
-      `*[_type == "article" && defined(slug.current)]{ slug, publishedAt }`,
+      `*[_type == "article" && defined(slug.current) && ${PUBLISHED_GATE}]{ slug, publishedAt }`,
       {},
       CONTENT_CACHE
     )

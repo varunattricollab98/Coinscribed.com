@@ -23,6 +23,13 @@ export function generateStaticParams() {
 
 export const dynamicParams = false
 
+// A per-state page is only worth indexing when it lists a meaningful number of
+// banks. Below this the page is largely the same templated table/FAQ as every
+// other state (near-duplicate content), so we noindex the thin ones to avoid a
+// doorway/thin-content signal on a new site — they stay reachable and crawlable
+// (follow) for internal discovery.
+const MIN_BANKS_TO_INDEX = 3
+
 export function generateMetadata({ params }: StatePageProps): Metadata {
   const data = getStateRoutingData(params.state)
   if (!data) return { title: 'State Not Found' }
@@ -32,10 +39,13 @@ export function generateMetadata({ params }: StatePageProps): Metadata {
   const title = `${state.name} Bank Routing Numbers`
   const description = `ABA routing numbers for banks in ${state.name}, including ${bankList}. Verify routing numbers for wire transfers, ACH payments, and direct deposits.`
 
+  const tooThin = banks.length < MIN_BANKS_TO_INDEX
+
   return {
     title,
     description,
     alternates: { canonical: `/bank-routing-numbers/state/${state.slug}` },
+    ...(tooThin && { robots: { index: false, follow: true } }),
     openGraph: {
       title: `${title} | ${siteConfig.name}`,
       description,

@@ -79,6 +79,12 @@ export default function CompoundInterestCalculatorPage() {
       description="See how your money grows with compound interest. Calculate future value and total interest earned across different compounding frequencies."
       jsonLd={[jsonLd, generateFAQSchema(faqItems)]}
       faq={<CalculatorFAQ items={faqItems} />}
+      relatedReading={[
+        { href: '/news/simple-vs-compound-interest', title: 'Simple vs Compound Interest: What’s the Difference?' },
+        { href: '/news/rule-of-72', title: 'The Rule of 72: How Fast Will Your Money Double?' },
+        { href: '/news/what-is-apy', title: 'What Is APY? (And Is a High APY Worth It?)' },
+        { href: '/news/how-to-build-an-emergency-fund', title: 'How to Build an Emergency Fund' },
+      ]}
       results={
         results ? (
           <div className="space-y-6">

@@ -91,6 +91,11 @@ export default function MortgageCalculatorPage() {
 
   return (
     <CalculatorLayout
+      relatedReading={[
+        { href: '/news/monthly-payment-300k-400k-500k-mortgage', title: 'Monthly Payment on a $300K, $400K or $500K Mortgage' },
+        { href: '/news/what-is-a-good-credit-score', title: 'What Credit Score Do You Need to Buy a House?' },
+        { href: '/news/apr-vs-apy', title: 'APR vs APY: What’s the Difference?' },
+      ]}
       title="Mortgage Calculator"
       description="Calculate your monthly mortgage payments, total interest paid, and view a payment summary based on your home price, down payment, loan term, and interest rate."
       jsonLd={[jsonLd, generateFAQSchema(faqItems)]}

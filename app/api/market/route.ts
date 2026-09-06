@@ -13,8 +13,11 @@ const INSTRUMENTS: { name: string; symbol: string; isPercent?: boolean; isCurren
   { name: 'S&P 500', symbol: '^GSPC' },
   { name: 'Dow Jones', symbol: '^DJI' },
   { name: 'Nasdaq', symbol: '^IXIC' },
+  { name: 'Russell 2000', symbol: '^RUT' },
+  { name: 'VIX', symbol: '^VIX' },
   { name: 'Gold', symbol: 'GC=F', isCurrency: true },
   { name: '10Y Treasury', symbol: '^TNX', isPercent: true },
+  { name: 'Bitcoin', symbol: 'BTC-USD', isCurrency: true },
 ]
 
 interface MarketRow {

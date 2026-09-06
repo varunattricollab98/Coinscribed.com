@@ -110,6 +110,11 @@ export default function Calculator401kPage() {
 
   return (
     <CalculatorLayout
+      relatedReading={[
+        { href: '/news/401k-employer-match-explained', title: '401(k) Employer Match Explained' },
+        { href: '/news/how-much-to-contribute-to-401k', title: 'How Much Should I Contribute to My 401(k)?' },
+        { href: '/news/what-is-a-good-credit-score', title: 'What Is a Good Credit Score?' },
+      ]}
       title="401(k) Calculator"
       description="Project your 401(k) retirement savings with employer matching contributions, compound growth, and monthly contributions over time."
       jsonLd={[jsonLd, generateFAQSchema(faqItems)]}

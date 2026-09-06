@@ -18,6 +18,12 @@ interface CalculatorLayoutProps {
   jsonLd?: object | object[]
   /** Visible FAQ, rendered below the educational content. */
   faq?: ReactNode
+  /**
+   * Optional "Related reading" links into editorial articles. Passing these
+   * cross-links the high-traffic calculator pages into the /news content,
+   * building topical authority in both directions.
+   */
+  relatedReading?: { href: string; title: string }[]
 }
 
 export function CalculatorLayout({
@@ -28,6 +34,7 @@ export function CalculatorLayout({
   educationalContent,
   jsonLd,
   faq,
+  relatedReading,
 }: CalculatorLayoutProps) {
   const jsonLdBlocks = jsonLd
     ? Array.isArray(jsonLd)
@@ -116,6 +123,34 @@ export function CalculatorLayout({
 
         {/* Visible FAQ — content here must match the FAQPage JSON-LD. */}
         {faq && <div className="mt-12">{faq}</div>}
+
+        {/* Related reading — cross-links this calculator into editorial
+            articles, building topical authority between the utility pages and
+            the /news content. */}
+        {relatedReading && relatedReading.length > 0 && (
+          <div className="mt-12 border-t border-hairline pt-8 dark:border-hairline-dark">
+            <h2 className="mb-4 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Related reading
+            </h2>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {relatedReading.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="group flex items-start gap-2 text-ink-body transition-colors hover:text-accent dark:text-ink-inverse-body dark:hover:text-accent-light"
+                  >
+                    <span aria-hidden="true" className="mt-1 text-accent dark:text-accent-light">
+                      &rarr;
+                    </span>
+                    <span className="font-medium underline-offset-2 group-hover:underline">
+                      {item.title}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/*
           The disclaimer sits with the results, not only on a linked page. Someone

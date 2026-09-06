@@ -173,6 +173,22 @@ function marksEqual(a: string[], b: string[]): boolean {
   return true
 }
 
+/**
+ * If the given range sits inside (or on) an existing anchor element, return it.
+ * Used so re-opening the link dialog on already-linked text pre-fills the URL
+ * and edits the same <a> instead of nesting a new one.
+ */
+function findAnchorInRange(range: Range): HTMLAnchorElement | null {
+  let node: Node | null = range.commonAncestorContainer
+  while (node) {
+    if (node.nodeType === Node.ELEMENT_NODE && (node as HTMLElement).tagName === 'A') {
+      return node as HTMLAnchorElement
+    }
+    node = node.parentNode
+  }
+  return null
+}
+
 /** Render spans (+ link annotations) back to HTML for the contentEditable. */
 function spansToHtml(spans: EditorSpan[], links: EditorLink[]): string {
   const escape = (s: string) =>
@@ -247,6 +263,9 @@ export function RichTextEditor({
   // contentEditable only mounts on the NEXT render (after onChange). We stash
   // its _key here and move focus/caret into it from an effect once it exists.
   const [pendingFocusKey, setPendingFocusKey] = useState<string | null>(null)
+
+  // Transient hint shown when the author clicks "Link" without selecting text.
+  const [linkError, setLinkError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!pendingFocusKey) return
@@ -327,6 +346,71 @@ export function RichTextEditor({
     [updateBlock]
   )
 
+  // ----- Link dialog state -----
+  // The link editor is a small in-editor dialog (not window.prompt, and not the
+  // deprecated execCommand('createLink') which fails silently in modern
+  // browsers). When the author clicks "Link" with a selection we STASH the live
+  // Range (selection is lost as soon as focus moves to the dialog input), show
+  // the dialog, and on confirm we wrap the stashed range in an <a> ourselves.
+  const [linkDialog, setLinkDialog] = useState<{
+    blockKey: string
+    range: Range
+    initialHref: string
+  } | null>(null)
+
+  /** Confirm the link dialog: wrap the saved range in <a href>, then re-sync. */
+  const confirmLink = useCallback(
+    (href: string) => {
+      if (!linkDialog) return
+      const { blockKey, range } = linkDialog
+      const el = editableRefs.current[blockKey]
+      const trimmed = href.trim()
+      setLinkDialog(null)
+      if (!el) return
+
+      // Restore focus + the saved selection so the wrap targets the right text.
+      el.focus()
+      const sel = window.getSelection()
+      if (sel) {
+        sel.removeAllRanges()
+        sel.addRange(range)
+      }
+
+      if (!trimmed) {
+        // Empty href = remove any link on the selection (unwrap <a>).
+        document.execCommand('unlink')
+        syncTextBlock(blockKey)
+        return
+      }
+
+      // If the selection sits inside an existing <a>, just update its href.
+      const existing = findAnchorInRange(range)
+      if (existing) {
+        existing.setAttribute('href', trimmed)
+      } else if (!range.collapsed) {
+        // Wrap the selected contents in a fresh <a>. Doing this manually (rather
+        // than execCommand) is reliable across browsers and preserves nesting.
+        const anchor = document.createElement('a')
+        anchor.setAttribute('href', trimmed)
+        try {
+          anchor.appendChild(range.extractContents())
+          range.insertNode(anchor)
+          // Re-select the newly linked text.
+          if (sel) {
+            const after = document.createRange()
+            after.selectNodeContents(anchor)
+            sel.removeAllRanges()
+            sel.addRange(after)
+          }
+        } catch {
+          // Range spanned multiple blocks or was otherwise unsplittable; ignore.
+        }
+      }
+      syncTextBlock(blockKey)
+    },
+    [linkDialog, syncTextBlock]
+  )
+
   /** Apply an inline decorator / link to the current selection then re-sync. */
   const applyInline = useCallback(
     (key: string, command: 'bold' | 'italic' | 'underline' | 'code' | 'link') => {
@@ -334,10 +418,29 @@ export function RichTextEditor({
       if (!el) return
       el.focus()
       if (command === 'link') {
-        const href = window.prompt('Enter the link URL (https://…)')
-        if (href) {
-          document.execCommand('createLink', false, href)
+        // Capture the live selection NOW — it is lost the moment focus moves to
+        // the dialog input. Require a non-empty selection so we know what text
+        // to link.
+        const sel = window.getSelection()
+        if (!sel || sel.rangeCount === 0 || sel.isCollapsed) {
+          // Nothing selected: nudge the author instead of failing silently.
+          setLinkError('Select the words you want to link first, then click Link.')
+          return
         }
+        const range = sel.getRangeAt(0).cloneRange()
+        // Guard: the selection must live inside THIS block's editable.
+        if (!el.contains(range.commonAncestorContainer)) {
+          setLinkError('Select the words you want to link first, then click Link.')
+          return
+        }
+        setLinkError(null)
+        const existing = findAnchorInRange(range)
+        setLinkDialog({
+          blockKey: key,
+          range,
+          initialHref: existing?.getAttribute('href') ?? '',
+        })
+        return
       } else if (command === 'code') {
         // execCommand has no "code" — wrap the selection in a <code> element.
         const sel = window.getSelection()
@@ -473,6 +576,14 @@ export function RichTextEditor({
 
   return (
     <div>
+      {linkDialog && (
+        <LinkDialog
+          initialHref={linkDialog.initialHref}
+          onConfirm={confirmLink}
+          onCancel={() => setLinkDialog(null)}
+        />
+      )}
+
       {/* Add-block toolbar — sticky so it stays reachable while scrolling the
           body blocks. Uses a solid opaque background so body text does not show
           through when it overlaps the blocks beneath it. */}
@@ -609,6 +720,98 @@ export function RichTextEditor({
           {error}
         </p>
       )}
+
+      {linkError && (
+        <p className="mt-1.5 text-caption text-down dark:text-down-light" role="alert">
+          {linkError}
+        </p>
+      )}
+    </div>
+  )
+}
+
+/**
+ * In-editor link dialog. Deliberately a small controlled overlay (not
+ * window.prompt) so the URL field is styled, validated, and reliable. Accepts
+ * both absolute URLs (https://…) and site-relative paths (/news/…,
+ * /calculators/…) — internal links are the common case for this site, so the
+ * author never needs to type the full domain.
+ */
+function LinkDialog({
+  initialHref,
+  onConfirm,
+  onCancel,
+}: {
+  initialHref: string
+  onConfirm: (href: string) => void
+  onCancel: () => void
+}) {
+  const [href, setHref] = useState(initialHref)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    // Focus + select the field on open for fast typing/overwrite.
+    const el = inputRef.current
+    if (el) {
+      el.focus()
+      el.select()
+    }
+  }, [])
+
+  const submit = () => onConfirm(href)
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4"
+      onMouseDown={(e) => {
+        // Click on the backdrop cancels.
+        if (e.target === e.currentTarget) onCancel()
+      }}
+    >
+      <div className="w-full max-w-md rounded-sm border border-hairline bg-paper p-4 shadow-lg dark:border-hairline-dark dark:bg-graphite">
+        <h3 className="mb-1 font-sans text-sm font-semibold text-ink dark:text-ink-inverse">
+          Add or edit link
+        </h3>
+        <p className="mb-3 text-caption text-ink-muted dark:text-ink-inverse-muted">
+          Paste a full URL (https://…) or an internal path like
+          {' '}<code className="font-mono">/news/apr-vs-apy</code> or{' '}
+          <code className="font-mono">/calculators/mortgage-calculator</code>.
+          Leave empty and confirm to remove an existing link.
+        </p>
+        <input
+          ref={inputRef}
+          type="text"
+          value={href}
+          onChange={(e) => setHref(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              submit()
+            } else if (e.key === 'Escape') {
+              e.preventDefault()
+              onCancel()
+            }
+          }}
+          placeholder="/news/what-is-apy"
+          className="w-full rounded-sm border border-hairline bg-paper px-3 py-2 font-sans text-sm text-ink focus:border-accent focus:outline-none dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse"
+        />
+        <div className="mt-3 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="rounded-sm border border-hairline bg-paper px-3 py-1.5 font-sans text-caption text-ink-body transition-colors hover:border-accent hover:text-accent dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse-body dark:hover:border-accent-light dark:hover:text-accent-light"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={submit}
+            className="rounded-sm border border-accent bg-accent px-3 py-1.5 font-sans text-caption font-semibold text-paper transition-colors hover:opacity-90 dark:border-accent-light dark:bg-accent-light dark:text-graphite"
+          >
+            Apply link
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

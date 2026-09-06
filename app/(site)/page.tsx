@@ -4,7 +4,7 @@ import { getCategoryTone } from '@/lib/category-styles'
 import { rankByReadership } from '@/lib/story-ranking'
 import { banks } from '@/data/banks'
 import { BankMark } from '@/components/banks/BankMark'
-import { CryptoTicker } from '@/components/home/CryptoTicker'
+import { MarketTicker } from '@/components/home/MarketTicker'
 import { MarketHero } from '@/components/home/MarketHero'
 import { Reveal } from '@/components/motion/Reveal'
 import { MarketDataWidget } from '@/components/home/MarketDataWidget'
@@ -171,7 +171,7 @@ export default async function HomePage() {
       />
 
       {/* Live crypto price ticker */}
-      <CryptoTicker />
+      <MarketTicker />
 
       {/* Bold modern fintech hero with live coin cards + sparklines */}
       <MarketHero />

@@ -23,6 +23,7 @@ export const siteConfig = {
   nav: [
     { label: 'Home', href: '/' },
     { label: 'News', href: '/news' },
+    { label: 'Markets', href: '/markets' },
     { label: 'Calculators', href: '/calculators' },
     { label: 'Categories', dropdown: 'categories' as const },
     { label: 'Bank Routing Numbers', href: '/bank-routing-numbers' },

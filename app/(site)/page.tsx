@@ -170,7 +170,15 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
       />
 
-      {/* Live crypto price ticker */}
+      {/* Single page H1 for SEO. The homepage is visually news-first (the hero
+          leads with market data, not a big headline), so the H1 is
+          screen-reader-only — it gives crawlers one clear, keyword-relevant
+          top-level heading without changing the visual design. */}
+      <h1 className="sr-only">
+        Coinscribed — US financial news, market data, and money calculators
+      </h1>
+
+      {/* Live US market ticker */}
       <MarketTicker />
 
       {/* Bold modern fintech hero with live coin cards + sparklines */}

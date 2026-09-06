@@ -306,7 +306,8 @@ export default async function HomePage() {
           out. Fed by /api/market-news (Finnhub when a key is set, else RSS). */}
       <section className="hairline-b">
         <div className="container-page py-6">
-          <div className="mb-3 flex items-baseline justify-between gap-4">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent dark:bg-accent-light" aria-hidden="true" />
             <h2 className="text-eyebrow font-semibold uppercase tracking-wide text-ink-muted dark:text-ink-inverse-muted">
               Latest Market Headlines
             </h2>

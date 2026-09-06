@@ -62,6 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/calculators/compound-interest-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
     { path: '/calculators/retirement-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
     { path: '/news', priority: HUB_PRIORITY, changeFrequency: 'daily' as const },
+    { path: '/markets', priority: HUB_PRIORITY, changeFrequency: 'daily' as const },
     { path: '/bank-routing-numbers', priority: HUB_PRIORITY, changeFrequency: 'weekly' as const },
     { path: '/bank-routing-numbers/state', priority: DEFAULT_PRIORITY, changeFrequency: 'weekly' as const },
     { path: '/disclaimer', priority: DEFAULT_PRIORITY, changeFrequency: 'yearly' as const },

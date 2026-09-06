@@ -195,8 +195,11 @@ const config: Config = {
       },
       animation: {
         marquee: 'marquee 60s linear infinite',
-        // Slower, calmer marquee for the news-headline ticker (the price
-        // ticker keeps the faster 60s pace).
+        // Medium pace for the US market ticker (8 short cards) — readable but
+        // not sluggish.
+        'marquee-medium': 'marquee 55s linear infinite',
+        // Slowest, calmest marquee for the news-headline strip so long
+        // headlines are easy to read as they glide by.
         'marquee-slow': 'marquee 110s linear infinite',
         'fade-up': 'fade-up 0.5s ease-out both',
         'fade-in': 'fade-in 0.3s ease-out both',

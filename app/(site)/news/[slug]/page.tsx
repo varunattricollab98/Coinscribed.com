@@ -2,12 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { siteConfig } from '@/config/site'
-import { getArticleBySlug, getRelatedArticles } from '@/lib/sanity-queries'
+import { getArticleBySlug, getRelatedArticles, getAllArticleSlugs } from '@/lib/sanity-queries'
 import { generateArticleSchema, generateFAQSchema } from '@/lib/schema-markup'
 import { ArticleView } from '@/components/news/ArticleView'
 import { ArticleCard } from '@/components/news/ArticleCard'
 import { Reveal } from '@/components/motion/Reveal'
-import { sampleArticles } from '@/data/sample-news'
 
 /**
  * Pre-render every known article at build time.
@@ -21,8 +20,9 @@ import { sampleArticles } from '@/data/sample-news'
  * Slugs published in the CMS after a build are still served: `dynamicParams`
  * defaults to true, so an unknown slug is rendered on demand and then cached.
  */
-export function generateStaticParams() {
-  return sampleArticles.map((article) => ({ slug: article.slug.current }))
+export async function generateStaticParams() {
+  const slugs = await getAllArticleSlugs()
+  return slugs.map(({ slug }) => ({ slug }))
 }
 
 /** Refresh the static output periodically so CMS edits still land. */

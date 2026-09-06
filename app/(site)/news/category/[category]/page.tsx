@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
-import { getArticlesByCategory, getCategories } from '@/lib/sanity-queries'
-import { sampleCategories } from '@/data/sample-news'
+import { getArticlesByCategory, getCategories, getAllCategorySlugs } from '@/lib/sanity-queries'
 import { ArticleCard } from '@/components/news/ArticleCard'
 import { LeadStory } from '@/components/news/LeadStory'
 import { Reveal } from '@/components/motion/Reveal'
@@ -16,10 +15,9 @@ import { Reveal } from '@/components/motion/Reveal'
  * reader was still loading the page. Statically generated, those prefetches
  * become plain CDN file reads.
  */
-export function generateStaticParams() {
-  return sampleCategories.map((category) => ({
-    category: category.slug.current,
-  }))
+export async function generateStaticParams() {
+  const slugs = await getAllCategorySlugs()
+  return slugs.map((category) => ({ category }))
 }
 
 /** Refresh the static output periodically so CMS edits still land. */

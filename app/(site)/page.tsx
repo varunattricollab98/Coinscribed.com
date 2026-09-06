@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import { getLatestArticles } from '@/lib/sanity-queries'
-import { sampleCategories } from '@/data/sample-news'
+import { getLatestArticles, getCategories } from '@/lib/sanity-queries'
 import { getCategoryTone } from '@/lib/category-styles'
 import { rankByReadership } from '@/lib/story-ranking'
 import { banks } from '@/data/banks'
@@ -9,6 +8,7 @@ import { CryptoTicker } from '@/components/home/CryptoTicker'
 import { MarketHero } from '@/components/home/MarketHero'
 import { Reveal } from '@/components/motion/Reveal'
 import { MarketDataWidget } from '@/components/home/MarketDataWidget'
+import { MarketNews } from '@/components/home/MarketNews'
 import { RailTabs } from '@/components/home/RailTabs'
 import { TrustSignals } from '@/components/home/TrustSignals'
 import { NewsletterSignup } from '@/components/home/NewsletterSignup'
@@ -93,18 +93,52 @@ const popularBanks = POPULAR_BANK_SLUGS.map((slug) =>
 ).filter((bank): bank is (typeof banks)[number] => Boolean(bank))
 
 // Topic tiles for the "Explore by Topic" section. Each maps to a category
-// slug so it can pull the shared muted tone + description from sample data.
-const topicTiles: { slug: string; icon: LineIconName }[] = [
-  { slug: 'crypto', icon: 'coins' },
-  { slug: 'economy', icon: 'globe' },
-  { slug: 'markets', icon: 'bars' },
-  { slug: 'banking', icon: 'bank' },
+// slug -> icon + tone. Titles and descriptions come from the live CMS
+// categories (looked up by slug); the fallback description keeps a tile
+// readable if a category has no description set in Sanity.
+const topicTiles: {
+  slug: string
+  icon: LineIconName
+  fallbackTitle: string
+  fallbackDescription: string
+}[] = [
+  {
+    slug: 'crypto',
+    icon: 'coins',
+    fallbackTitle: 'Crypto',
+    fallbackDescription:
+      'Bitcoin, Ethereum, DeFi and the technology reshaping digital money.',
+  },
+  {
+    slug: 'economy',
+    icon: 'globe',
+    fallbackTitle: 'Economy',
+    fallbackDescription:
+      'Inflation, rates, jobs and the forces driving the US economy.',
+  },
+  {
+    slug: 'markets',
+    icon: 'bars',
+    fallbackTitle: 'Markets',
+    fallbackDescription:
+      'Stocks, bonds and commodities — what is moving and why.',
+  },
+  {
+    slug: 'banking',
+    icon: 'bank',
+    fallbackTitle: 'Banking',
+    fallbackDescription:
+      'Everyday money: accounts, payments, credit and personal finance.',
+  },
 ]
 
 export default async function HomePage() {
   // One fetch feeds every editorial block below; nothing is fetched and thrown
   // away, and the homepage never renders the whole archive.
-  const articles = await getLatestArticles(17)
+  const [articles, categories] = await Promise.all([
+    getLatestArticles(17),
+    getCategories(),
+  ])
 
   // The three-column newsroom block. The slices are disjoint on purpose: a
   // trade publication front page earns its density from *distinct* headlines,
@@ -266,6 +300,26 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Live US market news — daily headlines pulled from a live feed
+          (Finnhub when a key is set, else Yahoo Finance RSS). */}
+      <section className="hairline-b">
+        <div className="container-page section-padding">
+          <Reveal className="section-header mb-8">
+            <div>
+              <span className="eyebrow">Markets</span>
+              <h2 className="section-title mt-2">US Market News</h2>
+              <p className="mt-2 max-w-2xl text-sm text-ink-body dark:text-ink-inverse-body">
+                The latest headlines moving US markets, updated throughout the
+                trading day.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <MarketNews />
+          </Reveal>
+        </div>
+      </section>
+
       {/* Explore by topic */}
       <section className="hairline-b">
         <div className="container-page section-padding">
@@ -277,10 +331,15 @@ export default async function HomePage() {
           </Reveal>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {topicTiles.map((topic, i) => {
-              const category = sampleCategories.find(
+              const match = categories.find(
                 (c) => c.slug.current === topic.slug
               )
-              if (!category) return null
+              // Use the live CMS title/description when present, else the
+              // built-in fallback so the tile always renders.
+              const category = {
+                title: match?.title ?? topic.fallbackTitle,
+                description: match?.description ?? topic.fallbackDescription,
+              }
               const tone = getCategoryTone(topic.slug)
               return (
                 <Reveal key={topic.slug} delay={i * 0.06}>

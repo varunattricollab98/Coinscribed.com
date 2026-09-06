@@ -1,6 +1,10 @@
 import { MetadataRoute } from 'next'
 import { siteConfig } from '@/config/site'
-import { sampleArticles, sampleCategories, getSampleAuthors } from '@/data/sample-news'
+import {
+  getAllArticleSlugs,
+  getAllCategorySlugs,
+  getAllAuthorSlugs,
+} from '@/lib/sanity-queries'
 import { getAllBankSlugs, getStatesWithData } from '@/data/banks'
 
 /**
@@ -13,12 +17,11 @@ import { getAllBankSlugs, getStatesWithData } from '@/data/banks'
  * all static pages plus every dynamic route (articles, categories, author bio
  * pages, per-bank routing pages and per-state routing pages).
  *
- * Note on CMS content: /news/[slug] and /news/category/[category] use Next's
- * default `dynamicParams: true`, so any Sanity-only articles or categories
- * published after build are not (and cannot be) part of a static sitemap.
- * Enumerating from `sampleArticles`/`sampleCategories` matches exactly what the
- * pages statically render in an empty-Sanity build, which is the correct
- * behaviour for this environment.
+ * CMS content: articles, categories and author pages are enumerated from the
+ * live Sanity dataset (via the slug helpers in `lib/sanity-queries.ts`), so the
+ * sitemap lists exactly the published content. On an empty/unconfigured dataset
+ * those helpers return empty lists and only the static + bank routes are
+ * emitted.
  *
  * Next serves this file at `${siteConfig.url}/sitemap.xml` (referenced by
  * app/robots.ts).
@@ -36,8 +39,15 @@ function url(path: string): string {
   return path === '/' ? baseUrl : `${baseUrl}${path}`
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date()
+
+  // Live CMS slugs (empty on an unconfigured/empty dataset).
+  const [articleSlugs, categorySlugs, authorSlugs] = await Promise.all([
+    getAllArticleSlugs(),
+    getAllCategorySlugs(),
+    getAllAuthorSlugs(),
+  ])
 
   // -- Static routes -------------------------------------------------------
   const staticEntries: MetadataRoute.Sitemap = [
@@ -65,24 +75,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   // -- News articles: /news/<slug> ----------------------------------------
-  const articleEntries: MetadataRoute.Sitemap = sampleArticles.map((article) => ({
-    url: url(`/news/${article.slug.current}`),
-    lastModified: article.publishedAt ? new Date(article.publishedAt) : lastModified,
+  const articleEntries: MetadataRoute.Sitemap = articleSlugs.map(({ slug, publishedAt }) => ({
+    url: url(`/news/${slug}`),
+    lastModified: publishedAt ? new Date(publishedAt) : lastModified,
     changeFrequency: 'weekly' as const,
     priority: DEFAULT_PRIORITY,
   }))
 
   // -- News categories: /news/category/<slug> -----------------------------
-  const categoryEntries: MetadataRoute.Sitemap = sampleCategories.map((category) => ({
-    url: url(`/news/category/${category.slug.current}`),
+  const categoryEntries: MetadataRoute.Sitemap = categorySlugs.map((slug) => ({
+    url: url(`/news/category/${slug}`),
     lastModified,
     changeFrequency: 'daily' as const,
     priority: DEFAULT_PRIORITY,
   }))
 
-  // -- Author bio pages: /news/author/<slug> (added in FEAT-002) ----------
-  const authorEntries: MetadataRoute.Sitemap = getSampleAuthors().map((author) => ({
-    url: url(`/news/author/${author.slug.current}`),
+  // -- Author bio pages: /news/author/<slug> ------------------------------
+  const authorEntries: MetadataRoute.Sitemap = authorSlugs.map((slug) => ({
+    url: url(`/news/author/${slug}`),
     lastModified,
     changeFrequency: 'weekly' as const,
     priority: DEFAULT_PRIORITY,

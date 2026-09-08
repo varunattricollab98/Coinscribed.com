@@ -72,6 +72,54 @@ export const calculators: CalculatorInfo[] = [
     description:
       'Plan your retirement by calculating if you are on track. See projected shortfall or surplus and recommended monthly savings.',
   },
+  {
+    title: 'Auto Loan Calculator',
+    key: 'auto-loan-calculator',
+    href: '/calculators/auto-loan-calculator',
+    icon: 'card',
+    description:
+      'Estimate your monthly car payment, total interest, and total cost from the vehicle price, down payment, trade-in, interest rate, and loan term.',
+  },
+  {
+    title: 'Credit Card Payoff Calculator',
+    key: 'credit-card-payoff-calculator',
+    href: '/calculators/credit-card-payoff-calculator',
+    icon: 'card',
+    description:
+      'See how long it takes to pay off your credit card, the total interest you\u2019ll pay, and your payoff date based on your balance, APR, and monthly payment.',
+  },
+  {
+    title: 'Savings Calculator',
+    key: 'savings-calculator',
+    href: '/calculators/savings-calculator',
+    icon: 'coins',
+    description:
+      'Project how your savings grow with regular monthly contributions and interest (APY) over time, and see how much of your balance is interest earned.',
+  },
+  {
+    title: 'Emergency Fund Calculator',
+    key: 'emergency-fund-calculator',
+    href: '/calculators/emergency-fund-calculator',
+    icon: 'target',
+    description:
+      'Find how much you should keep in your emergency fund based on monthly expenses, and how long it takes to reach your target at your savings rate.',
+  },
+  {
+    title: 'Roth IRA Calculator',
+    key: 'roth-ira-calculator',
+    href: '/calculators/roth-ira-calculator',
+    icon: 'trend-up',
+    description:
+      'Project your tax-free Roth IRA balance at retirement from your current age, balance, annual contributions, and expected rate of return.',
+  },
+  {
+    title: 'APY Calculator',
+    key: 'apy-calculator',
+    href: '/calculators/apy-calculator',
+    icon: 'bars',
+    description:
+      'See how much interest your savings earn at a given APY over time, and compare what different rates earn on the same balance.',
+  },
 ]
 
 /** Look up a calculator by its slug key (e.g. "mortgage-calculator"). */

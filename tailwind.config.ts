@@ -163,6 +163,10 @@ const config: Config = {
         /* Claret deepening into gilt — the "royal" plate/gradient. No blue. */
         'accent-gradient':
           'linear-gradient(135deg, #8C2F3B 0%, #5A1A24 55%, #9C7B3C 100%)',
+        /* Brighter variant for dark backgrounds: lighter claret into warm gilt,
+           without the deep oxblood mid-stop that blends into dark surfaces. */
+        'accent-gradient-bright':
+          'linear-gradient(135deg, #C97A82 0%, #A8443C 45%, #DCC894 100%)',
         /* Gilt rule used under section eyebrows and around featured badges. */
         'gold-gradient':
           'linear-gradient(90deg, #9C7B3C 0%, #DCC894 50%, #9C7B3C 100%)',

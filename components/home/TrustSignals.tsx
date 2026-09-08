@@ -29,9 +29,9 @@ export function TrustSignals() {
             value={stat.value}
             suffix={stat.suffix}
             staticLabel={stat.staticLabel}
-            className="bg-accent-gradient bg-clip-text font-serif text-display-1 font-bold tabular-nums text-transparent"
+            className="bg-accent-gradient bg-clip-text font-serif text-display-1 font-bold tabular-nums text-transparent dark:bg-accent-gradient-bright"
           />
-          <span className="eyebrow text-ink-muted dark:text-ink-inverse-muted">
+          <span className="eyebrow text-ink-muted dark:text-ink-inverse-body">
             {stat.label}
           </span>
         </div>

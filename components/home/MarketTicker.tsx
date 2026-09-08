@@ -119,16 +119,16 @@ export function MarketTicker() {
     return (
       <div
         key={`${row.symbol}-${i}`}
-        className={`mx-1.5 flex min-w-[168px] flex-col gap-0.5 rounded-md ${cardClass} px-4 py-2.5 text-white shadow-sm`}
+        className={`mx-1 flex min-w-[124px] flex-col gap-0.5 rounded-md ${cardClass} px-2.5 py-1.5 text-white shadow-sm sm:mx-1.5 sm:min-w-[168px] sm:px-4 sm:py-2.5`}
       >
-        <span className="text-[11px] font-bold uppercase tracking-wide text-white/90">
+        <span className="text-[9px] font-bold uppercase tracking-wide text-white/90 sm:text-[11px]">
           {row.name}
         </span>
-        <span className="font-mono text-[15px] font-semibold tabular-nums leading-tight">
+        <span className="font-mono text-[13px] font-semibold tabular-nums leading-tight sm:text-[15px]">
           {formatValue(row)}
         </span>
-        <span className="flex items-center gap-1 font-mono text-[12px] font-medium tabular-nums text-white/95">
-          <span aria-hidden="true" className="text-[8px]">
+        <span className="flex items-center gap-1 font-mono text-[10px] font-medium tabular-nums text-white/95 sm:text-[12px]">
+          <span aria-hidden="true" className="text-[7px] sm:text-[8px]">
             {arrow}
           </span>
           {up ? '+' : ''}
@@ -139,9 +139,9 @@ export function MarketTicker() {
   }
 
   return (
-    <div className="group relative flex w-full items-stretch overflow-hidden border-b border-hairline bg-[#0b0b0d] py-2 dark:border-hairline-dark">
+    <div className="group relative flex w-full items-stretch overflow-hidden border-b border-hairline bg-[#0b0b0d] py-1.5 dark:border-hairline-dark sm:py-2">
       {/* Fixed "US MARKETS" flag on the left; always visible, does not scroll. */}
-      <div className="z-10 flex shrink-0 items-center gap-2 border-r border-white/15 px-4">
+      <div className="z-10 flex shrink-0 items-center gap-2 border-r border-white/15 px-2.5 sm:px-4">
         <span className="relative flex h-2 w-2" aria-hidden="true">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />

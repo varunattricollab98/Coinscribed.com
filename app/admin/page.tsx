@@ -44,6 +44,26 @@ function formatDate(value?: string): string {
 }
 
 /**
+ * Date + time (with weekday) in US Eastern — the timezone the scheduler treats
+ * the publishedAt field as. Shown on the schedule column so the author can see
+ * exactly when each queued article goes live (e.g. "Thu, Sep 11, 8:00 AM ET").
+ */
+function formatDateTimeET(value?: string): string {
+  if (!value) return '—'
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return '—'
+  const s = d.toLocaleString('en-US', {
+    timeZone: 'America/New_York',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
+  return `${s} ET`
+}
+
+/**
  * The published id for a document. A draft's id is `drafts.<id>`; stripping the
  * prefix yields the id the edit route uses so a draft and its published version
  * do not appear as two rows.
@@ -249,7 +269,7 @@ export default function AdminDashboardPage() {
                   Author
                 </th>
                 <th className="hidden px-4 py-3 font-sans text-eyebrow font-semibold uppercase tracking-wide text-ink dark:text-ink-inverse lg:table-cell">
-                  Updated
+                  Publish date
                 </th>
                 <th className="px-4 py-3 font-sans text-eyebrow font-semibold uppercase tracking-wide text-ink dark:text-ink-inverse">
                   <span className="sr-only">Actions</span>
@@ -291,11 +311,16 @@ export default function AdminDashboardPage() {
                       }
                       if (scheduled) {
                         return (
-                          <span
-                            className="inline-flex items-center rounded-sm bg-accent/10 px-2 py-1 font-sans text-caption font-semibold uppercase tracking-wide text-accent dark:text-accent-light"
-                            title={`Goes live ${new Date(item.publishedAt!).toLocaleString('en-US')}`}
-                          >
-                            Scheduled
+                          <span className="flex flex-col gap-1">
+                            <span className="inline-flex w-fit items-center rounded-sm bg-accent/10 px-2 py-1 font-sans text-caption font-semibold uppercase tracking-wide text-accent dark:text-accent-light">
+                              Scheduled
+                            </span>
+                            {/* Go-live date+time shown right under the badge so
+                                it's visible even on mobile where the Publish
+                                date column is hidden. */}
+                            <span className="text-caption text-accent dark:text-accent-light lg:hidden">
+                              {formatDateTimeET(item.publishedAt)}
+                            </span>
                           </span>
                         )
                       }
@@ -312,8 +337,35 @@ export default function AdminDashboardPage() {
                   <td className="hidden px-4 py-3 align-top text-ink-body dark:text-ink-inverse-body md:table-cell">
                     {item.author || '—'}
                   </td>
-                  <td className="hidden px-4 py-3 align-top text-ink-muted dark:text-ink-inverse-muted lg:table-cell">
-                    {formatDate(item._updatedAt)}
+                  <td className="hidden px-4 py-3 align-top lg:table-cell">
+                    {(() => {
+                      const scheduled =
+                        !item.isDraft &&
+                        item.publishedAt &&
+                        new Date(item.publishedAt).getTime() > Date.now()
+                      if (scheduled) {
+                        // Queued to go live — show the exact date + time (ET).
+                        return (
+                          <span className="text-accent dark:text-accent-light">
+                            {formatDateTimeET(item.publishedAt)}
+                          </span>
+                        )
+                      }
+                      if (!item.isDraft && item.publishedAt) {
+                        // Already live — show when it published.
+                        return (
+                          <span className="text-ink-muted dark:text-ink-inverse-muted">
+                            {formatDate(item.publishedAt)}
+                          </span>
+                        )
+                      }
+                      // Draft — no publish date yet; fall back to last edit.
+                      return (
+                        <span className="text-ink-muted dark:text-ink-inverse-muted">
+                          {formatDate(item._updatedAt)}
+                        </span>
+                      )
+                    })()}
                   </td>
                   <td className="px-4 py-3 align-top text-right">
                     {(() => {

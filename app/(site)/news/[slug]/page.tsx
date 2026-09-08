@@ -10,6 +10,7 @@ import {
 } from '@/lib/schema-markup'
 import { ArticleView } from '@/components/news/ArticleView'
 import { ArticleCard } from '@/components/news/ArticleCard'
+import { ReadingProgress } from '@/components/news/ReadingProgress'
 import { Reveal } from '@/components/motion/Reveal'
 
 /**
@@ -125,6 +126,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}

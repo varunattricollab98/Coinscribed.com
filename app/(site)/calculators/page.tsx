@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
 import { Reveal } from '@/components/motion/Reveal'
-import { LineIcon, type LineIconName } from '@/components/icons/LineIcon'
+import { LineIcon } from '@/components/icons/LineIcon'
+import { calculators } from '@/data/calculators'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/calculators' },
@@ -17,63 +18,6 @@ export const metadata: Metadata = {
     type: 'website',
   },
 }
-
-const calculators: {
-  title: string
-  description: string
-  href: string
-  icon: LineIconName
-}[] = [
-  {
-    title: 'Mortgage Calculator',
-    description:
-      'Calculate your monthly mortgage payments, total interest paid, and view an amortization summary based on home price, down payment, loan term, and interest rate.',
-    href: '/calculators/mortgage-calculator',
-    icon: 'house',
-  },
-  {
-    title: '401(k) Calculator',
-    description:
-      'Project your retirement savings by entering your current age, savings, monthly contributions, expected return rate, and employer match percentage.',
-    href: '/calculators/401k-calculator',
-    icon: 'trend-up',
-  },
-  {
-    title: 'EMI Calculator',
-    description:
-      'Determine your Equated Monthly Installment for any loan amount, interest rate, and tenure. See total interest and total payment breakdown.',
-    href: '/calculators/emi-calculator',
-    icon: 'card',
-  },
-  {
-    title: 'SIP Calculator',
-    description:
-      'Estimate your Systematic Investment Plan returns over time. Calculate total invested amount, estimated returns, and total corpus value.',
-    href: '/calculators/sip-calculator',
-    icon: 'bars',
-  },
-  {
-    title: 'Loan Payoff Calculator',
-    description:
-      'Find out how extra payments can help you pay off your loan faster. See your payoff date, total interest saved, and time saved.',
-    href: '/calculators/loan-payoff-calculator',
-    icon: 'target',
-  },
-  {
-    title: 'Compound Interest Calculator',
-    description:
-      'See how your money grows with compound interest. Calculate future value and total interest earned across different compounding frequencies.',
-    href: '/calculators/compound-interest-calculator',
-    icon: 'coins',
-  },
-  {
-    title: 'Retirement Calculator',
-    description:
-      'Plan your retirement by calculating if you are on track. See projected shortfall or surplus and recommended monthly savings.',
-    href: '/calculators/retirement-calculator',
-    icon: 'umbrella',
-  },
-]
 
 export default function CalculatorsIndexPage() {
   return (

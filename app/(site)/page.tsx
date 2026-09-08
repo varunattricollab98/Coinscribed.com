@@ -153,6 +153,9 @@ export default async function HomePage() {
   // A stable seeded rotation of the same pool — no extra fetch, and explicitly
   // not a traffic ranking (see lib/story-ranking.ts).
   const railMostRead = rankByReadership(articles, 6)
+  // A larger rotation for the standalone "Popular Reads" section (4 cards),
+  // taken from the same pool so it needs no extra fetch.
+  const popularArticles = rankByReadership(articles, 4)
 
   // Organization + WebSite JSON-LD live on the site root: these are the brand
   // entity signals Google reads to build the knowledge panel and sitelinks.
@@ -284,6 +287,36 @@ export default async function HomePage() {
             </div>
             <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
               {editorsPicks.map((article, i) => (
+                <Reveal key={article._id} delay={Math.min(i, 3) * 0.05}>
+                  <ArticleCard article={article} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/*
+        Popular Reads — a standalone "most read" band. Surfaces the same seeded
+        rotation used in the rail, but full-width, so returning readers have an
+        obvious entry point to well-trodden explainers (a staple of the big
+        finance sites' homepages).
+      */}
+      {popularArticles.length > 0 && (
+        <section className="hairline-b">
+          <div className="container-page section-padding">
+            <div className="section-header mb-10">
+              <div>
+                <span className="eyebrow-royal">Reader Favorites</span>
+                <h2 className="section-title mt-2">Popular Reads</h2>
+              </div>
+              <Link href="/news" className="link-more">
+                Browse All
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
+            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
+              {popularArticles.map((article, i) => (
                 <Reveal key={article._id} delay={Math.min(i, 3) * 0.05}>
                   <ArticleCard article={article} />
                 </Reveal>

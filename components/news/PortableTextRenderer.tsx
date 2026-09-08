@@ -6,6 +6,15 @@ import type { PortableTextBlock } from '@/lib/sanity-queries'
 import { urlFor } from '@/lib/sanity'
 
 /**
+ * Map of block `_key` -> anchor id, produced by lib/article-toc `headingIdMap`.
+ * Populated per-render (see PortableTextRenderer) so the h2/h3 components can
+ * stamp a matching `id` on each heading and the Table of Contents links can
+ * jump to it. Module-scoped because @portabletext/react's component map is
+ * defined once outside the component; it's set synchronously before render.
+ */
+let headingIds: Record<string, string> = {}
+
+/**
  * Long-form editorial typography.
  *
  * The measure, leading and vertical rhythm here are the main reason an article
@@ -130,13 +139,22 @@ const components: PortableTextComponents = {
     },
   },
   block: {
-    h2: ({ children }) => (
-      <h2 className="mb-4 mt-12 font-serif text-display-3 font-bold leading-tight text-ink first:mt-0 dark:text-ink-inverse">
+    // H2/H3 get a slugified `id` (from the headingIds map) so the Table of
+    // Contents can jump to them. `scroll-mt-24` offsets the sticky header so a
+    // jumped-to heading isn't hidden underneath it.
+    h2: ({ children, value }) => (
+      <h2
+        id={headingIds[(value as { _key?: string })?._key ?? ''] || undefined}
+        className="mb-4 mt-12 scroll-mt-24 font-serif text-display-3 font-bold leading-tight text-ink first:mt-0 dark:text-ink-inverse"
+      >
         {children}
       </h2>
     ),
-    h3: ({ children }) => (
-      <h3 className="mb-3 mt-9 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+    h3: ({ children, value }) => (
+      <h3
+        id={headingIds[(value as { _key?: string })?._key ?? ''] || undefined}
+        className="mb-3 mt-9 scroll-mt-24 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse"
+      >
         {children}
       </h3>
     ),
@@ -210,15 +228,22 @@ interface PortableTextRendererProps {
   content: PortableTextBlock[]
   /** Suppress the opening drop cap (used where a body starts with a heading). */
   dropCap?: boolean
+  /** Map of block `_key` -> anchor id, so H2/H3 get ids the TOC can link to. */
+  headingIdsByKey?: Record<string, string>
 }
 
 export function PortableTextRenderer({
   content,
   dropCap = true,
+  headingIdsByKey = {},
 }: PortableTextRendererProps) {
   if (!content || content.length === 0) {
     return null
   }
+
+  // Set the module-scoped id map for the h2/h3 component callbacks. Assigned
+  // synchronously before <PortableText> renders below.
+  headingIds = headingIdsByKey
 
   // Cast to match PortableText expected input type
   const portableTextValue = content as Parameters<typeof PortableText>[0]['value']

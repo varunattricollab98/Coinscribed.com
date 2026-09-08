@@ -44,6 +44,8 @@ export interface Article {
   body: PortableTextBlock[]
   author: Author
   publishedAt: string
+  /** Sanity document last-modified timestamp; used for the "Updated" trust signal. */
+  _updatedAt?: string
   category: Category
   mainImage?: SanityImage
   imageUrl?: string
@@ -116,6 +118,7 @@ const articleFullFields = `
   excerpt,
   body,
   publishedAt,
+  _updatedAt,
   "imageUrl": mainImage.asset->url,
   "readingTime": round(length(pt::text(body)) / 5 / 200),
   seoTitle,

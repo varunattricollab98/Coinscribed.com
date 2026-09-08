@@ -3,7 +3,12 @@ import Link from 'next/link'
 import type { Article } from '@/lib/sanity-queries'
 import { PortableTextRenderer } from '@/components/news/PortableTextRenderer'
 import { CategoryBadge } from '@/components/news/CategoryBadge'
-import { Byline } from '@/components/news/Byline'
+import { AuthorTrustBar } from '@/components/news/AuthorTrustBar'
+import { TableOfContents } from '@/components/news/TableOfContents'
+import { ShareButtons } from '@/components/news/ShareButtons'
+import { RelatedCalculatorCard } from '@/components/news/RelatedCalculatorCard'
+import { NewsletterSignup } from '@/components/home/NewsletterSignup'
+import { extractHeadings, headingIdMap } from '@/lib/article-toc'
 
 /**
  * Shared, presentational article body.
@@ -41,6 +46,16 @@ interface ArticleViewProps {
 }
 
 export function ArticleView({ article, authorSlug, children }: ArticleViewProps) {
+  // Build the Table of Contents and matching heading anchor ids from the body.
+  const headings = extractHeadings(article.body)
+  const headingIds = headingIdMap(article.body)
+  const slug = article.slug?.current ?? ''
+  // Optional per-article extras, driven by which calculator this topic relates
+  // to (derived from the category — safe default, renders nothing if unknown).
+  const relatedCalcKey = relatedCalculatorForCategory(
+    article.category?.slug?.current
+  )
+
   return (
     <div className="container-page section-padding">
       <article className="container-prose">
@@ -79,14 +94,20 @@ export function ArticleView({ article, authorSlug, children }: ArticleViewProps)
             {article.excerpt}
           </p>
 
-          {/* Byline */}
-          <Byline
+          {/* Author trust bar (E-E-A-T): by-author, job title, published/updated, reading time */}
+          <AuthorTrustBar
             author={article.author}
+            authorSlug={authorSlug}
             publishedAt={article.publishedAt}
+            updatedAt={article._updatedAt}
             readingTime={article.readingTime}
-            size="md"
-            className="mt-7 border-b border-hairline pb-7 dark:border-hairline-dark"
+            className="mt-6"
           />
+
+          {/* Share + (on wider screens) space; sits under the trust bar */}
+          <div className="mt-5 border-b border-hairline pb-6 dark:border-hairline-dark">
+            <ShareButtons slug={slug} title={article.title} />
+          </div>
         </header>
 
         {/* Hero image */}
@@ -103,10 +124,21 @@ export function ArticleView({ article, authorSlug, children }: ArticleViewProps)
           </figure>
         )}
 
+        {/* Table of Contents (jump links) — renders only for longer articles */}
+        <TableOfContents headings={headings} />
+
         {/* Article Body */}
         <div className="mb-8">
-          <PortableTextRenderer content={article.body} />
+          <PortableTextRenderer
+            content={article.body}
+            headingIdsByKey={headingIds}
+          />
         </div>
+
+        {/* Related calculator CTA — turns the article into a tool entry point */}
+        {relatedCalcKey && (
+          <RelatedCalculatorCard calculatorKey={relatedCalcKey} />
+        )}
 
         {/*
           Per-article notice. Coverage of a market, asset, or institution is
@@ -206,9 +238,37 @@ export function ArticleView({ article, authorSlug, children }: ArticleViewProps)
             </div>
           </aside>
         )}
+
+        {/* Newsletter prompt at the end of the read — a natural conversion
+            point once a reader has finished the article. */}
+        <div className="mb-4">
+          <NewsletterSignup variant="wide" />
+        </div>
       </article>
 
       {children}
     </div>
   )
+}
+
+/**
+ * Pick a sensible calculator to feature on an article based on its category.
+ * A light heuristic (category-level) so every article gets a relevant tool CTA
+ * without needing a per-article field. Returns undefined for categories with no
+ * obvious calculator (e.g. crypto), in which case the card renders nothing.
+ */
+function relatedCalculatorForCategory(
+  categorySlug?: string
+): string | undefined {
+  switch (categorySlug) {
+    case 'economy':
+      // Retirement/loans/mortgage lean — retirement calculator is the broadest fit.
+      return 'retirement-calculator'
+    case 'banking':
+      return 'compound-interest-calculator'
+    case 'markets':
+      return 'compound-interest-calculator'
+    default:
+      return undefined
+  }
 }

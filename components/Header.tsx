@@ -1,16 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { siteConfig } from '@/config/site'
 import { NavDropdown } from '@/components/NavDropdown'
+import { SearchModal } from '@/components/SearchModal'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
+
+  // Cmd/Ctrl+K opens search — the near-universal shortcut readers expect.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setSearchOpen((v) => !v)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 border-b border-hairline bg-white/95 backdrop-blur-sm dark:border-hairline-dark dark:bg-ink/95">
@@ -45,8 +59,29 @@ export function Header() {
             )}
           </nav>
 
-          {/* Right side: Theme toggle + Mobile menu button */}
-          <div className="flex items-center space-x-4">
+          {/* Right side: Search + Theme toggle + Mobile menu button */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Search */}
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="rounded-md p-2 text-ink-muted transition-colors hover:bg-wash hover:text-oxblood dark:hover:bg-wash-dark dark:hover:text-oxblood-lighter"
+              aria-label="Search"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 6.5a7.5 7.5 0 0013.15 10.15z"
+                />
+              </svg>
+            </button>
+
             {/* Dark mode toggle */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -230,6 +265,9 @@ export function Header() {
           </nav>
         </div>
       )}
+
+      {/* Site search modal (opened by the header button or Cmd/Ctrl+K) */}
+      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   )
 }

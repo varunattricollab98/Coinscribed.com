@@ -77,6 +77,7 @@ export default function RothIraCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/roth-ira-calculator"
       relatedReading={[
         { href: '/news/what-is-a-roth-ira', title: 'What Is a Roth IRA? How It Works and 2026 Rules' },
         { href: '/news/401k-vs-roth-ira', title: '401(k) vs Roth IRA: Which Is Better for You?' },

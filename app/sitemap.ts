@@ -6,6 +6,7 @@ import {
   getAllAuthorSlugs,
 } from '@/lib/sanity-queries'
 import { getAllBankSlugs, getStatesWithData } from '@/data/banks'
+import { calculators } from '@/data/calculators'
 
 /**
  * Native Next.js sitemap.
@@ -54,19 +55,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/', priority: HOME_PRIORITY, changeFrequency: 'daily' as const },
     { path: '/about', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
     { path: '/calculators', priority: HUB_PRIORITY, changeFrequency: 'weekly' as const },
-    { path: '/calculators/mortgage-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/401k-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/emi-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/sip-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/loan-payoff-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/compound-interest-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/retirement-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/auto-loan-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/credit-card-payoff-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/savings-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/emergency-fund-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/roth-ira-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
-    { path: '/calculators/apy-calculator', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
+    // Individual calculator detail pages are generated from data/calculators
+    // below, so a new calculator added there appears in the sitemap
+    // automatically (no second list to keep in sync).
     { path: '/news', priority: HUB_PRIORITY, changeFrequency: 'daily' as const },
     { path: '/markets', priority: HUB_PRIORITY, changeFrequency: 'daily' as const },
     { path: '/bank-routing-numbers', priority: HUB_PRIORITY, changeFrequency: 'weekly' as const },
@@ -81,10 +72,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: e.priority,
   }))
 
+  // -- Calculator detail pages: /calculators/<key> ------------------------
+  // Generated from data/calculators (single source of truth) so the sitemap
+  // never drifts from the actual set of calculator pages.
+  const calculatorEntries: MetadataRoute.Sitemap = calculators.map((c) => ({
+    url: url(c.href),
+    lastModified,
+    changeFrequency: 'monthly' as const,
+    priority: DEFAULT_PRIORITY,
+  }))
+
   // -- News articles: /news/<slug> ----------------------------------------
-  const articleEntries: MetadataRoute.Sitemap = articleSlugs.map(({ slug, publishedAt }) => ({
+  // Prefer the Sanity document's last-modified time (_updatedAt) so content
+  // edits refresh the lastmod signal; fall back to publish date, then build.
+  const articleEntries: MetadataRoute.Sitemap = articleSlugs.map(({ slug, publishedAt, updatedAt }) => ({
     url: url(`/news/${slug}`),
-    lastModified: publishedAt ? new Date(publishedAt) : lastModified,
+    lastModified: updatedAt
+      ? new Date(updatedAt)
+      : publishedAt
+        ? new Date(publishedAt)
+        : lastModified,
     changeFrequency: 'weekly' as const,
     priority: DEFAULT_PRIORITY,
   }))
@@ -123,6 +130,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticEntries,
+    ...calculatorEntries,
     ...articleEntries,
     ...categoryEntries,
     ...authorEntries,

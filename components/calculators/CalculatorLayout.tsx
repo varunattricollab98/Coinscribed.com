@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { CurrencySelect } from './CurrencySelect'
+import { siteConfig } from '@/config/site'
+import { generateBreadcrumbSchema } from '@/lib/schema-markup'
 
 interface CalculatorLayoutProps {
   title: string
@@ -24,6 +26,13 @@ interface CalculatorLayoutProps {
    * building topical authority in both directions.
    */
   relatedReading?: { href: string; title: string }[]
+  /**
+   * Site-relative path to this calculator (e.g. "/calculators/apy-calculator").
+   * When provided, a BreadcrumbList JSON-LD block is emitted that mirrors the
+   * visible Home / Calculators / {title} breadcrumb — so the breadcrumb trail
+   * is eligible to show in search results, matching how article pages behave.
+   */
+  canonicalPath?: string
 }
 
 export function CalculatorLayout({
@@ -35,12 +44,24 @@ export function CalculatorLayout({
   jsonLd,
   faq,
   relatedReading,
+  canonicalPath,
 }: CalculatorLayoutProps) {
   const jsonLdBlocks = jsonLd
     ? Array.isArray(jsonLd)
       ? jsonLd
       : [jsonLd]
     : []
+
+  // Emit a BreadcrumbList that mirrors the visible breadcrumb below. Only when
+  // a canonicalPath is supplied, so the item URLs are correct and absolute.
+  const breadcrumbSchema = canonicalPath
+    ? generateBreadcrumbSchema([
+        { name: 'Home', url: siteConfig.url },
+        { name: 'Calculators', url: `${siteConfig.url}/calculators` },
+        { name: title, url: `${siteConfig.url}${canonicalPath}` },
+      ])
+    : null
+
   return (
     <>
       {jsonLdBlocks.map((block, i) => (
@@ -50,6 +71,12 @@ export function CalculatorLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(block) }}
         />
       ))}
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
       <div className="hairline-b">
         <div className="container-page py-8 sm:py-12">
           <nav className="mb-4 text-caption text-ink-muted dark:text-ink-inverse-muted">

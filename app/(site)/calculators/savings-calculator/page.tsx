@@ -78,6 +78,7 @@ export default function SavingsCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/savings-calculator"
       relatedReading={[
         { href: '/news/best-high-yield-savings-account', title: 'How to Choose the Best High-Yield Savings Account' },
         { href: '/news/what-is-apy', title: 'What Is APY? (And Is a High APY Worth It?)' },

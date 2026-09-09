@@ -66,6 +66,12 @@ export default function EMICalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/emi-calculator"
+      relatedReading={[
+        { href: '/news/how-to-pay-off-a-loan-faster', title: 'How to Pay Off a Loan Faster' },
+        { href: '/news/apr-vs-apy', title: 'APR vs APY: What\u2019s the Difference?' },
+        { href: '/news/monthly-payment-300k-400k-500k-mortgage', title: 'Monthly Payment on a $300k, $400k & $500k Mortgage' },
+      ]}
       title="EMI Calculator"
       description="Calculate your Equated Monthly Installment (EMI) for any loan. See the breakdown of total interest and total payment over the loan tenure."
       jsonLd={[jsonLd, generateFAQSchema(faqItems)]}

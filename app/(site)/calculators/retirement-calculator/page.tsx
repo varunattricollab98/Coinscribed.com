@@ -114,6 +114,12 @@ export default function RetirementCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/retirement-calculator"
+      relatedReading={[
+        { href: '/news/how-much-to-contribute-to-401k', title: 'How Much Should You Contribute to Your 401(k)?' },
+        { href: '/news/401k-vs-roth-ira', title: '401(k) vs Roth IRA: Which Should You Choose?' },
+        { href: '/news/rule-of-72', title: 'The Rule of 72: How Fast Your Money Doubles' },
+      ]}
       title="Retirement Calculator"
       description="Plan your retirement by calculating if you are on track to meet your retirement income goals. See projected savings, shortfall or surplus, and recommended monthly savings."
       jsonLd={[jsonLd, generateFAQSchema(faqItems)]}

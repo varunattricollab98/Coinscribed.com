@@ -72,6 +72,22 @@ function baseId(id: string): string {
   return id.startsWith('drafts.') ? id.slice('drafts.'.length) : id
 }
 
+type ArticleStatus = 'published' | 'scheduled' | 'draft'
+
+/**
+ * Single source of truth for an article's status, so the badge, the filter and
+ * the counts all agree. A draft is `draft`; a published (non-draft) document
+ * whose publishedAt is still in the future is `scheduled`; otherwise it's live
+ * `published`.
+ */
+function getStatus(item: AdminArticleListItem): ArticleStatus {
+  if (item.isDraft) return 'draft'
+  if (item.publishedAt && new Date(item.publishedAt).getTime() > Date.now()) {
+    return 'scheduled'
+  }
+  return 'published'
+}
+
 /**
  * Turn a Sanity delete error into an actionable message, mirroring the editor's
  * `describeError` so the two admin surfaces read the same to the operator.
@@ -103,6 +119,10 @@ export default function AdminDashboardPage() {
   const [deletingId, setDeletingId] = useState<string | null>(null)
   // Per-row delete error, keyed by base id, kept next to the row that failed.
   const [deleteErrors, setDeleteErrors] = useState<Record<string, string>>({})
+  // Client-side search + filters over the already-fetched list.
+  const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState<'all' | ArticleStatus>('all')
+  const [categoryFilter, setCategoryFilter] = useState<string>('all')
 
   useEffect(() => {
     let active = true
@@ -155,6 +175,39 @@ export default function AdminDashboardPage() {
       return bt - at
     })
   }, [rows])
+
+  // Article counts by status, for the summary pills at the top.
+  const counts = useMemo(() => {
+    const c = { total: items.length, published: 0, scheduled: 0, draft: 0 }
+    for (const item of items) c[getStatus(item)] += 1
+    return c
+  }, [items])
+
+  // Distinct categories present in the list, for the category filter dropdown.
+  const categoryOptions = useMemo(
+    () =>
+      Array.from(
+        new Set(items.map((i) => i.category).filter((c): c is string => !!c))
+      ).sort((a, b) => a.localeCompare(b)),
+    [items]
+  )
+
+  // Apply the search box + status/category filters to the list.
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    return items.filter((item) => {
+      if (statusFilter !== 'all' && getStatus(item) !== statusFilter) return false
+      if (categoryFilter !== 'all' && item.category !== categoryFilter) return false
+      if (q) {
+        const haystack = `${item.title ?? ''} ${item.slug ?? ''}`.toLowerCase()
+        if (!haystack.includes(q)) return false
+      }
+      return true
+    })
+  }, [items, search, statusFilter, categoryFilter])
+
+  const hasActiveFilters =
+    search.trim() !== '' || statusFilter !== 'all' || categoryFilter !== 'all'
 
   /**
    * Delete an article as the logged-in Sanity user. Both the draft
@@ -218,6 +271,71 @@ export default function AdminDashboardPage() {
         </Link>
       </div>
 
+      {/* Count summary pills — a quick read on how many articles are live,
+          queued, or still drafts. */}
+      {items.length > 0 && (
+        <div className="mt-6 flex flex-wrap gap-2.5">
+          <span className="inline-flex items-center gap-1.5 rounded-sm border border-hairline px-3 py-1.5 font-sans text-caption font-semibold text-ink-body dark:border-hairline-dark dark:text-ink-inverse-body">
+            Total
+            <span className="text-ink dark:text-ink-inverse">{counts.total}</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-sm bg-up/10 px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-up dark:text-up-light">
+            Published
+            <span>{counts.published}</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-sm bg-accent/10 px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-accent dark:text-accent-light">
+            Scheduled
+            <span>{counts.scheduled}</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-sm bg-gold-soft px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-gold dark:bg-wash-dark dark:text-gold-light">
+            Draft
+            <span>{counts.draft}</span>
+          </span>
+        </div>
+      )}
+
+      {/* Search + filters — all client-side over the already-loaded list. */}
+      {items.length > 0 && (
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="relative flex-1">
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by title or slug&hellip;"
+              aria-label="Search articles"
+              className="w-full rounded-sm border border-hairline bg-surface px-3 py-2 font-sans text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse dark:placeholder:text-ink-inverse-muted"
+            />
+          </div>
+          <select
+            value={statusFilter}
+            onChange={(e) =>
+              setStatusFilter(e.target.value as 'all' | ArticleStatus)
+            }
+            aria-label="Filter by status"
+            className="rounded-sm border border-hairline bg-surface px-3 py-2 font-sans text-sm text-ink-body focus:border-accent focus:outline-none dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse-body"
+          >
+            <option value="all">All statuses</option>
+            <option value="published">Published</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="draft">Draft</option>
+          </select>
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            aria-label="Filter by category"
+            className="rounded-sm border border-hairline bg-surface px-3 py-2 font-sans text-sm text-ink-body focus:border-accent focus:outline-none dark:border-hairline-dark dark:bg-elevated dark:text-ink-inverse-body"
+          >
+            <option value="all">All categories</option>
+            {categoryOptions.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       {error && (
         <p className="mt-6 rounded-sm border border-down/40 bg-down/5 px-4 py-3 text-sm text-down dark:text-down-light">
           {error}
@@ -251,8 +369,30 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {items.length > 0 && (
-        <div className="mt-8 overflow-x-auto rounded-sm border border-hairline dark:border-hairline-dark">
+      {/* Filters active but nothing matched. */}
+      {items.length > 0 && filtered.length === 0 && (
+        <div className="mt-8 rounded-sm border border-dashed border-hairline bg-surface px-6 py-10 text-center dark:border-hairline-dark dark:bg-elevated">
+          <p className="font-sans text-sm text-ink-body dark:text-ink-inverse-body">
+            No articles match your search or filters.
+          </p>
+          {hasActiveFilters && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearch('')
+                setStatusFilter('all')
+                setCategoryFilter('all')
+              }}
+              className="mt-4 inline-flex items-center rounded-sm border border-hairline px-3 py-1.5 font-sans text-sm font-semibold text-ink-body transition-colors hover:border-accent hover:text-accent dark:border-hairline-dark dark:text-ink-inverse-body"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+      )}
+
+      {filtered.length > 0 && (
+        <div className="mt-6 overflow-x-auto rounded-sm border border-hairline dark:border-hairline-dark">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-hairline bg-wash dark:border-hairline-dark dark:bg-elevated">
@@ -277,7 +417,7 @@ export default function AdminDashboardPage() {
               </tr>
             </thead>
             <tbody>
-              {items.map((item) => (
+              {filtered.map((item) => (
                 <tr
                   key={item._id}
                   className="border-b border-hairline last:border-0 hover:bg-wash dark:border-hairline-dark dark:hover:bg-wash-dark"
@@ -375,6 +515,19 @@ export default function AdminDashboardPage() {
                       return (
                         <>
                           <div className="flex items-center justify-end gap-4">
+                            {/* Preview the article as it will look, in a new
+                                tab. Works for any saved doc (draft, scheduled,
+                                or published) via the authenticated preview
+                                route — especially useful for drafts and
+                                scheduled rows, which have no live URL yet. */}
+                            <a
+                              href={`/preview/articles/${encodeURIComponent(id)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-sans text-sm font-semibold text-ink-body underline-offset-2 hover:text-accent hover:underline dark:text-ink-inverse-body dark:hover:text-accent-light"
+                            >
+                              Preview
+                            </a>
                             {/* View the live published page in a new tab. Only
                                 shown for a published, LIVE article with a slug —
                                 a draft or a still-scheduled (future) article has

@@ -14,6 +14,16 @@ const inter = Inter({
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
   metadataBase: new URL(siteConfig.url),
+  // Explicit icon declarations so search engines and browsers get a clear,
+  // consistent favicon signal across every page (not just the homepage). The
+  // classic /favicon.ico is the fallback most crawlers request first.
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png' }],
+  },
   title: {
     default: `${siteConfig.name} - ${siteConfig.tagline}`,
     template: `%s | ${siteConfig.name}`,

@@ -285,7 +285,17 @@ export default async function HomePage() {
                 <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
-            <div className="rule-grid sm:grid-cols-2 lg:grid-cols-4">
+            <div
+              className={`rule-grid ${
+                editorsPicks.length === 1
+                  ? ''
+                  : editorsPicks.length === 2
+                    ? 'sm:grid-cols-2'
+                    : editorsPicks.length === 3
+                      ? 'sm:grid-cols-2 lg:grid-cols-3'
+                      : 'sm:grid-cols-2 lg:grid-cols-4'
+              }`}
+            >
               {editorsPicks.map((article, i) => (
                 <Reveal key={article._id} delay={Math.min(i, 3) * 0.05}>
                   <ArticleCard article={article} />

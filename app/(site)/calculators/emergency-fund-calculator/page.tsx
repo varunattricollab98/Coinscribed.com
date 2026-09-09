@@ -77,6 +77,7 @@ export default function EmergencyFundCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/emergency-fund-calculator"
       relatedReading={[
         { href: '/news/how-to-build-an-emergency-fund', title: 'How to Build an Emergency Fund' },
         { href: '/news/best-high-yield-savings-account', title: 'How to Choose the Best High-Yield Savings Account' },

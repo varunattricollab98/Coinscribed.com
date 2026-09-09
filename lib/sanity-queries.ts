@@ -384,19 +384,23 @@ export async function getArticlesByAuthor(slug: string): Promise<ArticleCard[]> 
  * fresh environment still builds (pages render on demand via dynamicParams).
  */
 export async function getAllArticleSlugs(): Promise<
-  { slug: string; publishedAt?: string }[]
+  { slug: string; publishedAt?: string; updatedAt?: string }[]
 > {
   if (!isSanityConfigured) return []
   try {
     const rows = await sanityClient.fetch<
-      { slug?: { current?: string }; publishedAt?: string }[]
+      { slug?: { current?: string }; publishedAt?: string; _updatedAt?: string }[]
     >(
-      `*[_type == "article" && defined(slug.current) && ${PUBLISHED_GATE}]{ slug, publishedAt }`,
+      `*[_type == "article" && defined(slug.current) && ${PUBLISHED_GATE}]{ slug, publishedAt, _updatedAt }`,
       {},
       CONTENT_CACHE
     )
     return (rows ?? [])
-      .map((r) => ({ slug: r.slug?.current ?? '', publishedAt: r.publishedAt }))
+      .map((r) => ({
+        slug: r.slug?.current ?? '',
+        publishedAt: r.publishedAt,
+        updatedAt: r._updatedAt,
+      }))
       .filter((r) => r.slug.length > 0)
   } catch {
     return []

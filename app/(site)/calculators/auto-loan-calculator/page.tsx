@@ -92,6 +92,7 @@ export default function AutoLoanCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/auto-loan-calculator"
       relatedReading={[
         { href: '/news/what-is-apr', title: 'What Is APR? (And What Counts as a Good One?)' },
         { href: '/news/how-to-pay-off-a-loan-faster', title: 'How to Pay Off a Loan Faster' },

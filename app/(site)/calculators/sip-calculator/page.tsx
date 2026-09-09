@@ -68,6 +68,12 @@ export default function SIPCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/sip-calculator"
+      relatedReading={[
+        { href: '/news/simple-vs-compound-interest', title: 'Simple vs Compound Interest: Why It Matters' },
+        { href: '/news/rule-of-72', title: 'The Rule of 72: How Fast Your Money Doubles' },
+        { href: '/news/what-is-apy', title: 'What Is APY? (And Is a High APY Worth It?)' },
+      ]}
       title="SIP Calculator"
       description="Calculate your Systematic Investment Plan (SIP) returns. See how regular monthly investments grow over time with the power of compounding."
       jsonLd={[jsonLd, generateFAQSchema(faqItems)]}

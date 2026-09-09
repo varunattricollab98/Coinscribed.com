@@ -100,6 +100,7 @@ export default function CreditCardPayoffCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/credit-card-payoff-calculator"
       relatedReading={[
         { href: '/news/how-to-pay-off-credit-card-debt', title: 'How to Pay Off Credit Card Debt Fast' },
         { href: '/news/debt-snowball-vs-avalanche', title: 'Debt Snowball vs Debt Avalanche' },

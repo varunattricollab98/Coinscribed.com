@@ -75,6 +75,7 @@ export default function CompoundInterestCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/compound-interest-calculator"
       title="Compound Interest Calculator"
       description="See how your money grows with compound interest. Calculate future value and total interest earned across different compounding frequencies."
       jsonLd={[jsonLd, generateFAQSchema(faqItems)]}

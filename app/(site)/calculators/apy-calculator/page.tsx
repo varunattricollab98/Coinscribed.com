@@ -64,6 +64,7 @@ export default function ApyCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/apy-calculator"
       relatedReading={[
         { href: '/news/what-is-apy', title: 'What Is APY? (And Is a High APY Worth It?)' },
         { href: '/news/apr-vs-apy', title: 'APR vs APY: What\u2019s the Difference?' },

@@ -120,6 +120,7 @@ export default function LoanPayoffCalculatorPage() {
 
   return (
     <CalculatorLayout
+      canonicalPath="/calculators/loan-payoff-calculator"
       relatedReading={[
         { href: '/news/debt-snowball-vs-avalanche', title: 'Debt Snowball vs Debt Avalanche: Which Is Faster?' },
         { href: '/news/how-to-build-an-emergency-fund', title: 'How to Build an Emergency Fund' },

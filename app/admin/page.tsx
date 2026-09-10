@@ -396,6 +396,9 @@ export default function AdminDashboardPage() {
           <table className="w-full border-collapse text-left text-sm">
             <thead>
               <tr className="border-b border-hairline bg-wash dark:border-hairline-dark dark:bg-elevated">
+                <th className="w-10 px-4 py-3 text-right font-sans text-eyebrow font-semibold uppercase tracking-wide text-ink dark:text-ink-inverse">
+                  #
+                </th>
                 <th className="px-4 py-3 font-sans text-eyebrow font-semibold uppercase tracking-wide text-ink dark:text-ink-inverse">
                   Title
                 </th>
@@ -417,11 +420,14 @@ export default function AdminDashboardPage() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((item) => (
+              {filtered.map((item, index) => (
                 <tr
                   key={item._id}
                   className="border-b border-hairline last:border-0 hover:bg-wash dark:border-hairline-dark dark:hover:bg-wash-dark"
                 >
+                  <td className="px-4 py-3 align-top text-right font-sans text-caption tabular-nums text-ink-muted dark:text-ink-inverse-muted">
+                    {index + 1}
+                  </td>
                   <td className="px-4 py-3 align-top">
                     <span className="font-sans font-semibold text-ink dark:text-ink-inverse">
                       {item.title || 'Untitled'}

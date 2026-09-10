@@ -14,21 +14,42 @@ interface NewsletterSignupProps {
 export function NewsletterSignup({ variant = 'wide' }: NewsletterSignupProps) {
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   // Both variants can render on the same document (rail + page footer), so the
   // field id is derived from the variant. Two elements sharing an id would
   // break the label association for whichever one the browser resolved second.
   const fieldId = `newsletter-email-${variant}`
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if (!email.trim()) return
+    const value = email.trim()
+    if (!value || submitting) return
 
-    // TODO: Connect this to a real email service later
-    // (e.g. Mailchimp, ConvertKit, or Resend). For now this is a purely
-    // client-side confirmation and does not send the address anywhere.
-    setSubscribed(true)
-    setEmail('')
+    setSubmitting(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: value, source: `newsletter-${variant}` }),
+      })
+      const data = (await res.json().catch(() => null)) as
+        | { ok?: boolean; error?: string }
+        | null
+      if (res.ok && data?.ok) {
+        // Only show success when the server actually stored the address.
+        setSubscribed(true)
+        setEmail('')
+      } else {
+        setError(data?.error || 'Something went wrong. Please try again.')
+      }
+    } catch {
+      setError('Network error. Please check your connection and try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   // ------------------------------------------------------------------ compact
@@ -72,15 +93,22 @@ export function NewsletterSignup({ variant = 'wide' }: NewsletterSignupProps) {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={submitting}
               placeholder="you@example.com"
-              className="w-full border border-hairline bg-surface px-3 py-2.5 text-sm text-ink transition-colors placeholder:text-ink-muted/70 focus:border-accent focus:outline-none dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse dark:placeholder:text-ink-inverse-muted/70 dark:focus:border-accent-light"
+              className="w-full border border-hairline bg-surface px-3 py-2.5 text-sm text-ink transition-colors placeholder:text-ink-muted/70 focus:border-accent focus:outline-none disabled:opacity-60 dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse dark:placeholder:text-ink-inverse-muted/70 dark:focus:border-accent-light"
             />
             <button
               type="submit"
-              className="mt-2.5 w-full bg-accent-gradient px-4 py-2.5 text-eyebrow font-semibold uppercase text-white transition-transform duration-150 hover:scale-[1.01] motion-reduce:transform-none"
+              disabled={submitting}
+              className="mt-2.5 w-full bg-accent-gradient px-4 py-2.5 text-eyebrow font-semibold uppercase text-white transition-transform duration-150 hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70 motion-reduce:transform-none"
             >
-              Subscribe
+              {submitting ? 'Subscribing\u2026' : 'Subscribe'}
             </button>
+            {error && (
+              <p role="alert" className="mt-2 text-caption text-down dark:text-down-light">
+                {error}
+              </p>
+            )}
           </form>
         )}
       </section>
@@ -161,17 +189,24 @@ export function NewsletterSignup({ variant = 'wide' }: NewsletterSignupProps) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={submitting}
                 placeholder="you@example.com"
-                className="w-full flex-1 rounded-lg border border-transparent bg-white px-4 py-3 text-sm text-ink shadow-sm placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-white/70"
+                className="w-full flex-1 rounded-lg border border-transparent bg-white px-4 py-3 text-sm text-ink shadow-sm placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-white/70 disabled:opacity-70"
               />
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-white px-6 py-3 text-eyebrow font-semibold uppercase text-oxblood shadow-sm transition-all duration-150 hover:bg-paper hover:shadow-md"
+                disabled={submitting}
+                className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-white px-6 py-3 text-eyebrow font-semibold uppercase text-oxblood shadow-sm transition-all duration-150 hover:bg-paper hover:shadow-md disabled:cursor-not-allowed disabled:opacity-80"
               >
-                Subscribe
-                <span aria-hidden="true">&rarr;</span>
+                {submitting ? 'Subscribing\u2026' : 'Subscribe'}
+                {!submitting && <span aria-hidden="true">&rarr;</span>}
               </button>
             </form>
+            {error && (
+              <p role="alert" className="mx-auto mt-3 max-w-md text-caption text-white/90">
+                {error}
+              </p>
+            )}
 
             {/* Trust row */}
             <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-caption text-paper/70">

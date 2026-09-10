@@ -46,12 +46,18 @@ export const siteConfig = {
   footer: {
     calculators: [
       { label: 'Mortgage Calculator', href: '/calculators/mortgage-calculator' },
-      { label: '401(k) Calculator', href: '/calculators/401k-calculator' },
-      { label: 'EMI Calculator', href: '/calculators/emi-calculator' },
-      { label: 'SIP Calculator', href: '/calculators/sip-calculator' },
+      { label: 'Auto Loan Calculator', href: '/calculators/auto-loan-calculator' },
       { label: 'Loan Payoff Calculator', href: '/calculators/loan-payoff-calculator' },
+      { label: 'EMI Calculator', href: '/calculators/emi-calculator' },
+      { label: 'Credit Card Payoff', href: '/calculators/credit-card-payoff-calculator' },
       { label: 'Compound Interest', href: '/calculators/compound-interest-calculator' },
+      { label: 'Savings Calculator', href: '/calculators/savings-calculator' },
+      { label: 'APY Calculator', href: '/calculators/apy-calculator' },
+      { label: 'Emergency Fund Calculator', href: '/calculators/emergency-fund-calculator' },
+      { label: '401(k) Calculator', href: '/calculators/401k-calculator' },
+      { label: 'Roth IRA Calculator', href: '/calculators/roth-ira-calculator' },
       { label: 'Retirement Calculator', href: '/calculators/retirement-calculator' },
+      { label: 'SIP Calculator', href: '/calculators/sip-calculator' },
     ],
     resources: [
       { label: 'News', href: '/news' },

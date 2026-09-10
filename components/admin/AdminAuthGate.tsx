@@ -39,11 +39,14 @@ export function AdminAuthGate({ children }: { children: React.ReactNode }) {
     let active = true
 
     // 1) If the browser just landed here from the Sanity hosted login, the URL
-    //    contains the per-user token. Capture it first, then verify.
-    captureTokenFromUrl()
+    //    carries an auth code (?sid=). Capture + exchange it for a session
+    //    token FIRST (awaited), then verify — otherwise getSession would run
+    //    before the token is stored and wrongly report "anonymous".
+    ;(async () => {
+      await captureTokenFromUrl()
 
-    // 2) Verify the session (uses the token when present, or the cookie).
-    getSession().then((result: SessionResult) => {
+      // 2) Verify the session (uses the token when present, or the cookie).
+      const result: SessionResult = await getSession()
       if (!active) return
       if (result.status === 'authed') {
         setState({ status: 'authed', user: result.user })
@@ -52,7 +55,8 @@ export function AdminAuthGate({ children }: { children: React.ReactNode }) {
       } else {
         setState({ status: 'anon' })
       }
-    })
+    })()
+
     return () => {
       active = false
     }
@@ -128,7 +132,15 @@ export function AdminAuthGate({ children }: { children: React.ReactNode }) {
             >
               manage.sanity.io
             </a>
-            {' '}&gt; API &gt; CORS Origins.
+            {' '}&gt; API &gt; CORS Origins. You can also manage content directly
+            in the{' '}
+            <a
+              href="/studio"
+              className="underline hover:text-accent dark:hover:text-accent-light"
+            >
+              Sanity Studio
+            </a>
+            .
           </p>
         </div>
       </div>
@@ -159,7 +171,15 @@ export function AdminAuthGate({ children }: { children: React.ReactNode }) {
           </button>
           <p className="mt-4 text-caption text-ink-muted dark:text-ink-inverse-muted">
             You will be redirected to Sanity&rsquo;s secure login and returned
-            here afterwards.
+            here afterwards. If sign-in doesn&rsquo;t complete, you can always
+            use the{' '}
+            <a
+              href="/studio"
+              className="underline hover:text-accent dark:hover:text-accent-light"
+            >
+              Sanity Studio
+            </a>
+            {' '}to manage content.
           </p>
         </div>
       </div>

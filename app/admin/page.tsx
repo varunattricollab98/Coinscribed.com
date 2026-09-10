@@ -272,25 +272,70 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Count summary pills — a quick read on how many articles are live,
-          queued, or still drafts. */}
+          queued, or still drafts. Each pill is also a one-click STATUS FILTER:
+          clicking it sets statusFilter (shared with the dropdown below), and
+          clicking the active one again clears back to All. A ring marks the
+          active pill. */}
       {items.length > 0 && (
         <div className="mt-6 flex flex-wrap gap-2.5">
-          <span className="inline-flex items-center gap-1.5 rounded-sm border border-hairline px-3 py-1.5 font-sans text-caption font-semibold text-ink-body dark:border-hairline-dark dark:text-ink-inverse-body">
+          <button
+            type="button"
+            onClick={() => setStatusFilter('all')}
+            aria-pressed={statusFilter === 'all'}
+            className={`inline-flex items-center gap-1.5 rounded-sm border border-hairline px-3 py-1.5 font-sans text-caption font-semibold text-ink-body transition-shadow hover:border-accent dark:border-hairline-dark dark:text-ink-inverse-body${
+              statusFilter === 'all'
+                ? ' ring-2 ring-accent ring-offset-1 ring-offset-paper dark:ring-offset-graphite'
+                : ''
+            }`}
+          >
             Total
             <span className="text-ink dark:text-ink-inverse">{counts.total}</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-sm bg-up/10 px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-up dark:text-up-light">
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setStatusFilter((s) => (s === 'published' ? 'all' : 'published'))
+            }
+            aria-pressed={statusFilter === 'published'}
+            className={`inline-flex items-center gap-1.5 rounded-sm bg-up/10 px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-up transition-shadow hover:bg-up/20 dark:text-up-light${
+              statusFilter === 'published'
+                ? ' ring-2 ring-up ring-offset-1 ring-offset-paper dark:ring-offset-graphite'
+                : ''
+            }`}
+          >
             Published
             <span>{counts.published}</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-sm bg-accent/10 px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-accent dark:text-accent-light">
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setStatusFilter((s) => (s === 'scheduled' ? 'all' : 'scheduled'))
+            }
+            aria-pressed={statusFilter === 'scheduled'}
+            className={`inline-flex items-center gap-1.5 rounded-sm bg-accent/10 px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-accent transition-shadow hover:bg-accent/20 dark:text-accent-light${
+              statusFilter === 'scheduled'
+                ? ' ring-2 ring-accent ring-offset-1 ring-offset-paper dark:ring-offset-graphite'
+                : ''
+            }`}
+          >
             Scheduled
             <span>{counts.scheduled}</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-sm bg-gold-soft px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-gold dark:bg-wash-dark dark:text-gold-light">
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setStatusFilter((s) => (s === 'draft' ? 'all' : 'draft'))
+            }
+            aria-pressed={statusFilter === 'draft'}
+            className={`inline-flex items-center gap-1.5 rounded-sm bg-gold-soft px-3 py-1.5 font-sans text-caption font-semibold uppercase tracking-wide text-gold transition-shadow hover:brightness-95 dark:bg-wash-dark dark:text-gold-light${
+              statusFilter === 'draft'
+                ? ' ring-2 ring-gold ring-offset-1 ring-offset-paper dark:ring-offset-graphite'
+                : ''
+            }`}
+          >
             Draft
             <span>{counts.draft}</span>
-          </span>
+          </button>
         </div>
       )}
 

@@ -136,26 +136,60 @@ export const adminSanityClient = baseClient
  * Safe to call on every admin mount: it is a no-op when there is no token in
  * the URL.
  */
-export function captureTokenFromUrl(): string | null {
+export async function captureTokenFromUrl(): Promise<string | null> {
   if (typeof window === 'undefined') return null
-  let token: string | null = null
+  let sid: string | null = null
+  let directToken: string | null = null
   try {
     const url = new URL(window.location.href)
-    token = url.searchParams.get('sid') || url.searchParams.get('token')
-    if (token) {
-      setSessionToken(token)
-      // Remove the token from the visible URL / history so it is not leaked in
-      // shares, logs or the back button.
+    // The current hosted-login flow returns an auth CODE in `sid` that must be
+    // exchanged for a session token. Older flows returned the token directly in
+    // `token`; we still honour that as a fallback.
+    sid = url.searchParams.get('sid')
+    directToken = url.searchParams.get('token')
+
+    if (sid || directToken) {
+      // Strip the auth params from the visible URL / history first so they are
+      // never leaked in shares, logs or the back button — regardless of whether
+      // the exchange below succeeds.
       url.searchParams.delete('sid')
       url.searchParams.delete('token')
       const clean =
-        url.pathname + (url.searchParams.toString() ? `?${url.searchParams}` : '') + url.hash
+        url.pathname +
+        (url.searchParams.toString() ? `?${url.searchParams}` : '') +
+        url.hash
       window.history.replaceState(null, '', clean)
     }
   } catch {
     return null
   }
-  return token
+
+  // A directly-returned token needs no exchange.
+  if (directToken) {
+    setSessionToken(directToken)
+    return directToken
+  }
+
+  // Exchange the auth code (sid) for a real session token via /auth/fetch.
+  if (sid) {
+    try {
+      const res = await baseClient.request<{ token?: string }>({
+        url: `/auth/fetch?sid=${encodeURIComponent(sid)}`,
+        withCredentials: true,
+      })
+      const token = res?.token ?? null
+      if (token) {
+        setSessionToken(token)
+        return token
+      }
+    } catch {
+      // Exchange failed — fall through to null; getSession() will then report
+      // an actionable state (anon or error) and the sign-in screen is shown.
+      return null
+    }
+  }
+
+  return null
 }
 
 // ============================================================
@@ -259,43 +293,42 @@ function describeSessionError(status: number | undefined, err: unknown): string 
 // ============================================================
 
 /**
- * Build the URL of Sanity's hosted login page for the per-user TOKEN flow.
+ * Build the URL of Sanity's hosted login page for the per-user session flow.
  *
- * We point at the GENERIC hosted-login entry point
- * (`/v1/auth/login`), NOT a provider-specific path such as
- * `/v1/auth/login/google`. The generic endpoint is what makes the OAuth flow
- * valid end to end:
+ * Sanity's CURRENT hosted-login entry point is `https://www.sanity.io/login`.
+ * The previous `https://<projectId>.api.sanity.io/v1/auth/login` endpoint has
+ * been retired and now returns "Cannot GET /v1/auth/login" (404) — which broke
+ * sign-in on any browser without an existing Sanity session cookie (a browser
+ * that already had the cookie kept working only via the withCredentials path,
+ * masking the bug).
  *
- *   1. Sanity renders its own hosted login page and, crucially, ESTABLISHES the
- *      OAuth `state` (CSRF) cookie on `api.sanity.io` before redirecting the
- *      browser out to the chosen identity provider (Google, GitHub, ...).
- *   2. The provider redirects back to
- *      `.../v1/auth/callback/<provider>?state=...`, and Sanity can now verify
- *      that `state` against the cookie it set in step 1.
- *   3. On success Sanity returns the browser to `origin` with the per-user
- *      session token in the `sid` query parameter, which
- *      `captureTokenFromUrl()` reads on return.
+ * Flow:
+ *   1. We redirect the browser to `www.sanity.io/login` with `origin` (the
+ *      return URL — it MUST be an allowlisted CORS origin for the project) and
+ *      `withSid=true`.
+ *   2. The user picks their identity provider on Sanity's hosted page and signs
+ *      in. Sanity handles the OAuth `state`/CSRF handshake itself.
+ *   3. Sanity returns the browser to `origin` with an auth CODE in the `?sid=`
+ *      query parameter. `captureTokenFromUrl()` then exchanges that code for a
+ *      real session token via the `/auth/fetch?sid=` endpoint.
  *
- * Hitting `/v1/auth/login/<provider>` directly SKIPS step 1: the browser jumps
- * straight into the provider hand-off without Sanity ever setting the state
- * cookie, so the callback fails with HTTP 400 "Unable to verify authorization
- * request state." That was the login bug this function fixes.
- *
- * `type=token` asks Sanity to return control to `origin` with a per-user
- * session token in the `sid` query parameter (rather than relying on a
- * first-party cookie the SPA cannot see cross-site). The token is scoped to the
- * signed-in user and their roles - it is not a project/master token.
- *
- * The user picks their provider (e.g. Google) on Sanity's hosted page. We do
- * not force a provider via the path segment because that is exactly what broke
- * the state handshake.
+ * NOTE: `www.sanity.io/login` enforces a strict allowlist on `origin`. Custom
+ * domains work when added under manage.sanity.io > API > CORS Origins. The
+ * `withCredentials` cookie path in `baseClient` remains as a fallback for
+ * browsers that already hold a Sanity session cookie.
  *
  * @param origin Absolute app origin to return to after login (e.g.
  *               `${window.location.origin}/admin`).
  */
 export function getLoginUrl(origin: string): string {
   const encodedOrigin = encodeURIComponent(origin)
-  return `https://${adminProjectId}.api.sanity.io/v1/auth/login?origin=${encodedOrigin}&type=token`
+  // Sanity's current hosted-login entry point is sanity.io/login (NOT the old
+  // <projectId>.api.sanity.io/v1/auth/login, which now 404s "Cannot GET").
+  // Params: `origin` (return URL; must be an allowlisted CORS origin), `type`
+  // to request a returnable session, and `withSid=true` so the browser is
+  // returned to `origin` with the auth code in the `?sid=` query parameter,
+  // which captureTokenFromUrl() then exchanges for a session token.
+  return `https://www.sanity.io/login?origin=${encodedOrigin}&type=token&withSid=true`
 }
 
 /**

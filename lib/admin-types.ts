@@ -112,6 +112,11 @@ export interface ArticleDraft {
   slug: string
   /** Required, max 300 chars (article schema `excerpt`). */
   excerpt: string
+  /**
+   * Optional Key Takeaways bullets (article schema `keyTakeaways`, max 6).
+   * Rendered in a highlighted box under the intro for GEO / featured snippets.
+   */
+  keyTakeaways?: string[]
   /** Rich-text body as editor blocks. */
   bodyModel: EditorBlock[]
   /** Reference to an `author` document. */
@@ -140,6 +145,7 @@ export const ARTICLE_LIMITS = {
   seoTitleMax: 70,
   seoDescriptionMax: 160,
   slugMax: 96,
+  keyTakeawaysMax: 6,
 } as const
 
 /** A row in the /admin dashboard article list. */

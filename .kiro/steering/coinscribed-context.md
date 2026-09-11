@@ -125,6 +125,9 @@ Verified reference numbers (Sept 2026 — re-verify if stale):
   strings, in the Sanity schema after `excerpt`); rendered by `KeyTakeaways` in
   `ArticleView` under the hero, above the TOC. Add 3-5 crisp bullets per article
   for AI Overview / featured-snippet pickup — especially on already-ranking articles.
+  Editable in BOTH `/studio` AND the custom `/admin` editor now (field sits right
+  after Excerpt: "Add takeaway" list, max 6, empty items dropped on save; the
+  gold-dot bullet is auto-rendered so enter plain sentences, no bullet symbol).
 - **DELIBERATELY EXCLUDED calculators** (YMYL risk, don't build without care):
   income tax, paycheck, capital gains, Social Security.
 

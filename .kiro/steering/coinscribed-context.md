@@ -121,6 +121,10 @@ Verified reference numbers (Sept 2026 — re-verify if stale):
   Preview link per row (opens `/preview/articles/{id}` — works for drafts/scheduled).
 - **404:** branded `app/(site)/not-found.tsx` (site chrome, links to
   News/Calculators/Markets/Bank routing, noindex,follow).
+- **Key Takeaways (GEO):** articles have an optional `keyTakeaways` field (array of
+  strings, in the Sanity schema after `excerpt`); rendered by `KeyTakeaways` in
+  `ArticleView` under the hero, above the TOC. Add 3-5 crisp bullets per article
+  for AI Overview / featured-snippet pickup — especially on already-ranking articles.
 - **DELIBERATELY EXCLUDED calculators** (YMYL risk, don't build without care):
   income tax, paycheck, capital gains, Social Security.
 

@@ -1,8 +1,8 @@
 # Coinscribed.com — Project Context & Working Agreement
 
-> This file is the persistent memory for the Coinscribed.com project. Read it at
-> the start of every session so you (the agent) resume with full context and the
-> owner never has to re-explain. Keep it updated as things change.
+> Persistent project memory. Read at the start of every session so you (the
+> agent) resume with full context and the owner never has to re-explain. Keep it
+> updated as things change.
 
 ---
 
@@ -26,54 +26,80 @@ Goal: grow **organic US traffic + earning** through high-quality finance content
 - Owner shares **SEMrush data as TEXT** — never as XLSX (uploaded XLSX arrives as
   garbled binary and is unreadable). Always ask for text.
 
-## 3. Content cadence & format
+## 3. Content cadence & article standard
 
-- **5 articles/week**, published Tue–Fri at **8:00 AM ET** (weekends off).
-- Human-written, AI-detection-proof, SEO + GEO optimized, Google-safe, and
-  **realistic/genuinely useful** (real numbers people can act on).
+- **5 articles/week**, published Tue–Fri at **8:00 AM ET** (weekends off). Owner can
+  send data for 2-3 articles at once and schedule on different days.
+- **Standard (mandatory):** 100% human-written & AI-detection-proof (real
+  personal-story intro, burstiness, conversational asides, contractions, opinion;
+  NO AI-cliché words like delve/furthermore/unlock); web-verified live numbers
+  (IRS/Fed/FDIC/Freddie Mac); target LOW-KD winnable long-tails when the head term
+  KD is high; GEO — match Google AI Overview structure, Quick/Short Answer near the
+  top, clean extractable definitions; comparison tables to differentiate; 6-8 FAQs
+  from PAA; internal links to a calculator + related article (topic-cluster,
+  same-tab); topic-appropriate author for E-E-A-T; evergreen (avoid volatile exact
+  rates — round them).
 - **Paste-ready delivery** = Sanity fields + body with editor markers:
   - Fields: **Title**, **Slug** (<=96), **Excerpt** (<=300), **SEO Title** (<=70),
     **SEO Description** (<=160), **Author**, **Category**, schedule.
   - Body markers: `[H2]` `[H3]` `[H4]` `[Bullet]` `[Table]` `[Normal]`, bold via `**..**`,
-    links as `[link -> /path]`. Body is Sanity Portable Text supporting H2/H3/H4/Quote,
+    links as `[link -> /path]`. Portable Text supports H2/H3/H4/Quote,
     bold/italic/underline/code/link, and a custom **tableBlock** (caption + column
     headers + rows).
-- **Field limits are intentional — do NOT raise them.**
+  - **Field limits are intentional — do NOT raise them.**
+- **Do NOT add a manual disclaimer / "A Quick Note" section** — `ArticleView.tsx`
+  auto-renders an "Editorial Notice" box at the end of every article.
+- **Before writing, CHECK the master inventory (section 9) to avoid duplicates /
+  cannibalization.**
 - Article drafts are saved in the repo at `.agents/drafts/`.
 
-- **Authors:** Ethan Caldwell (Banking), Marcus Bennett (Economy / mortgage),
-  Rachel Morgan, Coinscribed Team.
+- **Authors:** Ethan Caldwell (Banking), Marcus Bennett (Economy / mortgage / loans),
+  Rachel Morgan (retirement / economy), Coinscribed Team.
 - **Categories:** Banking, Economy, Markets, Crypto.
 
 ## 4. YMYL discipline (critical)
 
-This is a financial (YMYL) site. **Never invent or guess** routing numbers, rates,
-or financial figures. **Always web-verify current numbers** before writing.
-
+Financial (YMYL) site. **Never invent or guess** routing numbers, rates, or
+financial figures. **Always web-verify current numbers** before writing.
 Verified reference numbers (Sept 2026 — re-verify if stale):
 - 30-yr fixed mortgage ~6.71%; HYSA / MMA / CD ~4.00–4.50% APY; inflation ~3.3%.
 - Down payment minimums: conventional 3%, FHA 3.5%, VA/USDA 0%; avg ~13% national,
   ~8% first-time; 20% avoids PMI. Closing costs 2–5%.
+- 2026 IRS: 401k $24,500, IRA $7,500, 401k catch-up $8,000, IRA catch-up $1,100.
 
 ## 5. Dev / deployment facts
 
-- **Admin/CMS:** `/admin` and `/studio` (Sanity).
-- **Sanity CORS fix** (for "Session could not be verified" login error):
-  manage.sanity.io → API → CORS Origins → add **both** `https://coinscribed.com` and
-  `https://www.coinscribed.com`, each with **"Allow credentials" CHECKED**.
+- **Admin/CMS:** `/admin` (custom editor) and `/studio` (Sanity Studio). Sanity
+  project ID **h0xv92n1**, dataset `production`.
 - **DNS (Hostinger → Vercel):** `A @ 76.76.21.21`; `CNAME www 353687749f236ec8.vercel-dns-017.com`.
   Apex 308→www, so `curl` needs `-L`; sitemap is at `www.coinscribed.com/sitemap.xml`.
-- **Vercel env:** `NEXT_PUBLIC_GA_ID = G-FM6XPPT1S6`.
+- **Vercel env:** `NEXT_PUBLIC_GA_ID = G-FM6XPPT1S6`. GA property live; keep the GSC
+  verification TXT record in Hostinger DNS.
+- **`SANITY_WRITE_TOKEN`** — needed in Vercel for the newsletter to store signups
+  (see section 8). Editor-scoped token from manage.sanity.io → API → Tokens.
+
+### Admin login (two fixes already shipped — if it breaks again, check these)
+1. **CORS** (for "Session could not be verified"): manage.sanity.io → API → CORS
+   Origins must include **both** `https://www.coinscribed.com` (admin runs here) and
+   `https://coinscribed.com`, each with **"Allow credentials" CHECKED**, no trailing
+   slash, https.
+2. **Login endpoint** (`getLoginUrl` in `lib/sanity-admin.ts`) must point at
+   `https://www.sanity.io/login?origin=...&type=token&withSid=true` — NOT the retired
+   `api.sanity.io/v1/auth/login` (that 404s "Cannot GET"). The `?sid=` return code is
+   exchanged for a token via `/auth/fetch?sid=` in `captureTokenFromUrl`.
+3. **Guaranteed fallback:** `https://coinscribed.com/studio` (official Sanity Studio,
+   robust login, always works) — content can always be managed there.
 
 ### Build / PR workflow (do every time before a PR)
 1. `bunx tsc --noEmit` + `bunx next lint` + `bunx next build` — all must be clean.
 2. **Always revert bun.lock** (`git checkout bun.lock`) — never commit it.
 3. Never commit to `main`. Create a feature branch, push, open PR with
    `gh api repos/varunattricollab98/Coinscribed.com/pulls -f title=... -f body=... -f head=... -f base="main"`
-   (NOT `gh pr create` — GraphQL-backed commands fail in this environment).
+   (NOT `gh pr create` — GraphQL-backed commands fail here).
 4. Wait for CI **build** checks to pass, then squash-merge:
-   `gh api -X PUT repos/.../pulls/{n}/merge -f merge_method="squash"`.
-5. Reference the PR/branch link for the owner to review.
+   `gh api -X PUT repos/.../pulls/{n}/merge -f merge_method="squash"`. Owner is fine
+   with the agent merging its own PRs.
+5. Reference the PR/branch link for the owner.
 
 ## 6. Architecture notes
 
@@ -82,59 +108,88 @@ Verified reference numbers (Sept 2026 — re-verify if stale):
   (empty grey-slot bug fixed).
 - **Related articles** are **category-only** (no tags/relatedArticles field in the
   Sanity schema).
-- **Calculators:** 13 total. Each has a `layout.tsx` with a correct self-canonical +
-  metadata. `CalculatorLayout` takes a `canonicalPath` prop to emit BreadcrumbList
-  JSON-LD. Sitemap generates calculator URLs from `data/calculators` and uses
-  `_updatedAt` for article `lastModified`.
-- **favicon.ico** exists (generated from icon.png) — fixes the generic globe icon
-  that Google showed on non-homepage results.
+- **Calculators:** 13 total (mortgage, 401k, emi, sip, loan-payoff,
+  compound-interest, retirement, auto-loan, credit-card-payoff, savings,
+  emergency-fund, roth-ira, apy). Each has a `layout.tsx` with a correct
+  self-canonical + metadata (CONFIRMED good — don't re-flag as missing).
+  `CalculatorLayout` takes a `canonicalPath` prop to emit BreadcrumbList JSON-LD.
+  Sitemap generates calculator URLs from `data/calculators`.
+- **favicon.ico** exists (generated from icon.png) — fixed the generic globe icon.
+- **Admin `/admin` list** (`app/admin/page.tsx`) has: count pills (clickable status
+  filters — Total/Published/Scheduled/Draft with active-ring, synced to the status
+  dropdown), search box, status + category dropdowns, a serial `#` column, and a
+  Preview link per row (opens `/preview/articles/{id}` — works for drafts/scheduled).
+- **404:** branded `app/(site)/not-found.tsx` (site chrome, links to
+  News/Calculators/Markets/Bank routing, noindex,follow).
+- **DELIBERATELY EXCLUDED calculators** (YMYL risk, don't build without care):
+  income tax, paycheck, capital gains, Social Security.
 
 ## 7. SEO / indexing plan
 
-**Google (GSC, ~10 URLs/day request limit):**
-- DONE: all 13 calculators + `/calculators` hub + `/news/401k-vs-roth-ira`.
-  (~12 pages were already indexed organically.)
-- Remaining priority order:
-  - P2: articles (`how-much-to-contribute-to-401k`, `how-to-find-routing-number-on-check`,
-    `what-is-apy`) + hubs (`/news`, `/markets`, `/bank-routing-numbers`, `/about`).
-  - P3: category + author pages.
-  - P4: 23 per-bank pages (~10/day).
-  - P5: 32 **index-worthy** state pages (>=3 banks; high-bank first).
-- **NEVER** request-index: the 15 **thin** state pages (<3 banks — they are
-  `noindex,follow` via `MIN_BANKS_TO_INDEX=3`), or `sitemap.xml`.
+**Google (GSC, ~10-12 URLs/day request limit; quota resets daily):**
+- DONE: Batch 1 (10 articles + mortgage & 401k calculators), all 13 calculators +
+  `/calculators` hub, and `/news/401k-vs-roth-ira`.
+- Google already indexed ~12+ pages organically.
+- **Priority 2 (do next):** live articles `/news/how-to-pay-off-a-loan-faster`,
+  `/news/how-much-to-contribute-to-401k`, `/news/how-to-find-routing-number-on-check`,
+  `/news/what-is-apy`; hubs `/news`, `/markets`, `/bank-routing-numbers`, `/about`,
+  legal pages.
+- **Priority 3:** category (`/news/category/{banking,economy,markets,crypto}`) +
+  author (`/news/author/{ethan-caldwell,marcus-bennett,rachel-morgan,coinscribed-team}`).
+- **Priority 4:** 23 per-bank pages (~10/day).
+- **Priority 5:** 32 index-worthy state pages (>=3 banks; high-bank first).
+- **NEVER** request-index: the 15 **thin** state pages (<3 banks — `noindex,follow`
+  via `MIN_BANKS_TO_INDEX=3`), or `sitemap.xml`.
 - When a **brand-new article** goes live, request-index it FIRST (Google + Bing).
 
-**Bing:** sitemap submitted & healthy (~114 URLs discovered). Bing auto-crawls;
-only manually submit brand-new articles. IndexNow rejected (not worth it for a
-small new site).
+**Bing:** sitemap submitted & healthy (~114 URLs). Bing auto-crawls; only manually
+submit brand-new articles. IndexNow rejected (not worth it for a small new site).
 
-## 8. Decisions on record
+**Decision:** do NOT invest in per-state bank routing pages (low volume, YMYL risk).
+Focus energy on articles + calculators + indexing.
 
-- **Do NOT invest in per-state bank routing pages** (low search volume, YMYL
-  accuracy risk). Focus energy on **articles + calculators + indexing**.
-- **Deferred:** add real brand social profile URLs to `config/site.ts` `social`
-  object with `confirmed: true` **once the accounts actually exist** — this makes
-  `generateOrganizationSchema()` emit the `sameAs` array (currently all
-  `confirmed: false` as an intentional YMYL accuracy guard, so `sameAs` is omitted).
+## 8. Newsletter (functional as of PR #46)
 
-## 9. Current status / next up
+- Signups are stored as Sanity `subscriber` docs (email/subscribedAt/source),
+  visible in Studio under **Newsletter Subscriber**. `POST /api/newsletter`
+  validates + de-dupes and writes via a **server-only `SANITY_WRITE_TOKEN`**.
+- **PENDING owner action:** add `SANITY_WRITE_TOKEN` in Vercel (Production + Preview)
+  for signups to work in prod. Until then the route returns 503 and the form shows
+  an honest "temporarily unavailable" message (no fake success).
+- **Deferred:** add real brand social profile URLs to `config/site.ts` `social` with
+  `confirmed: true` once the accounts exist — this makes `generateOrganizationSchema()`
+  emit `sameAs` (E-E-A-T). Currently all `confirmed: false` (intentional YMYL guard).
 
-- Mon–Thu articles delivered paste-ready (owner schedules): How Much House Can I
-  Afford (#18), How to Save for a Down Payment, CD vs HYSA vs Money Market (#19),
-  How to Write a Check (#20).
-- **Friday topic LOCKED = "Money Market Account vs Savings Account"** (Banking) —
-  awaiting owner's SEMrush keyword data (as TEXT) to write.
-- Continue GSC indexing from **Priority 2**.
-- When CD (#19) and Write-a-Check (#20) go live → request-index them first
-  (Google + Bing): `/news/cd-vs-high-yield-savings-vs-money-market`,
-  `/news/how-to-write-a-check`.
+## 9. Article inventory (source of truth for slugs; avoid duplicates)
 
-## 10. Live articles (15, in sitemap)
+URLs are `https://www.coinscribed.com/news/<slug>`.
 
-`401k-employer-match-explained`, `401k-vs-roth-ira`, `apr-vs-apy`,
-`best-high-yield-savings-account`, `debt-snowball-vs-avalanche`,
-`how-much-to-contribute-to-401k`, `how-to-build-an-emergency-fund`,
-`how-to-find-routing-number-on-check`, `how-to-pay-off-a-loan-faster`,
-`monthly-payment-300k-400k-500k-mortgage`, `rule-of-72`,
-`simple-vs-compound-interest`, `what-is-a-good-credit-score`, `what-is-apr`,
-`what-is-apy`.
+**LIVE (15, in sitemap):** 401k-employer-match-explained, 401k-vs-roth-ira, apr-vs-apy,
+best-high-yield-savings-account, debt-snowball-vs-avalanche, how-much-to-contribute-to-401k,
+how-to-build-an-emergency-fund, how-to-find-routing-number-on-check, how-to-pay-off-a-loan-faster,
+monthly-payment-300k-400k-500k-mortgage, rule-of-72, simple-vs-compound-interest,
+what-is-a-good-credit-score, what-is-apr, what-is-apy.
+
+**WRITTEN & DELIVERED but NOT yet live (404 — owner still to publish/schedule; drafts
+in `.agents/drafts/`):** cd-vs-high-yield-savings-vs-money-market (Banking/Ethan),
+how-to-write-a-check (Banking/Marcus, 246K/mo), how-much-house-can-i-afford (Economy/Marcus),
+how-to-save-for-a-down-payment (Economy/Marcus), what-is-a-roth-ira (Economy/Rachel),
+how-to-pay-off-credit-card-debt (Economy/Marcus). When each goes live, request-index it
+first on Google + Bing.
+
+**Clusters:** Retirement (401k-match, how-much-401k, 401k-vs-roth-ira, what-is-a-roth-ira),
+Debt (debt-snowball, loan-payoff-faster, credit-card-debt), Banking (apr, apy, apr-vs-apy,
+credit-score, hysa, routing, cd-vs-hysa-vs-mmkt, write-a-check), Interest (simple-vs-compound,
+rule-of-72), Mortgage (monthly-payment, how-much-house, down-payment).
+
+## 10. Current status / next up
+
+- **"Money Market vs Savings Account"** was the tentative Friday topic, but it would
+  cannibalize the already-written CD-vs-HYSA-vs-Money-Market (#19). Prefer a fresh
+  non-overlapping topic next; get the owner's SEMrush data (as TEXT) for whatever
+  topic is chosen. Candidate fresh topics: "How to Open a Bank Account",
+  "Checking vs Savings Account", "What Is a Money Market Account?" (standalone def),
+  "50/30/20 budgeting", "index funds for beginners".
+- Continue GSC indexing from Priority 2 (section 7). Google daily quota resets ~daily;
+  if "Quota exceeded", resume next day (sitemap auto-crawls anyway).
+- Remind owner to set `SANITY_WRITE_TOKEN` in Vercel for the newsletter.

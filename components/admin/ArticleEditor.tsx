@@ -59,6 +59,7 @@ interface RawArticleDoc {
   title?: string
   slug?: { current?: string }
   excerpt?: string
+  keyTakeaways?: string[]
   body?: PortableTextBlock[]
   author?: { _ref?: string }
   category?: { _ref?: string }
@@ -81,7 +82,7 @@ const LOAD_QUERY = `
     *[_id == $draftId][0],
     *[_id == $id][0]
   ){
-    _id, title, slug, excerpt, body, author, category, publishedAt,
+    _id, title, slug, excerpt, keyTakeaways, body, author, category, publishedAt,
     mainImage, seoTitle, seoDescription, faqs
   }
 `
@@ -91,6 +92,7 @@ function emptyDraft(): ArticleDraft {
     title: '',
     slug: '',
     excerpt: '',
+    keyTakeaways: [],
     bodyModel: [],
     publishedAt: '',
     faqs: [],
@@ -247,6 +249,9 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
           title: doc.title ?? '',
           slug: doc.slug?.current ?? '',
           excerpt: doc.excerpt ?? '',
+          keyTakeaways: Array.isArray(doc.keyTakeaways)
+            ? doc.keyTakeaways
+            : [],
           bodyModel: parseBody(doc.body),
           authorRef: doc.author?._ref
             ? { _type: 'reference', _ref: doc.author._ref }
@@ -339,6 +344,20 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
     [patch]
   )
 
+  // ----- Key Takeaways handlers -----
+  const addTakeaway = () =>
+    patch({ keyTakeaways: [...(draft.keyTakeaways ?? []), ''] })
+  const updateTakeaway = (index: number, value: string) =>
+    patch({
+      keyTakeaways: (draft.keyTakeaways ?? []).map((t, i) =>
+        i === index ? value : t
+      ),
+    })
+  const removeTakeaway = (index: number) =>
+    patch({
+      keyTakeaways: (draft.keyTakeaways ?? []).filter((_, i) => i !== index),
+    })
+
   // ----- FAQ handlers -----
   const addFaq = () =>
     patch({ faqs: [...(draft.faqs ?? []), { question: '', answer: '' }] })
@@ -410,6 +429,10 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
           ...(d.mainImage.alt ? { alt: d.mainImage.alt } : {}),
         }
       }
+      const takeaways = (d.keyTakeaways ?? [])
+        .map((t) => t.trim())
+        .filter((t) => t.length > 0)
+      if (takeaways.length > 0) doc.keyTakeaways = takeaways
       if (d.seoTitle?.trim()) doc.seoTitle = d.seoTitle.trim()
       if (d.seoDescription?.trim())
         doc.seoDescription = d.seoDescription.trim()
@@ -664,6 +687,52 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
               placeholder="A brief summary used on cards and as the meta description."
               className={inputClass(Boolean(errors.excerpt))}
             />
+          </Field>
+
+          {/* Key Takeaways */}
+          <Field label="Key Takeaways">
+            <div className="space-y-3">
+              <p className="text-caption text-ink-muted dark:text-ink-inverse-muted">
+                Optional. 3–5 short, scannable bullets shown in a highlighted
+                box just under the intro. Great for skimmers and strongly
+                favoured by Google AI Overviews / featured snippets (GEO). One
+                crisp sentence each — don&rsquo;t type a bullet symbol, it&rsquo;s
+                added automatically. Leave empty to hide the box. Max{' '}
+                {ARTICLE_LIMITS.keyTakeawaysMax}.
+              </p>
+              {(draft.keyTakeaways ?? []).map((point, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="mt-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold dark:bg-gold-light"
+                  />
+                  <textarea
+                    value={point}
+                    onChange={(e) => updateTakeaway(i, e.target.value)}
+                    rows={2}
+                    placeholder="One crisp takeaway sentence"
+                    className={inputClass(false)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeTakeaway(i)}
+                    className="rounded-sm border border-hairline px-2 py-1 font-sans text-caption text-ink-muted transition-colors hover:border-down hover:text-down dark:border-hairline-dark dark:text-ink-inverse-muted dark:hover:border-down-light dark:hover:text-down-light"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              {(draft.keyTakeaways ?? []).length <
+                ARTICLE_LIMITS.keyTakeawaysMax && (
+                <button
+                  type="button"
+                  onClick={addTakeaway}
+                  className="inline-flex items-center rounded-sm border border-hairline px-3 py-1.5 font-sans text-sm text-ink-body transition-colors hover:border-accent hover:text-accent dark:border-hairline-dark dark:text-ink-inverse-body dark:hover:border-accent-light dark:hover:text-accent-light"
+                >
+                  Add takeaway
+                </button>
+              )}
+            </div>
           </Field>
 
           {/* Body */}

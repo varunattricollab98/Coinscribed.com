@@ -126,20 +126,23 @@ Verified reference numbers (Sept 2026 — re-verify if stale):
 
 ## 7. SEO / indexing plan
 
-**Google (GSC, ~10-12 URLs/day request limit; quota resets daily):**
-- DONE: Batch 1 (10 articles + mortgage & 401k calculators), all 13 calculators +
-  `/calculators` hub, and `/news/401k-vs-roth-ira`.
-- Google already indexed ~12+ pages organically.
-- **Priority 2 (do next):** live articles `/news/how-to-pay-off-a-loan-faster`,
-  `/news/how-much-to-contribute-to-401k`, `/news/how-to-find-routing-number-on-check`,
-  `/news/what-is-apy`; hubs `/news`, `/markets`, `/bank-routing-numbers`, `/about`,
-  legal pages.
-- **Priority 3:** category (`/news/category/{banking,economy,markets,crypto}`) +
-  author (`/news/author/{ethan-caldwell,marcus-bennett,rachel-morgan,coinscribed-team}`).
-- **Priority 4:** 23 per-bank pages (~10/day).
-- **Priority 5:** 32 index-worthy state pages (>=3 banks; high-bank first).
+**Google (GSC, ~10-12 URLs/day request limit; quota resets daily, ~8pm owner time):**
+- INDEXED organically (13, confirmed via site: search): homepage, /markets,
+  /calculators/mortgage-calculator, and articles rule-of-72, apr-vs-apy, what-is-apr,
+  401k-employer-match-explained, simple-vs-compound-interest, debt-snowball-vs-avalanche,
+  best-high-yield-savings-account, how-to-build-an-emergency-fund, what-is-a-good-credit-score,
+  monthly-payment-300k-400k-500k-mortgage.
+- **BATCH A DONE:** /news/{what-is-apy, how-to-pay-off-a-loan-faster, how-to-pay-off-credit-card-debt,
+  401k-vs-roth-ira, how-much-to-contribute-to-401k, how-to-find-routing-number-on-check},
+  /calculators, /calculators/{compound-interest, loan-payoff, retirement}-calculator.
+- **BATCH B (next):** /calculators/{401k, savings, apy, auto-loan, credit-card-payoff,
+  emergency-fund, roth-ira, emi, sip}-calculator, /news.
+- **BATCH C:** /bank-routing-numbers, /about, /news/category/{banking,economy,markets,crypto},
+  /news/author/{ethan-caldwell,marcus-bennett,rachel-morgan,coinscribed-team}.
+- **BATCH D + E:** 23 per-bank pages (~10/day).
 - **NEVER** request-index: the 15 **thin** state pages (<3 banks — `noindex,follow`
-  via `MIN_BANKS_TO_INDEX=3`), or `sitemap.xml`.
+  via `MIN_BANKS_TO_INDEX=3`), `sitemap.xml`; legal pages are lowest priority; never
+  re-request the already-indexed 13.
 - When a **brand-new article** goes live, request-index it FIRST (Google + Bing).
 
 **Bing:** sitemap submitted & healthy (~114 URLs). Bing auto-crawls; only manually
@@ -164,18 +167,17 @@ Focus energy on articles + calculators + indexing.
 
 URLs are `https://www.coinscribed.com/news/<slug>`.
 
-**LIVE (15, in sitemap):** 401k-employer-match-explained, 401k-vs-roth-ira, apr-vs-apy,
+**LIVE (16, in sitemap):** 401k-employer-match-explained, 401k-vs-roth-ira, apr-vs-apy,
 best-high-yield-savings-account, debt-snowball-vs-avalanche, how-much-to-contribute-to-401k,
 how-to-build-an-emergency-fund, how-to-find-routing-number-on-check, how-to-pay-off-a-loan-faster,
-monthly-payment-300k-400k-500k-mortgage, rule-of-72, simple-vs-compound-interest,
-what-is-a-good-credit-score, what-is-apr, what-is-apy.
+how-to-pay-off-credit-card-debt, monthly-payment-300k-400k-500k-mortgage, rule-of-72,
+simple-vs-compound-interest, what-is-a-good-credit-score, what-is-apr, what-is-apy.
 
 **WRITTEN & DELIVERED but NOT yet live (404 — owner still to publish/schedule; drafts
 in `.agents/drafts/`):** cd-vs-high-yield-savings-vs-money-market (Banking/Ethan),
 how-to-write-a-check (Banking/Marcus, 246K/mo), how-much-house-can-i-afford (Economy/Marcus),
-how-to-save-for-a-down-payment (Economy/Marcus), what-is-a-roth-ira (Economy/Rachel),
-how-to-pay-off-credit-card-debt (Economy/Marcus). When each goes live, request-index it
-first on Google + Bing.
+how-to-save-for-a-down-payment (Economy/Marcus), what-is-a-roth-ira (Economy/Rachel).
+When each goes live, request-index it first on Google + Bing.
 
 **Clusters:** Retirement (401k-match, how-much-401k, 401k-vs-roth-ira, what-is-a-roth-ira),
 Debt (debt-snowball, loan-payoff-faster, credit-card-debt), Banking (apr, apy, apr-vs-apy,

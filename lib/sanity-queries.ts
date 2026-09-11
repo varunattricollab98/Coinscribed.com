@@ -52,6 +52,7 @@ export interface Article {
   readingTime?: number
   seoTitle?: string
   seoDescription?: string
+  keyTakeaways?: string[]
   faqs?: { question: string; answer: string }[]
 }
 
@@ -123,6 +124,7 @@ const articleFullFields = `
   "readingTime": round(length(pt::text(body)) / 5 / 200),
   seoTitle,
   seoDescription,
+  keyTakeaways,
   faqs,
   "author": author->{ _id, name, slug, bio, jobTitle, credentials, sameAs, "imageUrl": image.asset->url },
   "category": category->{ _id, title, slug, description }

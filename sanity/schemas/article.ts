@@ -37,6 +37,15 @@ const article = defineType({
       validation: (Rule) => Rule.required().max(300),
     }),
     defineField({
+      name: 'keyTakeaways',
+      title: 'Key Takeaways',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description:
+        'Optional. 3-5 short, scannable bullet points shown in a highlighted box just under the intro. Great for skimmers and strongly favoured by Google AI Overviews / featured snippets (GEO). Keep each point one crisp sentence. Leave empty to hide the box.',
+      validation: (Rule) => Rule.max(6),
+    }),
+    defineField({
       name: 'body',
       title: 'Body',
       type: 'array',

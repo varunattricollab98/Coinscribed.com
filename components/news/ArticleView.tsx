@@ -5,6 +5,7 @@ import { PortableTextRenderer } from '@/components/news/PortableTextRenderer'
 import { CategoryBadge } from '@/components/news/CategoryBadge'
 import { AuthorTrustBar } from '@/components/news/AuthorTrustBar'
 import { TableOfContents } from '@/components/news/TableOfContents'
+import { KeyTakeaways } from '@/components/news/KeyTakeaways'
 import { ShareButtons } from '@/components/news/ShareButtons'
 import { RelatedCalculatorCard } from '@/components/news/RelatedCalculatorCard'
 import { NewsletterSignup } from '@/components/home/NewsletterSignup'
@@ -123,6 +124,11 @@ export function ArticleView({ article, authorSlug, children }: ArticleViewProps)
             />
           </figure>
         )}
+
+        {/* Key takeaways — scannable summary just under the intro/hero. Renders
+            nothing when the article has none. Favoured by AI Overviews /
+            featured snippets (GEO) and helps skim-readers. */}
+        <KeyTakeaways points={article.keyTakeaways} />
 
         {/* Table of Contents (jump links) — renders only for longer articles */}
         <TableOfContents headings={headings} />

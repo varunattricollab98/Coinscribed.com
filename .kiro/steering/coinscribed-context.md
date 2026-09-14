@@ -311,6 +311,18 @@ Pitch topics to offer (owner's strengths): How to Get Rid of PMI; The Rule of 72
 How Much House Can I Afford (28/36). Flow: owner sends pitch (template on file) -> when a blog
 says yes, AGENT writes the full original article with exactly ONE contextual backlink to a
 relevant Coinscribed page, per that blog's guidelines. Pitch email uses owner name "Varun,
-founder of Coinscribed". Owner has NO brand email yet, so pitch from personal email is fine.
+founder of Coinscribed" from personal email (no brand email yet).
+**PITCHES SENT (Sep 2026), awaiting replies:** AskTheMoneyCoach (contact form — US personal
+finance, byline link), CashLady UK (writeforus@cashlady.com — pitched UNIVERSAL topics: Rule
+of 72, compound interest, emergency fund, debt payoff, since it's UK/FCA-reviewed; byline link),
+FangWallet (albert@fangwallet.com, subject "Guest Post Opportunity" — sent samples + LinkedIn +
+bio as required; up to 2 links). Replies take days — be patient. When a blog approves a topic,
+AGENT writes the full original article to that blog's exact rules.
+**IMPORTANT LEARNINGS:** (1) Backlink must be TOPICALLY RELEVANT — skipped Resourceful Finance
+Pro (corporate/CFO/payroll audience, not consumer personal finance). (2) BEFORE pitching, verify
+the blog ALLOWS a link — skipped ElitePersonalFinance: it pays $300/post but explicitly forbids
+backlinks ("not an opportunity to obtain a link", "avoid promotional links"), so zero SEO value
+(it's a paid-writing gig, not a link source). (3) Match topics to the blog's audience/region
+(US topics like PMI/401k for US blogs; universal topics for UK/CashLady).
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest
 page-1 push.

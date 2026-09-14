@@ -39,6 +39,13 @@ Goal: grow **organic US traffic + earning** through high-quality finance content
   from PAA; internal links to a calculator + related article (topic-cluster,
   same-tab); topic-appropriate author for E-E-A-T; evergreen (avoid volatile exact
   rates — round them).
+- **YEAR IN TITLES rule:** For EVERGREEN topics (salary affordability, definitions,
+  how-to, comparisons) do NOT put a year (e.g. "2026") in the Title/SEO Title — keep
+  it timeless so it never looks stale (protects CTR when the year turns, less
+  maintenance). ONLY put a year in the title for genuinely year-changing topics (IRS
+  401k/IRA limits, tax brackets, annual rate roundups) and add a "re-verify yearly"
+  note in the body. In body copy prefer "as of <year>" / rounded current rates over
+  hard-coded volatile figures.
 - **Paste-ready delivery** = Sanity fields + body with editor markers:
   - Fields: **Title**, **Slug** (<=96), **Excerpt** (<=300), **SEO Title** (<=70),
     **SEO Description** (<=160), **Author**, **Category**, schedule.

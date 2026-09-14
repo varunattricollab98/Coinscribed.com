@@ -285,9 +285,22 @@ sink more time into these — they're not delivering easy links.
 NAP everywhere — Name: Coinscribed, URL: https://www.coinscribed.com, category Personal
 Finance/Financial Services/FinTech, desc: "Coinscribed is a US personal finance publisher
 offering free financial calculators and clear guides on banking, credit, mortgages, and
-retirement." Targets: F6S, Product Hunt (calculators as a tool), Owler, Startup Ranking,
-blog directories (+ Crunchbase already submitted/pending).
+retirement."
+**Directory progress:**
+- [x] F6S — company profile LIVE & complete (logo + website URL). (Sep 2026)
+- [x] Product Hunt — profile done; "Coinscribed" launch (link https://www.coinscribed.com/calculators)
+  SCHEDULED (100% checklist complete, first comment added). Backlink goes public on launch date. (Sep 2026)
+- [~] Crunchbase — submitted, PENDING review.
+- [x] Owler — company profile LIVE with website link (Sep 2026).
+- [x] Startup Ranking — startup submitted & LIVE (backlink live; ownership NOT claimed —
+  owner has no @coinscribed.com email, and claim isn't needed for the link). (Sep 2026)
+- [ ] blog directories — optional later.
+**NOTE:** owner has NO brand email (@coinscribed.com) and NO Twitter/Facebook yet — skip any
+backlink step that hard-requires those; they're not blockers.
+**Also DONE:** LinkedIn Company Page confirmed in `config/site.ts` (confirmed:true) → Organization
+schema now emits LinkedIn in `sameAs` (E-E-A-T). Owner's LinkedIn: linkedin.com/company/coinscribed.
+Twitter/Facebook still confirmed:false (no real accounts yet).
 **Highest-value next: GUEST POSTS** (strong dofollow) — prepare a blog target list + pitch
 email template after directories.
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest
-page-1 push; add real social URLs to `config/site.ts` with `confirmed:true`.
+page-1 push.

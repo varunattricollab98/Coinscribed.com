@@ -262,7 +262,11 @@ guides step-by-step in Hinglish):**
 - [x] Medium — Rule of 72 republished WITH canonical to /news/rule-of-72 (Sep 2026). Live:
   medium.com/@varunattri3245/the-rule-of-72-how-to-quickly-estimate-when-your-money-doubles-1d819992e976
   (owner's Medium handle: @varunattri3245 — reuse for future republishes, always set canonical).
-- [ ] Quora — profile bio + 3-4 genuinely-helpful answers with a fitting link.
+- [x] Quora — profile set (Writer at Coinscribed + bio with coinscribed.com). Account
+  WARMED UP with 4 value-only answers (no link), incl. Rule of 72, good credit score,
+  APR vs APY, mortgage APR vs APY (Sep 2026). Strategy for a NEW Quora account: post a few
+  link-free helpful answers first, THEN start adding one natural contextual link per answer
+  (avoids new-account link spam flags). NOW moving to link-bearing answers.
 - [ ] (later) Reddit genuine answers, GitHub org, directories.
 **Then Batch B (query-based):** Featured / Qwoted / SourceBottle / Help a B2B Writer.
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest

@@ -291,7 +291,12 @@ retirement."
 - [x] Product Hunt — profile done; "Coinscribed" launch (link https://www.coinscribed.com/calculators)
   SCHEDULED (100% checklist complete, first comment added). Backlink goes public on launch date. (Sep 2026)
 - [~] Crunchbase — submitted, PENDING review.
-- [ ] Owler, Startup Ranking, blog directories — next.
+- [x] Owler — company profile LIVE with website link (Sep 2026).
+- [x] Startup Ranking — startup submitted & LIVE (backlink live; ownership NOT claimed —
+  owner has no @coinscribed.com email, and claim isn't needed for the link). (Sep 2026)
+- [ ] blog directories — optional later.
+**NOTE:** owner has NO brand email (@coinscribed.com) and NO Twitter/Facebook yet — skip any
+backlink step that hard-requires those; they're not blockers.
 **Also DONE:** LinkedIn Company Page confirmed in `config/site.ts` (confirmed:true) → Organization
 schema now emits LinkedIn in `sameAs` (E-E-A-T). Owner's LinkedIn: linkedin.com/company/coinscribed.
 Twitter/Facebook still confirmed:false (no real accounts yet).

@@ -266,7 +266,13 @@ guides step-by-step in Hinglish):**
   WARMED UP with 4 value-only answers (no link), incl. Rule of 72, good credit score,
   APR vs APY, mortgage APR vs APY (Sep 2026). Strategy for a NEW Quora account: post a few
   link-free helpful answers first, THEN start adding one natural contextual link per answer
-  (avoids new-account link spam flags). NOW moving to link-bearing answers.
+  (avoids new-account link spam flags).
+  **BAN-SAFETY (owner was rightly worried about a ban):** Quora links are nofollow anyway
+  (value = traffic + brand signal, not SEO juice), so keep Quora SLOW/low-risk — don't force
+  links. Plan: reach ~8-10 value-only answers spread over several days, let some upvotes
+  accrue, and only ~1 week in add at most 1 natural link per every 3-4 answers (varied
+  article URLs, never identical copy-paste). Put real backlink energy into DOFOLLOW sources
+  (guest posts, Featured/Qwoted journalist links, directories) — that's the higher priority.
 - [ ] (later) Reddit genuine answers, GitHub org, directories.
 **Then Batch B (query-based):** Featured / Qwoted / SourceBottle / Help a B2B Writer.
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest

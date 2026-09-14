@@ -255,6 +255,13 @@ guides step-by-step in Hinglish):**
 - **Never:** buy spammy PBN links, do link farms/exchanges, or over-optimize anchor text
   (mostly branded + natural anchors; YMYL site — a spammy profile can hurt).
 
-**NEXT (backlink phase kickoff):** agent to hand the owner a concrete, step-by-step
-starter checklist of foundational + query-based links to execute first, and track which
-are done here.
+**Backlink progress tracker (Batch A — foundational):**
+- [x] Crunchbase — profile submitted (Sep 2026), PENDING Crunchbase review (404 until approved; normal).
+- [x] LinkedIn Company Page — CREATED & live (Sep 2026). URL to be captured and added to
+  `config/site.ts` social `sameAs` (E-E-A-T) once owner shares the page URL.
+- [ ] Medium — republish 1 article WITH rel=canonical to the original.
+- [ ] Quora — profile bio + 3-4 genuinely-helpful answers with a fitting link.
+- [ ] (later) Reddit genuine answers, GitHub org, directories.
+**Then Batch B (query-based):** Featured / Qwoted / SourceBottle / Help a B2B Writer.
+**Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest
+page-1 push; add real social URLs to `config/site.ts` with `confirmed:true`.

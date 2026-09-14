@@ -259,7 +259,9 @@ guides step-by-step in Hinglish):**
 - [x] Crunchbase — profile submitted (Sep 2026), PENDING Crunchbase review (404 until approved; normal).
 - [x] LinkedIn Company Page — CREATED & live (Sep 2026). URL to be captured and added to
   `config/site.ts` social `sameAs` (E-E-A-T) once owner shares the page URL.
-- [ ] Medium — republish 1 article WITH rel=canonical to the original.
+- [x] Medium — Rule of 72 republished WITH canonical to /news/rule-of-72 (Sep 2026). Live:
+  medium.com/@varunattri3245/the-rule-of-72-how-to-quickly-estimate-when-your-money-doubles-1d819992e976
+  (owner's Medium handle: @varunattri3245 — reuse for future republishes, always set canonical).
 - [ ] Quora — profile bio + 3-4 genuinely-helpful answers with a fitting link.
 - [ ] (later) Reddit genuine answers, GitHub org, directories.
 **Then Batch B (query-based):** Featured / Qwoted / SourceBottle / Help a B2B Writer.

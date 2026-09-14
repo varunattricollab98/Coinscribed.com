@@ -215,3 +215,46 @@ rule-of-72), Mortgage (monthly-payment, how-much-house, down-payment).
 - Continue GSC indexing from Priority 2 (section 7). Google daily quota resets ~daily;
   if "Quota exceeded", resume next day (sitemap auto-crawls anyway).
 - Remind owner to set `SANITY_WRITE_TOKEN` in Vercel for the newsletter.
+
+
+## 11. STRATEGIC SHIFT — Authority / Backlink phase (Sept 2026)
+
+**Diagnosis (from SEMrush Positions, Sep 13 2026):** ~84 keywords now ranking and the
+trend is climbing, BUT nearly all sit at positions ~50-98 (page 5-10), so organic
+traffic ≈ 0. The site is indexed and Google is testing it, but does NOT yet trust it
+enough to rank page 1 (classic new-site / "sandbox" phase; site live ~Aug 2026).
+
+**KEY INSIGHT:** The bottleneck is NO LONGER content (21 solid articles already rank).
+Writing more articles will just add more page-5 rankings. The bottleneck is now
+AUTHORITY (backlinks + trust + age). So the plan pivots:
+- **Article cadence: SLOW to ~1-2/week** (was 5/week). Content base is enough for now.
+- **New #1 priority = BACKLINKS** to push existing rankings from page 5→1.
+- **#2 = refresh/improve articles already on page 2-3** (positions 11-30) — fastest ROI
+  to reach page 1 (expand content, add FAQs, stronger internal links) — do this before
+  writing brand-new pieces.
+- **Internal linking:** keep strengthening (2-3 related articles + a calculator per post)
+  to spread link equity.
+- **Patience:** new-site page-1 breakthrough typically takes ~3-6 months; Aug→Sep is on
+  track. Manage owner expectations — rankings will climb as authority builds.
+
+**Backlink playbook (free / low-cost, US finance-appropriate; owner executes, agent
+guides step-by-step in Hinglish):**
+- **IMPORTANT:** HARO + Connectively were DISCONTINUED (Dec 2024). Use modern successors:
+  Featured (formerly Terkel), Qwoted, SourceBottle, Help a B2B Writer, ResponseSource,
+  Superpath's "source requests". Answer journalist queries → editorial backlinks Google respects.
+- **Foundational profile/citation links (do first, quick wins):** Crunchbase, LinkedIn
+  company page, Medium (republish w/ canonical), Quora + Reddit (genuinely helpful answers,
+  link only where it fits — no spam), GitHub org, business directories/listings, About.me,
+  Product Hunt-style listings where relevant.
+- **Guest posts:** pitch small/mid US personal-finance blogs (not the Investopedia tier);
+  offer a genuinely useful article with 1 contextual link back.
+- **Digital PR / linkable asset:** publish an original data study or survey (e.g. a savings/
+  debt/affordability stat roundup) that other sites cite → the highest-value links.
+- **E-E-A-T support:** once real brand social profiles exist, add them to `config/site.ts`
+  `social` with `confirmed:true` so `generateOrganizationSchema()` emits `sameAs` (see §8).
+- **Never:** buy spammy PBN links, do link farms/exchanges, or over-optimize anchor text
+  (mostly branded + natural anchors; YMYL site — a spammy profile can hurt).
+
+**NEXT (backlink phase kickoff):** agent to hand the owner a concrete, step-by-step
+starter checklist of foundational + query-based links to execute first, and track which
+are done here.

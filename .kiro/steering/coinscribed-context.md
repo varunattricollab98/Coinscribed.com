@@ -324,5 +324,12 @@ the blog ALLOWS a link — skipped ElitePersonalFinance: it pays $300/post but e
 backlinks ("not an opportunity to obtain a link", "avoid promotional links"), so zero SEO value
 (it's a paid-writing gig, not a link source). (3) Match topics to the blog's audience/region
 (US topics like PMI/401k for US blogs; universal topics for UK/CashLady).
+**FangWallet REPLY = PAID placement, not free guest post** (Sep 2026): quoted $100 1-yr / $150
+permanent / $200 crypto, up to 5 dofollow links, pay-before-publish. DECISION: SKIP for now —
+paid dofollow links carry Google/YMYL risk, one link won't move the needle, and budget is better
+saved. Politely decline/ignore. LEARNING: many "guest post" sites are actually selling paid
+placements under the guest-post label; prefer genuinely FREE editorial guest posts (AskTheMoneyCoach,
+CashLady) that give a byline link. Only consider paid links later, from high-authority sites, with
+budget and caution.
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest
 page-1 push.

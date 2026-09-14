@@ -91,7 +91,7 @@ export const siteConfig = {
   social: {
     twitter: { url: 'https://twitter.com/coinscribed', confirmed: false },
     facebook: { url: 'https://facebook.com/coinscribed', confirmed: false },
-    linkedin: { url: 'https://linkedin.com/company/coinscribed', confirmed: false },
+    linkedin: { url: 'https://www.linkedin.com/company/coinscribed', confirmed: true },
   },
 }
 

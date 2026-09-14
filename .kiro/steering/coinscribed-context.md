@@ -274,6 +274,20 @@ guides step-by-step in Hinglish):**
   article URLs, never identical copy-paste). Put real backlink energy into DOFOLLOW sources
   (guest posts, Featured/Qwoted journalist links, directories) — that's the higher priority.
 - [ ] (later) Reddit genuine answers, GitHub org, directories.
-**Then Batch B (query-based):** Featured / Qwoted / SourceBottle / Help a B2B Writer.
+**Batch B (query-based) — DEPRIORITIZED:** Featured.com is now an AI-agent tool and Qwoted's
+free/source UI doesn't expose journalist requests to respond to (both confusing for a new
+solo source in 2026). Owner set up profiles on BOTH (Featured: Gmail login + finance-topic
+profile; Qwoted: full profile — bio, #PersonalFinance/#Banking/#Mortgages/#CreditScore/
+#Retirement, "coinscribed" publication + Writer work-experience). Those profiles = a small
+brand-signal win; leave them and only engage if a clear journalist request appears. Do NOT
+sink more time into these — they're not delivering easy links.
+**NOW: Batch C — DIRECTORIES (in progress):** free, confusion-free, quick links. Consistent
+NAP everywhere — Name: Coinscribed, URL: https://www.coinscribed.com, category Personal
+Finance/Financial Services/FinTech, desc: "Coinscribed is a US personal finance publisher
+offering free financial calculators and clear guides on banking, credit, mortgages, and
+retirement." Targets: F6S, Product Hunt (calculators as a tool), Owler, Startup Ranking,
+blog directories (+ Crunchbase already submitted/pending).
+**Highest-value next: GUEST POSTS** (strong dofollow) — prepare a blog target list + pitch
+email template after directories.
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest
 page-1 push; add real social URLs to `config/site.ts` with `confirmed:true`.

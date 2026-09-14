@@ -194,13 +194,11 @@ rule-of-72), Mortgage (monthly-payment, how-much-house, down-payment).
 ## 10. Current status / next up
 
 - **KEY TAKEAWAYS ADDED to all articles (owner did this via `/admin`).** Each got
-  3-5 GEO bullets. `rule-of-72` was request-indexed on Google; the rest hit the daily
-  GSC quota. **TOMORROW (quota reset): request-index the remaining updated articles on
-  Google** (~10-12/day) — priority the already-ranking ones first: apr-vs-apy, what-is-apr,
-  what-is-a-good-credit-score, 401k-employer-match-explained, simple-vs-compound-interest,
-  debt-snowball-vs-avalanche, best-high-yield-savings-account, how-to-build-an-emergency-fund,
-  monthly-payment-300k-400k-500k-mortgage; then the Batch-A ones. Bing: no action (auto-crawls
-  updated pages; only brand-new articles get manual Bing submits).
+  3-5 GEO bullets. GSC indexing of the updated articles + calculators is now essentially
+  DONE (verified via `site:coinscribed.com` — ~18 pages indexed incl. all key articles,
+  what-is-a-roth-ira, and most calculators). **ONLY ONE URL STILL PENDING a GSC index
+  request: `https://www.coinscribed.com/calculators/sip-calculator`** — submit this on
+  the next quota reset, then indexing is fully caught up. Bing: no action (auto-crawls).
 - **"Money Market vs Savings Account"** was the tentative Friday topic, but it would
   cannibalize the already-written CD-vs-HYSA-vs-Money-Market (#19). Prefer a fresh
   non-overlapping topic next; get the owner's SEMrush data (as TEXT) for whatever

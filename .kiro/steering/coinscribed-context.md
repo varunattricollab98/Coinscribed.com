@@ -300,7 +300,29 @@ backlink step that hard-requires those; they're not blockers.
 **Also DONE:** LinkedIn Company Page confirmed in `config/site.ts` (confirmed:true) → Organization
 schema now emits LinkedIn in `sameAs` (E-E-A-T). Owner's LinkedIn: linkedin.com/company/coinscribed.
 Twitter/Facebook still confirmed:false (no real accounts yet).
-**Highest-value next: GUEST POSTS** (strong dofollow) — prepare a blog target list + pitch
-email template after directories.
+**GUEST POSTS (strong dofollow) — IN PROGRESS.** Quality > quantity; AVOID "instant approval"/
+paid link-farm sites (YMYL risk). Genuine target blogs (Tier 1 first): AskTheMoneyCoach
+(askthemoneycoach.com/sponsored-article-submission-guidelines), Resourceful Finance Pro
+(resourcefulfinancepro.com/write-for-resourceful-finance-pro), ElitePersonalFinance
+(elitepersonalfinance.com/write-for-us, 1000-3000 words), CashLady UK (cashlady.com/write-for-us,
+writeforus@cashlady.com), FangWallet (fangwallet.com/write-for-us-a-general-blog-post). Tier 2:
+Fincover, Solvable. AVOID: fosburit, seolinkworld, ordnur, zetran (link-farm signals).
+Pitch topics to offer (owner's strengths): How to Get Rid of PMI; The Rule of 72; APR vs APY;
+How Much House Can I Afford (28/36). Flow: owner sends pitch (template on file) -> when a blog
+says yes, AGENT writes the full original article with exactly ONE contextual backlink to a
+relevant Coinscribed page, per that blog's guidelines. Pitch email uses owner name "Varun,
+founder of Coinscribed" from personal email (no brand email yet).
+**PITCHES SENT (Sep 2026), awaiting replies:** AskTheMoneyCoach (contact form — US personal
+finance, byline link), CashLady UK (writeforus@cashlady.com — pitched UNIVERSAL topics: Rule
+of 72, compound interest, emergency fund, debt payoff, since it's UK/FCA-reviewed; byline link),
+FangWallet (albert@fangwallet.com, subject "Guest Post Opportunity" — sent samples + LinkedIn +
+bio as required; up to 2 links). Replies take days — be patient. When a blog approves a topic,
+AGENT writes the full original article to that blog's exact rules.
+**IMPORTANT LEARNINGS:** (1) Backlink must be TOPICALLY RELEVANT — skipped Resourceful Finance
+Pro (corporate/CFO/payroll audience, not consumer personal finance). (2) BEFORE pitching, verify
+the blog ALLOWS a link — skipped ElitePersonalFinance: it pays $300/post but explicitly forbids
+backlinks ("not an opportunity to obtain a link", "avoid promotional links"), so zero SEO value
+(it's a paid-writing gig, not a link source). (3) Match topics to the blog's audience/region
+(US topics like PMI/401k for US blogs; universal topics for UK/CashLady).
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest
 page-1 push.

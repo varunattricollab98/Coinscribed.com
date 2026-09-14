@@ -16,6 +16,11 @@ import type { PortableTextBlock } from '@/lib/sanity-queries'
 import { RichTextEditor } from '@/components/admin/RichTextEditor'
 import { ReferencePicker } from '@/components/admin/ReferencePicker'
 import { ImageUploader, type UploaderImageValue } from '@/components/admin/ImageUploader'
+import {
+  saveCachedDraft,
+  loadCachedDraft,
+  clearCachedDraft,
+} from '@/lib/admin-draft-cache'
 
 /** Save intent passed to the (FEAT-003) save handler. */
 export type SaveMode = 'draft' | 'publish'
@@ -204,6 +209,14 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
   // True once the user changes anything after the last save/load.
   const [dirty, setDirty] = useState(false)
 
+  // Auto-save recovery: a cached draft found in localStorage on mount that the
+  // user may choose to restore (e.g. after an accidental Back / refresh). Null
+  // when there's nothing to offer or after the banner is handled. `savedAt`
+  // powers the "saved N minutes ago" label in the banner.
+  const [recovery, setRecovery] = useState<{ draft: ArticleDraft; savedAt: number } | null>(
+    null
+  )
+
   // The stable id shared by a document's draft and published forms, WITHOUT the
   // `drafts.` prefix. Generated once for a new article and reused by both Save
   // Draft (drafts.<baseId>) and Publish (<baseId>), mirroring Studio.
@@ -286,6 +299,44 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
     return () => {
       active = false
     }
+  }, [documentId])
+
+  // ----- Auto-save recovery: detect a cached draft on mount -----
+  // Runs once. If localStorage holds an unsaved draft for this editor scope
+  // (from an accidental Back / refresh / crash), surface it via the recovery
+  // banner so the user can choose to restore it. We deliberately do NOT auto-
+  // apply it — in edit mode the server document is still loading, and silently
+  // overwriting it would be worse than the problem we're solving.
+  useEffect(() => {
+    const cached = loadCachedDraft(documentId)
+    if (cached) setRecovery({ draft: cached.draft, savedAt: cached.savedAt })
+    // documentId is stable for the lifetime of the editor; run once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // ----- Auto-save: mirror the draft into localStorage as the user types -----
+  // Debounced so we write at most ~once per second. Only persists once the user
+  // has actually changed something (dirty) and the initial load has finished,
+  // so we never cache an empty or half-loaded document.
+  useEffect(() => {
+    if (!dirty || loading) return
+    const handle = setTimeout(() => saveCachedDraft(documentId, draft), 800)
+    return () => clearTimeout(handle)
+  }, [draft, dirty, loading, documentId])
+
+  // Restore the cached draft into the editor when the user accepts the banner.
+  const restoreCachedDraft = useCallback(() => {
+    if (!recovery) return
+    setDraft(recovery.draft)
+    setSlugTouched(true)
+    setDirty(true)
+    setRecovery(null)
+  }, [recovery])
+
+  // Dismiss the banner and drop the cached copy for good.
+  const dismissRecovery = useCallback(() => {
+    clearCachedDraft(documentId)
+    setRecovery(null)
   }, [documentId])
 
   // ----- Field setters ----- (each marks the draft dirty)
@@ -490,8 +541,10 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
     }
     setDocStatus((prev) => (prev === 'published' ? 'published' : 'draft'))
     setDirty(false)
+    // Successfully persisted to Sanity — drop the local recovery copy.
+    clearCachedDraft(documentId)
     setDraft((prev) => ({ ...prev, _id: draftId }))
-  }, [draft, onSave, buildDocument])
+  }, [draft, onSave, buildDocument, documentId])
 
   const handleSave = async (mode: SaveMode) => {
     setSaveError(null)
@@ -530,6 +583,8 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
       }
 
       setDirty(false)
+      // Published successfully — drop the local recovery copy.
+      clearCachedDraft(documentId)
       setDraft((prev) => ({ ...prev, _id: baseId }))
       setSaveOk('Published. Redirecting to your articles\u2026')
       // Give the user a beat to see the confirmation, then return to /admin.
@@ -637,6 +692,14 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
           </h1>
         </div>
       </div>
+
+      {recovery && (
+        <RecoveryBanner
+          savedAt={recovery.savedAt}
+          onRestore={restoreCachedDraft}
+          onDismiss={dismissRecovery}
+        />
+      )}
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
         {/* Main column */}
@@ -953,6 +1016,55 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
 // ============================================================
 // Small presentational helpers
 // ============================================================
+
+/** Human "N minutes/hours ago" from a timestamp, for the recovery banner. */
+function formatAgo(savedAt: number): string {
+  const seconds = Math.max(0, Math.round((Date.now() - savedAt) / 1000))
+  if (seconds < 60) return 'a few seconds ago'
+  const minutes = Math.round(seconds / 60)
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`
+  const hours = Math.round(minutes / 60)
+  return `${hours} hour${hours === 1 ? '' : 's'} ago`
+}
+
+/**
+ * Banner shown when an unsaved draft is found in localStorage (e.g. after the
+ * user accidentally hit Back or refreshed). Lets them restore it or discard it.
+ */
+function RecoveryBanner({
+  savedAt,
+  onRestore,
+  onDismiss,
+}: {
+  savedAt: number
+  onRestore: () => void
+  onDismiss: () => void
+}) {
+  return (
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-sm border border-gold bg-gold/10 px-4 py-3 dark:border-gold-light dark:bg-gold-light/10">
+      <p className="font-sans text-sm text-ink-body dark:text-ink-inverse-body">
+        <span className="font-semibold">Unsaved changes found.</span> We recovered
+        a version you were editing (saved {formatAgo(savedAt)}). Restore it?
+      </p>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={onRestore}
+          className="inline-flex items-center rounded-sm bg-accent px-3 py-1.5 font-sans text-sm font-semibold text-surface transition-colors hover:bg-accent-hover"
+        >
+          Restore
+        </button>
+        <button
+          type="button"
+          onClick={onDismiss}
+          className="inline-flex items-center rounded-sm border border-hairline px-3 py-1.5 font-sans text-sm font-semibold text-ink-body transition-colors hover:border-down hover:text-down dark:border-hairline-dark dark:text-ink-inverse-body dark:hover:border-down-light dark:hover:text-down-light"
+        >
+          Discard
+        </button>
+      </div>
+    </div>
+  )
+}
 
 function StatusBadge({
   status,

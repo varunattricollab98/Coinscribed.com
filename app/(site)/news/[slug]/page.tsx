@@ -62,6 +62,7 @@ export async function generateMetadata({
       type: 'article',
       url: `${siteConfig.url}/news/${article.slug.current}`,
       publishedTime: article.publishedAt,
+      modifiedTime: article._updatedAt || article.publishedAt,
       authors: [article.author?.name || siteConfig.name],
       ...(article.imageUrl && { images: [{ url: article.imageUrl }] }),
     },

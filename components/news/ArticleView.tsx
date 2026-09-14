@@ -51,9 +51,14 @@ export function ArticleView({ article, authorSlug, children }: ArticleViewProps)
   const headings = extractHeadings(article.body)
   const headingIds = headingIdMap(article.body)
   const slug = article.slug?.current ?? ''
-  // Optional per-article extras, driven by which calculator this topic relates
-  // to (derived from the category — safe default, renders nothing if unknown).
-  const relatedCalcKey = relatedCalculatorForCategory(
+  // Optional per-article extras: pick the most relevant calculator for this
+  // article. We first try to match on the article's own slug/title (so a
+  // mortgage piece gets the mortgage calculator, a 401k piece the 401k
+  // calculator, etc.), then fall back to a category-level default. Safe: renders
+  // nothing when there's no sensible match.
+  const relatedCalcKey = relatedCalculatorForArticle(
+    slug,
+    article.title ?? '',
     article.category?.slug?.current
   )
 
@@ -116,7 +121,7 @@ export function ArticleView({ article, authorSlug, children }: ArticleViewProps)
           <figure className="media-frame mb-10 aspect-[16/9] w-full border border-hairline dark:border-hairline-dark">
             <Image
               src={article.imageUrl}
-              alt={article.title}
+              alt={`${article.title} — ${article.category?.title ?? 'Coinscribed'} guide`}
               fill
               priority
               sizes="(min-width: 768px) 768px, 100vw"
@@ -258,21 +263,57 @@ export function ArticleView({ article, authorSlug, children }: ArticleViewProps)
 }
 
 /**
- * Pick a sensible calculator to feature on an article based on its category.
- * A light heuristic (category-level) so every article gets a relevant tool CTA
- * without needing a per-article field. Returns undefined for categories with no
- * obvious calculator (e.g. crypto), in which case the card renders nothing.
+ * Pick the most relevant calculator to feature on an article.
+ *
+ * Strategy (best match wins):
+ *  1. Topic match — scan the article's slug + title for topic keywords and map
+ *     to the single most relevant calculator (e.g. a mortgage/PMI/house piece
+ *     gets the mortgage calculator, a 401k piece the 401k calculator). This is
+ *     what makes the internal link genuinely useful rather than generic.
+ *  2. Category fallback — if no keyword matches, use a sensible per-category
+ *     default so most articles still get a relevant tool CTA.
+ *
+ * Every returned key must be a real calculator slug in `data/calculators`.
+ * Returns undefined only when nothing sensible fits (card then renders nothing).
  */
-function relatedCalculatorForCategory(
+function relatedCalculatorForArticle(
+  slug: string,
+  title: string,
   categorySlug?: string
 ): string | undefined {
+  const haystack = `${slug} ${title}`.toLowerCase()
+
+  // Ordered topic rules — first match wins, so put more specific topics first.
+  const topicRules: { calc: string; keywords: string[] }[] = [
+    { calc: 'mortgage-calculator', keywords: ['mortgage', 'pmi', 'house', 'home loan', 'down payment', 'refinance'] },
+    { calc: 'roth-ira-calculator', keywords: ['roth ira', 'roth-ira'] },
+    { calc: '401k-calculator', keywords: ['401k', '401(k)', 'employer match'] },
+    { calc: 'retirement-calculator', keywords: ['retirement', 'retire', 'pension'] },
+    { calc: 'credit-card-payoff-calculator', keywords: ['credit card', 'credit-card'] },
+    { calc: 'loan-payoff-calculator', keywords: ['loan', 'debt', 'payoff', 'snowball', 'avalanche'] },
+    { calc: 'auto-loan-calculator', keywords: ['auto loan', 'car loan', 'auto-loan'] },
+    { calc: 'savings-calculator', keywords: ['savings', 'high-yield', 'hysa', 'emergency fund', 'save'] },
+    { calc: 'apy-calculator', keywords: ['apy', 'apr', 'cd ', 'money market', 'interest rate'] },
+    { calc: 'compound-interest-calculator', keywords: ['compound interest', 'compound', 'rule of 72', 'rule-of-72'] },
+    { calc: 'emi-calculator', keywords: ['emi'] },
+    { calc: 'sip-calculator', keywords: ['sip', 'dollar cost', 'dollar-cost', 'index fund'] },
+  ]
+
+  for (const rule of topicRules) {
+    if (rule.keywords.some((kw) => haystack.includes(kw))) return rule.calc
+  }
+
+  // Category-level fallback when no topic keyword matched.
   switch (categorySlug) {
     case 'economy':
-      // Retirement/loans/mortgage lean — retirement calculator is the broadest fit.
       return 'retirement-calculator'
     case 'banking':
       return 'compound-interest-calculator'
     case 'markets':
+      return 'compound-interest-calculator'
+    case 'crypto':
+      // No crypto calculator on the site; compound interest is the safest
+      // general-finance fit for a crypto reader (still a real, useful tool).
       return 'compound-interest-calculator'
     default:
       return undefined

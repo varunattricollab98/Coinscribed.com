@@ -300,7 +300,17 @@ backlink step that hard-requires those; they're not blockers.
 **Also DONE:** LinkedIn Company Page confirmed in `config/site.ts` (confirmed:true) → Organization
 schema now emits LinkedIn in `sameAs` (E-E-A-T). Owner's LinkedIn: linkedin.com/company/coinscribed.
 Twitter/Facebook still confirmed:false (no real accounts yet).
-**Highest-value next: GUEST POSTS** (strong dofollow) — prepare a blog target list + pitch
-email template after directories.
+**GUEST POSTS (strong dofollow) — IN PROGRESS.** Quality > quantity; AVOID "instant approval"/
+paid link-farm sites (YMYL risk). Genuine target blogs (Tier 1 first): AskTheMoneyCoach
+(askthemoneycoach.com/sponsored-article-submission-guidelines), Resourceful Finance Pro
+(resourcefulfinancepro.com/write-for-resourceful-finance-pro), ElitePersonalFinance
+(elitepersonalfinance.com/write-for-us, 1000-3000 words), CashLady UK (cashlady.com/write-for-us,
+writeforus@cashlady.com), FangWallet (fangwallet.com/write-for-us-a-general-blog-post). Tier 2:
+Fincover, Solvable. AVOID: fosburit, seolinkworld, ordnur, zetran (link-farm signals).
+Pitch topics to offer (owner's strengths): How to Get Rid of PMI; The Rule of 72; APR vs APY;
+How Much House Can I Afford (28/36). Flow: owner sends pitch (template on file) -> when a blog
+says yes, AGENT writes the full original article with exactly ONE contextual backlink to a
+relevant Coinscribed page, per that blog's guidelines. Pitch email uses owner name "Varun,
+founder of Coinscribed". Owner has NO brand email yet, so pitch from personal email is fine.
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest
 page-1 push.

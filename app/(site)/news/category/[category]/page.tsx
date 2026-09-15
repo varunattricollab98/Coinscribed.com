@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
 import { getArticlesByCategory, getCategories, getAllCategorySlugs } from '@/lib/sanity-queries'

@@ -1,6 +1,11 @@
 # Coinscribed
+# Coinscribed
 
-Your Trusted Source for Financial Intelligence. Coinscribed provides financial calculators, crypto and market news, US bank routing numbers, and personal finance tools to help you make informed decisions.
+**🔗 Live site: [www.coinscribed.com](https://www.coinscribed.com)**
+
+Your Trusted Source for Financial Intelligence. [Coinscribed](https://www.coinscribed.com) provides free financial calculators, crypto and market news, US bank routing numbers, and personal finance tools to help you make informed decisions.
+
+Explore the [financial calculators](https://www.coinscribed.com/calculators) and the [latest finance news](https://www.coinscribed.com/news).
 
 ## Features
 

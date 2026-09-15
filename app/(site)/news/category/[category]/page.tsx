@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
 import { getArticlesByCategory, getCategories, getAllCategorySlugs } from '@/lib/sanity-queries'
+import { generateBreadcrumbSchema } from '@/lib/schema-markup'
 import { ArticleCard } from '@/components/news/ArticleCard'
 import { LeadStory } from '@/components/news/LeadStory'
 import { Reveal } from '@/components/motion/Reveal'
@@ -109,8 +111,47 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const [lead, ...rest] = articles
 
+  // Structured data — only emit when the page is indexable (mirrors the
+  // MIN_ARTICLES_TO_INDEX noindex guard), so thin/empty category pages stay
+  // clean. BreadcrumbList mirrors the visible breadcrumb; CollectionPage lists
+  // the articles so Google understands this is a category hub.
+  const isIndexable = articles.length >= MIN_ARTICLES_TO_INDEX
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: siteConfig.url },
+    { name: 'News', url: `${siteConfig.url}/news` },
+    { name: pageTitle, url: `${siteConfig.url}/news/category/${category}` },
+  ])
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: pageTitle,
+    description: meta?.description,
+    url: `${siteConfig.url}/news/category/${category}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: articles.slice(0, 20).map((a, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: `${siteConfig.url}/news/${a.slug.current}`,
+        name: a.title,
+      })),
+    },
+  }
+
   return (
     <div className="hairline-b">
+      {isIndexable && (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+          />
+        </>
+      )}
       <div className="container-page section-padding">
         {/* Breadcrumb */}
         <nav className="mb-5 text-caption text-ink-muted dark:text-ink-inverse-muted">

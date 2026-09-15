@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { siteConfig } from '@/config/site'
 import { getAllArticles, getCategories } from '@/lib/sanity-queries'
+import { generateBreadcrumbSchema } from '@/lib/schema-markup'
 import { ArticleCard } from '@/components/news/ArticleCard'
 import { LeadStory } from '@/components/news/LeadStory'
 import { Pagination } from '@/components/news/Pagination'
@@ -65,8 +67,17 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
     currentPage * PER_PAGE
   )
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: siteConfig.url },
+    { name: 'News', url: `${siteConfig.url}/news` },
+  ])
+
   return (
     <div className="hairline-b">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-page section-padding">
         {/* Page header */}
         <Reveal className="section-header mb-8">

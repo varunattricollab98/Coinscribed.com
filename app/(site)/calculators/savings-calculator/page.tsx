@@ -113,10 +113,65 @@ export default function SavingsCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">How Savings Grow Over Time</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>Your balance grows from two sources: the money you contribute, and the interest that compounds on it. The longer your time frame and the higher the APY, the larger the share that comes from interest rather than your own deposits.</p>
-            <p><strong>Rate matters:</strong> moving savings from a traditional account (often well under 1% APY) to a high-yield account (recently around 4%) can multiply the interest you earn on the same balance.</p>
-            <p><strong>Consistency matters more:</strong> steady monthly contributions, even small ones, compound into a substantial balance over years.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              Your savings balance grows from two sources: the money you deposit, and the
+              <strong> interest</strong> that account earns. When that interest is added to your
+              balance and then earns interest itself, the growth compounds &mdash; and the longer your
+              money stays invested, the larger the share of your balance that comes from interest
+              rather than your own deposits.
+            </p>
+            <p>
+              Two habits make the biggest difference: choosing an account with a competitive rate, and
+              contributing consistently. Together they turn even modest monthly savings into a
+              meaningful balance over the years. Understanding a few core ideas helps you get the most
+              from every dollar you set aside.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The power of compounding
+            </h3>
+            <p>
+              <strong>Compounding</strong> means earning interest on both your original savings and the
+              interest you&apos;ve already earned. Early on, the effect looks small, but over many years
+              it accelerates as your balance grows. This is why time in the account matters so much:
+              money saved sooner has more years to compound than the same amount saved later.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              High-yield vs traditional savings accounts
+            </h3>
+            <p>
+              Many <strong>traditional savings accounts</strong> at big banks pay very little interest,
+              while <strong>high-yield savings accounts</strong> (often offered by online banks) tend to
+              pay noticeably more. The gap can be significant &mdash; sometimes several percentage
+              points &mdash; which multiplies the interest you earn on the same balance. Because rates
+              move with the broader economy, compare current offers rather than assuming any fixed
+              number, and confirm the account carries deposit insurance.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Comparing accounts with APY
+            </h3>
+            <p>
+              When shopping for a savings account, compare the <strong>APY (annual percentage
+              yield)</strong> rather than the stated interest rate. APY reflects the effect of
+              compounding over a year, so it gives you an apples-to-apples measure of what you&apos;ll
+              actually earn. A higher APY on the same balance means more interest, making it the single
+              most useful number for comparison.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Automation, goals, and beating inflation
+            </h3>
+            <p>
+              Setting up <strong>automatic transfers</strong> on payday makes saving consistent and
+              removes the temptation to spend first. Tying your savings to specific
+              <strong> goals</strong> &mdash; an emergency fund, a down payment, a trip &mdash; helps you
+              stay motivated and choose the right time frame. Keep in mind that
+              <strong> inflation</strong> slowly erodes the value of idle cash, so earning a competitive
+              yield helps your savings at least keep pace with rising prices rather than losing ground.
+            </p>
           </div>
         </div>
       }

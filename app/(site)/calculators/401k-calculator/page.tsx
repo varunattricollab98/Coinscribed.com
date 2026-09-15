@@ -156,21 +156,64 @@ export default function Calculator401kPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding Your 401(k)</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
             <p>
-              A 401(k) is an employer-sponsored retirement savings plan that allows you to
-              contribute pre-tax dollars from your paycheck. Many employers offer matching
-              contributions, which is essentially free money for your retirement.
+              A <strong>401(k)</strong> is an employer-sponsored retirement plan that lets you set
+              aside part of each paycheck for the future. Contributions come straight out of your pay
+              before you ever see the money, which makes saving automatic and consistent. Over a full
+              career, steady contributions combined with investment growth can turn modest monthly
+              amounts into a substantial nest egg.
             </p>
             <p>
-              <strong>Employer Match:</strong> If your employer offers a 50% match, they
-              contribute $0.50 for every $1 you contribute, up to a certain percentage of your
-              salary. Always try to contribute enough to get the full employer match.
+              What makes a 401(k) especially powerful is the mix of tax advantages, potential employer
+              matching, and decades of compounding. Understanding how each piece works helps you decide
+              how much to contribute and which type of account fits your situation.
             </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Employee contributions and 2026 limits
+            </h3>
             <p>
-              <strong>Compound Growth:</strong> The power of compound interest means your earnings
-              generate their own earnings over time. Starting early, even with smaller amounts,
-              can lead to significantly larger retirement savings.
+              You choose what percentage of your salary to contribute, and the IRS sets an annual cap.
+              As of <strong>2026</strong>, employees can contribute up to <strong>$24,500</strong> of
+              their own money. If you are age 50 or older, a <strong>catch-up contribution</strong> of
+              an extra <strong>$8,000</strong> is allowed, and workers aged 60 to 63 can use a larger
+              &quot;super catch-up&quot; of <strong>$11,250</strong> instead. Contributing consistently,
+              even below the maximum, is what matters most over time.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Employer match: do not leave free money on the table
+            </h3>
+            <p>
+              Many employers match a portion of what you contribute. A common formula is 50% of your
+              contributions up to 6% of your salary, though terms vary. This match is effectively a{' '}
+              <strong>guaranteed return</strong> on your savings and is one of the best deals in
+              personal finance. At a minimum, try to contribute enough to capture the full match;
+              anything less leaves free money on the table.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Traditional vs Roth 401(k)
+            </h3>
+            <p>
+              A <strong>traditional 401(k)</strong> uses pre-tax dollars, lowering your taxable income
+              today, but your withdrawals in retirement are taxed as ordinary income. A{' '}
+              <strong>Roth 401(k)</strong> uses after-tax dollars now, so qualified withdrawals in
+              retirement are tax-free. Traditional often suits those who expect a lower tax rate later,
+              while Roth can favor those who expect higher rates or want tax-free income in retirement.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Compounding and vesting
+            </h3>
+            <p>
+              The real engine of a 401(k) is <strong>compounding</strong>: your investment returns earn
+              their own returns, and over several decades that growth can dwarf your contributions.
+              Starting early gives your money more time to compound. Keep in mind that employer match
+              dollars may be subject to a <strong>vesting schedule</strong>, meaning you earn full
+              ownership of them only after staying with the company for a set number of years. Your own
+              contributions are always 100% yours.
             </p>
           </div>
         </div>

@@ -185,11 +185,67 @@ export default function RetirementCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Planning for Retirement</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>Retirement planning involves estimating how much money you need to live comfortably after you stop working. The key factors are your desired retirement age, expected lifestyle costs, and how much you can save and invest before retiring.</p>
-            <p><strong>The 4% Rule:</strong> A commonly used guideline suggests you can safely withdraw 4% of your retirement savings annually without running out of money over a 25-30 year retirement. This calculator uses this rule to estimate required savings.</p>
-            <p><strong>Start Early:</strong> The earlier you begin saving for retirement, the more time compound interest has to grow your money. Even small amounts invested in your 20s can grow substantially by retirement age.</p>
-            <p><strong>Diversify:</strong> Spread your investments across stocks, bonds, and other assets. As you approach retirement, gradually shift toward more conservative investments to protect your savings.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              Retirement planning is the process of estimating how much money you&apos;ll need to live
+              comfortably once you stop working, and building a savings and investing plan to get
+              there. Because retirement can last decades, the goal is to accumulate enough that your
+              savings, combined with other income sources, can cover your expenses for the rest of
+              your life.
+            </p>
+            <p>
+              The main levers are your <strong>retirement age</strong>, your expected
+              <strong> spending</strong>, how much you save each year, and the returns your
+              investments earn along the way. Small adjustments to any of these &mdash; retiring a
+              little later, saving a bit more, or starting earlier &mdash; can meaningfully change the
+              outcome. The estimates below are guidelines to help you plan, not guarantees.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Estimating how much you&apos;ll need
+            </h3>
+            <p>
+              A common starting point is <strong>income replacement</strong>: many planners suggest
+              aiming to replace roughly 70&ndash;80% of your pre-retirement income each year, though
+              your real number depends on your lifestyle. Building an estimate from your expected
+              annual <strong>expenses</strong> &mdash; housing, food, healthcare, travel &mdash; is
+              often more accurate. Multiplying your target annual spending by the number of retirement
+              years gives a rough sense of the nest egg you&apos;re working toward.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The 4% rule and safe withdrawal rates
+            </h3>
+            <p>
+              The <strong>4% rule</strong> is a well-known guideline suggesting you can withdraw about
+              4% of your savings in your first year of retirement, then adjust for inflation each year,
+              with a reasonable chance of not running out over a 25&ndash;30 year retirement. It&apos;s
+              a useful planning shortcut, not a promise: your <strong>safe withdrawal rate</strong>
+              depends on market conditions, how long you live, and how flexible your spending is.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Compounding and starting early
+            </h3>
+            <p>
+              Time is the most powerful factor in retirement saving. Thanks to
+              <strong> compounding</strong>, your returns earn their own returns, so money invested in
+              your 20s or 30s has decades to grow. Starting early often matters more than the exact
+              amount you save, because a longer runway lets even modest contributions grow into a much
+              larger balance by retirement age.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Tax-advantaged accounts, Social Security, and inflation
+            </h3>
+            <p>
+              Saving inside <strong>tax-advantaged accounts</strong> such as a 401(k) or IRA can boost
+              your results, since they offer tax benefits and many employers match 401(k) contributions
+              &mdash; effectively free money. <strong>Social Security</strong> is one piece of the
+              picture rather than a full plan, so it&apos;s wise to treat it as a supplement to your own
+              savings. Finally, remember <strong>inflation</strong> gradually erodes purchasing power,
+              so your target and withdrawals should account for rising costs over a long retirement.
+            </p>
           </div>
         </div>
       }

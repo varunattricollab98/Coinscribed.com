@@ -135,11 +135,61 @@ export default function CompoundInterestCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding Compound Interest</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. It is often called &quot;interest on interest&quot; and is the mechanism that makes your money grow exponentially over time.</p>
-            <p><strong>The Formula:</strong> A = P(1 + r/n)^(nt), where A is the future value, P is the principal, r is the annual rate, n is the compounding frequency, and t is time in years.</p>
-            <p><strong>Compounding Frequency:</strong> The more frequently interest is compounded, the more total interest you earn. Daily compounding yields slightly more than monthly, which yields more than annually.</p>
-            <p><strong>The Rule of 72:</strong> A quick way to estimate how long it takes to double your money is to divide 72 by the annual interest rate. For example, at 6% interest, your money doubles in approximately 12 years.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              <strong>Compound interest</strong> is interest calculated on both your original principal
+              and the interest you have already earned. It is often called &quot;interest on
+              interest,&quot; and it is the mechanism that lets savings and investments grow
+              exponentially rather than in a straight line. Given enough time, compounding can turn
+              steady contributions into a much larger sum.
+            </p>
+            <p>
+              The concept is simple, but its effect is powerful. Each period, your earnings are added
+              to the balance, and the next period&apos;s interest is calculated on that larger balance.
+              The longer this cycle repeats, the more dramatic the growth becomes.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Simple vs compound interest
+            </h3>
+            <p>
+              <strong>Simple interest</strong> is calculated only on the original principal, so it
+              grows in a straight line. <strong>Compound interest</strong> is calculated on the
+              principal plus accumulated interest, so it accelerates over time. On a long time horizon,
+              the gap between the two becomes enormous, which is why compounding is often described as
+              one of the most important forces in personal finance.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              How compounding frequency matters
+            </h3>
+            <p>
+              The more frequently interest is compounded, the more total interest you earn on the same
+              rate. <strong>Daily</strong> compounding yields slightly more than monthly, which yields
+              more than annual, because interest is added to your balance sooner and immediately starts
+              earning its own interest. The differences are modest year to year but add up over long
+              periods.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Time is the biggest lever
+            </h3>
+            <p>
+              Of all the inputs, <strong>time</strong> has the largest impact. Money invested early has
+              far more years to compound, so starting sooner often matters more than the exact rate or
+              amount. This is why beginning to save in your twenties, even with small sums, can outpace
+              much larger contributions started decades later.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The Rule of 72 and regular contributions
+            </h3>
+            <p>
+              The <strong>Rule of 72</strong> is a quick shortcut: divide 72 by your annual rate of
+              return to estimate how many years it takes to double your money. At 6%, that is roughly
+              12 years. Adding <strong>regular contributions</strong> supercharges the effect, because
+              every new deposit becomes fresh principal that compounds alongside your existing balance.
+            </p>
           </div>
         </div>
       }

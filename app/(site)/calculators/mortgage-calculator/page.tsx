@@ -150,21 +150,70 @@ export default function MortgageCalculatorPage() {
       }
       educationalContent={
         <div>
-          <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding Mortgage Payments</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
+          <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">
+            Understanding Your Mortgage Payment
+          </h2>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
             <p>
-              A mortgage payment consists of principal and interest (P&amp;I). The principal is the
-              amount you borrowed, while interest is the cost of borrowing that money.
+              A mortgage payment is what you pay your lender each month to repay a home loan. At its
+              core it&apos;s made up of <strong>principal</strong> (the amount you borrowed) and{' '}
+              <strong>interest</strong> (the cost of borrowing that money). In the early years most
+              of your payment goes toward interest; as the balance shrinks, more of each payment
+              goes to principal — a process called amortization.
             </p>
             <p>
-              <strong>15-year vs 30-year:</strong> A 15-year mortgage has higher monthly payments
-              but significantly less total interest paid. A 30-year mortgage has lower monthly
-              payments but costs more over the life of the loan.
+              Most lenders also collect two more costs inside your monthly payment, held in an
+              escrow account: <strong>property taxes</strong> and <strong>homeowners insurance</strong>.
+              Together with principal and interest these make up what&apos;s known as{' '}
+              <strong>PITI</strong> (Principal, Interest, Taxes, Insurance) — the true monthly cost of
+              owning a home. This calculator focuses on principal and interest, so remember to budget
+              for taxes and insurance on top.
             </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              How your mortgage payment is calculated
+            </h3>
             <p>
-              <strong>Down payment:</strong> A larger down payment reduces your loan amount and
-              monthly payment. Putting down 20% or more typically eliminates the need for private
-              mortgage insurance (PMI).
+              Your monthly principal-and-interest payment depends on three things: the loan amount
+              (home price minus down payment), the interest rate, and the loan term. A higher rate or
+              a larger loan raises the payment; a longer term lowers the monthly payment but increases
+              the total interest you pay over the life of the loan. Even a small change in the rate can
+              move your payment noticeably, which is why it pays to compare lenders.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              15-year vs 30-year mortgage
+            </h3>
+            <p>
+              A <strong>30-year mortgage</strong> spreads payments over a longer period, so the
+              monthly cost is lower and more affordable — but you pay far more interest overall. A{' '}
+              <strong>15-year mortgage</strong> has higher monthly payments, yet you build equity
+              faster, usually get a lower interest rate, and pay dramatically less total interest.
+              The right choice comes down to whether you value a lower monthly payment (30-year) or
+              long-term savings and faster payoff (15-year).
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Down payment and PMI
+            </h3>
+            <p>
+              Your down payment is the cash you pay upfront. A larger down payment reduces the loan
+              amount and your monthly payment. Putting down <strong>20% or more</strong> also lets you
+              avoid <strong>private mortgage insurance (PMI)</strong> — an extra monthly fee that
+              protects the lender, not you. Conventional loans can allow as little as 3% down, FHA
+              loans 3.5%, and VA/USDA loans 0% for eligible buyers, but a smaller down payment usually
+              means PMI and a higher payment until you build enough equity.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              How much house can you afford?
+            </h3>
+            <p>
+              A common guideline is the <strong>28/36 rule</strong>: keep your total housing payment
+              at or below about 28% of your gross monthly income, and all your debts combined under
+              about 36%. Lenders also weigh your credit score, existing debts, and down payment. The
+              smartest approach is to shop below the maximum a bank will lend you, so the payment stays
+              comfortable alongside taxes, insurance, maintenance, and life&apos;s surprises.
             </p>
           </div>
         </div>

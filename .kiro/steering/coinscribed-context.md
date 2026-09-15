@@ -333,3 +333,35 @@ CashLady) that give a byline link. Only consider paid links later, from high-aut
 budget and caution.
 **Parallel:** identify articles on page 2-3 (positions 11-30) and improve them for fastest
 page-1 push.
+
+
+## 12. On-page SEO audit + improvements (Sept 2026)
+
+**Context:** Positions check showed the site is still new — ~84 keywords ranking but almost all
+at positions 50-98 (only 1 keyword in 21-50). So there's nothing on page 2-3 to "push" yet; the
+real levers are authority (backlinks) + time + on-page polish. Ran a full on-page/technical audit.
+
+**Already solid (do NOT re-flag):** sitemap (article lastModified is real via _updatedAt), robots,
+per-page canonicals, one H1 per page, Article + BreadcrumbList + conditional FAQPage JSON-LD on
+articles, HowTo+FAQ+Breadcrumb on calculators, Organization+WebSite on home, Person on author pages,
+calculators have educational prose + FAQ + curated "related reading" links.
+
+**DONE (PR #69):** (1) Article→calculator CTA is now TOPIC-aware — matches the article slug/title to
+the best calculator (mortgage/PMI/house→mortgage, 401k→401k, roth→roth-ira, retirement→retirement,
+credit card→credit-card-payoff, loan/debt/snowball/avalanche→loan-payoff, auto→auto-loan,
+savings/HYSA/emergency→savings, apr/apy/cd/money-market→apy, compound/rule-of-72→compound-interest,
+emi→emi, sip/dollar-cost/index-fund→sip), with per-category fallback and crypto→compound-interest.
+Function `relatedCalculatorForArticle(slug,title,category)` in ArticleView.tsx. SAFE: all slugs exist
+in data/calculators and RelatedCalculatorCard no-ops on unknown keys. (2) OG `modifiedTime` now emitted
+(from _updatedAt). (3) Hero image alt now descriptive ("<title> — <category> guide").
+
+**REMAINING on-page gaps (future, only if worthwhile):**
+- Article↔article related is CATEGORY-ONLY (getRelatedArticles) — cross-category topic clusters
+  (retirement/mortgage/banking span categories) don't auto-interlink. Proper fix needs a Sanity
+  "relatedArticles" or "tags" field (schema currently has neither — see §6). Bigger change; defer.
+- No JSON-LD (CollectionPage/ItemList/Breadcrumb) on category / news-listing / calculators-index pages.
+- OG/Twitter images are conditional on article.imageUrl; calculator pages have no OG image / twitter card.
+- Calculator educational prose is a bit thin for competitive YMYL terms (e.g. mortgage ~3 paras).
+**Owner directive:** proceed with on-page/SEO improvements WITHOUT asking each time, but every change
+must be traffic-positive and carry ZERO risk of negative SEO impact (no broken links, no canonical/
+routing regressions, YMYL-safe).

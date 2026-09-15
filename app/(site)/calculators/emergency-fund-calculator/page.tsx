@@ -117,10 +117,58 @@ export default function EmergencyFundCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">How Big Should Your Emergency Fund Be?</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>The classic guideline is three to six months of essential expenses \u2014 rent or mortgage, utilities, groceries, insurance, and minimum debt payments. Aim for the higher end if your income is variable or you\u2019re a sole earner.</p>
-            <p><strong>Start small:</strong> a $500\u2013$1,000 starter fund covers most common surprises and stops them from going on a credit card. Build the full fund from there.</p>
-            <p><strong>Where to keep it:</strong> a high-yield savings account keeps the money safe, liquid, and earning interest while it waits.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              An <strong>emergency fund</strong> is money set aside to cover unexpected costs like a job
+              loss, medical bill, or urgent car or home repair. Its job is to keep a surprise from
+              turning into debt, so it should be safe, accessible, and separate from your everyday
+              spending money.
+            </p>
+            <p>
+              The right size depends on your situation, but a clear target makes it easier to save with
+              purpose. Once you know your monthly essentials, you can decide how many months of coverage
+              you want and build toward it step by step.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The three-to-six-month rule
+            </h3>
+            <p>
+              The classic guideline is <strong>three to six months</strong> of essential expenses. Aim
+              for the lower end if you have stable income and a dual-earner household, and the higher end
+              if your income is variable, you are a sole earner, or you work in a field where finding a
+              new job can take longer. Some people keep even more for extra peace of mind.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              What counts as essential expenses
+            </h3>
+            <p>
+              Base your target on <strong>essential</strong> costs, not your full budget. That means
+              rent or mortgage, utilities, groceries, insurance, transportation, and minimum debt
+              payments. You can usually leave out discretionary spending like dining out, travel, and
+              subscriptions, since those can be paused during a true emergency.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Starter fund vs full fund
+            </h3>
+            <p>
+              You do not need the whole amount at once. A <strong>starter fund</strong> of roughly $500
+              to $1,000 covers most common surprises and keeps them off a credit card. Once that is in
+              place, keep building toward the <strong>full fund</strong> of several months of expenses,
+              contributing a fixed amount each month until you reach the goal.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Where to keep it and when to use it
+            </h3>
+            <p>
+              Keep the money <strong>liquid and safe</strong> in a high-yield savings account, where it
+              stays accessible and earns interest while it waits. Avoid investing it in the stock market,
+              where the value could drop right when you need it. Use the fund only for genuine
+              emergencies, and once you do, make replenishing it your next savings priority.
+            </p>
           </div>
         </div>
       }

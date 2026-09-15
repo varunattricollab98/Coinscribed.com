@@ -137,10 +137,60 @@ export default function AutoLoanCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">How Auto Loans Work</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>An auto loan is repaid in fixed monthly installments over a set term. Each payment covers the interest due that month first, and the remainder reduces your principal balance.</p>
-            <p><strong>Amount financed:</strong> the vehicle price minus your down payment and any trade-in value. A larger down payment lowers both your monthly payment and total interest.</p>
-            <p><strong>Term trade-off:</strong> a shorter term means higher monthly payments but far less total interest; a longer term lowers the payment but costs more overall. Choose the shortest term whose payment fits your budget.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              An <strong>auto loan</strong> lets you buy a vehicle now and repay it in fixed monthly
+              installments over a set term. Each payment covers the interest due that month first, and
+              the remainder reduces your <strong>principal</strong> balance. Early on, more of each
+              payment goes toward interest; as the balance shrinks, more goes toward principal.
+            </p>
+            <p>
+              Three factors drive your monthly payment: the amount financed, the interest rate (often
+              quoted as <strong>APR</strong>), and the length of the loan. Understanding how they
+              interact helps you avoid paying more than you need to over the life of the loan.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Principal, rate, and term
+            </h3>
+            <p>
+              The <strong>amount financed</strong> is the vehicle price minus your down payment and any
+              trade-in value. A higher price or interest rate raises your payment, while a longer term
+              lowers the monthly payment. The catch is that a longer term also means you pay interest
+              for more months, so the total cost climbs even though the monthly figure looks smaller.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The term-length trade-off
+            </h3>
+            <p>
+              Stretching a loan to 72 or 84 months can make an expensive car feel affordable month to
+              month, but you may pay thousands more in total interest. A <strong>shorter term</strong>{' '}
+              carries higher monthly payments yet far less total interest and faster ownership. A good
+              rule of thumb is to choose the shortest term whose payment comfortably fits your budget.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Depreciation and being underwater
+            </h3>
+            <p>
+              Cars lose value quickly, often depreciating fastest in the first few years. If your loan
+              balance is higher than the car is worth, you are <strong>underwater</strong> (or upside
+              down) on the loan. Long terms and small down payments make this more likely. A larger
+              down payment and shorter term help you build equity faster and stay ahead of
+              depreciation.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Down payment, trade-in, and total cost
+            </h3>
+            <p>
+              A meaningful <strong>down payment</strong> or <strong>trade-in</strong> reduces the
+              amount financed, lowering both your payment and total interest. Rates on new cars are
+              often lower than on used ones, though used cars cost less overall. Remember the{' '}
+              <strong>total cost of ownership</strong> too: insurance, fuel, registration, and
+              maintenance all add up beyond the loan payment itself.
+            </p>
           </div>
         </div>
       }

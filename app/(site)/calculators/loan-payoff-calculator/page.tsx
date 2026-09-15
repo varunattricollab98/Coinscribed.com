@@ -174,10 +174,65 @@ export default function LoanPayoffCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Benefits of Extra Loan Payments</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>Making extra payments on your loan can significantly reduce both the total interest paid and the time it takes to pay off your debt. Even small additional payments can make a big difference over time.</p>
-            <p><strong>How it works:</strong> Extra payments go directly toward reducing your principal balance. With a lower principal, less interest accrues each month, meaning more of your regular payment goes toward principal reduction.</p>
-            <p><strong>Strategies:</strong> You can make extra payments monthly, bi-weekly (resulting in one extra full payment per year), or as lump sums when you receive bonuses or tax refunds.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              Paying more than your required monthly amount is one of the most reliable ways to get
+              out of debt faster and keep more of your money. Because interest is charged on your
+              outstanding balance, every extra dollar you send toward <strong>principal</strong>
+              lowers the balance that future interest is calculated on &mdash; a benefit that compounds
+              month after month.
+            </p>
+            <p>
+              Even modest extra payments add up. Trimming years off a loan not only saves interest, it
+              frees up cash flow sooner and reduces the risk that a long-term debt outlives your
+              financial plans. The key is to make sure your extra payments are applied to principal,
+              not treated as an early payment of next month&apos;s bill.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              How extra principal shortens your loan
+            </h3>
+            <p>
+              When you pay extra toward <strong>principal</strong>, the balance drops faster than the
+              original schedule assumed. Less interest accrues the following month, so a larger share
+              of your next regular payment also goes to principal. This snowball effect shortens the
+              <strong> term</strong> of the loan and can cut the <strong>total interest</strong> you
+              pay substantially over the life of the loan.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The biweekly payment strategy
+            </h3>
+            <p>
+              With a <strong>biweekly payment</strong> plan you pay half your monthly amount every two
+              weeks. Because there are 52 weeks in a year, you make 26 half-payments &mdash; the
+              equivalent of 13 full monthly payments instead of 12. That one extra payment each year
+              goes straight to principal, quietly shortening your loan without a large change to your
+              budget. Confirm your lender applies the payments correctly rather than holding them.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Putting windfalls to work
+            </h3>
+            <p>
+              Lump sums such as a tax refund, work bonus, or gift can make a big dent when applied to
+              principal. Because these <strong>windfalls</strong> are money you weren&apos;t relying on
+              for daily expenses, directing even part of them to your loan accelerates payoff without
+              straining your regular budget. Applying a windfall early in the loan has the greatest
+              effect on total interest saved.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              When extra payments may not be the best move
+            </h3>
+            <p>
+              First, check for a <strong>prepayment penalty</strong> &mdash; some loans charge a fee
+              for paying ahead of schedule, which can offset the savings. It also often makes sense to
+              tackle <strong>higher-interest debt</strong> (such as credit cards) before prepaying a
+              lower-rate loan, and to build a basic <strong>emergency fund</strong> first so an
+              unexpected expense doesn&apos;t force you into costly borrowing. Once those are covered,
+              extra payments are usually a smart use of spare cash.
+            </p>
           </div>
         </div>
       }

@@ -99,10 +99,61 @@ export default function ApyCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">What APY Really Tells You</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>APY (Annual Percentage Yield) is the real annual return on a deposit account after compounding is included. Because it already bakes in how often interest compounds, it\u2019s the fairest number for comparing savings accounts and CDs.</p>
-            <p><strong>Rate matters enormously:</strong> the same balance earns roughly ten times more at 4% APY than at a typical 0.4% big-bank rate \u2014 which is why moving cash to a high-yield account is one of the easiest money wins.</p>
-            <p><strong>APY vs APR:</strong> APY is what you earn on savings (includes compounding); APR is what you pay to borrow. Compare like with like.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              <strong>APY</strong> (Annual Percentage Yield) is the real annual return on a deposit
+              account once <strong>compounding</strong> is included. Because it already bakes in how
+              often interest is added to your balance, APY is the single fairest number for comparing
+              savings accounts, money market accounts, and certificates of deposit (CDs).
+            </p>
+            <p>
+              When you deposit money in a bank, the interest you earn can itself start earning
+              interest. APY captures that effect in one figure, so you do not have to do the math
+              yourself. The higher the APY, the more your balance grows for the same starting deposit.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              How compounding frequency affects APY
+            </h3>
+            <p>
+              Interest can compound daily, monthly, quarterly, or annually. The more frequently it
+              compounds, the more you earn on the same stated rate, because interest is added to your
+              balance sooner and starts earning its own interest. Daily compounding yields slightly
+              more than monthly, which yields more than annual. APY reflects this, which is why two
+              accounts with the same nominal rate can advertise slightly different yields.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              APR vs APY
+            </h3>
+            <p>
+              These terms look similar but describe opposite sides of a transaction.{' '}
+              <strong>APY</strong> is what you <strong>earn</strong> on savings and includes the effect
+              of compounding. <strong>APR</strong> (Annual Percentage Rate) is what you{' '}
+              <strong>pay</strong> to borrow and typically does not include compounding. When comparing
+              products, always compare like with like: yield against yield, rate against rate.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Comparing savings accounts and CDs
+            </h3>
+            <p>
+              APY makes shopping simple: the account with the higher APY earns more, all else equal. A
+              savings account keeps your money liquid, while a CD usually offers a higher, fixed APY in
+              exchange for locking up funds for a set term. Watch for minimum balance requirements,
+              monthly fees, and whether a promotional rate drops after an introductory period.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Why high-yield accounts matter
+            </h3>
+            <p>
+              Many traditional banks pay very little on savings, while online{' '}
+              <strong>high-yield accounts</strong> often pay substantially more. Over time that gap can
+              mean the difference between a balance that barely grows and one that meaningfully
+              outpaces the erosion of inflation. Moving idle cash to a competitive account is one of
+              the simplest ways to put your money to work with no added risk.
+            </p>
           </div>
         </div>
       }

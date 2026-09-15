@@ -113,10 +113,67 @@ export default function RothIraCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Why a Roth IRA Is So Powerful</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>You fund a Roth IRA with after-tax money, so qualified withdrawals in retirement \u2014 including all the growth \u2014 are completely tax-free. That makes the projected balance above money you actually keep, not a pre-tax figure the IRS will tax later.</p>
-            <p><strong>2026 limits:</strong> you can contribute up to $7,500 ($8,600 if 50 or older). Contributions phase out at higher incomes.</p>
-            <p><strong>Start early:</strong> because growth compounds tax-free for decades, starting in your 20s or 30s dramatically increases the final balance versus starting later. This calculator shows estimates only \u2014 actual returns vary.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              A <strong>Roth IRA</strong> is a retirement account you fund with
+              <strong> after-tax</strong> money &mdash; you don&apos;t get a deduction today, but in
+              return your qualified withdrawals in retirement, including all the investment growth,
+              are completely <strong>tax-free</strong>. That means the projected balance represents
+              money you actually get to keep, not a pre-tax figure the IRS will tax later.
+            </p>
+            <p>
+              This tax treatment is what makes the Roth so powerful over long horizons: decades of
+              compounding happen without a future tax bill on the gains. It also offers unusual
+              flexibility compared with most retirement accounts, along with a few rules worth
+              understanding before you contribute.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Tax-free growth and flexible access to contributions
+            </h3>
+            <p>
+              Because you already paid tax on the money going in, your earnings can grow and be
+              withdrawn tax-free once you qualify. A key perk: your <strong>contributions</strong> (the
+              money you put in, not the earnings) can be withdrawn at any time, for any reason, without
+              taxes or penalties. That makes the Roth flexible, though leaving the money invested is
+              what lets compounding do its work.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              2026 contribution limits
+            </h3>
+            <p>
+              As of <strong>2026</strong>, you can contribute up to <strong>$7,500</strong> across your
+              IRAs for the year. If you&apos;re age 50 or older, an extra $1,100 catch-up contribution
+              raises your total to <strong>$8,600</strong>. You can only contribute earned income, and
+              your allowed amount begins to phase out at higher incomes based on your
+              <strong> modified adjusted gross income (MAGI)</strong> and filing status &mdash; check
+              the current IRS thresholds for your situation.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The 5-year rule and qualified withdrawals
+            </h3>
+            <p>
+              To withdraw <strong>earnings</strong> completely tax-free, two conditions generally must
+              be met: you must be at least <strong>age 59&frac12;</strong>, and your Roth IRA must have
+              been open for at least five years &mdash; the <strong>5-year rule</strong>. Taking
+              earnings out before meeting these tests can trigger taxes and a penalty, with some
+              exceptions. Contributions, as noted above, remain accessible anytime regardless of these
+              rules.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Roth vs traditional: the tax tradeoff
+            </h3>
+            <p>
+              The core choice between a <strong>Roth</strong> and a <strong>traditional</strong> IRA is
+              when you pay tax. A traditional IRA may give you a deduction now but taxes your
+              withdrawals in retirement, while a Roth is funded with after-tax dollars and delivers
+              tax-free qualified withdrawals later. A Roth tends to favor those who expect to be in the
+              same or a higher tax bracket in retirement. This calculator shows estimates only; actual
+              returns and tax rules vary.
+            </p>
           </div>
         </div>
       }

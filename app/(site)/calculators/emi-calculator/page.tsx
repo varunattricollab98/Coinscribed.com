@@ -124,10 +124,69 @@ export default function EMICalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding EMI</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>EMI (Equated Monthly Installment) is a fixed payment amount made by a borrower to a lender on a specified date each month. EMIs consist of both principal and interest components.</p>
-            <p><strong>How EMI is calculated:</strong> EMI = [P x R x (1+R)^N] / [(1+R)^N - 1], where P is the principal loan amount, R is the monthly interest rate, and N is the number of monthly installments.</p>
-            <p><strong>Tips to reduce EMI:</strong> You can reduce your EMI by making a larger down payment, choosing a longer tenure (though this increases total interest), or negotiating a lower interest rate with your lender.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              An <strong>EMI (Equated Monthly Installment)</strong> is the fixed amount you pay a
+              lender on the same date each month to repay a loan. Whether it&apos;s a home loan, car
+              loan, or personal loan, the EMI stays constant for the life of the loan (on a fixed
+              rate), which makes budgeting predictable. Each installment covers both what you
+              borrowed and the cost of borrowing it.
+            </p>
+            <p>
+              Every EMI is split into two parts: <strong>principal</strong>, the portion that reduces
+              the amount you owe, and <strong>interest</strong>, the lender&apos;s charge for the loan.
+              The size of your EMI is driven by three inputs &mdash; the loan amount, the interest
+              rate, and the tenure. Understanding how these interact helps you choose a loan that fits
+              your budget without paying more interest than you need to.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              How each EMI splits into principal and interest
+            </h3>
+            <p>
+              Although the total EMI is the same every month, the mix inside it changes over time
+              through a process called <strong>amortization</strong>. In the early months most of your
+              payment goes toward interest, because interest is charged on a large outstanding
+              balance. As the balance falls, the interest portion shrinks and more of each payment
+              chips away at the principal. By the final years, the bulk of every EMI is repaying
+              principal.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              How loan amount, rate, and tenure affect your EMI
+            </h3>
+            <p>
+              A larger <strong>loan amount</strong> or a higher <strong>interest rate</strong> raises
+              your EMI directly. <strong>Tenure</strong> works differently: a longer tenure spreads the
+              balance over more months, lowering the monthly EMI but increasing the total interest you
+              pay over the life of the loan. A shorter tenure means a higher EMI but far less total
+              interest. The right balance is an EMI you can comfortably afford without stretching the
+              loan longer than necessary.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The benefit of prepayment
+            </h3>
+            <p>
+              Making a <strong>prepayment</strong> &mdash; paying extra toward the principal, either as
+              a lump sum or by increasing your EMI &mdash; reduces the outstanding balance ahead of
+              schedule. Because interest is charged on the remaining balance, prepaying cuts the total
+              interest you pay and can shorten the loan. Prepayments made early in the loan have the
+              biggest impact. Before prepaying, check whether your lender charges any prepayment or
+              foreclosure fees.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Fixed vs floating interest rates
+            </h3>
+            <p>
+              With a <strong>fixed rate</strong>, your interest rate and EMI stay the same for the
+              agreed period, giving you certainty regardless of what happens in the wider market. With
+              a <strong>floating (variable) rate</strong>, the rate moves with a benchmark, so your EMI
+              or tenure can rise when rates go up and fall when they drop. Fixed rates suit borrowers
+              who value predictability, while floating rates can save money when rates are stable or
+              falling.
+            </p>
           </div>
         </div>
       }

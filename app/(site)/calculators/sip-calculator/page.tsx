@@ -122,10 +122,65 @@ export default function SIPCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Understanding SIP Investments</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>A Systematic Investment Plan (SIP) allows you to invest a fixed amount regularly in mutual funds or other investments. It helps build wealth over time through the discipline of regular investing and the power of compounding.</p>
-            <p><strong>Dollar Cost Averaging:</strong> By investing a fixed amount regularly, you buy more units when prices are low and fewer when prices are high, averaging out your cost over time.</p>
-            <p><strong>Power of Compounding:</strong> Your returns earn their own returns over time, creating a snowball effect. The longer you stay invested, the more significant the compounding effect becomes.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              A <strong>Systematic Investment Plan (SIP)</strong> is a way of investing a fixed amount
+              at regular intervals &mdash; usually monthly &mdash; into mutual funds or similar
+              investments, rather than trying to invest a large sum all at once. It turns investing
+              into a steady habit and lets you build wealth gradually over time.
+            </p>
+            <p>
+              The appeal of a SIP is that it works in the background: a set amount is invested on
+              schedule regardless of what markets are doing that month. This removes the pressure of
+              timing the market and harnesses two powerful forces &mdash; cost averaging and
+              compounding. It&apos;s worth remembering that SIP returns are market-linked and
+              <strong> not guaranteed</strong>; the value of your investment can rise or fall.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              How cost averaging smooths out volatility
+            </h3>
+            <p>
+              Investing a fixed amount on a regular schedule is known as
+              <strong> cost averaging</strong>. When prices are low, your fixed amount buys more units;
+              when prices are high, it buys fewer. Over time this averages out your purchase cost and
+              reduces the risk of investing a large sum right before a downturn. It doesn&apos;t
+              guarantee a profit, but it takes the guesswork out of when to invest.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The power of compounding over long horizons
+            </h3>
+            <p>
+              With a SIP, any returns your investments generate can themselves generate further
+              returns &mdash; the effect known as <strong>compounding</strong>. Over short periods the
+              impact is small, but across many years it can become the largest driver of your final
+              balance. The longer you stay invested, the more pronounced this snowball effect tends to
+              be, which is why long time horizons suit SIPs well.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Discipline and automation
+            </h3>
+            <p>
+              One of the quiet strengths of a SIP is <strong>discipline</strong>. Because
+              contributions are <strong>automated</strong>, you invest consistently without having to
+              decide each month or react to headlines. This regular, hands-off approach helps you keep
+              building your portfolio through busy periods and market noise alike, and makes investing
+              a routine rather than a series of one-off decisions.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Staying invested through downturns
+            </h3>
+            <p>
+              Markets rise and fall, and downturns are a normal part of long-term investing. Continuing
+              your SIP during a decline means you keep buying units at lower prices, which can work in
+              your favor when markets recover. Reacting to short-term drops by stopping or withdrawing
+              can lock in losses and interrupt compounding. Because returns are
+              <strong> market-linked and not guaranteed</strong>, a long-term mindset and a time
+              horizon you&apos;re comfortable with matter more than any single month&apos;s performance.
+            </p>
           </div>
         </div>
       }

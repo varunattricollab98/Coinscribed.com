@@ -136,10 +136,60 @@ export default function CreditCardPayoffCalculatorPage() {
       educationalContent={
         <div>
           <h2 className="mb-4 font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">Why Credit Card Interest Adds Up So Fast</h2>
-          <div className="space-y-4 text-sm text-ink-body dark:text-ink-inverse-body">
-            <p>Credit cards carry some of the highest interest rates of any debt \u2014 around 22% APR on average \u2014 and interest compounds daily, so a balance you only pay the minimum on barely moves.</p>
-            <p><strong>Pay more than the minimum:</strong> minimum payments are set just above the monthly interest, so most of the payment goes to interest. Even a modest increase dramatically shortens payoff time and cuts total interest.</p>
-            <p><strong>Target high-interest first:</strong> if you have multiple cards, focus extra money on the highest-APR balance (the avalanche method) while paying minimums on the rest.</p>
+          <div className="space-y-4 text-sm leading-relaxed text-ink-body dark:text-ink-inverse-body">
+            <p>
+              Credit cards carry some of the <strong>highest interest rates</strong> of any common
+              debt, and that interest typically compounds daily. The result is that a balance you only
+              make minimum payments on barely moves, while the cost quietly grows. Understanding how
+              card interest works is the first step to escaping it.
+            </p>
+            <p>
+              The good news is that credit card debt is very responsive to a plan. Paying more than the
+              minimum, targeting the right balances first, and using the right tools can cut both your
+              payoff time and your total interest dramatically.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              High APRs and daily compounding
+            </h3>
+            <p>
+              Card issuers usually quote an <strong>APR</strong> (Annual Percentage Rate), but interest
+              is often charged daily based on your balance. Because each day&apos;s interest is added to
+              the balance the next day&apos;s interest is calculated on, the cost compounds quickly.
+              Carrying a balance from month to month is expensive, which is why paying in full whenever
+              possible is so valuable.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              The minimum-payment trap
+            </h3>
+            <p>
+              Minimum payments are typically set just above the monthly interest charge, so most of the
+              payment goes to interest and very little to principal. Paying only the minimum can stretch
+              repayment over many years. Even a <strong>modest increase</strong> above the minimum
+              dramatically shortens the payoff timeline and reduces the total interest you pay.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Avalanche vs snowball
+            </h3>
+            <p>
+              With multiple cards, two popular strategies help. The <strong>avalanche method</strong>{' '}
+              directs extra money to the highest-APR balance first, which saves the most in interest.
+              The <strong>snowball method</strong> pays off the smallest balance first for a quick win
+              and motivation. Both work; the best one is the one you will actually stick with.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Balance transfers and practical tips
+            </h3>
+            <p>
+              A <strong>balance transfer</strong> to a card with a 0% introductory APR can pause
+              interest for a set period, letting more of your payment attack the principal. Watch for
+              transfer fees and the rate that applies once the promotion ends. Alongside that, pausing
+              new charges, setting a fixed monthly amount above the minimum, and automating payments are
+              simple habits that speed up payoff.
+            </p>
           </div>
         </div>
       }

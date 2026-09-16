@@ -58,6 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Individual calculator detail pages are generated from data/calculators
     // below, so a new calculator added there appears in the sitemap
     // automatically (no second list to keep in sync).
+    { path: '/home-affordability-index', priority: HUB_PRIORITY, changeFrequency: 'monthly' as const },
     { path: '/news', priority: HUB_PRIORITY, changeFrequency: 'daily' as const },
     { path: '/markets', priority: HUB_PRIORITY, changeFrequency: 'daily' as const },
     { path: '/bank-routing-numbers', priority: HUB_PRIORITY, changeFrequency: 'weekly' as const },

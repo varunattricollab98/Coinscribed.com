@@ -54,6 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries: MetadataRoute.Sitemap = [
     { path: '/', priority: HOME_PRIORITY, changeFrequency: 'daily' as const },
     { path: '/about', priority: DEFAULT_PRIORITY, changeFrequency: 'monthly' as const },
+    { path: '/contact', priority: DEFAULT_PRIORITY, changeFrequency: 'yearly' as const },
     { path: '/calculators', priority: HUB_PRIORITY, changeFrequency: 'weekly' as const },
     // Individual calculator detail pages are generated from data/calculators
     // below, so a new calculator added there appears in the sitemap

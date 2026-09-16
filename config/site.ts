@@ -7,6 +7,13 @@ export const siteConfig = {
   ogImage: 'https://coinscribed.com/og-image.png',
   locale: 'en_US',
   creator: 'Coinscribed',
+  /**
+   * Primary contact address, shown on the /contact page and used as the
+   * mailto fallback if the contact form is ever unavailable. Update this to the
+   * real brand mailbox once it exists (e.g. a Hostinger/Zoho @coinscribed.com
+   * address). Kept here as the single source of truth.
+   */
+  contactEmail: 'hello@coinscribed.com',
   keywords: [
     'finance',
     'calculators',
@@ -65,6 +72,7 @@ export const siteConfig = {
     ],
     company: [
       { label: 'About', href: '/about' },
+      { label: 'Contact', href: '/contact' },
       { label: 'Calculators', href: '/calculators' },
       { label: 'News', href: '/news' },
     ],

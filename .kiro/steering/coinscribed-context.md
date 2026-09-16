@@ -365,3 +365,47 @@ in data/calculators and RelatedCalculatorCard no-ops on unknown keys. (2) OG `mo
 **Owner directive:** proceed with on-page/SEO improvements WITHOUT asking each time, but every change
 must be traffic-positive and carry ZERO risk of negative SEO impact (no broken links, no canonical/
 routing regressions, YMYL-safe).
+
+
+---
+
+## 13. Session log — 16 Sep 2026
+
+### Admin editor: "Import from HTML" feature (SHIPPED, PR #74, merged to main)
+The `/admin` article editor now has an **Import from HTML** button above the body editor so a
+paste-ready HTML article can be dropped in at once (matches the SEO workflow of writing full
+HTML). Files:
+- `lib/html-to-editor-blocks.ts` — dependency-free HTML → `EditorBlock[]` converter. Supports
+  `<p>`, `<h1>–<h6>` (h1→h2, h5/h6→h4), `<blockquote>`, `<ul>/<ol>`, `<table>` (→ existing
+  `tableBlock`), inline `<strong>/<b>`, `<em>/<i>`, `<u>`, `<code>`, `<a href>`. Parse-only via
+  `DOMParser`; strips script/style/iframe/form; **never stores or injects raw HTML**; reuses
+  `genKey` and matches schema shapes exactly. Output is the SAME editor model the block editor
+  produces, so it flows through `serializeBody` → Portable Text → `PortableTextRenderer`
+  unchanged (TOC / reading-time / styling all keep working).
+- `components/admin/HtmlImportDialog.tsx` — paste dialog, live block-count summary,
+  append-or-replace choice.
+- `components/admin/ArticleEditor.tsx` — button + dialog wired above `<RichTextEditor>`.
+ARCHITECTURE NOTE (verified this session): article `body` is stored/rendered as **Sanity
+Portable Text end-to-end** — NO HTML string field, NO `dangerouslySetInnerHTML`, NO markdown.
+So the correct way to accept pasted HTML was to convert HTML → Portable Text at input time
+(this feature), not to add an HTML field. tsc + lint + build all clean.
+
+### SEO — next article picked & DATA-VERIFIED (ready to publish): "Difference Between Checking and Savings Accounts"
+Full paste-ready HTML was delivered in chat + draft backup at
+`.agents/drafts/article-22-checking-vs-savings.md`. Slug `difference-between-checking-and-savings-accounts`,
+Category Banking, author Rachel Morgan, no year in title (evergreen rule).
+DECISION (SEMrush data from Varun): the head term **"checking vs savings account"** (9.9K / KD 46 /
+**Commercial** / CPC $7.01) was REJECTED — SERP owned by Tier-1 bank product pages (BofA, Chase Page
+AS 30, Santander 135 ref domains, Investopedia Page AS 44). Wrong intent + too strong for a new site.
+Instead the article targets the **informational** head "difference between checking and savings
+accounts" (~590–1,300 vol, KD ~34–43) AND — for actual near-term traffic — a cluster of **green-KD
+long-tails** as dedicated H2/H3 + FAQ sections: "is a debit card a checking or savings account"
+(1,000 / KD 22), "which best describes the purposes…" (260 / KD 16), "is my account savings or
+checking" (110 / KD 29), "how much to keep in checking vs savings" (140 / KD 28), "direct deposit
+savings vs checking" (260 / KD 21), "how to transfer money from checking to savings" (140 / KD 26),
+"can you have checks for a savings account" (210 / KD 28), "checking account for couples" (90 / KD 28),
+"how do savings accounts work" (50 / KD 24). Internal links used (verified to exist):
+`/calculators/apy-calculator`, `/calculators/savings-calculator`. Add contextual anchors to the HYSA
+news article + CD-vs-HYSA article once those are confirmed live (skipped for now = zero broken links).
+PENDING for Varun: paste the HTML into the /admin editor via the new Import from HTML button, set
+featured image + SEO fields, publish, GSC index.

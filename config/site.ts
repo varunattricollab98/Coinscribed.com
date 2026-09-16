@@ -13,7 +13,7 @@ export const siteConfig = {
    * real brand mailbox once it exists (e.g. a Hostinger/Zoho @coinscribed.com
    * address). Kept here as the single source of truth.
    */
-  contactEmail: 'hello@coinscribed.com',
+  contactEmail: 'varun@coinscribed.com',
   keywords: [
     'finance',
     'calculators',

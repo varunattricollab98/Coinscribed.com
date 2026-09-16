@@ -292,8 +292,8 @@ export default function TermsOfServicePage() {
       <Clause n={21} heading="Contact">
         <p>
           Questions about these Terms:{' '}
-          <a href="mailto:legal@coinscribed.com" className="link-accent">
-            legal@coinscribed.com
+          <a href={`mailto:${siteConfig.contactEmail}`} className="link-accent">
+            {siteConfig.contactEmail}
           </a>
           .
         </p>

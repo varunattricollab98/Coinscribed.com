@@ -215,8 +215,8 @@ export default function PrivacyPolicyPage() {
         </p>
         <p>
           To exercise a right, email{' '}
-          <a href="mailto:privacy@coinscribed.com" className="link-accent">
-            privacy@coinscribed.com
+          <a href={`mailto:${siteConfig.contactEmail}`} className="link-accent">
+            {siteConfig.contactEmail}
           </a>
           . Note that because we hold no account and no calculator data, there is
           often very little we hold about you; we may need enough information to
@@ -262,8 +262,8 @@ export default function PrivacyPolicyPage() {
             Disclaimer
           </Link>
           . Privacy questions:{' '}
-          <a href="mailto:privacy@coinscribed.com" className="link-accent">
-            privacy@coinscribed.com
+          <a href={`mailto:${siteConfig.contactEmail}`} className="link-accent">
+            {siteConfig.contactEmail}
           </a>
           .
         </p>

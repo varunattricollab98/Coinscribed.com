@@ -311,8 +311,8 @@ export default function DisclaimerPage() {
       <Clause heading="20. Contact">
         <p>
           Questions about this Disclaimer can be sent to{' '}
-          <a href="mailto:legal@coinscribed.com" className="link-accent">
-            legal@coinscribed.com
+          <a href={`mailto:${siteConfig.contactEmail}`} className="link-accent">
+            {siteConfig.contactEmail}
           </a>
           . If you believe any Content is inaccurate, please tell us and we will
           review it.

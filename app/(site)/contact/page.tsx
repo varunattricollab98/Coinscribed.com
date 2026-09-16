@@ -48,12 +48,12 @@ export default function ContactPage() {
       <ContactForm fallbackEmail={email} />
 
       <p className="mt-8 text-caption text-ink-muted dark:text-ink-inverse-muted">
-        For privacy requests, email{' '}
+        For privacy or legal requests, email{' '}
         <a
-          href="mailto:privacy@coinscribed.com"
+          href={`mailto:${email}`}
           className="text-accent underline dark:text-accent-light"
         >
-          privacy@coinscribed.com
+          {email}
         </a>
         . Coinscribed provides general information only and does not offer
         personalized financial advice.

@@ -566,3 +566,49 @@ listing-card description (data/calculators.ts). Goal: lift from ~page 8 toward t
 3. Keep BACKLINKS as the real lever (authority phase) + promote the Home Affordability Index asset.
 4. Recheck GSC in a few weeks for any page hitting positions 11-30 (then refresh-to-push).
 REMINDER: everything data-first — get SEMrush Volume/KD/SERP before writing any new article.
+
+
+---
+
+## 18. Backlink target list + pitch templates (researched 16 Sep 2026)
+
+Agent web-researched genuine, YMYL-safe, mostly-free targets (filtered OUT link-farm/paid-no-link
+sites: ElitePersonalFinance=pays but forbids links, fosburit/ordnur/linkpublishers=link-farm signals,
+FangWallet=paid placement confirmed earlier). Owner pitches from varun@coinscribed.com.
+
+### A) GUEST-POST targets (free / byline link) — pitch with Template 2
+- RealEstateAgent.com — realestateagent.com/real-estate-blogger.html (home affordability angle)
+- List With Clever — listwithclever.com/write-for-real-estate-blog (how-much-house-can-i-afford)
+- Realtor.com resource hub — realtor.com/marketing/resources/call-for-contributors (agent audience, high authority)
+- First Heritage Mortgage — fhmtg.com/guest-blog-posts (homeownership/PMI = perfect topical fit)
+- Lazy Man and Money — lazymanandmoney.com/guest-post-guidelines (Rule of 72 / compound interest)
+- Man vs Debt — manvsdebt.com/guest-post-guidelines (debt snowball/payoff)
+- Credit Suite — creditsuite.com/blog/guest-blogger-guidelines (credit score)
+- CashLady (UK) — writeforus@cashlady.com (ALREADY pitched Sep 2026 — follow up)
+WORKFLOW: owner pitches -> when a blog says yes, AGENT writes the full original article to that
+blog's exact rules with exactly ONE natural contextual link back to the relevant Coinscribed page.
+
+### B) JOURNALIST-REQUEST platforms (best for the Home Affordability Index = free editorial DOFOLLOW)
+- SourceBottle — sourcebottle.com (100% free; sign up, set finance/real-estate/property alerts)
+- Source of Sources (SOS) — sourceofsources.com (free HARO successor, high volume)
+- Featured.com — profile already exists (owner) — "less is more", 1-2 quality answers
+- Qwoted — profile already exists (owner) — higher-authority outlets
+STRATEGY: when a journalist asks about "housing affordability / income needed to buy a home /
+mortgage / cost of living", answer with a stat FROM the Home Affordability Index + link to
+https://www.coinscribed.com/home-affordability-index. Editorial dofollow link = highest value.
+
+### PITCH TEMPLATES (paste-ready, send from varun@coinscribed.com)
+DATA-STUDY pitch — Subject: "Data: income needed to buy a home in 30 US cities (free to cite)"
+Body: intro (Coinscribed, US personal finance) + 2 findings (San Jose ~$392K vs Detroit ~$57K, 6x+
+gap; ranked table + transparent methodology) + "cite any of it with a link:
+https://www.coinscribed.com/home-affordability-index" + offer a custom city stat + sign "Varun,
+Founder, Coinscribed, varun@coinscribed.com".
+GUEST-POST pitch — Subject: "Guest post idea for [Blog]: [topic]" — praise the blog's style, offer
+1,000-1,500-word original topics (How to Get Rid of PMI / APR vs APY / Rule of 72), promise exactly
+ONE natural relevant link per their guidelines, ask if it fits their calendar; same signature.
+
+### PRIORITY ORDER
+#1 (fastest dofollow): sign up SourceBottle + Source of Sources, set finance/real-estate alerts,
+answer with Home Affordability Index data. #2: guest-post pitches to First Heritage Mortgage (PMI),
+Lazy Man and Money, Man vs Debt. #3: follow up CashLady. Keep it slow/quality (YMYL) — a few great
+placements beat volume.

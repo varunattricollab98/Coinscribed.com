@@ -14,6 +14,7 @@ import {
 } from '@/lib/admin-types'
 import type { PortableTextBlock } from '@/lib/sanity-queries'
 import { RichTextEditor } from '@/components/admin/RichTextEditor'
+import { HtmlImportDialog } from '@/components/admin/HtmlImportDialog'
 import { ReferencePicker } from '@/components/admin/ReferencePicker'
 import { ImageUploader, type UploaderImageValue } from '@/components/admin/ImageUploader'
 import {
@@ -367,6 +368,22 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
     (bodyModel: EditorBlock[]) => {
       setDraft((prev) => ({ ...prev, bodyModel }))
       markDirty()
+    },
+    [markDirty]
+  )
+
+  // ----- Import-from-HTML dialog -----
+  const [htmlImportOpen, setHtmlImportOpen] = useState(false)
+
+  const handleHtmlImport = useCallback(
+    (blocks: EditorBlock[], mode: 'append' | 'replace') => {
+      setDraft((prev) => ({
+        ...prev,
+        bodyModel:
+          mode === 'replace' ? blocks : [...prev.bodyModel, ...blocks],
+      }))
+      markDirty()
+      setHtmlImportOpen(false)
     },
     [markDirty]
   )
@@ -800,12 +817,32 @@ export function ArticleEditor({ documentId, onSave }: ArticleEditorProps) {
 
           {/* Body */}
           <Field label="Body">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setHtmlImportOpen(true)}
+                className="rounded-sm border border-hairline bg-paper px-3 py-1.5 font-sans text-caption font-semibold text-ink-body transition-colors hover:border-accent hover:text-accent dark:border-hairline-dark dark:bg-graphite dark:text-ink-inverse-body dark:hover:border-accent-light dark:hover:text-accent-light"
+              >
+                ⧉ Import from HTML
+              </button>
+              <span className="text-caption text-ink-muted dark:text-ink-inverse-muted">
+                Paste a full HTML article and convert it into editor blocks.
+              </span>
+            </div>
             <RichTextEditor
               value={draft.bodyModel}
               onChange={setBody}
               onInsertTable={markDirty}
             />
           </Field>
+
+          {htmlImportOpen && (
+            <HtmlImportDialog
+              hasExistingBody={draft.bodyModel.length > 0}
+              onImport={handleHtmlImport}
+              onCancel={() => setHtmlImportOpen(false)}
+            />
+          )}
 
           {/* FAQs */}
           <Field label="FAQs">

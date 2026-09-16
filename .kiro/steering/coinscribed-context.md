@@ -612,3 +612,47 @@ ONE natural relevant link per their guidelines, ask if it fits their calendar; s
 answer with Home Affordability Index data. #2: guest-post pitches to First Heritage Mortgage (PMI),
 Lazy Man and Money, Man vs Debt. #3: follow up CashLady. Keep it slow/quality (YMYL) — a few great
 placements beat volume.
+
+
+---
+
+## 19. Backlink execution progress (16 Sep 2026 eve) + email-to-Gmail
+
+### Brand email varun@coinscribed.com — receiving works
+- Mailbox is on HOSTINGER (Starter Business Email trial, expires 2026-10-16, 5GB, Active).
+- Owner ADDED it to the phone Gmail app (IMAP) = DONE, mail now lands on his phone. Good enough.
+- Hostinger server settings (for reference / laptop setup later): IMAP imap.hostinger.com:993 SSL,
+  SMTP smtp.hostinger.com:465 SSL, POP pop.hostinger.com:995 SSL, user varun@coinscribed.com.
+- PENDING (optional, owner said "kal"/later): also add it to Gmail on Chrome/desktop —
+  Settings > Accounts and Import > "Check mail from other accounts" (POP3, pop.hostinger.com:995
+  SSL) to RECEIVE, and "Send mail as" > Add another email (smtp.hostinger.com:465 SSL) to SEND-AS.
+  Owner's personal Gmail is varunattri98@gmail.com. Not urgent — phone works.
+
+### Backlink platforms status
+- SourceBottle — ACCOUNT + free EXPERT PROFILE created and PUBLISHED (status LIVE) under
+  varun@coinscribed.com. Profile: Varun Attri, Founder Coinscribed, US, keywords personal
+  finance/mortgages/home affordability/credit/banking, website coinscribed.com, LinkedIn linked.
+  Owner should check the "Drink Up!" alert emails and answer finance/property callouts with a
+  Home Affordability Index or calculator link.
+- Featured.com / Qwoted — owner has (or is creating) profiles; wanted to make the Featured account
+  under varun@coinscribed.com (don't duplicate an old one — use one).
+- An aggregator dashboard (showed Qwoted+HARO+Connectively together, "Media Opportunities", 40
+  mortgage/finance journalist requests) could NOT send emails from within it — plan: respond on the
+  ORIGINAL platform (qwoted.com login) instead.
+
+### TWO high-value journalist requests PENDING a reply (both ~2 days left as of 16 Sep, on Qwoted)
+Agent already WROTE both answers (owner just needs to paste + submit on qwoted.com):
+1. USA TODAY — mortgage lender piece on credit score + DTI to secure a loan (580-620 most, 700
+   jumbo). Answer covers 620 conventional / 580 FHA / 700+ jumbo + 28/36 DTI (43-45% conv) + the
+   "cross 670 before applying" tip, signed Varun Attri, Founder Coinscribed, coinscribed.com.
+2. The Playbook (Morning Brew) — how mortgage experts personally shopped for their mortgage / snag
+   a low rate. Answer: shop 3-5 lenders in a 2-week window (one credit pull), buy points only past
+   break-even, optimize score/utilization pre-apply, negotiate lender fees, APR>rate. Same signature.
+SKIP: Dreamy Leads (needs licensed NMLS originator — owner isn't, don't fake it) and MoneyLion
+(needs a mortgage broker). YMYL honesty.
+
+### NEXT (backlink to-do, resume here)
+1. Owner: paste the 2 answers on qwoted.com before they expire; check SourceBottle alerts.
+2. Send 3 guest-post pitches (Template 2): First Heritage Mortgage (fhmtg.com/guest-blog-posts,
+   PMI), Lazy Man and Money, Man vs Debt. When any says yes, AGENT writes the full article w/ 1 link.
+3. Promote Home Affordability Index as the citeable asset in every journalist answer.

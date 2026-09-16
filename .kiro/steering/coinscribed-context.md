@@ -524,3 +524,45 @@ backup = best of both):
 ALSO STILL PENDING (owner action, unrelated to Resend): set **SANITY_WRITE_TOKEN** in Vercel so
 BOTH the contact form and newsletter actually store submissions (else they 503). This is the
 prerequisite for the forms working at all; Resend is the enhancement on top.
+
+
+---
+
+## 17. Session log — 16 Sep 2026 (part 4): GSC-driven organic strategy + auto-loan SEO
+
+### BIG GSC INSIGHT (3-month Performance data from owner)
+The site's #1 impression-earner is **/calculators/auto-loan-calculator = 638 impressions, 0 clicks,
+avg position ~80 (page 8)**. Google surfaces it for queries it only PARTLY matches:
+'negative equity car loan calculator', 'balloon payment calculator', 'car loan with negative
+equity', 'auto finance estimator', 'car finance with balloon calculator', 'refinance balloon
+payment calculator', etc. Other high-impression pages: /news/what-is-a-good-credit-score (359),
+/news/simple-vs-compound-interest (147), /news/401k-employer-match-explained (98, 1 click),
+/news/what-is-apr (59). Total site clicks are still ~0-3 = authority phase confirmed again.
+
+### SEMrush verdict on the auto cluster (data-first)
+- `auto loan calculator` — 550K vol, **KD 85** -> UNWINNABLE now (Bankrate 277 ref domains,
+  calculator.net 553, BofA, NerdWallet). Do NOT chase the head term.
+- `auto refinance calculator` — 8.1K, **KD 55** (needs ~122 ref domains) -> later.
+- `balloon payment calculator` — 1.9K, **KD 49**, more mortgage than car -> secondary.
+- **`negative equity car loan calculator` — 590 vol, KD 32 (GREEN), SERP GAP (Reddit #6 with 0 ref
+  domains, carcalcpro/autopayplus 0 ref domains) -> THE WINNABLE ANGLE.** Green cluster: 'car loan
+  calculator with negative equity' (KD 27), 'car with negative equity calculator' (KD 31), 'car
+  loan calculator negative equity' (KD 45). This is exactly what the auto-loan page already ranks
+  (badly) for.
+
+### SHIPPED (PR #83, merged) — auto-loan calculator SEO deepening
+Enhanced /calculators/auto-loan-calculator for the negative-equity/balloon cluster (content + FAQ
+ONLY; calculator inputs/formula/results untouched): rewrote the 'underwater' section as 'Negative
+equity: when you're underwater on a car loan' with the explicit term + worked example ($22k owed vs
+$18k value = $4k); added a 'Balloon payments on car loans' section; added 3 FAQs (feed FAQPage
+schema); wove negative equity + balloon into the intro (CalculatorLayout description) and the
+listing-card description (data/calculators.ts). Goal: lift from ~page 8 toward the KD-32 niche.
+
+### NEXT STEPS (organic-growth roadmap, agreed direction)
+1. **Dedicated article** targeting `negative equity car loan calculator` (KD 32) + green cluster,
+   internal-linking to the auto-loan calculator (pillar+cluster). Highest-intent winnable target.
+2. Refresh titles/meta of the other high-impression pages (what-is-a-good-credit-score 359 imp
+   for 'credit score range' queries; simple-vs-compound-interest 147 for 'difference at 10%' Qs).
+3. Keep BACKLINKS as the real lever (authority phase) + promote the Home Affordability Index asset.
+4. Recheck GSC in a few weeks for any page hitting positions 11-30 (then refresh-to-push).
+REMINDER: everything data-first — get SEMrush Volume/KD/SERP before writing any new article.

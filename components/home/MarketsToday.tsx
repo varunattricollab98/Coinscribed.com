@@ -313,6 +313,11 @@ export function MarketsToday() {
               hour: 'numeric',
               minute: '2-digit',
               timeZoneName: 'short',
+              // Force US Eastern so every visitor (incl. non-US) sees a
+              // consistent US-market timestamp (ET), not their own local zone.
+              // This is a US-market site, so ET is the correct reference — the
+              // same convention Bloomberg/CNBC use.
+              timeZone: 'America/New_York',
             })}
             {' · '}
           </span>

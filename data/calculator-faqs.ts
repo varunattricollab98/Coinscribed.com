@@ -197,6 +197,21 @@ export const calculatorFAQs: Record<string, FAQItem[]> = {
       answer:
         'A shorter term means higher monthly payments but far less total interest and faster equity. A longer term lowers the monthly payment but costs more overall and keeps you in debt longer. Pick the shortest term whose payment comfortably fits your budget.',
     },
+    {
+      question: 'What is negative equity on a car loan (and how do I calculate it)?',
+      answer:
+        'Negative equity — also called being "upside down" or "underwater" — means you owe more on your car loan than the car is currently worth. To calculate it, subtract your car\u2019s market value from your remaining loan balance: if you owe $22,000 and the car is worth $18,000, you have $4,000 of negative equity. It happens most often with long loan terms, small down payments, and fast depreciation early in the loan.',
+    },
+    {
+      question: 'How does negative equity affect buying my next car?',
+      answer:
+        'If you trade in a car with negative equity, the shortfall is usually rolled into your new loan — so you finance the new car plus the old gap, which increases your payment and the total interest. To avoid this, make a larger down payment, choose a shorter term, or wait until you have positive equity before trading in. Use the calculator above to compare how a bigger down payment reduces the amount financed.',
+    },
+    {
+      question: 'What is a balloon payment on a car loan?',
+      answer:
+        'A balloon car loan keeps monthly payments low by deferring a large lump sum — the "balloon" — to the very end of the term. Your regular payments only cover part of what you owe, so a big final payment (often several thousand dollars) is due at the end. It lowers the monthly cost but raises the total you repay and the risk of ending up with negative equity, so weigh it carefully against a standard amortizing loan.',
+    },
   ],
 
   'credit-card-payoff': [

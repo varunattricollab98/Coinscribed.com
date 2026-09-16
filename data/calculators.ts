@@ -78,7 +78,7 @@ export const calculators: CalculatorInfo[] = [
     href: '/calculators/auto-loan-calculator',
     icon: 'card',
     description:
-      'Estimate your monthly car payment, total interest, and total cost from the vehicle price, down payment, trade-in, interest rate, and loan term.',
+      'Estimate your monthly car payment, total interest, and total cost from the vehicle price, down payment, trade-in, interest rate, and loan term — and understand negative equity and balloon payments.',
   },
   {
     title: 'Credit Card Payoff Calculator',

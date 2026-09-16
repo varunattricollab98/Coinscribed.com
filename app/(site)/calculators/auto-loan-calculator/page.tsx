@@ -99,7 +99,7 @@ export default function AutoLoanCalculatorPage() {
         { href: '/news/what-is-a-good-credit-score', title: 'What Is a Good Credit Score?' },
       ]}
       title="Auto Loan Calculator"
-      description="Estimate your monthly car payment, total interest, and total cost. Enter the vehicle price, down payment, trade-in, interest rate, and loan term."
+      description="Estimate your monthly car payment, total interest, and total cost. Enter the vehicle price, down payment, trade-in, interest rate, and loan term — and see how negative equity and balloon payments affect what you owe."
       jsonLd={[jsonLd, generateFAQSchema(faqItems)]}
       faq={<CalculatorFAQ items={faqItems} />}
       results={
@@ -171,14 +171,34 @@ export default function AutoLoanCalculatorPage() {
             </p>
 
             <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
-              Depreciation and being underwater
+              Negative equity: when you&apos;re underwater on a car loan
             </h3>
             <p>
-              Cars lose value quickly, often depreciating fastest in the first few years. If your loan
-              balance is higher than the car is worth, you are <strong>underwater</strong> (or upside
-              down) on the loan. Long terms and small down payments make this more likely. A larger
-              down payment and shorter term help you build equity faster and stay ahead of
-              depreciation.
+              <strong>Negative equity</strong> — also called being <strong>underwater</strong> or{' '}
+              <strong>upside down</strong> — means your loan balance is higher than the car is
+              currently worth. To calculate it, subtract the car&apos;s market value from your
+              remaining balance. For example, if you still owe <strong>$22,000</strong> and the car is
+              worth <strong>$18,000</strong>, you have <strong>$4,000 of negative equity</strong>.
+            </p>
+            <p>
+              Cars depreciate fastest in the first few years, so long terms and small down payments make
+              negative equity far more likely. It matters most when you want to trade in or sell: the
+              shortfall is usually rolled into your next loan, raising that payment too. A larger down
+              payment and a shorter term help you build equity faster and stay ahead of depreciation —
+              try increasing the down payment above to see the amount financed drop.
+            </p>
+
+            <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">
+              Balloon payments on car loans
+            </h3>
+            <p>
+              A <strong>balloon car loan</strong> keeps monthly payments low by deferring a large lump
+              sum — the &ldquo;balloon&rdquo; — to the end of the term. Because your regular payments
+              only chip away at part of the balance, a sizeable final payment comes due at the end. It
+              can make a car feel affordable month to month, but you repay more overall and are more
+              likely to end up with negative equity. For most buyers a standard{' '}
+              <strong>amortizing</strong> loan (like the one this calculator models, where every payment
+              reduces the balance) is the safer, cheaper choice.
             </p>
 
             <h3 className="pt-2 font-serif text-display-4 font-bold text-ink dark:text-ink-inverse">

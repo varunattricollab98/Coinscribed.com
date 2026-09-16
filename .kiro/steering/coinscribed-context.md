@@ -451,3 +451,39 @@ The asset only earns links once it's PITCHED. Plan for next session / owner:
 - Once real brand social accounts exist, keep `config/site.ts` social `confirmed:true` in sync.
 Refresh track stays PARKED until GSC shows an article reach positions 11-30 (page 2-3);
 owner should re-share GSC Pages (avg position) in a few weeks to spot the first climber.
+
+
+---
+
+## 15. Session log — 16 Sep 2026 (part 3): Email connectivity (contact form + brand email)
+
+### SHIPPED (PR #78, merged) — Contact form
+Visitors can now email the site. Mirrors the newsletter pattern exactly (no email provider
+needed to function):
+- `sanity/schemas/contactMessage.ts` (+ registered in `sanity/schema-index.ts`): new
+  `contactMessage` doc (name, email, subject?, message, receivedAt, source), newest-first.
+  Owner reads/replies from Studio/admin.
+- `app/api/contact/route.ts`: validates, drops honeypot spam (`company` field), stores via
+  server-only `SANITY_WRITE_TOKEN`; honest 503 when token unset (UI shows the mailto instead).
+- `components/contact/ContactForm.tsx`: accessible client form + honeypot; success only on
+  confirmed store.
+- `app/(site)/contact/page.tsx`: static `/contact` page + mailto fallback. Added Contact to
+  footer `company` nav and to the sitemap.
+- `config/site.ts`: NEW single-source `contactEmail` = `hello@coinscribed.com` (placeholder
+  until the real mailbox exists — UPDATE it there when the brand mailbox is created).
+
+### EXISTING (unchanged) — Newsletter
+`/api/newsletter` + `NewsletterSignup` + `subscriber` schema already exist and work; both
+the newsletter AND the new contact form need **`SANITY_WRITE_TOKEN` set in Vercel** to store
+submissions (else 503). Owner action: add that env var (editor-scoped token from
+manage.sanity.io -> API -> Tokens).
+
+### BRAND EMAIL @coinscribed.com — RECOMMENDED, owner to create via Hostinger
+Site already references `privacy@coinscribed.com` and `legal@coinscribed.com` (privacy/terms
+pages) as mailto links, so a real mailbox should exist. It also professionalizes guest-post
+pitches + unblocks directories that want a brand email (§11 noted the owner had none). Owner
+said he'll buy/create it on Hostinger. Recommended addresses: `hello@coinscribed.com` (primary,
+already the config default), plus catch-all or aliases for `privacy@` and `legal@`. Steps given
+in chat (Hostinger hPanel -> Emails -> create mailbox; or free Zoho Mail with MX/SPF/DKIM DNS
+records). ONCE CREATED: update `siteConfig.contactEmail` if different from hello@, and it's a
+good time to add real Twitter/Facebook accounts (still `confirmed:false`) for E-E-A-T `sameAs`.

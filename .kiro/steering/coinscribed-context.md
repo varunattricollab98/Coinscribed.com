@@ -409,3 +409,45 @@ savings vs checking" (260 / KD 21), "how to transfer money from checking to savi
 news article + CD-vs-HYSA article once those are confirmed live (skipped for now = zero broken links).
 PENDING for Varun: paste the HTML into the /admin editor via the new Import from HTML button, set
 featured image + SEO fields, publish, GSC index.
+
+
+---
+
+## 14. Session log — 16 Sep 2026 (part 2): GA4 clean-up + linkable-asset data study
+
+### DATA CONFIRMED the authority phase (GA4 + GSC, ~19 Aug–15 Sep 2026)
+Owner shared GA4 + GSC screenshots. Reality check, all consistent with §11:
+- GA4: 55 active users / 28 days, avg engagement 2m17s (good), but traffic is mostly
+  INTERNAL — top page = **/admin (158 views)**, top city = **Gurugram (owner)**, channel
+  Direct 60 vs Organic 14. Real organic is tiny.
+- GSC: **~3 total web search clicks** over ~9 days. Impressions climbing but everything is
+  page 5-10 (positions 50-98). So STILL nothing on page 2-3 to "refresh-and-push" yet —
+  the lever remains BACKLINKS + time, exactly as §11 says. Manage expectations accordingly.
+
+### SHIPPED (PR #76, merged to main)
+1. **GA4 internal-traffic exclusion** — `components/analytics/GoogleAnalytics.tsx` is now a
+   `'use client'` component using `usePathname()`; it returns null (loads NO gtag) on
+   `/admin`, `/studio`, `/preview` (EXCLUDED_PREFIXES). Stops owner/CMS visits polluting GA4.
+   NOTE for owner: also worth setting a GA4 "internal traffic" filter / defining internal
+   traffic by IP in GA4 admin for belt-and-suspenders, but the code guard already removes the
+   biggest offender (admin page views).
+2. **Home Affordability Index** — new static page **`/home-affordability-index`** = the
+   original data-study "linkable asset" §11 called for (highest-value dofollow backlink
+   magnet; had NOT been built before). Ranks 30 US metros by household income needed to
+   afford the median home under the 28% front-end rule. Data + math in
+   `data/affordability-index.ts`; uses the SAME amortization formula as the mortgage
+   calculator so study and tool agree. All numbers COMPUTED from stated assumptions (20%
+   down, 30-yr @ 6.5%, +1.25%/yr tax+ins, 28% DTI, median prices labeled as approximate
+   benchmarks) — nothing fabricated (YMYL-safe). Has Dataset JSON-LD, suggested-citation box,
+   internal links to mortgage-calculator + how-much-house-can-i-afford, and a sitemap entry
+   (HUB_PRIORITY, monthly). Spot-checked: San Jose ~$392K, Dallas ~$105K, Detroit ~$57K = realistic.
+
+### NEXT BACKLINK STEP (owner action) — promote the data study
+The asset only earns links once it's PITCHED. Plan for next session / owner:
+- Pitch the Home Affordability Index to journalists (Featured/Qwoted when a real request
+  appears) and to small/mid US personal-finance + real-estate blogs as a citeable stat source.
+- Add it to the Medium republish rotation (with canonical) and mention in genuine Quora/Reddit
+  answers about "income needed to buy a house in <city>" (natural, non-spam).
+- Once real brand social accounts exist, keep `config/site.ts` social `confirmed:true` in sync.
+Refresh track stays PARKED until GSC shows an article reach positions 11-30 (page 2-3);
+owner should re-share GSC Pages (avg position) in a few weeks to spot the first climber.

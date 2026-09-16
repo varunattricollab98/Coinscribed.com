@@ -487,3 +487,40 @@ already the config default), plus catch-all or aliases for `privacy@` and `legal
 in chat (Hostinger hPanel -> Emails -> create mailbox; or free Zoho Mail with MX/SPF/DKIM DNS
 records). ONCE CREATED: update `siteConfig.contactEmail` if different from hello@, and it's a
 good time to add real Twitter/Facebook accounts (still `confirmed:false`) for E-E-A-T `sameAs`.
+
+
+---
+
+## 16. Brand email LIVE + PENDING: inbox email notifications (Resend)
+
+### DONE (PR #80, merged) — brand email unified
+Owner created the real mailbox **varun@coinscribed.com** (bought via Hostinger). All contact
+points now use it via `siteConfig.contactEmail` (single source of truth in `config/site.ts`):
+contact page, privacy-policy, terms-of-service, disclaimer (replaced the old hardcoded
+hello@/privacy@/legal@ mailtos). To change the site's contact email ever again, edit ONLY
+`config/site.ts` `contactEmail`.
+
+### PENDING (owner deferred to "kal"/next session) — send form submissions to the inbox
+CURRENT BEHAVIOUR: the contact form (and newsletter) STORE to Sanity only — they do NOT email
+varun@coinscribed.com, because a website can't send email without an email-sending service
+(Resend/SendGrid/Mailgun/SMTP) + API key, which isn't set up yet. Owner asked "why not straight
+to my inbox" — explained the reason; owner wants it but said not tonight ("kal karte hain, abhi
+mann nahi hai").
+
+PLAN FOR NEXT SESSION — add Resend so form submissions ALSO arrive in the inbox (keep Sanity as
+backup = best of both):
+1. Owner: create free Resend account (resend.com, Gmail login; free tier ~3,000 emails/mo).
+2. Owner: verify domain coinscribed.com in Resend -> add the 2-3 DNS records (SPF/DKIM/MX-ish)
+   in Hostinger DNS (agent will give exact records from Resend's dashboard).
+3. Owner: create a Resend API key -> add to Vercel env as e.g. RESEND_API_KEY.
+4. Agent: `bun add resend`, then in `app/api/contact/route.ts` (and optionally
+   `app/api/newsletter/route.ts`) after the successful Sanity write, send a notification email
+   TO varun@coinscribed.com FROM a verified sender (e.g. noreply@coinscribed.com) with the
+   submission + reply-to set to the visitor's email so "Reply" goes straight to them. Must be
+   best-effort/non-blocking: if the email send fails, the Sanity store still succeeds and the
+   user still sees success (never regress the working form). Guard on RESEND_API_KEY presence
+   so it no-ops cleanly when unset (same honest pattern as SANITY_WRITE_TOKEN).
+
+ALSO STILL PENDING (owner action, unrelated to Resend): set **SANITY_WRITE_TOKEN** in Vercel so
+BOTH the contact form and newsletter actually store submissions (else they 503). This is the
+prerequisite for the forms working at all; Resend is the enhancement on top.

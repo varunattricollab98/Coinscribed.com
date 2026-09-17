@@ -3,8 +3,14 @@ export const siteConfig = {
   tagline: 'Your Trusted Source for Financial Intelligence',
   description:
     'Coinscribed provides financial calculators, crypto and market news, US bank routing numbers, and personal finance tools to help you make informed decisions.',
-  url: 'https://coinscribed.com',
-  ogImage: 'https://coinscribed.com/og-image.png',
+  // Use the canonical www host everywhere. The apex (coinscribed.com)
+  // 308-redirects to www, so emitting apex URLs in the sitemap, canonicals,
+  // robots, JSON-LD and OG tags made Google hit a redirect on every URL —
+  // which showed up as "Redirect error" (pages left unindexed) in Search
+  // Console. Pointing the single source of truth at www removes that redirect
+  // hop so Google indexes the final URL directly.
+  url: 'https://www.coinscribed.com',
+  ogImage: 'https://www.coinscribed.com/og-image.png',
   locale: 'en_US',
   creator: 'Coinscribed',
   /**

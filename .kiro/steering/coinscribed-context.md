@@ -697,3 +697,76 @@ but the site is still in the authority phase, so ranking = content (done) + BACK
 ### PENDING for Varun
 Paste via /admin Import-from-HTML, set all fields, upload the featured image + alt, Publish, then
 GSC Request Indexing for https://www.coinscribed.com/news/negative-equity-car-loan.
+
+
+---
+
+## 21. Big session — internal linking + GEO + backlink blitz (16 Sep 2026)
+
+### SHIPPED CODE (PR #88, merged) — internal linking + GEO
+- Fixed `relatedCalculatorForArticle` in components/news/ArticleView.tsx: moved the auto/car rule
+  ABOVE the generic loan-payoff rule + added keywords (negative equity, upside down, underwater,
+  car payment, auto/car finance) so car-loan articles map to the auto-loan calculator (not
+  loan-payoff). This makes the new Negative Equity article point at the auto-loan calculator.
+- Linked 4 previously-orphaned live articles from calculators (all slugs verified live in sitemap =
+  zero broken-link risk): apy -> cd-vs-high-yield-savings-vs-money-market; savings ->
+  how-to-save-for-a-down-payment; mortgage -> how-much-house-can-i-afford + how-to-save-for-a-down-payment.
+- GEO: generateArticleSchema (lib/schema-markup.ts) now emits a `speakable` SpeakableSpecification
+  (h1 + [data-speakable="key-takeaways"]); KeyTakeaways.tsx carries that data attribute.
+- Confirmed: all 16 existing + 4 new calculator relatedReading slugs exist in the live sitemap
+  (sub-agent flagged a theoretical broken-link risk but actual check = all clean).
+
+### BACKLINK OUTREACH — 8 actions today (Tier-1 + assets)
+Owner sends from varun@coinscribed.com. Content = agent's job; when a blog says yes, AGENT writes
+the full article with 1 natural link.
+GUEST-POST PITCHES SENT (awaiting reply, 3-10 days):
+1. First Heritage Mortgage (fhmtg.com/guest-blog-posts contact form) — PMI topic. Their rules:
+   original, casual/no-jargon, 1 dofollow link to us + they add 2-3 internal links, they keep
+   editorial rights, exclusive. GOOD fit.
+2. Lazy Man and Money (contact form) — Rule of 72 / simple-vs-compound. Selective/SEO-averse blog,
+   low odds, but sent (community-friendly pitch).
+3. Man vs Debt (Baker@ManVsDebt.com) — debt snowball / pay off loan faster. Older blog, low odds.
+GUEST ARTICLE SUBMITTED (full 1,050-word piece, not just pitch):
+4. AskTheMoneyCoach — "Debt Snowball vs Debt Avalanche" full article (real Fed/TransUnion data:
+   ~21% avg APR, ~$6,600 avg balance, $1.28T total). Draft saved
+   .agents/drafts/guest-post-askthemoneycoach-debt-snowball-vs-avalanche.md. Bio has 1 dofollow to
+   coinscribed.com. Rules met: 800+ words, FAQ, original.
+5. The Small Investor (smallivy.com form) — pitched "Simple vs Compound Interest" (free, up to 3
+   links, but they reject SEO-firm/spam, so pitched as genuine blogger).
+6. Guide to Money (kevin@guidetomoney.com) — pitched "Negative Equity Car Loans" (100K readers,
+   free, dofollow, 1,500-2,500 words).
+ASSETS PUBLISHED (LIVE now):
+7. issuu — Home Affordability Index PDF LIVE: issuu.com/coinscribed.com/docs/the_home_affordability_index_income_needed_to_bu
+   (Basic/free plan; do NOT pay for issuu Teams). Description links coinscribed.com/home-affordability-index.
+8. Medium — Home Affordability Index republished LIVE via "Import a story" (auto-canonical to the
+   coinscribed original, so no duplicate-content harm): medium.com/@varunattri3245/how-much-income-do-you-really-need-to-buy-a-home-in-america-30-cities-ranked-e38711665d64
+   Draft/notes: .agents/drafts/medium-home-affordability-index.md.
+QUORA (account warm): 2 genuine answers posted (credit score simulator Q; "$650k house income" Q
+with Home Affordability Index link). Quora links are nofollow = referral/brand/GEO value.
+REDDIT (owner's old personal account): 1 VALUE-ONLY answer (no link) on an r/personalfinance
+401(k)-loan-for-down-payment thread — building credibility first; add links only later, sparingly.
+
+### VERIFIED TARGET RESEARCH — SKIP LIST (agent read the actual guidelines; do NOT waste time)
+- PAID (skip): ElitePersonalFinance ($300 but forbids links), DebtHelper ($74 donation), FangWallet.
+- CREDENTIAL-GATED (skip, owner isn't a CFP/CPA/attorney/MLO): Due.com (also nofollow), CuraDebt.
+- NOFOLLOW / low value: Credit Suite (B2B + nofollow), Think Save Retire (nofollow risk).
+- RECIPROCAL LINK (Google link-scheme risk, skip): RealEstateAgent.com.
+- DEAD/HACKED (skip, now a gambling site): financialfreedomnow.org.
+- LINK-FARM/spam (skip, YMYL penalty risk): fosburit, ordnur, laptopspapa, fincover, prposting, jootoor.
+- HOLD until we have 3 live guest samples: List With Clever (needs 3 external writing samples).
+- Money Saving Mom = genuine but effort-heavy (needs full budget-topic article) — later.
+- CashLady = confirmed PAID earlier — skip.
+KEY LESSON reaffirmed with owner: genuine FREE + dofollow + YMYL-safe + relevant guest blogs are
+SCARCE (~15% of "write for us" pages). Do NOT chase 20 blindly — spam/link-farm links can PENALIZE
+a YMYL site. Quality > volume. Authority = MULTIPLE channels (guest posts + journalist platforms +
+Reddit/Quora + published assets like issuu/Medium) + consistency over WEEKS, not a one-day blitz.
+
+### NEXT SESSION / TO-DO
+- Check email (varun@coinscribed.com) for guest-post replies -> when any says yes, AGENT writes the
+  full original article with exactly 1 natural link.
+- SourceBottle "Drink Up!" alerts: profile LIVE + filtered to US + Business&Finance + Property; when
+  a finance/mortgage/housing callout arrives, agent writes the answer (+ Home Affordability Index link).
+- Drip 2-3 NEW verified genuine guest targets per week (agent reads guidelines first).
+- 1-2 fresh Quora/Reddit answers per day max (spam-safe); Reddit stays value-first until warmed.
+- Publish the Negative Equity Car Loan article (draft ready) via /admin Import-from-HTML + GSC index.
+- Guide to Money / AskTheMoneyCoach / Small Investor: if accepted, agent writes to their exact rules.

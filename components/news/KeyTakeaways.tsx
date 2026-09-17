@@ -13,7 +13,10 @@ export function KeyTakeaways({ points }: { points?: string[] }) {
   if (!points || points.length === 0) return null
 
   return (
-    <aside className="mb-10 rounded-sm border-l-2 border-gold bg-gold-soft px-5 py-5 dark:border-gold-light dark:bg-gold/10">
+    <aside
+      data-speakable="key-takeaways"
+      className="mb-10 rounded-sm border-l-2 border-gold bg-gold-soft px-5 py-5 dark:border-gold-light dark:bg-gold/10"
+    >
       <p className="eyebrow-royal">Key takeaways</p>
       <ul className="mt-3 space-y-2.5">
         {points.map((point, i) => (

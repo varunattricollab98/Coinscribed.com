@@ -69,6 +69,7 @@ export default function ApyCalculatorPage() {
         { href: '/news/what-is-apy', title: 'What Is APY? (And Is a High APY Worth It?)' },
         { href: '/news/apr-vs-apy', title: 'APR vs APY: What\u2019s the Difference?' },
         { href: '/news/best-high-yield-savings-account', title: 'How to Choose the Best High-Yield Savings Account' },
+        { href: '/news/cd-vs-high-yield-savings-vs-money-market', title: 'CD vs High-Yield Savings vs Money Market' },
       ]}
       title="APY Calculator"
       description="See how much interest your savings earn at a given APY. Enter a deposit, the APY, and a time frame to see your ending balance and total interest."

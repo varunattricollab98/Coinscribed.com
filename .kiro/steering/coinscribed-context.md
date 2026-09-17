@@ -656,3 +656,44 @@ SKIP: Dreamy Leads (needs licensed NMLS originator — owner isn't, don't fake i
 2. Send 3 guest-post pitches (Template 2): First Heritage Mortgage (fhmtg.com/guest-blog-posts,
    PMI), Lazy Man and Money, Man vs Debt. When any says yes, AGENT writes the full article w/ 1 link.
 3. Promote Home Affordability Index as the citeable asset in every journalist answer.
+
+
+---
+
+## 20. Tuesday article WRITTEN — Negative Equity Car Loan (data-verified, 16 Sep 2026)
+
+Full paste-ready HTML delivered in chat; raw data + full brief backed up in
+`.agents/drafts/article-23-negative-equity-car-loan.md` (includes the complete SEMrush Overview +
+Magic Tool + SERP raw data, decision logic, sources).
+
+- **Slug:** negative-equity-car-loan | **Category:** Banking | **Author:** Ethan Caldwell
+- **Title:** Negative Equity Car Loan: What It Is and How to Get Out
+- **SEO Title:** Negative Equity Car Loan: What It Is & How to Get Out
+- **Meta (157):** Negative equity means you owe more on your car than it's worth. Here's how to
+  calculate it, why it happens, and the smartest ways to get out from underwater.
+- **Excerpt:** Owe more on your car than it's worth? That's negative equity — being "upside down"
+  on your loan. Here's how to calculate it, why it happens, and how to get out.
+- **Featured image:** owner made an on-brand Canva graphic (underwater car, Loan Balance $28,000 vs
+  Car Value $20,000, oxblood accent) — excellent. ALT: "Negative equity car loan illustration — a
+  car underwater showing a $28,000 loan balance against a $20,000 car value".
+
+### WHY (data-verified pick, not guesswork)
+- Primary kw **negative equity car loan calculator**: Vol 590, **KD 32 (green/winnable)**, Informational.
+- Green cluster: car loan calculator with negative equity (KD 27), car with negative equity calc (KD 31).
+- SERP GAP: Bankrate/Edmunds/NavyFed/USNews on top BUT positions 6-9 = Reddit (0 ref domains),
+  carcalcpro (0), autopayplus (0) + thin/local dealer blogs = beatable.
+- REJECTED head terms: auto loan calculator (KD 85), auto refinance (KD 55), balloon payment (KD 49).
+- Pillar+cluster: internal-links to /calculators/auto-loan-calculator (which already earns 638 GSC
+  impressions on neg-equity/balloon queries at avg pos ~80) to lift that whole cluster. Also links
+  /calculators/loan-payoff-calculator and /news/how-to-pay-off-a-loan-faster (all verified to exist).
+
+### Content quality bar met
+Unique (written from scratch), informative + data-backed (FTC citation; Edmunds Q1-2026 stat: >3 in
+10 trade-ins underwater, avg ~$7,183), human tone (no AI clichés — delve/seamless/furthermore
+avoided), GEO-optimized (Quick Answer box + 7 FAQs + exact-match headings for green-KD queries).
+Honest ranking expectation set with owner: content is page-1-worthy + winnable (KD 32 + SERP gap),
+but the site is still in the authority phase, so ranking = content (done) + BACKLINKS + time (~2-4 mo).
+
+### PENDING for Varun
+Paste via /admin Import-from-HTML, set all fields, upload the featured image + alt, Publish, then
+GSC Request Indexing for https://www.coinscribed.com/news/negative-equity-car-loan.

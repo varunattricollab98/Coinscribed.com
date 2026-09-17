@@ -770,3 +770,36 @@ Reddit/Quora + published assets like issuu/Medium) + consistency over WEEKS, not
 - 1-2 fresh Quora/Reddit answers per day max (spam-safe); Reddit stays value-first until warmed.
 - Publish the Negative Equity Car Loan article (draft ready) via /admin Import-from-HTML + GSC index.
 - Guide to Money / AskTheMoneyCoach / Small Investor: if accepted, agent writes to their exact rules.
+
+
+---
+
+## 22. GSC indexing audit + www canonical fix (17 Sep 2026)
+
+### SHIPPED (PR #90, merged) — canonical www host
+GSC "Why pages aren't indexed" showed **13 pages as "Redirect error"** — all APEX URLs
+(coinscribed.com/calculators/*, /news/401k-vs-roth-ira). Root cause: `config/site.ts` had
+`url: 'https://coinscribed.com'` (apex), so sitemap + canonicals + robots + JSON-LD + OG all
+emitted apex URLs, and the apex 308-redirects to www → Google hit a redirect on every URL and left
+them unindexed. FIX: set `siteConfig.url` and `ogImage` to `https://www.coinscribed.com` (single
+source of truth; app/sitemap.ts, app/robots.ts, lib/schema-markup.ts all derive from it). Verified
+no source file hardcodes the apex anymore. tsc/lint/build clean. Owner then clicked "Validate Fix"
+on the Redirect-error issue in GSC and re-submitted the sitemap.
+
+### GSC indexing status (17 Sep 2026): 31 indexed / 119 not indexed — the 4 reasons, DECODED
+- **Redirect error (13)** → FIXED via PR #90 (was apex→www redirect). Validate Fix clicked. Should index after re-crawl.
+- **Page with redirect (2)** = http://coinscribed.com/ and https://coinscribed.com/ → NORMAL (http→https + apex→www). NOT an error, ignore. Never click Validate Fix on this.
+- **Discovered – currently not indexed (102)** = mostly the bank-routing pages (thin/similar) → NORMAL for a new low-authority site; Google deprioritizes them. Fix = authority (backlinks) + time, NOT a code change. Do NOT click Validate Fix.
+- **Crawled – currently not indexed (2)** → NORMAL, will index with time/authority.
+RULE: only "Redirect error" was a real fixable issue. The 104 "discovered/crawled - not indexed"
+are the new-site trust gap — the www fix helps future crawls, but the real lever remains
+backlinks + time (do not keep re-validating these; that's not how they clear).
+
+### STILL PENDING (owner action, next session)
+- GSC → Security & Manual Actions → Manual Actions: confirm "No issues detected" re: the spam/PBN
+  backlinks (rankbacklink.shop, casino .online domains, "buy backlinks/PBN" anchors) that a
+  bot/scammer is auto-generating at coinscribed.com. Mostly nofollow; Google usually ignores
+  automated spam. If a manual action or a growing dofollow-spam pattern appears, build a GSC
+  disavow file. NEVER pay any "buy backlinks/PBN" service (that's the same spam).
+- Check email for guest-post replies; publish the Negative Equity article; recheck GSC in a few
+  days to confirm the 13 redirect pages indexed.

@@ -290,8 +290,11 @@ function relatedCalculatorForArticle(
     { calc: '401k-calculator', keywords: ['401k', '401(k)', 'employer match'] },
     { calc: 'retirement-calculator', keywords: ['retirement', 'retire', 'pension'] },
     { calc: 'credit-card-payoff-calculator', keywords: ['credit card', 'credit-card'] },
+    // Auto/car topics BEFORE the generic loan-payoff rule below, so a car piece
+    // (e.g. "negative equity car loan") maps to the auto loan calculator rather
+    // than being caught by the broad 'loan'/'debt' keywords.
+    { calc: 'auto-loan-calculator', keywords: ['auto loan', 'car loan', 'auto-loan', 'car payment', 'negative equity', 'upside down', 'underwater', 'auto finance', 'car finance'] },
     { calc: 'loan-payoff-calculator', keywords: ['loan', 'debt', 'payoff', 'snowball', 'avalanche'] },
-    { calc: 'auto-loan-calculator', keywords: ['auto loan', 'car loan', 'auto-loan'] },
     { calc: 'savings-calculator', keywords: ['savings', 'high-yield', 'hysa', 'emergency fund', 'save'] },
     { calc: 'apy-calculator', keywords: ['apy', 'apr', 'cd ', 'money market', 'interest rate'] },
     { calc: 'compound-interest-calculator', keywords: ['compound interest', 'compound', 'rule of 72', 'rule-of-72'] },

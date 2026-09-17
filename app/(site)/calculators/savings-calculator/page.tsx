@@ -83,6 +83,7 @@ export default function SavingsCalculatorPage() {
         { href: '/news/best-high-yield-savings-account', title: 'How to Choose the Best High-Yield Savings Account' },
         { href: '/news/what-is-apy', title: 'What Is APY? (And Is a High APY Worth It?)' },
         { href: '/news/how-to-build-an-emergency-fund', title: 'How to Build an Emergency Fund' },
+        { href: '/news/how-to-save-for-a-down-payment', title: 'How to Save for a Down Payment on a House' },
       ]}
       title="Savings Calculator"
       description="See how your savings grow over time with regular monthly contributions and interest. Enter a starting amount, monthly deposit, APY, and time frame."

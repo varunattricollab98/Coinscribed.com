@@ -105,6 +105,15 @@ export function generateArticleSchema({
       '@type': 'WebPage',
       '@id': url,
     },
+    // GEO / voice + AI-assistant signal: point machine readers at the parts of
+    // the page that best summarise the answer — the headline and the Key
+    // Takeaways callout. These CSS selectors match the article H1 and the
+    // KeyTakeaways box (components/news/KeyTakeaways.tsx renders
+    // [data-speakable="key-takeaways"]). Purely additive, valid schema.org.
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['h1', '[data-speakable="key-takeaways"]'],
+    },
   }
 }
 

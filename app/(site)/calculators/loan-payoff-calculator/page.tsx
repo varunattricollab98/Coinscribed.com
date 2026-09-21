@@ -125,6 +125,7 @@ export default function LoanPayoffCalculatorPage() {
         { href: '/news/debt-snowball-vs-avalanche', title: 'Debt Snowball vs Debt Avalanche: Which Is Faster?' },
         { href: '/news/how-to-build-an-emergency-fund', title: 'How to Build an Emergency Fund' },
         { href: '/news/what-is-apr', title: 'What Is APR? (And What Counts as a Good One?)' },
+        { href: '/news/negative-equity-car-loan', title: 'Negative Equity Car Loan: What It Is and How to Get Out' },
       ]}
       title="Loan Payoff Calculator"
       description="Find out how extra payments can help you pay off your loan faster. See your new payoff date, total interest saved, and time saved."

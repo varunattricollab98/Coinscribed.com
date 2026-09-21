@@ -94,6 +94,8 @@ export default function AutoLoanCalculatorPage() {
     <CalculatorLayout
       canonicalPath="/calculators/auto-loan-calculator"
       relatedReading={[
+        { href: '/news/negative-equity-car-loan', title: 'Negative Equity Car Loan: What It Is and How to Get Out' },
+        { href: '/news/balloon-payment-car-loan', title: 'Balloon Payment Car Loan: What It Is and How It Works' },
         { href: '/news/what-is-apr', title: 'What Is APR? (And What Counts as a Good One?)' },
         { href: '/news/how-to-pay-off-a-loan-faster', title: 'How to Pay Off a Loan Faster' },
         { href: '/news/what-is-a-good-credit-score', title: 'What Is a Good Credit Score?' },

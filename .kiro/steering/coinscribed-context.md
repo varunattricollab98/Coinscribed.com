@@ -803,3 +803,58 @@ backlinks + time (do not keep re-validating these; that's not how they clear).
   disavow file. NEVER pay any "buy backlinks/PBN" service (that's the same spam).
 - Check email for guest-post replies; publish the Negative Equity article; recheck GSC in a few
   days to confirm the 13 redirect pages indexed.
+
+
+---
+
+## 23. Session — Balloon article + full audit + auto-cluster linking + backlinks (21 Sep 2026)
+
+### Article #24 WRITTEN & SCHEDULED — Balloon Payment Car Loan
+Full paste-ready HTML delivered in chat; backup at `.agents/drafts/article-24-balloon-payment-car-loan.md`.
+- **Slug:** balloon-payment-car-loan | **Category:** Banking | **Author:** Ethan Caldwell
+- **Title:** Balloon Payment Car Loan: What It Is and How It Works | **SCHEDULED Wed 23 Sep 8 AM ET**
+- DATA-VERIFIED PICK (SEMrush from Varun): primary kw `balloon payment car loan` Vol 110 / **KD 29 (green/easy)** / Informational. SERP GAP = 1cfcu.org (2 ref domains!), Reddit, small credit unions = beatable. Chosen OVER `balloon payment calculator` (Vol 1.9K but KD 49 + Bankrate 644 ref domains + calculator-tool intent = hard).
+- Magic Tool (seed "balloon payment car"): captured general-definition cluster too — `define balloon payment` (590), `balloon payment definition` (1,300), `balloon loan` (2,400), plus questions (how does a balloon payment work 320, what are balloon payments on cars 110, can you finance a balloon payment 110). STRATEGY: car-focused primary + a "What is a balloon payment?" definition section to capture the higher-volume general cluster in one article.
+- Structure: Quick Answer GEO box, definition, how-it-works, example table, balloon-vs-traditional table, pros/cons, end-of-term options, refinance, 7 FAQs. Internal links: /calculators/auto-loan-calculator + /news/negative-equity-car-loan + /calculators/loan-payoff-calculator.
+- Featured image: owner made Canva graphic (car tied to a $ balloon + coin-stack timeline). ALT: "Balloon payment car loan illustration showing low monthly payments followed by one large final lump-sum payment."
+- PENDING: publishes automatically Wed; then GSC Request Indexing https://www.coinscribed.com/news/balloon-payment-car-loan.
+
+### 3 scheduled articles pipeline (car-loan cluster forming)
+- Mon 21 Sep: Difference Between Checking and Savings (checking-vs-savings)
+- Tue 22 Sep: Negative Equity Car Loan (negative-equity-car-loan)
+- Wed 23 Sep: Balloon Payment Car Loan (balloon-payment-car-loan)
+Tue+Wed = car-loan cluster, interlinked with auto-loan calculator = pillar+cluster.
+
+### FULL SITE AUDIT (21 Sep) — verdict: site is in AUTHORITY phase, on-page is DONE
+- **Technical SEO = excellent, nothing to fix:** sitemap.ts + robots.ts proper; canonical www fixed (PR #90); schema-markup.ts emits Article, FAQPage, HowTo, Breadcrumb, Organization, WebSite, Speakable (GEO-ready); internal linking clusters set. Do NOT keep "fixing" on-page — it's pro-level already.
+- **Content = sufficient:** ~24 articles + 14 calculators + Home Affordability Index asset + bank-routing pages. Do NOT pump more articles (5/wk); slow to 1-2/wk.
+- **GSC current stage (3-month):** Impressions 4.02k and RISING (good), Avg position **63.5 (page 6-7)**, Clicks 3, everything page 4+. Classic new-site trust gap (site live ~Aug 2026, ~1.5 months old).
+- **DIAGNOSIS:** content ✅ + technical ✅ + indexing ✅. The ONLY missing lever = AUTHORITY (backlinks + trust + time). No magic on-page fix will move page 6→1; it's backlinks + time (3-6 months typical).
+
+### GSC QUERIES — 3 clusters identified (all clicks=0, i.e. page 4+, but shows what Google finds relevant)
+1. **AUTO/CAR LOAN = strongest** (loan calculator auto 33, balloon payment finance calculator 28, negative equity calculator 26, negative equity car loan calculator 23, car balloon payment calculator 22, refinance balloon payment calculator 21, car loan calculator 20, + 15 more). Our balloon + negative-equity articles + auto-loan calc target this exactly.
+2. **CREDIT SCORE** (credit score range 27, what is the credit score range 23, is-XYZ-a-good-credit-score many, fico score range 11). Candidate new article: "credit score range" (needs SEMrush data first per the mandatory rule).
+3. **APR/APY/INTEREST** (what is apr 35 = highest single query, compound interest calculator 20, apy calculator 20, simple vs compound 23, what is apy 19, apr vs apy 12).
+NOTE: nothing is on page 2-3 yet (all page 4+), so "refresh a page-2 article" still not applicable; lever stays backlinks + time.
+
+### SHIPPED PR #92 (merged) — auto-cluster internal linking strengthened
+- auto-loan-calculator/page.tsx relatedReading: ADDED /news/negative-equity-car-loan + /news/balloon-payment-car-loan (placed first as most relevant; kept existing 3). loan-payoff-calculator/page.tsx: ADDED /news/negative-equity-car-loan.
+- Article→calculator direction already correct via ArticleView.relatedCalculatorForArticle() (untouched). Now bidirectional: balloon ⇄ auto-loan calc ⇄ negative-equity, + loan-payoff calc. Additive-only, all slugs confirmed, tsc/lint/build clean, CI passed, squash-merged. Rationale: pass internal authority within the #1 impression cluster so it climbs page-1 together.
+
+### BACKLINKS this session (authority phase = #1 lever)
+- **Reddit:** posted a VALUE-ONLY (no link) answer on r/personalfinance "smartest way to pay off car loan?" (3d-old, US, non-archived) — owner's personal account, warm-up only (Varun correctly noted personal-account+no-link = ~0 direct SEO value; it's just account warming, low priority).
+- **Guest pitch SENT:** Wealth of Geeks (social@wealthofgeeks.com) — offered "Balloon Payment Car Loans" / "Negative Equity" pieces. Awaiting reply (3-10 days); when yes, AGENT writes full original article + 1 dofollow link.
+- **Quora:** posted 2 fresh answers today (total now 5): (1) "Does APR affect monthly payments?" → link /news/what-is-apr; (2) "If I overpay my credit card balance, will my score improve?" (utilization/timing angle) → link /news/what-is-a-good-credit-score. Both links LIVE. Quora links nofollow = referral/brand/GEO value. Rule: 1-2/day max, value-first, consumer-finance Qs only.
+- **VERIFIED GUEST SKIP LIST (checked live this session — do NOT re-try):** DollarSprout (no write-for-us page, partners@=paid), Partners in Fire (no public page, blind pitch), Savoteur (TRAVEL niche + no page), Advisor Perspectives (audience = RIAs/advisors + investment-strategy, credential tone — mismatch), MoneyGeek (expert-quote model needs Harvard/PhD/CFP-tier credentials, not a guest-post/link model; contact myla@moneygeek.com if ever), Well Kept Wallet + Good Financial Cents + DoughRoller + Money Crashers + Penny Hoarder + SavingAdvice + Financial Pilgrimage + Money Done Right (write-for-us pages DEAD/redirect/404 — many finance sites removed guest pages post-2024 spam updates). KEY LESSON REINFORCED: genuine free+dofollow+YMYL-safe+relevant finance guest blogs are now VERY scarce (well under 15%); 10 free guest posts in a day is NOT realistic; forcing the number = spam/paid sites = negative-SEO risk. Quality drip (1-2 genuine/week) + journalist platforms + Quora/Reddit + published assets over WEEKS is the real path.
+
+### Qwoted status (journalist links = strongest for YMYL, but blocked today)
+- Owner's OLD Qwoted account was suspended; made a NEW one, but it registered as "Journalist/Reporter" role → error "Reporters cannot view other reporters' requests." FIX (deferred to next session by owner): Qwoted Settings → switch Account type from Journalist/Reporter to Expert/Source. Then answer finance journalist requests.
+- Media-Opportunities aggregator (Qwoted+HARO+Connectively) showed one PERFECT live query — Sopriza (2d left) "which is doing more damage to family finances: higher mortgage/loan payments or elevated living costs?" — agent wrote a strong answer, but it EXPIRED before submit (Qwoted role wasn't fixed in time). SourceBottle callouts checked = no genuine consumer-finance fit today (mostly travel/tech/marketing, plus a Canadian-mortgage-broker one that needs a licensed broker = skip, YMYL honesty).
+
+### NEXT SESSION to-do
+1. WEDNESDAY: after balloon article auto-publishes, post the Quora balloon answer (already drafted, with /news/balloon-payment-car-loan link) + GSC Request Indexing the balloon URL.
+2. Fix Qwoted account role (Journalist→Expert), then answer fresh finance journalist requests (editorial links = best authority lever).
+3. Watch email for Wealth of Geeks reply → agent writes full guest article w/ 1 dofollow link.
+4. "credit score range" candidate article: get SEMrush data (Vol+KD+Intent+SERP) → verify winnability → write (GSC shows 27 impressions, no dedicated article yet).
+5. Recheck GSC: did the 13 redirect pages clear (validation), is anything reaching page 2-3 yet (positions 11-30) to refresh-and-push.
+6. Keep backlink drip: 1-2 genuine Quora/day, genuine guest blogs only when a real free+dofollow page exists, promote Home Affordability Index asset.

@@ -858,3 +858,41 @@ NOTE: nothing is on page 2-3 yet (all page 4+), so "refresh a page-2 article" st
 4. "credit score range" candidate article: get SEMrush data (Vol+KD+Intent+SERP) → verify winnability → write (GSC shows 27 impressions, no dedicated article yet).
 5. Recheck GSC: did the 13 redirect pages clear (validation), is anything reaching page 2-3 yet (positions 11-30) to refresh-and-push.
 6. Keep backlink drip: 1-2 genuine Quora/day, genuine guest blogs only when a real free+dofollow page exists, promote Home Affordability Index asset.
+
+### 23b. Directory/platform backlink blitz (21 Sep 2026 eve) — 8 total actions today
+Owner wanted "aise aise backlinks" (high-DR submit-a-product/profile platforms). Ran a verified,
+zero-spam batch. NEW platforms done this session (do NOT repeat):
+- **Product Hunt — Home Affordability Index:** NEW separate launch created & SCHEDULED for next day
+  (Sep 22). Note: "Coinscribed" (calculators) was already Live on PH since Sep 15. The investor
+  "Connect with Investors" step is optional — skipped. When it launches: post first comment
+  (maker intro drafted), gather genuine upvotes via LinkedIn/network, reply to comments.
+- **SaaSHub:** submitted (Free plan, NOT Priority+ paid). Name Coinscribed, tagline "Free financial
+  calculators & the Home Affordability Index", categories Finance/Fintech/Personal Finance/Calculators,
+  competitors listed (NerdWallet, Bankrate, SmartAsset, Calculator.net — required or queue slows),
+  LinkedIn URL added. Pending approval (up to ~32 days on free).
+- **AlternativeTo:** submitted for review. App "Coinscribed", website coinscribed.com, Online platform,
+  Proprietary, Free, tags finance/calculator/personal-finance/mortgage. IMPORTANT lesson: AlternativeTo
+  apps are near-invisible without alternatives, so added alternatives (NerdWallet, Bankrate, SmartAsset).
+- **Substack:** publication "Coinscribed" created; first post PUBLISHED — republished the live APR vs APY
+  article ("APR vs APY: What's the Difference (and Why It Matters)?") with a link back to the original
+  https://www.coinscribed.com/news/apr-vs-apy at the end (avoids duplicate-content). Tags: Personal
+  Finance, Money, Banking, Saving, Financial Literacy. TODO: confirm publication About/Settings has
+  website URL https://www.coinscribed.com (permanent backlink). Reuse for future article republishes.
+- **Trustpilot:** business profile CLAIMED & LIVE (Financial Planner category, "Money & Insurance >
+  Investments & Wealth > Financial Planner"). "Visit website" → coinscribed.com backlink live; company
+  description + contact (website + email varun@coinscribed.com + Houston, US) set. Skipped the paid
+  "Discovery bar" (Plus plan). Free profile is enough. Can request genuine reviews later for trust.
+- Plus earlier today: Reddit (value-only), Wealth of Geeks guest pitch, 2 Quora answers (see §23).
+
+VPN NOT needed — these platforms are global, sign-up/submit works fine from India; content/audience
+being US doesn't require a US IP or US phone. India +91 phone was fine for Trustpilot.
+
+FRESH platforms still to try (drip, next sessions): BetaList (was down/not loading today — retry),
+Vocal Media (finance article republish + dofollow bio), Launching Next, SaaSworthy, Startup Stash,
+Gravatar; chase Crunchbase approval. AVOID: random "500 free directory" lists, paid "guaranteed DR90"
+services, Fiverr backlink gigs (link-farm = YMYL penalty risk). About.me needs Google/FB login (skipped).
+
+RUNNING TALLY of backlink channels now live/submitted: Crunchbase(pending), LinkedIn Company Page,
+F6S, Owler, Startup Ranking, Product Hunt (Coinscribed live + Home Affordability Index scheduled),
+issuu (Home Affordability Index PDF), Medium (Rule of 72 + Home Affordability Index, canonical),
+SaaSHub(pending), AlternativeTo(pending), Substack(live), Trustpilot(live). Quora 5 answers, Reddit warm-up.

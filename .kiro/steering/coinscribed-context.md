@@ -973,3 +973,74 @@ page-fetch, git, PR, code all worked fine — search being down does NOT block t
    (Vol+KD+Intent+SERP) → verify winnability → write.
 6. Recheck GSC: 13 redirect pages cleared? anything reaching page 2-3 (pos 11-30) to refresh-and-push?
 7. Continue backlink drip (Hashnode, Crunchbase approval, more republishes; 1-2 Quora/day value-first).
+
+---
+
+## 25. Session (22 Sep 2026 continued) — republishes + SEMrush baseline + full outreach kit
+
+### Live-status VERIFIED via sitemap.xml (important — backlinks only to LIVE):
+- **difference-between-checking-and-savings-accounts** = LIVE (Sep 21 published).
+- **negative-equity-car-loan** = still SCHEDULED (Tue 22 Sep 8:00 AM ET) — NOT live yet when checked.
+- **balloon-payment-car-loan** = SCHEDULED (Wed 23 Sep 8:00 AM ET).
+- KEY REALIZATION: the admin "Scheduled" + site 404 is NORMAL — publish times are in **US Eastern (ET)**,
+  and 8 AM ET ≈ 5:30 PM IST. So negative-equity auto-publishes ~5:30 PM IST **today**; balloon ~5:30 PM IST Wed.
+  No bug. Do NOT panic-publish. Owner said it'll go live in the evening (IST). Once live → Quora answer + GSC index.
+
+### Backlinks DONE today (do NOT repeat):
+1. **Medium** — republished "401(k) vs Roth IRA" via "Import a story" (auto-canonical to
+   /news/401k-vs-roth-ira). LIVE. Note: Medium's "Import a story" is now hidden — reach it at
+   medium.com/p/import (or profile → Stories). Topics added: Retirement, Personal Finance, Investing, 401k, Roth IRA.
+2. **Substack** ("Coinscribed" pub) — republished "Best High-Yield Savings Account" with intro reframe +
+   link-back to /news/best-high-yield-savings-account at the end (Substack has NO canonical field). LIVE.
+3. **Product Hunt** — confirmed "Home Affordability Index" launched Sep 22 (Live) with maker first-comment
+   posted + pinned; "Coinscribed" product also Live since Sep 15. (screenshots confirmed by owner)
+
+### Drafts READY (owner to post when logins clear — Hashnode/others had "too many login requests"):
+- `.agents/drafts/hashnode-what-is-a-good-credit-score.md` — Hashnode canonical republish of the LIVE
+  what-is-a-good-credit-score article. MUST set Canonical URL field to the original. Feeds credit-score cluster.
+- `.agents/drafts/substack-best-high-yield-savings-account.md` — (already published today, kept for record).
+- `.agents/drafts/medium-401k-vs-roth-ira.md` — (already published today, kept for record).
+- **UX rule owner reaffirmed:** deliver the FULL article/post in ONE place in chat (title+subtitle+tags+body),
+  NOT split across draft files + chat — splitting causes confusion. Give copy-paste-ready blocks.
+
+### SEMrush Domain Overview BASELINE (Sep 21 data, screenshot) — track vs this next time:
+- **Backlinks 47 · Ref. Domains 37 · Authority Score 0 · Organic Traffic 0 · Organic Keywords 306** (306 is
+  UP a lot from ~84 earlier = Google indexing/relevant on many queries) · AI Visibility 0 (ChatGPT/Gemini/AI
+  Overview all 0) · SERP 100% organic. Keywords graph shows a recent sharp spike (0→~310).
+- DIAGNOSIS unchanged and now data-confirmed: 306 keywords rank but ALL page 4+ (traffic 0, Authority 0) =
+  classic new-site trust gap. 37 ref domains is a healthy foundation but they're mostly
+  profile/directory/republish (medium/low authority) — editorial/journalist DOFOLLOW links are ~absent.
+  The ONLY lever left = EDITORIAL AUTHORITY + time. AI Visibility 0 is also an open GEO opportunity.
+
+### NEW STRATEGY agreed (Phase 2 = EDITORIAL AUTHORITY, not more spraying):
+Phase 1 (content + technical + foundational profile/directory/republish links) is DONE. Stop spraying
+profile/directory links (saturated, don't move Authority Score). New priority order:
+1. **Editorial/journalist dofollow links** (Qwoted role fix Journalist→Expert #1; Featured/HARO/SourceBottle;
+   Wealth of Geeks reply → guest article). These move Authority Score; we have almost none.
+2. **Promote the Home Affordability Index** as the linkable-asset backlink engine (it was built but never
+   pitched). Local-media city angle is strongest (30 city figures → pitch each city's local press).
+3. **Resource-page backlinks** (Google operators) — new untapped angle; submit the ASSET, not homepage.
+4. Slow articles to ~1/week, only CLUSTER-COMPLETING ones (e.g. "credit score range").
+5. GEO/AI-visibility edge (Quick-Answer boxes, extractable defs; schema/Speakable already shipped).
+CAUTION on the GPT-provided strategy: good framework, but VERIFY every specific site name it gave
+(MoneyMapJournal, "American Public Education Foundation resource library", "50-site directory") LIVE before
+pitching — GPT can hallucinate site names; apply the same reject-discipline as before (DollarSprout/MoneyGeek
+etc.). Natural anchors only ("this affordability study", "Coinscribed's analysis"); never buy link packages (YMYL).
+Do NOT rename the asset URL to /home-affordability-index-2026 — the current /home-affordability-index is already
+live+indexed; renaming resets its authority and breaks the evergreen-title rule.
+
+### SHIPPED the OUTREACH KIT: `.agents/drafts/home-affordability-index-OUTREACH-KIT.md`
+Copy-paste-ready, all figures VERIFIED from the live asset page: (1) general journalist/blogger pitch email,
+(2) local-media city-angle pitch + per-city income cheat-sheet (NYC $196,014, Chicago $88,860, Dallas $104,541,
+Miami $150,277, Houston $87,553, Atlanta $100,620, Seattle $209,082, Boston $182,946, Denver $156,811, Austin
+$137,210, Nashville $113,688, Phoenix $114,995), (3) resource-page submission blurb, (4) three Qwoted/Featured/
+HARO expert-answer templates (affordability / mortgage-28%-rule / cost-of-living), (5) Google prospecting
+operators + a per-prospect verification checklist. Verified asset facts: San Jose hardest ~$392,028/yr,
+Detroit easiest ~$57,497/yr, 7×+ gap, 30 metros, 28% rule + 30-yr fixed 6.5% + 20% down, transparent methodology,
+suggested-citation box already on page.
+
+### NEXT (this session continues — owner says lots more to do today):
+- Owner wants to keep working after this save. Resume with: execute outreach (owner finds prospects via the
+  operators → agent verifies each live → personalizes the pitch), fix Qwoted role, post Hashnode when login
+  clears, and after ~5:30 PM IST confirm negative-equity live → Quora answer + GSC index. "credit score range"
+  article still pending SEMrush data. Track SEMrush next time vs baseline 47/37/306.

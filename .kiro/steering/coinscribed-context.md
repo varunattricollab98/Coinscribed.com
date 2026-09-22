@@ -896,3 +896,80 @@ RUNNING TALLY of backlink channels now live/submitted: Crunchbase(pending), Link
 F6S, Owler, Startup Ranking, Product Hunt (Coinscribed live + Home Affordability Index scheduled),
 issuu (Home Affordability Index PDF), Medium (Rule of 72 + Home Affordability Index, canonical),
 SaaSHub(pending), AlternativeTo(pending), Substack(live), Trustpilot(live). Quora 5 answers, Reddit warm-up.
+
+---
+
+## 24. Content-republish + profile backlink drive (22 Sep 2026)
+
+Owner wanted 10 high-quality backlinks in a day. `remote_web_search` tool was DOWN (24h+, provider-side)
+but page-fetch worked, so verified platforms via fetch + owner screenshots. Did NOT force spam to hit 10 —
+quality only. IMPORTANT RULE reaffirmed: only ever link to LIVE articles (dead/scheduled links are useless).
+
+### CONFIRMED LIVE articles (only build backlinks to these — verified in sitemap §9):
+what-is-apr, what-is-apy, apr-vs-apy, what-is-a-good-credit-score, simple-vs-compound-interest,
+rule-of-72, debt-snowball-vs-avalanche, how-to-pay-off-credit-card-debt, how-to-pay-off-a-loan-faster,
+best-high-yield-savings-account, how-to-build-an-emergency-fund, 401k-vs-roth-ira,
+how-much-to-contribute-to-401k, 401k-employer-match-explained, how-to-find-routing-number-on-check,
+monthly-payment-300k-400k-500k-mortgage. Also LIVE: /home-affordability-index (static asset).
+NOTE: negative-equity-car-loan was NOT live yet when we tried it (Tue schedule slipped) — do NOT link
+it until confirmed live. balloon-payment-car-loan scheduled Wed 23 Sep.
+
+### Backlinks DONE this session (do NOT repeat):
+1. **Gravatar** — profile LIVE (gravatar.com, Automattic/WordPress high-trust). Varun Attri, Founder at
+   Coinscribed, Texas, bio, Links section → Coinscribed.com (with preview). Backlink live.
+2. **Dev.to** — post published: "How We Built a Home Affordability Index for 30 US Cities" with body link
+   to /home-affordability-index (attempted canonical via front matter). LESSON: Dev.to uses Markdown —
+   `##` headings need a BLANK LINE above and below to render; front-matter `---` block can break the body
+   if malformed; hit an "Invalid authenticity token" error once (fix = refresh/re-login). Reuse Dev.to for
+   canonical republishes (DR ~90).
+3. **LinkedIn Article** (owner's profile) — published "How to Build an Emergency Fund (Even When Money
+   Feels Tight)" with link to /news/how-to-build-an-emergency-fund.
+4. **Medium** — 2nd republish "Simple vs Compound Interest" with canonical to
+   /news/simple-vs-compound-interest (use Medium "Import a story" for auto-canonical; handle @varunattri3245).
+5. **Substack** — 2nd post "Debt Snowball vs Debt Avalanche" with link to /news/debt-snowball-vs-avalanche
+   (publication "Coinscribed" already set up; reuse for future republishes).
+
+### VERIFIED SKIP this session (do NOT retry):
+- **Vocal Media** — NOT available in India (geo-blocked); needs VPN, skip.
+- **SaaSworthy** — SaaS-products-ONLY (disclaimer says so) + "Talk to Us"/funding sales form; Coinscribed
+  is a free calculator/content site, not SaaS → poor fit, likely reject. Skip.
+- **LaunchingNext** — behind a captcha/verification wall on fetch; retry manually if wanted.
+- **About.me** — Google/FB login only (from prior session).
+
+### Platform-type lesson (which backlink types actually fit Coinscribed):
+BEST FIT = (a) content republish w/ canonical/link (Dev.to, Medium, Substack, LinkedIn Articles, Hashnode)
+and (b) genuine profile/brand citations (Gravatar, Trustpilot, Crunchbase, LinkedIn, F6S, Owler). SaaS/tool
+directories (SaaSHub, AlternativeTo) work but call it a "tool", and pure-SaaS ones (SaaSworthy) reject
+non-SaaS. Journalist platforms (Qwoted/Featured/SourceBottle) = strongest for YMYL but need the Qwoted
+role fix (Journalist→Expert) still pending. Product Hunt: Coinscribed live since Sep 15; Home Affordability
+Index launch was scheduled for Sep 22 — CHECK if it went live and gather upvotes/first-comment/replies.
+
+### FRESH platforms still to try next (drip, India-friendly, content-fit):
+Hashnode (canonical republish, DR high), Crunchbase (chase approval — already submitted), BetaList (retry),
+Reddit (value-first answers), more Medium/Substack/Dev.to republishes of the LIVE articles above, Gravatar
+done. AVOID: link-farm "500 directory" lists, paid "guaranteed DRxx" services, Fiverr gigs (YMYL penalty risk).
+
+### RUNNING backlink tally (live or submitted):
+Gravatar(live), Dev.to(live), LinkedIn Article(live), Medium(Rule of 72 + Home Affordability Index +
+Simple-vs-Compound, canonical), Substack(APR-vs-APY + Debt Snowball, live), Trustpilot(live claimed profile),
+SaaSHub(pending review), AlternativeTo(pending review), issuu(Home Affordability Index PDF), LinkedIn Company
+Page, F6S, Owler, Startup Ranking, Product Hunt (Coinscribed live + Home Affordability Index launch),
+Crunchbase(pending approval). Quora = 5 genuine answers. Reddit = warm-up value answers.
+
+### CONTEXT NOTE — long session caused UI churn
+This session got very long; owner found the repeated auto-updates annoying and is starting a FRESH session.
+Everything above (steering §23, §23b, §24 + PRs #92/#93/#94 + this save) is the full A-to-Z record so a new
+session resumes with zero loss. Reminder: sandbox `remote_web_search` was DOWN 24h+ (provider-side) but
+page-fetch, git, PR, code all worked fine — search being down does NOT block the work.
+
+### NEXT SESSION to-do (priority)
+1. Product Hunt: confirm Home Affordability Index launched (Sep 22); post drafted maker first-comment,
+   gather genuine upvotes (LinkedIn/network), reply to comments.
+2. Wed 23 Sep: balloon-payment-car-loan auto-publishes → then post the drafted Quora balloon answer (with
+   link) + GSC Request Indexing the balloon URL. Also confirm negative-equity-car-loan is finally live.
+3. Fix Qwoted account role (Journalist→Expert) → answer finance journalist requests (best YMYL links).
+4. Watch varun@coinscribed.com for Wealth of Geeks reply → agent writes full guest article w/ 1 dofollow link.
+5. "credit score range" candidate article (GSC 27 impressions, no dedicated article) — get SEMrush data
+   (Vol+KD+Intent+SERP) → verify winnability → write.
+6. Recheck GSC: 13 redirect pages cleared? anything reaching page 2-3 (pos 11-30) to refresh-and-push?
+7. Continue backlink drip (Hashnode, Crunchbase approval, more republishes; 1-2 Quora/day value-first).

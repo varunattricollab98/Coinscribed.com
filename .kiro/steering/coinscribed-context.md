@@ -1086,3 +1086,13 @@ suggested-citation box already on page.
 4. Post Hashnode good-credit-score republish when login clears (draft ready, set Canonical URL).
 5. Track SEMrush vs baseline (Backlinks 47 / Ref Domains 37 / Authority 0 / Keywords 306) + GSC (position 58.8 → ?).
 6. Backlink drip 1-2 quality/day; keep article cadence ~1/wk cluster-completing only.
+
+### INDEXING CHECK (22 Sep, end of session) — site indexing is HEALTHY
+- `site:coinscribed.com` showed 31 results, but that count is NOT reliable — pages missing from `site:` were
+  verified via GSC URL Inspection to actually be "URL is on Google / Page is indexed" (confirmed
+  auto-loan-calculator AND savings-calculator both indexed despite not appearing in `site:`). Owner then
+  checked the rest and reported done. LESSON: do NOT trust `site:` for a pending-index list — always use GSC
+  URL Inspection (or Indexing→Pages report) to decide what genuinely needs Request Indexing. Indexing is not a
+  current bottleneck; the lever remains editorial authority + time.
+- Owner is ending the session here and starting a FRESH one. Everything A-to-Z is saved (steering §25 + §26 +
+  this note, PRs #96/#97/#98/#99, drafts, feedback learnings). Nothing lost.

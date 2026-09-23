@@ -97,6 +97,7 @@ export default function MortgageCalculatorPage() {
         { href: '/news/what-is-a-good-credit-score', title: 'What Credit Score Do You Need to Buy a House?' },
         { href: '/news/how-much-house-can-i-afford', title: 'How Much House Can I Afford? A Salary-by-Salary Guide' },
         { href: '/news/how-to-save-for-a-down-payment', title: 'How to Save for a Down Payment on a House' },
+        { href: '/news/how-to-get-rid-of-pmi', title: 'How to Get Rid of PMI: 6 Ways to Stop Paying' },
       ]}
       title="Mortgage Calculator"
       description="Calculate your monthly mortgage payments, total interest paid, and view a payment summary based on your home price, down payment, loan term, and interest rate."

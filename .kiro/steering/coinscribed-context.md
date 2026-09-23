@@ -1142,3 +1142,47 @@ Still authority phase — these are mostly medium/low-authority; EDITORIAL/journ
 Home Affordability outreach) remains the real unmoved lever.
 
 ### Owner ending session again (fresh start). All saved.
+
+---
+
+## 28. Homepage layout fix + traffic-expectations reset (22 Sep 2026, end)
+
+### balloon-payment-car-loan is now LIVE (confirmed via homepage lead story dated Sep 23).
+So all 3 car-loan cluster articles are live: negative-equity-car-loan, balloon-payment-car-loan,
++ credit-score-to-buy-a-car (scheduled Thu 24). They now auto-interlink via PR #97 topical Related Articles.
+
+### SHIPPED PR #102 (merged) — homepage lead-column gap fix
+- ISSUE (owner screenshot): homepage newsroom block is a 3-col grid in app/(site)/page.tsx — LEFT = single
+  LeadStory (lg:col-span-5), MIDDLE = 6-story list (col-span-4), RIGHT = sticky rail+newsletter (col-span-3).
+  Left column held only the lead → ran much shorter than middle/right → big empty vertical gap under the lead on desktop.
+- FIX: added a small "More to Read" block in the LEFT column right after <LeadStory>. Built a `moreToRead`
+  list from the EXISTING `popularArticles = rankByReadership(articles,4)` (NO new fetch), excluding
+  featured._id + de-duped, sliced to 3, rendered with the already-imported StoryRow + same header/divider
+  styling as the middle "Latest News" column. `hidden lg:block` (gap is desktop-only; mobile would echo the
+  list below). NOT wrapped in Reveal (matches above-the-fold LCP convention). Guarded moreToRead.length>0.
+  Additive only, +42 lines, no grid/data/other-section change. tsc/lint/build clean, CI pass, squash-merged.
+  Bonus: 3 extra internal links on the homepage.
+
+### TRAFFIC EXPECTATIONS — reset with owner (he wants "traffic bhar bhar ke")
+Told owner the honest truth (do NOT over-promise): site is ~2 months old, 306 keywords rank but all page 4+
+(position ~59), Authority Score 0, organic ~0 = normal new-site sandbox/trust gap. Traffic is NOT a
+button-press; content ✅ + technical ✅ are done, so the ONLY levers left are: (1) BACKLINKS — specifically
+EDITORIAL/journalist DOFOLLOW (Qwoted role fix + Home Affordability Index outreach kit) to move Authority
+Score, which lifts all 306 keywords from page 6→1; (2) keep writing ~1 WINNABLE low-KD article/week
+(data-verified) for faster individual wins; (3) TIME (3-6 months, hockey-stick curve). Explicitly warned
+against paid links / "instant traffic" / keyword stuffing / pumping 5 articles a day (YMYL penalty risk =
+kills the site). Reaffirmed: no magic; consistency over weeks is the path.
+
+### NEXT SESSION (owner will resume from this steering):
+1. Thu: credit-score-to-buy-a-car publishes → GSC Request Indexing + add its link to auto-loan-calculator
+   relatedReading (now safe/live) + Quora answer.
+2. #1 TRAFFIC LEVER = editorial authority: fix Qwoted role (Journalist→Expert) → answer finance journalist
+   queries; execute Home Affordability Index OUTREACH KIT (.agents/drafts/home-affordability-index-OUTREACH-KIT.md)
+   — owner finds local-news/finance-blog prospects, agent verifies each live + personalizes the pitch; watch
+   Wealth of Geeks reply.
+3. Continue winnable-article cadence (~1/wk, data-verified) + backlink drip (1-2 quality/day).
+4. Track SEMrush vs baseline (Backlinks 47 / Ref Domains 37 / Authority 0 / Keywords 306) + GSC (position ~59 → ?).
+5. Verify PR #102 homepage gap fix looks right after Vercel deploy.
+
+### Owner ending session; resuming tomorrow FROM THIS FILE. Full A-to-Z saved (steering §25-28, PRs
+#96-#102, drafts, feedback learnings). Nothing lost.

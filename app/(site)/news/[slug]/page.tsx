@@ -86,7 +86,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const relatedArticles = await getRelatedArticles(
     article.category.slug.current,
     article._id,
-    3
+    3,
+    article.slug.current,
+    article.title
   )
 
   const authorSlug = article.author?.slug?.current

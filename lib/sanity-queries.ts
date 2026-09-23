@@ -1,5 +1,6 @@
 import { cache } from 'react'
 import { sanityClient, isSanityConfigured } from './sanity'
+import { rankRelatedArticles } from './related-articles'
 
 // ============================================================
 // TypeScript Interfaces
@@ -311,25 +312,56 @@ export async function getLatestArticles(limit: number = 5): Promise<ArticleCard[
 }
 
 /**
- * Get related articles (same category, excluding current article)
+ * How many same-category candidates to pull before topical ranking. We fetch a
+ * generous pool (newest first) so `rankRelatedArticles` has enough material to
+ * surface genuine topic matches; the pool is still cheap because
+ * `articleCardFields` selects only card-sized fields, not article bodies.
+ */
+const RELATED_CANDIDATE_POOL = 30
+
+/**
+ * Get related articles for the "Related Articles" section.
+ *
+ * Candidates are the published articles in the SAME category (excluding the one
+ * being viewed), newest first — exactly the old behavior. When the current
+ * article's `currentSlug` + `currentTitle` are provided, those candidates are
+ * then re-ranked by topical relevance via {@link rankRelatedArticles}, so a
+ * car-loan piece surfaces the negative-equity / balloon-payment car articles
+ * ahead of unrelated same-category ones.
+ *
+ * Zero-regression guarantee: ranking only re-orders the fetched pool and takes
+ * the first `limit`. If nothing shares topical tokens (or the slug/title are
+ * omitted), the result is the same newest-first set the site returned before,
+ * so the section is never emptier or more broken than today. The try/catch →
+ * [] fetch safety is preserved.
  */
 export async function getRelatedArticles(
   categorySlug: string,
   currentArticleId: string,
-  limit: number = 3
+  limit: number = 3,
+  currentSlug?: string,
+  currentTitle?: string
 ): Promise<ArticleCard[]> {
   if (!(await hasSanityArticles())) return []
 
-  const query = `*[_type == "article" && category->slug.current == $categorySlug && _id != $currentArticleId && ${PUBLISHED_GATE}] | order(publishedAt desc)[0...$limit] {
+  // Fetch a pool larger than `limit` so ranking has candidates to choose from.
+  const query = `*[_type == "article" && category->slug.current == $categorySlug && _id != $currentArticleId && ${PUBLISHED_GATE}] | order(publishedAt desc)[0...$poolSize] {
     ${articleCardFields}
   }`
 
   try {
-    return (await sanityClient.fetch<ArticleCard[]>(query, {
-      categorySlug,
-      currentArticleId,
-      limit,
-    }, CONTENT_CACHE)) ?? []
+    const candidates =
+      (await sanityClient.fetch<ArticleCard[]>(query, {
+        categorySlug,
+        currentArticleId,
+        poolSize: RELATED_CANDIDATE_POOL,
+      }, CONTENT_CACHE)) ?? []
+
+    // Without the current article's own slug/title we cannot score topical
+    // overlap, so preserve the historical "category newest" behavior.
+    if (!currentSlug || !currentTitle) return candidates.slice(0, limit)
+
+    return rankRelatedArticles(currentSlug, currentTitle, candidates, limit)
   } catch {
     return []
   }

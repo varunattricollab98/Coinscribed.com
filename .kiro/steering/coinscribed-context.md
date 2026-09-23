@@ -1044,3 +1044,45 @@ suggested-citation box already on page.
   operators → agent verifies each live → personalizes the pitch), fix Qwoted role, post Hashnode when login
   clears, and after ~5:30 PM IST confirm negative-equity live → Quora answer + GSC index. "credit score range"
   article still pending SEMrush data. Track SEMrush next time vs baseline 47/37/306.
+
+---
+
+## 26. Session (22 Sep 2026, later) — ARTICLE #25 written + 2 internal-linking PRs + data
+
+### ARTICLE #25 WRITTEN & SCHEDULED (Thursday): "What Credit Score Do You Need to Buy a Car?"
+- Slug `credit-score-to-buy-a-car`, Category Banking, Author Marcus Bennett. Scheduled Thu 24 Sep (8 AM ET ≈ 5:30 PM IST).
+- Delivered as PASTE-READY HTML in chat (owner uses /admin Import-from-HTML). Fields + 6 Key Takeaways + full body given.
+- DATA-VERIFIED PICK (this is why credit-score-range head was REJECTED and this was chosen):
+  - "credit score range" (head) = Vol 40.5K but **KD 73 Hard**, SERP owned by Experian(AS77)/Equifax(71)/US Bank(76)/myFICO/.gov, SEMrush says "162 ref domains needed" → UNWINNABLE for a 0-authority site + cannibalizes our live what-is-a-good-credit-score. SKIPPED.
+  - Instead targeted the AUTO cluster credit angle: primary "credit score to buy a car" 2,900 vol / **KD 39 green**; "whats a good credit score to buy a car" 2,900/KD 36; "good credit score to buy a car" 880/KD 32; "improve credit score for car loan" 1,300/**KD 20 EASY**; umbrella "credit score for car loan" 9.9K/KD 54. Magic Tool cluster = 15,115 kw / 4.2M vol / avg KD 40 = winnable long-tails. SERP had beatable gaps (Proctor Honda AS26, Millsboro Hyundai AS11, Reddit) alongside Experian/NerdWallet/Chase.
+  - Feeds our #1 GSC cluster (auto-loan-calculator = 1,474 impressions). No cannibalization (100% car-specific). Human-written/AI-proof (dealership story intro), GEO Quick Answer + rate-tier table (super-prime/prime/nonprime/subprime/deep-subprime) + 7 PAA FAQs. Internal links: auto-loan-calculator ×2, how-to-pay-off-a-loan-faster, + negative-equity-car-loan (owner told to keep that link ONLY if neg-equity is live at publish, else drop it).
+  - IMAGE: agent gave owner a GPT/DALL·E image-generation PROMPT (credit-score gauge + car, oxblood/cream, 1200×630) + alt text; owner generates + uploads himself.
+  - PENDING owner: publish Thursday → GSC Request Indexing https://www.coinscribed.com/news/credit-score-to-buy-a-car; after live, ADD it to auto-loan-calculator relatedReading (deferred — do NOT link before live, owner rule "jo live nahi hai wo panga mat lo").
+
+### GSC data captured (3-month, track vs this):
+- Clicks 3, Impressions **4.96k** (up from 4.02k), Avg position **58.8** (improved from 63.5). Trend positive.
+- TOP PAGES by impressions: **auto-loan-calculator 1,474**, **savings-calculator 1,338**, what-is-a-good-credit-score 663, simple-vs-compound 238, apy 171, apr 156, compound-interest-calc 158, loan-payoff-calc 93, 401k-employer-match 152(1 click), mortgage-calc 16(1 click), debt-snowball 14(1 click). Calculators dominate impressions → internal-link equity should flow toward them + their clusters. Top QUERIES still auto/car-loan cluster heavy (15+), + credit score range, + apr/apy.
+
+### SHIPPED PR #97 (merged) — topic-relevant Related Articles (internal linking)
+- NEW lib/related-articles.ts: pure dependency-free scoring — tokenize slug+title, drop small curated stoplist (grammatical/listicle + generic-finance filler like calculator/money/finance), score = shared meaningful tokens, rank score desc + publishedAt-desc tiebreaker. Exports tokenize/sharedTokenScore/rankRelatedArticles.
+- lib/sanity-queries.ts getRelatedArticles now fetches pool of 30 same-category (newest, PUBLISHED_GATE, current excluded) then re-ranks; added optional currentSlug/currentTitle (backwards-compatible, returns ArticleCard[]). app/(site)/news/[slug]/page.tsx passes slug+title.
+- ZERO-REGRESSION: only re-orders the pool + takes first `limit`; never drops/invents; if nothing scores >0 (or slug/title omitted) = identical to old "category newest 3". try/catch→[] kept. Verified: car article now surfaces negative-equity + balloon (shared car+loan) above unrelated Banking pieces (write-a-check score 0). tsc/lint/build clean, CI pass, squash-merged. (Was previously topic-blind = weak topical signal; now tight clusters = ranking-positive for authority phase.)
+
+### SHIPPED PR #98 (merged) — mortgage calc → PMI article link
+- Added live /news/how-to-get-rid-of-pmi to mortgage-calculator relatedReading (was orphaned-ish; PMI is mortgage-tied). 1 line, target verified live, tsc/build/CI clean, squash-merged.
+- AUDIT of all 14 calculators' relatedReading: already good/relevant — do NOT keep "fixing" (only genuine gap was PMI). Calculator→article linking already exists everywhere; that "option" was already done.
+
+### COLD-EMAIL BACKLINK OFFERS handled (rule established):
+- **LaunchBuff** (cold email, DR72 claim): SKIP. Free tier = nofollow + badge-install clutter + SaaS-tournament gimmick, poor niche fit. Paid tier = paid dofollow = Google spam-policy violation = YMYL penalty risk. Rejected both.
+- **PeerPush** (cold email): FREE listing SUBMITTED (queue position #3487, ~2 months wait, ~Nov 2026 live). Chosen because it's an AI-discovery platform (ChatGPT/Claude/Perplexity/Gemini) → helps our AI-Visibility-0 gap = a GEO play, free, no risk. Paid tiers ($39-$229) + "100 directories $149" SKIPPED (spam). Submitted fields: Coinscribed, free financial calculators + Home Affordability Index, competitors NerdWallet/Bankrate/SmartAsset/Calculator.net.
+- RULE for steering: cold-email offers = default skeptical. Paid-dofollow / bulk-directory = auto-reject (YMYL spam). Free + AI-discovery-focused (like PeerPush) = acceptable low-effort GEO play (since AI Visibility = 0). Always fetch/verify the site before acting.
+
+### UX: owner finds long/frequent agent updates annoying — keep replies SHORT/crisp going forward, minimal status-recaps. (The Kiro app's own auto-scroll/refresh UI is client-side, not agent-controllable.)
+
+### NEXT SESSION to-do (priority):
+1. THURSDAY: after credit-score-to-buy-a-car publishes → GSC Request Indexing + ADD it to auto-loan-calculator relatedReading (now safe/live) + optional Quora answer.
+2. Confirm negative-equity + balloon car-loan articles went live (were scheduled Tue/Wed ~5:30 PM IST); once live → Quora answers + GSC index + they'll now auto-surface as related articles.
+3. EDITORIAL AUTHORITY push (the real lever, Authority Score still 0): fix Qwoted role Journalist→Expert; execute the Home Affordability Index OUTREACH KIT (.agents/drafts/home-affordability-index-OUTREACH-KIT.md) — local-media city-angle pitches; watch Wealth of Geeks reply.
+4. Post Hashnode good-credit-score republish when login clears (draft ready, set Canonical URL).
+5. Track SEMrush vs baseline (Backlinks 47 / Ref Domains 37 / Authority 0 / Keywords 306) + GSC (position 58.8 → ?).
+6. Backlink drip 1-2 quality/day; keep article cadence ~1/wk cluster-completing only.

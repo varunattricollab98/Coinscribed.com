@@ -1186,3 +1186,36 @@ kills the site). Reaffirmed: no magic; consistency over weeks is the path.
 
 ### Owner ending session; resuming tomorrow FROM THIS FILE. Full A-to-Z saved (steering §25-28, PRs
 #96-#102, drafts, feedback learnings). Nothing lost.
+
+---
+
+## 29. GEO / AI-discoverability — llms.txt + AI-crawler allow (22 Sep 2026)
+
+### Context: Fastlook "Agent-Readiness" scan
+Owner ran coinscribed.com through fastlook.* (an AI-agent-readiness scanner) — scored 21/100 "Not Ready".
+This is an EMERGING niche metric (can AI agents like ChatGPT/Perplexity/Claude discover+read the site), NOT a
+mainstream Google ranking factor — do NOT over-react. It does map to our known AI-Visibility=0 gap, so a couple
+of FREE safe fixes were worth doing; the rest were skipped as gimmick/paid/irrelevant to a content site.
+
+### SHIPPED PR #104 (merged) — 2 additive, safe, free GEO wins:
+1. **app/llms.txt/route.ts** (NEW) — serves /llms.txt (emerging llmstxt.org convention): curated text/markdown
+   map of what Coinscribed is + key pages (Home Affordability Index, calculators, popular guides). `dynamic =
+   'force-static'`, built from siteConfig, NO data fetch, excludes api/admin/studio/preview, includes a YMYL
+   citation note. Builds as static route.
+2. **app/robots.ts** — ADDITIVE rule explicitly allowing major AI crawlers (GPTBot, OAI-SearchBot,
+   ChatGPT-User, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Perplexity-User, Google-Extended,
+   Applebot-Extended, CCBot, Bytespider, Amazonbot, cohere-ai) to read public content, inheriting the SAME
+   disallow list (/api,/admin,/studio,/preview stay private). Existing wildcard rule unchanged.
+   tsc/lint/build clean (both /llms.txt and /robots.txt build static), CI pass, squash-merged. bun.lock reverted.
+   Verify live after deploy: coinscribed.com/llms.txt.
+
+### DELIBERATELY SKIPPED from the scan (do NOT chase / do NOT pay):
+- DNS-AID / SVCB records (risky DNS change, unproven).
+- RFC 8288 Link headers → /.well-known/api-catalog (API-first pattern, N/A for a content site).
+- MCP / Skills / API checks (0/7) — for app/SaaS products where agents "act", not a content site.
+- Fastlook's PAID "Auto-fix these + track monthly" upsell — it's a sales funnel; never pay it.
+HONEST framing given to owner: this score is a niche GEO edge, not the traffic lever. Real traffic still comes
+from Google ranking + editorial backlinks + time; llms.txt is a free bonus that helps the AI-Visibility-0 gap.
+
+### Owner resuming tomorrow FROM THIS FILE. Full A-to-Z saved (steering §25-29, PRs #96-#104, drafts,
+feedback learnings). Nothing lost.

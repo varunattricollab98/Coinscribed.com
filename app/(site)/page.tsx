@@ -157,6 +157,21 @@ export default async function HomePage() {
   // taken from the same pool so it needs no extra fetch.
   const popularArticles = rankByReadership(articles, 4)
 
+  // A short "More to Read" list that fills the empty space beneath the lead
+  // story in the left column (the lead is a single item, so its column runs
+  // much shorter than the middle list and the sticky rail). Built from the
+  // popular rotation — no extra fetch — with the featured story removed and
+  // de-duped by _id so it never repeats the lead. Capped at 3 rows.
+  const seenMoreToReadIds = new Set<string>()
+  const moreToRead = popularArticles
+    .filter((article) => {
+      if (article._id === featured?._id) return false
+      if (seenMoreToReadIds.has(article._id)) return false
+      seenMoreToReadIds.add(article._id)
+      return true
+    })
+    .slice(0, 3)
+
   // Organization + WebSite JSON-LD live on the site root: these are the brand
   // entity signals Google reads to build the knowledge panel and sitelinks.
   const organizationSchema = generateOrganizationSchema()
@@ -217,6 +232,33 @@ export default async function HomePage() {
                   divided={false}
                   imageSizes="(min-width: 1280px) 38vw, (min-width: 1024px) 40vw, (min-width: 768px) 56vw, 100vw"
                 />
+
+                {/* Fills the vertical gap under the single lead story on
+                    desktop, where this column runs much shorter than the middle
+                    list and the sticky rail. Desktop-only (`hidden lg:block`):
+                    on smaller screens the columns stack, so an extra headline
+                    list here would just echo the "Latest News" list right
+                    below it. Same seeded rotation as the block below, minus the
+                    lead, so it adds internal links without a new fetch. Not
+                    wrapped in `Reveal` — it lives in the above-the-fold
+                    newsroom block, which is intentionally never revealed. */}
+                {moreToRead.length > 0 && (
+                  <div className="mt-10 hidden border-t border-hairline pt-8 lg:block dark:border-hairline-dark">
+                    <div className="flex items-end justify-between gap-4 border-b border-ink/15 pb-3 dark:border-ink-inverse/15">
+                      <h2 className="font-serif text-display-3 font-bold text-ink dark:text-ink-inverse">
+                        More to Read
+                      </h2>
+                    </div>
+
+                    <ul className="divide-y divide-hairline dark:divide-hairline-dark">
+                      {moreToRead.map((article) => (
+                        <li key={article._id} className="py-5">
+                          <StoryRow article={article} />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
 
               {/* Middle column: the scannable headline list. */}

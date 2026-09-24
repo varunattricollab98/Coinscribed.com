@@ -52,6 +52,13 @@ export async function generateMetadata({
   const title = article.seoTitle || article.title
   const description = article.seoDescription || article.excerpt
 
+  // Always emit a social-share image. Use the article's own featured image when
+  // it has one, otherwise fall back to the site-wide brand OG image so an
+  // imageless article still renders a proper card on Facebook/LinkedIn/X
+  // (never a blank/broken preview). This mirrors the Article JSON-LD, which
+  // already falls back to siteConfig.ogImage.
+  const shareImage = article.imageUrl || siteConfig.ogImage
+
   return {
     title,
     description,
@@ -64,13 +71,13 @@ export async function generateMetadata({
       publishedTime: article.publishedAt,
       modifiedTime: article._updatedAt || article.publishedAt,
       authors: [article.author?.name || siteConfig.name],
-      ...(article.imageUrl && { images: [{ url: article.imageUrl }] }),
+      images: [{ url: shareImage }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      ...(article.imageUrl && { images: [article.imageUrl] }),
+      images: [shareImage],
     },
   }
 }

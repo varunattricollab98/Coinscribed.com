@@ -1271,3 +1271,121 @@ to next session ("baad mn karte next session").
 grep: article content not in code). All article + SEO-field edits are owner-done in /admin from paste-ready text.
 
 ### Owner ending session. Full A-to-Z saved (steering §25-30, PRs #96-#106, drafts, feedback learnings).
+
+
+---
+
+## 31. Session (24 Sep 2026) — apr-vs-apy SEO restore + what-is-apy APY-meaning optimization (BOTH DONE)
+
+Cleared the two pending §30 items. Both owner-done in /admin (agent has NO CMS access; content lives in Sanity).
+
+### FIX DONE — apr-vs-apy SEO restored (the §30 accidental-swap):
+Owner restored the apr-vs-apy article's SEO meta to its originals:
+- SEO Title: "APR vs APY: What's the Difference (and Why It Matters)?"
+- SEO Description: "APR and APY look almost identical, but one shows what you earn and the other what you pay. Here's the difference in plain English, with clear examples."
+Body/H1/excerpt were never touched. GSC Request Indexing prompted for /news/apr-vs-apy so Google recrawls the correct title.
+
+### OPTIMIZATION DONE — what-is-apy (to capture "apy meaning" 27.1K/KD 33 without a duplicate article):
+Owner applied to the CORRECT article this time (/news/what-is-apy):
+- SEO Title → "APY Meaning: What Is APY & Is a High One Worth It?" (51 chars)
+- SEO Desc → "APY meaning explained: Annual Percentage Yield is the yearly rate you earn on savings, including compounding. Here's what APY means and if a high one is worth it." (156 chars)
+- ADDED 3 green-KD FAQs (targets: is 4 apy good KD 15, what does 3/4 apy earn, apy meaning in banking KD 25):
+  1. "Is a 4% APY good?" — 4% ≈ 10x national avg; top HYSAs/CDs ~4.00–4.50% APY (as of 2025); variable rate note.
+  2. "What does a 3% or 4% APY actually earn?" — $10k @ 3%≈$300/yr, @4%≈$400/yr; 10-yr compounding $13,440 vs $14,800; links /calculators/apy-calculator.
+  3. "What does APY mean in banking?" — real annual return incl. compounding; always ≥ simple rate; fairest way to compare accounts.
+- Body H2/H3 left as-is (article already has a "What Does APY Mean?" section that covers the head query; only SEO fields + FAQs changed per §30 plan). GSC Request Indexing prompted for /news/what-is-apy.
+Both articles now show "Updated Sep 24". No code/PR (pure Sanity content edits).
+
+### STILL PENDING / NEXT (unchanged priorities from §28-30):
+1. Thu: credit-score-to-buy-a-car publishes → GSC Request Indexing + ADD its link to auto-loan-calculator relatedReading (now safe/live) + optional Quora answer.
+2. Fri: how-does-a-car-loan-work (article #26, draft PR #106) auto-publishes → GSC index.
+3. #1 TRAFFIC LEVER = editorial authority (Authority Score still 0): fix Qwoted role Journalist→Expert → answer finance journalist requests; execute Home Affordability Index OUTREACH KIT (.agents/drafts/home-affordability-index-OUTREACH-KIT.md); watch Wealth of Geeks reply.
+4. Backlink drip 1-2 quality/day; article cadence ~1/wk cluster-completing only.
+5. Track SEMrush vs baseline (Backlinks 47 / Ref Domains 37 / Authority 0 / Keywords 306) + GSC (position ~59 → ?).
+
+
+### Hashnode republish DELETED (privacy concern) — 24 Sep 2026
+The Hashnode "What Is a Good Credit Score?" republish (§27) was DELETED by owner over privacy concerns.
+So Hashnode is OFF the republish rotation for now (backlink no longer live). Do NOT count it in the tally.
+Republish rotation now = Medium, Substack, Dev.to, LinkedIn Articles (canonical/link-back only).
+
+### Session 31 backlinks — Option B (Home Affordability Index) + Option C (Quora), LinkedIn added:
+Network was INTEGRATIONS_ONLY this session (no web fetch/search) — used steering's confirmed-LIVE list + the
+OUTREACH KIT verified figures (San Jose ~$392,028, Detroit ~$57,497, 7×+ gap, 30 metros, 28% rule/30-yr 6.5%/20% down).
+- LinkedIn Article (owner profile): Home Affordability Index writeup → link /home-affordability-index (asset had
+  NOT been in a LinkedIn Article before; prior LinkedIn Articles were emergency-fund/credit-score). Star asset push.
+- Quora: 2 value-first answers — (a) "how much income to buy a house in <city>" → /home-affordability-index;
+  (b) car-credit-score Q → /news/credit-score-to-buy-a-car (now live+indexed). Quora nofollow = referral/brand/GEO.
+
+
+### Session 31 backlinks — ALL DONE (24 Sep 2026):
+- LinkedIn Article: "How Much Income Do You Really Need to Buy a Home in America? 30 Cities, Ranked" →
+  /home-affordability-index. PUBLISHED. (Star-asset push; LinkedIn Article had never carried the asset before.)
+  NOTE: LinkedIn Articles have NO alt-text field — only Caption + Credit/Attribution (alt is feed-posts-only).
+  Used caption w/ Coinscribed source + credit "Coinscribed Home Affordability Index". Feed commentary hook used
+  (emoji OK in LinkedIn commentary — that's not site content, so the no-emoji site rule doesn't apply there).
+  GPT image = editorial bar chart (San Jose→Detroit), cream bg + oxblood bars, generated text-free then captioned.
+- Quora Answer A: "Where is the cheapest place to live in the US? Is it worth moving there?" — tailored answer
+  (Detroit ~$57.5k most attainable, Houston/Chicago/Atlanta sweet spots, honest job-market/appreciation trade-offs)
+  → /home-affordability-index. POSTED.
+- Quora Answer B: originally planned "what credit score to buy a car" but owner ALREADY had an answer on that exact
+  Q (1 answer per Q per account — don't duplicate). Switched to a "how to improve credit score before a car loan"
+  question instead (utilization/tiers/prep angle) → /news/credit-score-to-buy-a-car. POSTED.
+LESSON: on Quora, check if an answer already exists on the exact question before writing — pick a sibling question
+to avoid duplicate/spam risk. Quora links nofollow = referral/brand/GEO value.
+
+### Session 31 FULL RECAP (all done): apr-vs-apy SEO restore ✅ · what-is-apy APY-meaning optimization + GSC index ✅ ·
+credit-score-to-buy-a-car published + GSC index ✅ · LinkedIn Article (Affordability Index) ✅ · 2 Quora answers ✅.
+Hashnode republish DELETED by owner (privacy) — off rotation.
+
+### STILL PENDING / NEXT SESSION (priority — unchanged real lever = editorial authority):
+1. Qwoted role fix (Journalist→Expert) — owner deferred; this is the #1 Authority-Score lever (editorial dofollow).
+2. Code PR: add /news/credit-score-to-buy-a-car to auto-loan-calculator relatedReading (now live+safe; additive,
+   Authority-positive internal link — feeds #1 auto GSC cluster).
+3. Fri: how-does-a-car-loan-work (#26, draft PR #106) auto-publishes → GSC index.
+4. Home Affordability Index outreach kit — local-media city pitches (real editorial dofollow); watch Wealth of Geeks.
+5. Track SEMrush vs baseline (Backlinks 47 / Ref Domains 37 / Authority 0 / Keywords 306) + GSC (position ~59 → ?).
+
+
+---
+
+## 32. Full SEO audit + on-page polish PR (24 Sep 2026)
+
+Owner asked to double-check the whole site so "apni side se kuch minor bhi na rahe" after seeing GSC:
+**5.37k impressions / 3 clicks / CTR 0.1% / avg position 57.1 (3-month)**.
+
+### AUDIT VERDICT — on-page is already PRO-LEVEL (do NOT keep re-fixing)
+Ran a full code-level audit (context-gatherer + direct reads). Confirmed already-solid: root metadata + title
+template (%s | Coinscribed), metadataBase, per-article dynamic generateMetadata (seoTitle||title, seoDesc||excerpt,
+canonical, OG article w/ modifiedTime), PER-CALCULATOR layout.tsx WITH title+description+canonical+OG (context-gatherer
+wrongly said these were missing — VERIFIED they exist for auto-loan, savings, etc.; steering §6 was right), full JSON-LD
+(Article+speakable, conditional FAQPage, HowTo, Breadcrumb, Organization w/ confirmed-only sameAs, WebSite,
+CollectionPage/ItemList on category + calculators-index + bank-index), sitemap + robots + AI-crawler allow + llms.txt,
+topical internal linking (related-articles.ts + bidirectional article<->calculator), one H1/page + TOC + KeyTakeaways.
+DIAGNOSIS (told owner straight): CTR 0.1% is BECAUSE avg position is 57 (page 6) — you cannot earn clicks from page 6
+no matter how good the title is. It's NOT a CTR/title problem; it's a POSITION problem, and position only moves with
+AUTHORITY (editorial backlinks) + time. On-page changes are marginal polish, NOT the traffic lever.
+
+### SHIPPED — PR (branch seo-polish-og-schema-sitemap) — 3 zero-risk, traffic-positive polish fixes:
+1. **OG/Twitter image fallback** (app/(site)/news/[slug]/page.tsx): article OG + twitter images were CONDITIONAL on
+   article.imageUrl (imageless articles emitted no page image). Now `shareImage = article.imageUrl || siteConfig.ogImage`
+   so every article renders a proper social card (mirrors the Article JSON-LD which already fell back). Additive.
+2. **/news CollectionPage/ItemList** (app/(site)/news/page.tsx): the main news listing had BreadcrumbList only; added
+   CollectionPage + ItemList (first 20 newest, guarded on articles.length>0) exactly like the category pages already do.
+3. **Sitemap↔noindex fix** (app/sitemap.ts): thin state pages (bankCount < MIN_BANKS_TO_INDEX=3) are rendered
+   noindex,follow but were STILL listed in sitemap.xml (conflicting signal). Now filtered out of stateEntries with the
+   same threshold; thin states stay crawlable via on-page "Other states" links.
+
+### DELIBERATELY NOT DONE (correctly rejected mid-work — honesty/YMYL):
+- **WebSite SearchAction / sitelinks-searchbox schema** — started adding it, then REVERTED: the site has NO internal
+  search endpoint (/news only takes ?page=, not ?q=). Emitting a SearchAction that points at a non-existent search =
+  a false signal to Google + dishonest on a YMYL site. Do NOT add SearchAction until a real site search exists.
+
+### VERIFICATION: local build/lint BLOCKED (network INTEGRATIONS_ONLY — npm registry 403, node_modules incomplete,
+no next/tsc/eslint bins — same as the admin-editor session). Authoritative next build + lint deferred to GitHub Actions
+CI (.github/workflows/ci.yml). Static-reviewed: all 3 changes are type-safe (shareImage always string; collectionSchema
+plain object matching the category-page pattern; sitemap .filter on StateRoutingSummary.bankCount), additive-only, no
+regressions. bun.lock reverted (never commit it).
+
+### REMINDER after this PR: on-page is now genuinely maxed. STOP polishing on-page — the ONLY traffic lever left is
+editorial authority (Qwoted role fix Journalist->Expert + Home Affordability Index outreach = editorial dofollow) + time.

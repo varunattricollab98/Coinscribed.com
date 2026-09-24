@@ -71,12 +71,44 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
     { name: 'News', url: `${siteConfig.url}/news` },
   ])
 
+  // CollectionPage/ItemList so Google understands /news is a hub listing of
+  // articles (mirrors what the category pages already emit). Lists the newest
+  // stories on page one; only emitted when there is content to list, so an
+  // empty dataset stays clean. Canonical is pinned to /news, so this describes
+  // the single indexed listing URL regardless of ?page=N.
+  const collectionSchema =
+    articles.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'Finance & Crypto News',
+          description:
+            'Latest cryptocurrency, market, economy, and banking news from Coinscribed.',
+          url: `${siteConfig.url}/news`,
+          mainEntity: {
+            '@type': 'ItemList',
+            itemListElement: articles.slice(0, 20).map((a, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              url: `${siteConfig.url}/news/${a.slug.current}`,
+              name: a.title,
+            })),
+          },
+        }
+      : null
+
   return (
     <div className="hairline-b">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {collectionSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+        />
+      )}
       <div className="container-page section-padding">
         {/* Page header */}
         <Reveal className="section-header mb-8">

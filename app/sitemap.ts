@@ -123,12 +123,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // -- Per-state routing pages: /bank-routing-numbers/state/<state.slug> --
-  const stateEntries: MetadataRoute.Sitemap = getStatesWithData().map(({ state }) => ({
-    url: url(`/bank-routing-numbers/state/${state.slug}`),
-    lastModified,
-    changeFrequency: 'weekly' as const,
-    priority: DEFAULT_PRIORITY,
-  }))
+  // Only list states that meet the SAME indexing threshold the state page uses
+  // (MIN_BANKS_TO_INDEX = 3 in bank-routing-numbers/state/[state]/page.tsx).
+  // Thin states there are rendered `noindex,follow`; listing a noindex URL in
+  // the sitemap is a conflicting signal to Google, so we exclude them here.
+  // Thin states stay crawlable via on-page "Other states" links (follow).
+  const MIN_BANKS_TO_INDEX = 3
+  const stateEntries: MetadataRoute.Sitemap = getStatesWithData()
+    .filter(({ bankCount }) => bankCount >= MIN_BANKS_TO_INDEX)
+    .map(({ state }) => ({
+      url: url(`/bank-routing-numbers/state/${state.slug}`),
+      lastModified,
+      changeFrequency: 'weekly' as const,
+      priority: DEFAULT_PRIORITY,
+    }))
 
   return [
     ...staticEntries,

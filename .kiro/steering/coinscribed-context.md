@@ -84,6 +84,37 @@ genuinely valuable so real US readers come, stay, and trust it.
   already owns the cluster, OPTIMIZE it instead of writing a duplicate.
 - Prefer topics that feed the site's strongest GSC clusters (currently AUTO/CAR LOAN).
 
+### Keyword Research Playbook (run this 6-step process for EVERY article — like a pro analyst)
+
+**Mindset:** we are a 0-authority, ~2-month-old site. Don't chase volume — chase
+**WINNABILITY**. A 590-vol / KD-32 keyword we can win beats a 50K-vol / KD-80 keyword we'd
+sit at page 9 for. High CPC is a bonus (AdSense value) but never overrides winnability.
+
+1. **Seed & Intent.** Decide intent first. INFORMATIONAL ("what is / how to / how does")
+   = our target (blogs rank here). COMMERCIAL ("best / vs / review") = Tier-1 product pages
+   own it, avoid. TOOL ("calculator") = our calculators handle it, don't fight it with an
+   article. If the SERP is full of product/bank pages, pivot to the informational angle.
+2. **SEMrush Overview** (owner sends as TEXT): Volume (US), KD %, Intent, CPC. KD rule:
+   **0–29 green = TARGET · 30–39 possible = TARGET · 40–49 yellow = weave into a section/FAQ
+   only · 50+ hard = REJECT as primary.**
+3. **SERP analysis (the real skill).** Look at the top 10, not just KD. Count how many are
+   Reddit / Quora / 0-ref-domain / thin pages → that's a **SERP GAP = winnable**. If it's
+   all Tier-1 (AS 70+, 100+ ref domains), reject. Golden signal: weak pages ranking = Google
+   has no good content = we can get in.
+4. **Magic Tool / cluster.** Expand the seed into questions + variations. Pick 1 primary
+   green-KD keyword (Title/H1) + 5–10 green-KD long-tails as exact-match H2/H3 + FAQ, and
+   weave higher-vol yellow terms into body sections. One article captures the whole cluster.
+5. **Cannibalization check** against inventory (§7). If an existing article owns the
+   cluster, OPTIMIZE that one (new FAQs/sections/SEO fields) instead of writing a duplicate.
+6. **Strategic fit.** Does it feed a strong GSC cluster (§5)? Is a live calculator +
+   related article available to internal-link? Is it evergreen (year-in-title rule)?
+
+**Verdict output:** for each topic the agent returns GO / REJECT / OPTIMIZE-EXISTING, the
+primary keyword, the green-KD cluster to target, and the internal links — then writes the
+paste-ready article only on GO. (Reference example: negative-equity-car-loan — rejected
+"auto loan calculator" KD 85 & "auto refinance" KD 55, chose "negative equity car loan
+calculator" 590/KD 32 because positions 6–9 were Reddit/0-ref pages = SERP gap.)
+
 ## 5. Current state — the honest diagnosis (UPDATE THIS)
 
 **Phase: AUTHORITY building.** Content ✅ and technical/on-page SEO ✅ are DONE and
@@ -145,6 +176,22 @@ how-much-house, down-payment, pmi).
 **Calculators (14):** mortgage, 401k, emi, sip, loan-payoff, compound-interest, retirement,
 auto-loan, credit-card-payoff, savings, emergency-fund, roth-ira, apy. (Each has correct
 layout metadata + canonical + JSON-LD — confirmed good, don't re-flag.)
+
+### Competitor landscape (50, tiered — Sep 2026; full list in Google Sheet)
+- **Tier 1 — Giants (avoid head-to-head, learn from, steal long-tails):** NerdWallet,
+  Bankrate, Investopedia, SmartAsset, Forbes Advisor, The Balance, Kiplinger, Experian,
+  Calculator.net, GoBankingRates, Fidelity, CNBC Select.
+- **Tier 2 — Mid (real competitors, sometimes backlink targets):** MagnifyMoney, The College
+  Investor, Money Crashers, The Penny Hoarder, DollarSprout, Money Under 30, LendEDU,
+  Crediful, Doctor of Credit, Clark.com, Get Rich Slowly, Clever Girl Finance, Motley Fool
+  Ascent, WalletHub, MyBankTracker, CreditCards.com, Quicken Simplifi, Empower.
+- **Tier 3 — Small/beatable (OUR weight class = real competitors + BEST guest/backlink
+  targets):** Wealthy Nickel, Wealth of Geeks, FinanceBuzz, Frugal Rules, Well Kept Wallet,
+  Financial Pilgrimage, Budgets Are Sexy, The Ways to Wealth, Lazy Man and Money, Man vs
+  Debt, Making Sense of Cents, Money Done Right, Savings Grove, Jason Fin Tips, FinancialAha,
+  Gerald, Best Money, ExpertBeacon, FangWallet, Guide to Money.
+- **Use:** Tier 3 is where we can realistically outrank + earn links; always live-verify a
+  Tier-2/3 site (genuine free + dofollow + US finance + not spam) before pitching (§9 skip-list).
 
 ## 8. Technical / dev facts (already solid — reference only)
 
@@ -254,3 +301,5 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~7 a
   PRs #108 (OG image fallback, /news schema, sitemap noindex fix) + #109 (credit-score →
   auto-loan calc link) merged; backlinks: LinkedIn Article (Affordability Index) + 2 Quora +
   Dev.to (Negative Equity). Consolidated all memory into this single file.
+- **25 Sep 2026:** Built the tiered 50-competitor list (added to §7) and formalized the
+  6-step Keyword Research Playbook (§4b). No code changes — strategy/memory only.

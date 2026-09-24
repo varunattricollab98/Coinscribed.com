@@ -1389,3 +1389,113 @@ regressions. bun.lock reverted (never commit it).
 
 ### REMINDER after this PR: on-page is now genuinely maxed. STOP polishing on-page — the ONLY traffic lever left is
 editorial authority (Qwoted role fix Journalist->Expert + Home Affordability Index outreach = editorial dofollow) + time.
+
+
+### PR #109 (merged, 24 Sep 2026) — credit-score-to-buy-a-car linked from auto-loan calculator
+Added the now-live /news/credit-score-to-buy-a-car to auto-loan-calculator/page.tsx relatedReading (credit group,
+after the car-loan articles, above the generic good-credit-score guide). Completes the §26/§28 deferred internal
+link now that the article is live+indexed. Strengthens the #1 GSC cluster (auto-loan calc ~1,474 impressions +
+car-loan article cluster). Additive one-liner, CI build passed, squash-merged, bun.lock untouched.
+Auto-loan relatedReading now = negative-equity, balloon, credit-score-to-buy-a-car, what-is-apr, pay-off-loan-faster,
+good-credit-score (6 links). Article→calc direction already handled by relatedCalculatorForArticle (car→auto-loan).
+
+
+### Republish (24 Sep 2026) — Dev.to: Negative Equity Car Loan
+Republished the LIVE /news/negative-equity-car-loan on Dev.to (DR ~90) with canonical URL set to the original.
+Title "Underwater on Your Car Loan? Here's What Negative Equity Really Means" — humanised (friend-panic story
+intro, contractions, casual tone) to reduce AI-detector flags. Tags: finance, money, personalfinance, beginners.
+FIRST republish of the car-loan cluster on any platform (previously only Medium/Substack/Dev.to had
+interest/credit/retirement pieces) — feeds the #1 GSC cluster (auto-loan). Body link back to original.
+
+UPDATED republish tally (do NOT duplicate the same article on the same platform):
+- Medium (@varunattri3245, "Import a story" = auto-canonical): Rule of 72, Home Affordability Index,
+  Simple-vs-Compound, 401k-vs-Roth-IRA, How-to-Pay-Off-Credit-Card-Debt.
+- Substack ("Coinscribed" pub, link-back at end, NO canonical field): APR-vs-APY, Debt Snowball, HYSA, Rule of 72.
+- Dev.to (canonical URL field): Home Affordability Index, APR-vs-APY, **Negative Equity Car Loan (new)**.
+- LinkedIn Articles: Emergency Fund, Credit-score-to-buy-a-car, Good Credit Score, Home Affordability Index.
+- Hashnode: Good Credit Score republish was DELETED by owner (privacy) + auto-mod removed it — OFF rotation.
+FRESH car-cluster republish candidates still open: balloon-payment-car-loan, credit-score-to-buy-a-car,
+how-does-a-car-loan-work (once live) — spread across Medium/Substack for future drips.
+
+
+---
+
+## 33. FULL SESSION CHECKPOINT — 24 Sep 2026 (raw, for clean resume in a NEW session)
+
+Owner is starting a FRESH session to get OPEN_INTERNET (this session was stuck on INTEGRATIONS_ONLY —
+web search/fetch blocked all session; git/PR/code worked fine). Everything below is the complete A-to-Z of
+this session so the next one resumes with zero loss. NEW WORKING RULE (owner set this session): do NOT save
+steering after every task — save ONLY when the owner explicitly says "save". (This checkpoint is an explicit save.)
+
+### WHAT WE DID THIS SESSION (all DONE):
+1. **apr-vs-apy SEO restore** — fixed the §30 accidental swap. Owner set SEO Title back to
+   "APR vs APY: What's the Difference (and Why It Matters)?" + original SEO Desc. GSC re-index requested.
+2. **what-is-apy optimization** — owner applied to the CORRECT article this time: SEO Title
+   "APY Meaning: What Is APY & Is a High One Worth It?" + 156-char desc + 3 green-KD FAQs
+   (is 4% APY good / what 3-4% APY earns / APY meaning in banking). GSC re-index requested. (targets "apy meaning" 27.1K/KD33)
+3. **credit-score-to-buy-a-car** — published + GSC indexed (Thu 24 Sep).
+4. **PR #108 (merged)** — 3 on-page SEO polish fixes: OG/Twitter image fallback to siteConfig.ogImage for
+   imageless articles (app/(site)/news/[slug]/page.tsx); /news CollectionPage/ItemList schema (app/(site)/news/page.tsx);
+   sitemap excludes noindex thin state pages bankCount<3 (app/sitemap.ts). CI build passed, squash-merged.
+   NOTE: WebSite SearchAction schema was started then REVERTED — site has no ?q= search, would be a false signal (YMYL).
+5. **PR #109 (merged)** — added /news/credit-score-to-buy-a-car to auto-loan-calculator relatedReading
+   (the §26/§28 deferred link, now safe/live). Auto-loan relatedReading now 6 links. CI passed, squash-merged.
+6. **Backlinks:** LinkedIn Article (Home Affordability Index — "How Much Income Do You Really Need to Buy a
+   Home in America? 30 Cities, Ranked", star-asset push, published w/ caption+credit since LinkedIn Articles
+   have no alt field); Quora ×2 ("cheapest place to live in US → /home-affordability-index" and
+   "improve credit score before car loan → /news/credit-score-to-buy-a-car" — the plain "what credit score for
+   a car" Q already had an answer, so used a sibling Q); Dev.to republish of Negative Equity Car Loan
+   (DR~90, canonical set, humanised, FIRST car-cluster republish anywhere).
+
+### AUDIT VERDICT (told owner straight, §32): GSC 3-month = 5.37k impressions / 3 clicks / CTR 0.1% / avg
+position 57.1. CTR is low BECAUSE position is page 6 — not a title/meta problem, a POSITION problem. On-page
+SEO is now MAXED (verified pro-level: per-page titles/canonicals/OG incl. per-calculator layouts, full JSON-LD
+incl. Speakable, topical internal linking, sitemap/robots/llms.txt). The ONLY traffic lever left = editorial
+authority (backlinks) + time (3-6 mo). STOP polishing on-page.
+
+### QWOTED — new account made this session, then DE-PRIORITIZED:
+Owner made a NEW Qwoted account (varun@coinscribed.com, Houston TX location, LinkedIn company/coinscribed,
+publication "coinscribed", bio + areas of expertise = Personal Finance/Banking/Mortgages/Credit Scores/Auto
+Loans/Retirement/Home Affordability/Consumer Finance; "Hide from search engines" left UNCHECKED). Profile is
+COMPLETE and listed in the Money-beat Source Directory (inbound: journalists can find + Contact him). BUT the
+outbound "respond to journalist requests" feed is NOT exposed to a new/free Qwoted source account (matches
+§24 lesson — Qwoted's free source UI doesn't show requestable journalist opportunities; top nav only has
+My Posts / Source Directory / Jobs / Press Releases, no Opportunities/Requests tab). Owner said "skip it" —
+so Qwoted is now PASSIVE (leave it; a journalist may Contact via the directory). Do NOT sink more time here.
+
+### INBOX TRIAGE (owner shared 7 emails; verdicts — do NOT chase the skips):
+- LaunchIgniter (paid $12/$15 dofollow + badge + bulk directory-submission service) = SKIP (paid dofollow = YMYL spam risk).
+- UptimeEye (uptime-monitoring SaaS sales) = SKIP (not a backlink).
+- DEV Community Kaggle Challenge = SKIP (irrelevant ML newsletter).
+- SourceBottle "Drink Up!" alert = KEEP watching (real journalist platform) but today's callouts all irrelevant
+  (scent expert, Australian TV, health, Aussie-retiree) — no US personal-finance/housing fit. No emails since.
+- Launchstag ("free DR65 listing", cold email) = SKIP (generic cold-email directory, unverified DR).
+- Substack "shareable assets" (auto-generated promo images for the Rule-of-72 republish) = INFO only, optional.
+- Hashnode "Post removed" = CONFIRMED the Good-Credit-Score republish was auto-mod removed (spam policy on
+  .hashnode.dev subdomains) — matches owner's earlier delete. Hashnode OFF the republish rotation.
+
+### CURRENT SEMrush baseline (track vs this): Backlinks 47 / Ref Domains 37 / Authority Score 0 / Organic
+Traffic 0 / Organic Keywords 306. GSC: impressions 5.37k, clicks 3, avg position 57.1 (was 58.8 → slowly improving).
+
+### NEXT SESSION — RESUME HERE (owner wants OPEN_INTERNET for these):
+1. **Owner asked for a list of ~50 exact competitors.** Do this FIRST with web/SEMrush once OPEN_INTERNET is
+   live. Owner can also pull SEMrush Domain Overview → Competitors tab. Tier them: Tier1 giants (NerdWallet,
+   Bankrate, Investopedia, SmartAsset, Forbes Advisor — don't chase); Tier2 mid (The Balance, DollarSprout,
+   MagnifyMoney, etc.); Tier3 small/beatable blogs = real competitors + guest-post/backlink targets.
+2. **Home Affordability Index outreach** (the #1 editorial-dofollow lever) — kit ready at
+   .agents/drafts/home-affordability-index-OUTREACH-KIT.md. Best angle = LOCAL-MEDIA city pitch (per-city income
+   figures verified: San Jose ~$392,028 hardest, Detroit ~$57,497 easiest, 7×+ gap, NYC $196,014, Chicago
+   $88,860, Dallas $104,541, Houston $87,553, Atlanta $100,620, Seattle $209,082, Boston $182,946, Denver
+   $156,811, Austin $137,210, Nashville $113,688, Phoenix $114,995, Miami $150,277). Owner finds local
+   finance/real-estate outlets/writers (kit §5 Google operators) → agent verifies each live + personalizes the
+   pitch. Also resource-page submission angle (kit §3).
+3. **how-does-a-car-loan-work (#26, draft PR #106)** — was scheduled Fri; confirm it published → GSC Request
+   Indexing → then it can join auto-loan relatedReading + a future republish.
+4. Keep SourceBottle watch; backlink drip 1-2 quality/day; article cadence ~1/wk cluster-completing only.
+5. Track SEMrush vs baseline (47/37/0/306) + GSC (pos 57.1 → ?).
+
+### NAME CONSISTENCY NOTE (unresolved — ask owner next session): owner asked for a LinkedIn profile summary
+under the name "Navdeep Singh, Writer at Coinscribed" — but ALL existing backlinks/pitches/profiles (Quora,
+guest posts, journalist answers, Qwoted, LinkedIn Company Page, Trustpilot) use "Varun Attri, Founder,
+Coinscribed". Provided the summary but flagged the mismatch; owner didn't clarify whether Navdeep Singh is a
+new author persona or the same person. CONFIRM before using two different names (E-E-A-T consistency).

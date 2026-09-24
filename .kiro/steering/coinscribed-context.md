@@ -1219,3 +1219,55 @@ from Google ranking + editorial backlinks + time; llms.txt is a free bonus that 
 
 ### Owner resuming tomorrow FROM THIS FILE. Full A-to-Z saved (steering §25-29, PRs #96-#104, drafts,
 feedback learnings). Nothing lost.
+
+---
+
+## 30. Keyword research for 3 articles + APY-optimization plan (24 Sep 2026)
+
+Owner wanted 3 new articles. Did full SEMrush research. RESULT: only 1 is a genuinely new winnable article;
+the other 2 topics are already covered by existing articles (would cannibalize) → optimize those instead.
+Good sign the site's content is maturing — do NOT create thin duplicate articles.
+
+### ARTICLE #26 WRITTEN & to schedule FRIDAY: "How Does a Car Loan Work? A Simple Guide"
+- Slug how-does-a-car-loan-work, Category Banking, Author Marcus Bennett. Full paste-ready HTML delivered in
+  chat (Import-from-HTML) + draft backup .agents/drafts/article-26-how-does-a-car-loan-work.md (PR #106).
+- DATA: REJECTED head "car loan payment" (1.6K vol but KD 84 Hard, SERP = BofA/Calculator.net/WellsFargo/
+  banks avg AS 80, 241 ref domains needed, calculator/tool intent = our auto-loan calc already targets it).
+  CHOSE informational pillar "how does a car loan work" 880/KD 35 green + winnable long-tails ("how do car loan
+  interest rates work" KD 32, "what are car loans" KD 31, "car payment average cost" KD 32). Feeds #1 auto GSC
+  cluster. No cannibalization (calc=tool; this=explainer). Internal links: auto-loan-calculator ×2, what-is-apr,
+  negative-equity-car-loan, how-to-pay-off-a-loan-faster (all live). credit-score-to-buy-a-car NOT linked (was
+  404/scheduled Thu). GPT image prompt (car→monthly-payment flow) + alt text given.
+- PENDING owner: Import HTML, set fields + 6 key takeaways, image+alt, schedule Fri 8 AM ET, publish → GSC index.
+
+### ARTICLE #2 (401k employer match) — REJECTED, do NOT write:
+"401k employer match" Vol 1.6K but KD 96 Very Hard (SERP = Fidelity/Reddit/Schwab/IRS.gov/Wikipedia). Magic Tool
+green long-tails (maximize 401k match KD 29, 401k percentage KD 29, maximum employer contribution KD 20) all fall
+INSIDE the cluster our existing /news/401k-employer-match-explained already owns = cannibalization. Better = refresh
+that existing article later, not a new one. SKIP as a new article.
+
+### ARTICLE #3 (apy meaning) — REJECTED as NEW, do OPTION A (optimize existing) instead:
+"apy meaning" Vol 27.1K / KD 33 Possible / Informational, SERP has beatable AS 32-49 credit unions + Reddit =
+winnable — BUT it cannibalizes our existing /news/what-is-apy (title "What Is APY? And Is a High APY Worth It?"),
+which already has a "What Does APY Mean?" section + FAQ. So OPTIMIZE what-is-apy to also capture "apy meaning"
+(27.1K) + green-KD questions (is 4 apy good KD 15, what does 3 apy mean KD 21, apy meaning in banking KD 25),
+rather than a duplicate article. This is OWNER-DONE in /admin (agent has NO CMS access; content lives in Sanity,
+not repo — confirmed). The planned what-is-apy edits: SEO Title → "APY Meaning: What Is APY & Is a High One Worth
+It?"; SEO Desc → "APY meaning explained: Annual Percentage Yield is the yearly rate you earn on savings, including
+compounding. Here's what APY means and if a high one is worth it." (156 chars, fits 160); ADD 3 FAQs (Is a 4% APY
+good? / What does a 3% or 4% APY actually earn? / What does APY mean in banking?). Then GSC Request Index what-is-apy.
+
+### ⚠️ MISTAKE TO FIX NEXT SESSION (owner did it by accident):
+Owner accidentally applied the what-is-apy SEO changes to the WRONG article — the **apr-vs-apy** article's SEO
+TITLE is now "APY Meaning: What Is APY & Is a High One Worth It?" (confirmed live in its <title>). BODY/H1/excerpt
+of apr-vs-apy are UNTOUCHED (only the meta SEO Title, maybe SEO Desc, changed; article shows "Updated Sep 24").
+FIX in /admin next session — restore apr-vs-apy original SEO:
+  - SEO Title: "APR vs APY: What's the Difference (and Why It Matters)?"
+  - SEO Description: "APR and APY look almost identical, but one shows what you earn and the other what you pay. Here's the difference in plain English, with clear examples."
+Then separately apply the intended optimization to the CORRECT article (what-is-apy) as above. Owner deferred both
+to next session ("baad mn karte next session").
+
+### REMINDER: agent has NO Sanity/CMS access — article title/body/FAQ live in Sanity, not the repo (verified via
+grep: article content not in code). All article + SEO-field edits are owner-done in /admin from paste-ready text.
+
+### Owner ending session. Full A-to-Z saved (steering §25-30, PRs #96-#106, drafts, feedback learnings).

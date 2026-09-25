@@ -124,8 +124,12 @@ is **editorial (dofollow) backlinks + time** (new-site sandbox typically 3–6 m
 **Metrics baseline (track vs this each session):**
 - **SEMrush (Sep 21 2026):** Backlinks 47 · Ref Domains 37 · **Authority Score 0** ·
   Organic Traffic 0 · Organic Keywords **306** · AI Visibility 0.
-- **GSC (3-month, ~24 Sep 2026):** Impressions **5.37k** (rising) · Clicks **3** ·
-  CTR 0.1% · **Avg position 57.1** (page 6, slowly improving from 63.5→58.8→57.1).
+- **GSC (3-month, ~25 Sep 2026):** Impressions **6.25k** (rising) · Clicks **3** ·
+  CTR 0% · **Avg position 55.1** (page 5–6, steadily improving: 63.5→58.8→57.1→55.1).
+  Top queries confirm the AUTO/CAR cluster is #1 (loan calculator auto 46, negative equity
+  car loan calculator 32, car balloon payment calculator 32, negative equity calculator 30),
+  plus CREDIT SCORE ("credit score range" 39 + "what is the credit score range" 32) and
+  APR ("what is apr" 44). Clicks are ~0 purely BECAUSE position is page 5–6 — expected.
 - **Diagnosis:** 306 keywords rank but all page 4+, so traffic ≈ 0. CTR is low BECAUSE
   position is page 6 (not a title/meta problem — a POSITION problem). Position only
   moves with authority + time. AI Visibility 0 = open GEO opportunity.
@@ -303,3 +307,6 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~7 a
   Dev.to (Negative Equity). Consolidated all memory into this single file.
 - **25 Sep 2026:** Built the tiered 50-competitor list (added to §7) and formalized the
   6-step Keyword Research Playbook (§4b). No code changes — strategy/memory only.
+- **25 Sep 2026 (GSC check):** 3-month GSC = 6.25k impressions (up from 5.37k) / 3 clicks /
+  pos 55.1 (up from 57.1) — trend positive, still page 5–6 = authority phase confirmed.
+  Updated §5 baseline. Queries confirm AUTO/CAR #1 + CREDIT SCORE ("credit score range") demand.

@@ -267,8 +267,8 @@ finance guest blogs are <~15% of "write for us" pages — quality drip beats vol
 **Live/submitted tally:** Gravatar · Dev.to (Home Affordability, APR-vs-APY, Negative-Equity) ·
 LinkedIn Article ×4 (Emergency Fund, Credit-score-to-buy-a-car, Good Credit Score, Home
 Affordability) · LinkedIn Company Page · Medium ×6 (Rule of 72, Home Affordability,
-Simple-vs-Compound, 401k-vs-Roth, Credit-Card-Debt, Credit-Score-to-Buy-a-Car) · Substack ×4 (APR-vs-APY, Debt Snowball,
-HYSA, Rule of 72) · Trustpilot · issuu (Home Affordability PDF) · F6S · Owler · Startup Ranking ·
+Simple-vs-Compound, 401k-vs-Roth, Credit-Card-Debt, Credit-Score-to-Buy-a-Car) · Substack ×5 (APR-vs-APY, Debt Snowball,
+HYSA, Rule of 72, How-Does-a-Car-Loan-Work) · Trustpilot · issuu (Home Affordability PDF) · F6S · Owler · Startup Ranking ·
 Product Hunt ×2 (Coinscribed + Home Affordability) · SaaSHub (pending) · AlternativeTo (pending) ·
 Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 answers. Reddit warm-up.
 
@@ -319,4 +319,6 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 a
   not authorship; impressions rising = content is acceptable). Lever stays authority + time.
   Plus 2 Quora answers (value-first, sibling Qs): "right down payment for a car" → negative-equity-car-loan,
   and "what a low credit score means for future loans" (was a no-answer-yet Q = only answer) →
-  what-is-a-good-credit-score. Quora tally ~7→~9.
+  what-is-a-good-credit-score. Quora tally ~7→~9. Plus Substack republish of how-does-a-car-loan-work
+  (humanised, link-back at end; Substack ×4→×5) — 4 distinct channels today (Medium/Quora×2/Substack),
+  all feeding the #1 AUTO/CAR + CREDIT clusters, spam-safe footprint.

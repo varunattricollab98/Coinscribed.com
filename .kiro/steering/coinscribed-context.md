@@ -266,8 +266,8 @@ finance guest blogs are <~15% of "write for us" pages — quality drip beats vol
 
 **Live/submitted tally:** Gravatar · Dev.to (Home Affordability, APR-vs-APY, Negative-Equity) ·
 LinkedIn Article ×4 (Emergency Fund, Credit-score-to-buy-a-car, Good Credit Score, Home
-Affordability) · LinkedIn Company Page · Medium ×5 (Rule of 72, Home Affordability,
-Simple-vs-Compound, 401k-vs-Roth, Credit-Card-Debt) · Substack ×4 (APR-vs-APY, Debt Snowball,
+Affordability) · LinkedIn Company Page · Medium ×6 (Rule of 72, Home Affordability,
+Simple-vs-Compound, 401k-vs-Roth, Credit-Card-Debt, Credit-Score-to-Buy-a-Car) · Substack ×4 (APR-vs-APY, Debt Snowball,
 HYSA, Rule of 72) · Trustpilot · issuu (Home Affordability PDF) · F6S · Owler · Startup Ranking ·
 Product Hunt ×2 (Coinscribed + Home Affordability) · SaaSHub (pending) · AlternativeTo (pending) ·
 Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~7 answers. Reddit warm-up.
@@ -310,3 +310,10 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~7 a
 - **25 Sep 2026 (GSC check):** 3-month GSC = 6.25k impressions (up from 5.37k) / 3 clicks /
   pos 55.1 (up from 57.1) — trend positive, still page 5–6 = authority phase confirmed.
   Updated §5 baseline. Queries confirm AUTO/CAR #1 + CREDIT SCORE ("credit score range") demand.
+- **25 Sep 2026:** PMI article GSC "Duplicate without user-selected canonical" report was STALE —
+  URL Inspection showed "Page is indexed" + self-canonical correct; resolution = click Validate Fix,
+  no code change (lesson reaffirmed: trust URL Inspection over the report). how-does-a-car-loan-work
+  (#26) now LIVE. Backlink drip: Medium republish of credit-score-to-buy-a-car (Import-a-story =
+  auto-canonical, humanised intro) — feeds the #1 AUTO/CAR cluster. Also reaffirmed to owner: no-clicks
+  is a POSITION problem (page 5–6 → ~0% CTR), NOT an "AI content" problem (Google ranks on quality,
+  not authorship; impressions rising = content is acceptable). Lever stays authority + time.

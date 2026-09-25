@@ -270,7 +270,7 @@ Affordability) · LinkedIn Company Page · Medium ×6 (Rule of 72, Home Affordab
 Simple-vs-Compound, 401k-vs-Roth, Credit-Card-Debt, Credit-Score-to-Buy-a-Car) · Substack ×4 (APR-vs-APY, Debt Snowball,
 HYSA, Rule of 72) · Trustpilot · issuu (Home Affordability PDF) · F6S · Owler · Startup Ranking ·
 Product Hunt ×2 (Coinscribed + Home Affordability) · SaaSHub (pending) · AlternativeTo (pending) ·
-Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~7 answers. Reddit warm-up.
+Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 answers. Reddit warm-up.
 
 ## 10. Open items / next actions
 
@@ -317,3 +317,6 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~7 a
   auto-canonical, humanised intro) — feeds the #1 AUTO/CAR cluster. Also reaffirmed to owner: no-clicks
   is a POSITION problem (page 5–6 → ~0% CTR), NOT an "AI content" problem (Google ranks on quality,
   not authorship; impressions rising = content is acceptable). Lever stays authority + time.
+  Plus 2 Quora answers (value-first, sibling Qs): "right down payment for a car" → negative-equity-car-loan,
+  and "what a low credit score means for future loans" (was a no-answer-yet Q = only answer) →
+  what-is-a-good-credit-score. Quora tally ~7→~9.

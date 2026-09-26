@@ -377,3 +377,14 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 a
   So today = 3 editorial guest pitches live (Propaura, Money Journey Today, Finance Care Guide); Lenders
   Network dropped (bounce). Get Finance Post = backup (email obfuscated on page, B2B-lean). Purgula
   (purgula.com/write-with-us, form-based, financing/budgeting topic) = untried secondary candidate.
+- **25 Sep 2026 (guest pitch #4 — Purgula SENT):** Purgula (purgula.com/write-with-us) — genuine
+  homeownership blog, FORM-based intro pitch (no email = no bounce risk), accepts "Financing & Budgeting"
+  topic. Submitted intro form (Varun/varun@coinscribed.com/coinscribed.com) proposing article "Financing
+  Your First Home: How to Figure Out What You Can Actually Afford" (~950 words, unique 4th angle =
+  first-time-buyer financing/budgeting; full draft written & ready to send if they reply). Now 4 editorial
+  pitches out today: Propaura, Money Journey Today, Finance Care Guide, Purgula.
+  DALTX Real Estate = REJECTED/skip (paid publication fee via PayPal, agencies/resellers welcome = paid
+  marketplace, YMYL risk). realtor.com resource hub = GENUINE + high authority (DR~90) but agent/marketing
+  audience (not consumer) + "no promotion" → needs an agent-angle article; PARKED as a high-value future try.
+  Wealthy Nickel write-for-us page repurposed (no longer takes guest posts). Landlord Tips = genuine but
+  landlord/investor angle + obfuscated email.

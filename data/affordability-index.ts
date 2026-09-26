@@ -85,6 +85,28 @@ export const METRO_BENCHMARKS: MetroBenchmark[] = [
   { city: 'Cleveland', state: 'OH', medianHomePrice: 230_000 },
   { city: 'Detroit', state: 'MI', medianHomePrice: 220_000 },
   { city: 'Pittsburgh', state: 'PA', medianHomePrice: 235_000 },
+  // Expanded metro set (Sep 2026) — rounded, illustrative benchmarks derived
+  // from Zillow city-level home values; treated as assumptions like the rest.
+  { city: 'Riverside', state: 'CA', medianHomePrice: 580_000 },
+  { city: 'Salt Lake City', state: 'UT', medianHomePrice: 560_000 },
+  { city: 'Providence', state: 'RI', medianHomePrice: 480_000 },
+  { city: 'Raleigh', state: 'NC', medianHomePrice: 435_000 },
+  { city: 'Orlando', state: 'FL', medianHomePrice: 375_000 },
+  { city: 'Richmond', state: 'VA', medianHomePrice: 375_000 },
+  { city: 'Tucson', state: 'AZ', medianHomePrice: 340_000 },
+  { city: 'Hartford', state: 'CT', medianHomePrice: 310_000 },
+  { city: 'Jacksonville', state: 'FL', medianHomePrice: 280_000 },
+  { city: 'Cincinnati', state: 'OH', medianHomePrice: 260_000 },
+  { city: 'Louisville', state: 'KY', medianHomePrice: 260_000 },
+  { city: 'St. Louis', state: 'MO', medianHomePrice: 260_000 },
+  { city: 'Buffalo', state: 'NY', medianHomePrice: 250_000 },
+  { city: 'New Orleans', state: 'LA', medianHomePrice: 240_000 },
+  { city: 'Birmingham', state: 'AL', medianHomePrice: 235_000 },
+  { city: 'Milwaukee', state: 'WI', medianHomePrice: 230_000 },
+  { city: 'Philadelphia', state: 'PA', medianHomePrice: 230_000 },
+  { city: 'Oklahoma City', state: 'OK', medianHomePrice: 210_000 },
+  { city: 'Baltimore', state: 'MD', medianHomePrice: 190_000 },
+  { city: 'Memphis', state: 'TN', medianHomePrice: 150_000 },
 ]
 
 export interface AffordabilityRow extends MetroBenchmark {

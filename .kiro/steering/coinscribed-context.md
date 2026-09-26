@@ -341,3 +341,28 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 a
   the Home Affordability Index) — BUT pitch form requires 3 prior guest-writing samples on other sites → HOLD
   until we have samples. Get Finance Post = free but B2B/lower-authority = backup only. AI-suggested targets
   Wise Bread / Modest Money / The Financial Diet / Money Under 30 were dead/blocked (verify-before-trust holds).
+
+- **25 Sep 2026 (owner directive — FOCUS):** Owner wants a long, full-throttle backlink session ("aaj to
+  start hua hai", don't suggest stopping before ~4 hrs in). GAME IS NOW BACKLINKS — impressions are already
+  rising (6.25k, pos 55), so the ONLY lever left is high-quality EDITORIAL/DOFOLLOW backlinks (authority),
+  not more on-page or more impressions. Drive quality backlinks relentlessly this session. Keep it YMYL-safe
+  (no spam/paid/link-farm) but keep momentum high — don't call it a day early.
+
+- **25 Sep 2026 (guest post SENT):** Propaura (propaura.com/write-for-us, info@propaura.com) — verified
+  GENUINE free guest blog, niche = Real Estate + Finance + Home Improvement, contextual links allowed
+  (natural/dofollow), 600+ words, 24-hr approval, content becomes their IP. AGENT wrote a full original
+  ~1,300-word article "How Much Do You Really Need to Earn to Buy a Home in America's Biggest Cities?"
+  (28% rule, San Jose ~$390k vs Detroit ~$57k, 7×+ gap) with ONE natural contextual link to
+  /home-affordability-index + author bio "Varun Attri, Founder, Coinscribed". Sent as .doc + branded
+  featured image. Awaiting reply. (First real editorial-dofollow guest pitch of the authority push.)
+  Also verified this session: found a maintained "119 verified guest-post blogs" list
+  (christopherjanb.com) — Finance/Real-Estate picks: Propaura (used), Money Journey Today (live, next),
+  DALTX/SEAINT/Estate Skyline (real-estate, check paths). Skip (paid/known): Elite Personal Finance, FangWallet.
+- **25 Sep 2026 (guest post #2 SENT):** Money Journey Today (moneyjourneytoday.com/write-for-us,
+  adriana@moneyjourneytoday.com) — verified GENUINE free personal-finance blog, external links to
+  "helpful resources (statistics)" allowed, 700-800+ words, unique/exclusive, host handles images.
+  AGENT wrote a DIFFERENT ~950-word article (budgeting/personal-journey angle to stay unique vs Propaura):
+  "Before You House-Hunt, Know the Income Your City Actually Requires" (28% rule + city income spread) with
+  ONE link to /home-affordability-index (framed as a free statistics resource) + bio. Sent as .doc.
+  Awaiting reply. Now 2 editorial-dofollow guest pitches out today (Propaura + Money Journey Today).
+  RULE reaffirmed: each guest blog needs a UNIQUE article (exclusive) — never reuse the same piece; vary angle.

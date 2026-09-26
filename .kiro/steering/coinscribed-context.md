@@ -122,8 +122,9 @@ pro-level — do NOT keep "fixing" on-page; it's marginal. The ONLY lever left f
 is **editorial (dofollow) backlinks + time** (new-site sandbox typically 3–6 months).
 
 **Metrics baseline (track vs this each session):**
-- **SEMrush (Sep 21 2026):** Backlinks 47 · Ref Domains 37 · **Authority Score 0** ·
-  Organic Traffic 0 · Organic Keywords **306** · AI Visibility 0.
+- **SEMrush (Sep 25 2026):** Backlinks **65** · Ref Domains **54** · **Authority Score 0** ·
+  Organic Traffic 0 · Organic Keywords **363** · AI Visibility 0. (Up from 47/37/306 on Sep 21 —
+  ref domains + keywords rising, but Authority still 0 = editorial dofollow is the unmoved lever.)
 - **GSC (3-month, ~25 Sep 2026):** Impressions **6.25k** (rising) · Clicks **3** ·
   CTR 0% · **Avg position 55.1** (page 5–6, steadily improving: 63.5→58.8→57.1→55.1).
   Top queries confirm the AUTO/CAR cluster is #1 (loan calculator auto 46, negative equity
@@ -166,7 +167,8 @@ what-is-a-roth-ira · how-much-house-can-i-afford · how-to-save-for-a-down-paym
 how-to-get-rid-of-pmi · cd-vs-high-yield-savings-vs-money-market ·
 difference-between-checking-and-savings-accounts · negative-equity-car-loan ·
 balloon-payment-car-loan · credit-score-to-buy-a-car.
-**Static asset:** /home-affordability-index (30-metro data study — the linkable asset).
+**Static asset:** /home-affordability-index (50-metro data study — the linkable asset; expanded
+from 30 on 25 Sep, PR #110/#111; now has a price-to-income column + rate-sensitivity insight).
 
 **SCHEDULED / not yet live:** how-does-a-car-loan-work (Fri 25 Sep, draft #26).
 
@@ -322,3 +324,20 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 a
   what-is-a-good-credit-score. Quora tally ~7→~9. Plus Substack republish of how-does-a-car-loan-work
   (humanised, link-back at end; Substack ×4→×5) — 4 distinct channels today (Medium/Quora×2/Substack),
   all feeding the #1 AUTO/CAR + CREDIT clusters, spam-safe footprint.
+
+- **25 Sep 2026 (asset expansion):** Expanded the Home Affordability Index (our #1 editorial-backlink
+  asset) — PR #110 grew it 30→50 metros (web-verified Zillow city benchmarks, rounded/YMYL-safe: added
+  Riverside, Salt Lake City, Providence, Raleigh, Orlando, Richmond, Tucson, Hartford, Jacksonville,
+  Cincinnati, Louisville, St. Louis, Buffalo, New Orleans, Birmingham, Milwaukee, Philadelphia, Oklahoma
+  City, Baltimore, Memphis). PR #111 added a computed price-to-income column + a rate-sensitivity callout
+  (avg income drop if the 30-yr rate fell 6.5%→5.5%) + updated copy/metadata/JSON-LD "30→50 cities".
+  Both additive/computed (nothing fabricated), CI-green, squash-merged. Result: 50 city-angle local-media
+  pitch targets + a more citeable study.
+- **25 Sep 2026 (SEMrush):** New baseline (Sep 25) = Backlinks 65 · Ref Domains 54 · Authority Score 0 ·
+  Organic Keywords 363 (up from 47/37/306). Ref domains + keywords rising (backlink drip + directories
+  working), but Authority Score still 0 → editorial DOFOLLOW remains the unmoved lever.
+- **25 Sep 2026 (guest-blog research):** Verified List with Clever (listwithclever.com/write-for-real-estate-blog)
+  = genuine FREE, up to 3 relevant backlinks, explicitly WANTS stat citations linked to a source (perfect for
+  the Home Affordability Index) — BUT pitch form requires 3 prior guest-writing samples on other sites → HOLD
+  until we have samples. Get Finance Post = free but B2B/lower-authority = backup only. AI-suggested targets
+  Wise Bread / Modest Money / The Financial Diet / Money Under 30 were dead/blocked (verify-before-trust holds).

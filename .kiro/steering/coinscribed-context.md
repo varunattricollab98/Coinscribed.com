@@ -271,7 +271,7 @@ LinkedIn Article ×4 (Emergency Fund, Credit-score-to-buy-a-car, Good Credit Sco
 Affordability) · LinkedIn Company Page · Medium ×6 (Rule of 72, Home Affordability,
 Simple-vs-Compound, 401k-vs-Roth, Credit-Card-Debt, Credit-Score-to-Buy-a-Car) · Substack ×5 (APR-vs-APY, Debt Snowball,
 HYSA, Rule of 72, How-Does-a-Car-Loan-Work) · Trustpilot · issuu (Home Affordability PDF) · F6S · Owler · Startup Ranking ·
-Product Hunt ×2 (Coinscribed + Home Affordability) · SaaSHub (pending) · AlternativeTo (pending) ·
+Product Hunt ×2 (Coinscribed + Home Affordability) · SaaSHub (LIVE, approved 25 Sep) · AlternativeTo (pending) ·
 Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 answers. Reddit warm-up.
 
 ## 10. Open items / next actions
@@ -388,3 +388,18 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 a
   audience (not consumer) + "no promotion" → needs an agent-angle article; PARKED as a high-value future try.
   Wealthy Nickel write-for-us page repurposed (no longer takes guest posts). Landlord Tips = genuine but
   landlord/investor angle + obfuscated email.
+
+- **25 Sep 2026 (guest pitch #5 SENT + SaaSHub LIVE):** Get Finance Post
+  (getfinancepost.com/write-for-us → editorial@getfinancepost.com, backup Infogetfinancepost@gmail.com) —
+  genuine free, "Zero AI policy", 1,000–1,500 words, contextual links on educational anchors only (no
+  commercial anchors), and they want 2–3 OUTLINES first (not a full draft), reviewed in 48 hrs. SENT a pitch
+  with 3 educational outlines fitting their "Educational personal finance breakdowns" pillar (28% rule /
+  amortization mechanics / mortgage rate-sensitivity) + portfolio links (how-much-house-can-i-afford +
+  home-affordability-index). If an outline is approved, AGENT writes the full 1,000–1,500-word piece.
+  BiggerPockets = PARKED: genuine free + high authority (byline allows 2 links, but self-links banned in
+  body) — however /contact returns 403 and owner got "You have been blocked", so no submission route from
+  here; an investor-angle article ("What Home Affordability Data Tells Investors About Rental Demand") is
+  written and on file if a route opens or for another investing blog.
+  **SaaSHub = APPROVED/LIVE** (was pending) — Coinscribed listed under "Recently Verified"; backlink live.
+  Their "Premium Listing — 1 month free" upsell and "Experts/vote" prompts = SKIPPED (paid funnel, no extra
+  SEO value; free listing already carries the link).

@@ -366,3 +366,14 @@ Crunchbase (pending) · PeerPush (queue ~Nov, AI-discovery/GEO play). Quora ~9 a
   ONE link to /home-affordability-index (framed as a free statistics resource) + bio. Sent as .doc.
   Awaiting reply. Now 2 editorial-dofollow guest pitches out today (Propaura + Money Journey Today).
   RULE reaffirmed: each guest blog needs a UNIQUE article (exclusive) — never reuse the same piece; vary angle.
+- **25 Sep 2026 (guest post #3 — Lenders Network BOUNCED → redirected):** The Lenders Network
+  (thelendersnetwork.com/contributor, hi@thelendersnetwork.com) verified as a genuine mortgage/homebuyer
+  contributor page, so AGENT wrote a 3rd unique article "The Income It Takes to Buy a Home Across America —
+  and How Rates Change It" (~1,100 words, mortgage-rate/homebuyer angle, 28% rule + rate-sensitivity) with a
+  /home-affordability-index link + bio. BUT the hi@ mailbox BOUNCED (dead contact; contributor page is stale,
+  only email listed, no form). LESSON: contributor pages can list dead mailboxes — a bounce means drop that
+  target, don't chase. Redirected the SAME article (never published, so no duplicate) to Finance Care Guide
+  (financecareguide.com, peter@financecareguide.com — genuine US personal-finance blog, max 3 links) — SENT.
+  So today = 3 editorial guest pitches live (Propaura, Money Journey Today, Finance Care Guide); Lenders
+  Network dropped (bounce). Get Finance Post = backup (email obfuscated on page, B2B-lean). Purgula
+  (purgula.com/write-with-us, form-based, financing/budgeting topic) = untried secondary candidate.

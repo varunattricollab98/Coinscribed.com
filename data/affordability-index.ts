@@ -120,6 +120,12 @@ export interface AffordabilityRow extends MetroBenchmark {
   monthlyHousingCost: number
   /** Gross annual household income required under the front-end DTI rule. */
   requiredAnnualIncome: number
+  /**
+   * Home price expressed as a multiple of the required income
+   * (medianHomePrice / requiredAnnualIncome) — a quick "years of income"
+   * affordability read. Higher = less affordable relative to the income needed.
+   */
+  priceToIncomeMultiple: number
 }
 
 /**
@@ -164,6 +170,7 @@ export function computeAffordability(metro: MetroBenchmark): AffordabilityRow {
   // Housing cost must be <= frontEndDti% of gross monthly income, so:
   const requiredMonthlyIncome = monthlyHousingCost / (frontEndDtiPct / 100)
   const requiredAnnualIncome = requiredMonthlyIncome * 12
+  const priceToIncomeMultiple = metro.medianHomePrice / requiredAnnualIncome
 
   return {
     ...metro,
@@ -173,6 +180,7 @@ export function computeAffordability(metro: MetroBenchmark): AffordabilityRow {
     monthlyTaxInsurance,
     monthlyHousingCost,
     requiredAnnualIncome,
+    priceToIncomeMultiple,
   }
 }
 
@@ -181,4 +189,37 @@ export function affordabilityRows(): AffordabilityRow[] {
   return METRO_BENCHMARKS.map(computeAffordability).sort(
     (a, b) => b.requiredAnnualIncome - a.requiredAnnualIncome
   )
+}
+
+/**
+ * Rate-scenario helper (Option: "what if rates were lower?"). Recomputes the
+ * required income for a metro at an ALTERNATE mortgage rate, keeping every
+ * other assumption identical, so the page can show how sensitive affordability
+ * is to rates. Returns the required annual income under `altRatePct`.
+ */
+export function requiredIncomeAtRate(
+  metro: MetroBenchmark,
+  altRatePct: number
+): number {
+  const { termYears, downPaymentPct, frontEndDtiPct, taxInsuranceAnnualPct } =
+    AFFORDABILITY_ASSUMPTIONS
+  const loanAmount = metro.medianHomePrice * (1 - downPaymentPct / 100)
+  const pi = monthlyPrincipalAndInterest(loanAmount, altRatePct, termYears)
+  const taxInsurance = (metro.medianHomePrice * (taxInsuranceAnnualPct / 100)) / 12
+  const housingCost = pi + taxInsurance
+  return (housingCost / (frontEndDtiPct / 100)) * 12
+}
+
+/**
+ * Average % reduction in required income across all metros if the mortgage rate
+ * dropped from the base assumption to `altRatePct`. Computed, not asserted.
+ */
+export function averageIncomeReductionAtRate(altRatePct: number): number {
+  const reductions = METRO_BENCHMARKS.map((metro) => {
+    const base = computeAffordability(metro).requiredAnnualIncome
+    const alt = requiredIncomeAtRate(metro, altRatePct)
+    return (base - alt) / base
+  })
+  const avg = reductions.reduce((sum, r) => sum + r, 0) / reductions.length
+  return avg * 100
 }

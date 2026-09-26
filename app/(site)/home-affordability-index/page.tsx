@@ -4,6 +4,7 @@ import { siteConfig } from '@/config/site'
 import {
   AFFORDABILITY_ASSUMPTIONS,
   affordabilityRows,
+  averageIncomeReductionAtRate,
 } from '@/data/affordability-index'
 
 /**
@@ -31,13 +32,13 @@ const usd0 = new Intl.NumberFormat('en-US', {
 
 export const metadata: Metadata = {
   alternates: { canonical: PAGE_PATH },
-  title: 'Home Affordability Index: Income Needed to Buy in 30 US Cities',
+  title: 'Home Affordability Index: Income Needed to Buy in 50 US Cities',
   description:
-    'How much household income do you need to afford a median-priced home in major US metros? The Coinscribed Home Affordability Index ranks 30 cities using the 28% rule, with a fully transparent methodology.',
+    'How much household income do you need to afford a median-priced home in major US metros? The Coinscribed Home Affordability Index ranks 50 cities using the 28% rule, with a fully transparent methodology.',
   openGraph: {
     title: `Home Affordability Index | ${siteConfig.name}`,
     description:
-      'The income needed to afford a median-priced home across 30 US metros, ranked — using the 28% front-end rule and a transparent, reproducible methodology.',
+      'The income needed to afford a median-priced home across 50 US metros, ranked — using the 28% front-end rule and a transparent, reproducible methodology.',
     url: `${siteConfig.url}${PAGE_PATH}`,
     type: 'article',
   },
@@ -50,13 +51,18 @@ export default function HomeAffordabilityIndexPage() {
   const mostExpensive = rows[0]
   const leastExpensive = rows[rows.length - 1]
 
+  // Rate-sensitivity scenario: how much less income is needed if the mortgage
+  // rate dropped one point (6.5% -> ~5.5%). Computed from the same assumptions.
+  const altRatePct = mortgageRatePct - 1
+  const avgReductionAtLowerRate = Math.round(averageIncomeReductionAtRate(altRatePct))
+
   // Dataset JSON-LD so the study is machine-readable and citeable as a source.
   const datasetJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     name: 'Coinscribed Home Affordability Index',
     description:
-      'Estimated gross household income required to afford a median-priced home in 30 major US metros, computed with a 30-year fixed mortgage, 20% down, and the 28% front-end debt-to-income rule.',
+      'Estimated gross household income required to afford a median-priced home in 50 major US metros, computed with a 30-year fixed mortgage, 20% down, and the 28% front-end debt-to-income rule.',
     url: `${siteConfig.url}${PAGE_PATH}`,
     creator: { '@type': 'Organization', name: siteConfig.name, url: siteConfig.url },
     license: 'https://creativecommons.org/licenses/by/4.0/',
@@ -81,11 +87,11 @@ export default function HomeAffordabilityIndexPage() {
           Coinscribed Data Study
         </p>
         <h1 className="mb-3 font-serif text-3xl font-bold text-ink dark:text-ink-inverse sm:text-4xl">
-          The Home Affordability Index: Income Needed to Buy in 30 US Cities
+          The Home Affordability Index: Income Needed to Buy in 50 US Cities
         </h1>
         <p className="text-lg text-ink-body dark:text-ink-inverse-body">
           How much do you actually need to earn to buy a typical home where you
-          live? We ran the numbers for 30 major US metros using the classic{' '}
+          live? We ran the numbers for 50 major US metros using the classic{' '}
           <strong>28% rule</strong>, a 30-year fixed mortgage, and a 20% down
           payment. The methodology below is fully transparent, so every figure
           is reproducible.
@@ -140,8 +146,11 @@ export default function HomeAffordabilityIndexPage() {
                 <th className="py-2 pr-3 text-right font-sans font-semibold">
                   Monthly housing cost
                 </th>
-                <th className="py-2 text-right font-sans font-semibold">
+                <th className="py-2 pr-3 text-right font-sans font-semibold">
                   Income needed
+                </th>
+                <th className="py-2 text-right font-sans font-semibold">
+                  Price-to-income
                 </th>
               </tr>
             </thead>
@@ -160,13 +169,33 @@ export default function HomeAffordabilityIndexPage() {
                   <td className="py-2 pr-3 text-right tabular-nums text-ink-body dark:text-ink-inverse-body">
                     {usd0.format(row.monthlyHousingCost)}
                   </td>
-                  <td className="py-2 text-right font-semibold tabular-nums text-ink dark:text-ink-inverse">
+                  <td className="py-2 pr-3 text-right font-semibold tabular-nums text-ink dark:text-ink-inverse">
                     {usd0.format(row.requiredAnnualIncome)}
+                  </td>
+                  <td className="py-2 text-right tabular-nums text-ink-body dark:text-ink-inverse-body">
+                    {row.priceToIncomeMultiple.toFixed(1)}×
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <p className="mt-3 text-caption text-ink-muted dark:text-ink-inverse-muted">
+          <strong>Price-to-income</strong> is the median home price divided by
+          the income needed — a quick read on how many years of that income the
+          home costs. Higher means less affordable relative to the income
+          required.
+        </p>
+        <div className="mt-4 rounded-sm border border-hairline bg-wash p-4 dark:border-hairline-dark dark:bg-elevated">
+          <p className="text-ink-body dark:text-ink-inverse-body">
+            <strong>What if rates were lower?</strong> Mortgage rates move the
+            math a lot. If the {termYears}-year fixed rate dropped from{' '}
+            {mortgageRatePct}% to {altRatePct}% — every other assumption
+            unchanged — the income needed to afford these same homes would fall
+            by about <strong>{avgReductionAtLowerRate}%</strong> on average
+            across all {rows.length} metros. That single point of rate is often
+            the difference between priced out and priced in.
+          </p>
         </div>
         <p className="mt-3 text-caption text-ink-muted dark:text-ink-inverse-muted">
           Want to localize these numbers with your own price, rate, and down
